@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Changelog\ChangelogManager;
+use Liip\RD\Config;
 
 
 class ReleaseCommand extends Command {
@@ -33,17 +34,13 @@ HELP
         $this->addOption('ignore-check', null, InputOption::VALUE_NONE, 'Do not process the check for clean working directory');
     }
 
-    protected function loadConfig()
-    {
-        $file = realpath(__DIR__.'/../../../../../rd.json');
-        return json_decode(file_get_contents($file), true);
-    }
-
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $config = new Config();
 
-        $config = $this->loadConfig();
+        // TODO get env by commandline parameter
+        $config->setEnv('default');
 
         $this->output = $output;
         $changelog = new ChangelogManager(__DIR__.'/../../CHANGELOG');
