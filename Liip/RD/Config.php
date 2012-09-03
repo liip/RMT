@@ -10,6 +10,9 @@ class Config
     public function __construct()
     {
         $this->fullConfig = $this->load();
+        if (!array_key_exists('default', $this->fullConfig)) {
+            throw new \Exception('the environment "default" should be defined');
+        }
     }
 
     protected function load()
@@ -21,7 +24,12 @@ class Config
 
     protected function getConfigByEnv()
     {
-        return $this->fullConfig[$this->env];
+        $envConfig = $this->fullConfig[$this->env];
+        if ($this->env !== 'default') {
+            $defaultConfig = $this->fullConfig['default'];
+            $envConfig = array_merge($defaultConfig, $envConfig);
+        }
+        return $envConfig;
     }
 
     public function setEnv($env)
@@ -42,6 +50,21 @@ class Config
     public function getVersionGenerator()
     {
         return $this->config['version_generator'];
+    }
+
+    public function getVersionPersister()
+    {
+        return $this->config['version_persister'];
+    }
+
+    public function getVCS()
+    {
+        return $this->config['vcs'];
+    }
+
+    public function getTagPrefix()
+    {
+        return $this->config['tag_prefix'];
     }
 }
 
