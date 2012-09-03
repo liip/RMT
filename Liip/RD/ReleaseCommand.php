@@ -32,6 +32,7 @@ HELP
 );
         $this->addOption('and-deploy-to', null, InputOption::VALUE_REQUIRED, 'Directly lauch the deployment on the given server');
         $this->addOption('ignore-check', null, InputOption::VALUE_NONE, 'Do not process the check for clean working directory');
+        $this->addOption('config', null, InputOption::VALUE_REQUIRED, 'Which config do you want to use? (as defined in rd.json)');
     }
 
 
@@ -39,8 +40,8 @@ HELP
     {
         $config = new Config();
 
-        // TODO get env by commandline parameter
-        $config->setEnv('default');
+        $env = $input->getOption('config');
+        $config->setEnv($env);
 
         $this->output = $output;
         $changelog = new ChangelogManager(__DIR__.'/../../CHANGELOG');
