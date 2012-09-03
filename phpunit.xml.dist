@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true" bootstrap="autoload.php">
+
+    <testsuites>
+        <testsuite name="RD Unit test suite">
+            <directory suffix="Test.php">./Liip/RD/Tests/Unit</directory>
+        </testsuite>
+        <!--
+        <testsuite name="RD Functional test suite">
+            <directory suffix="Test.php">./tests/functional</directory>
+        </testsuite>
+        -->
+    </testsuites>
+
+</phpunit>
