@@ -1,13 +1,14 @@
 <?php
-/**
- * User: dj
- * Date: 04.09.12
- */
+
+namespace Liip\RD\Version\Persister;
+
+use Liip\RD\Version\Persister\PersisterInterface;
+
 class ChangelogPersister implements PersisterInterface
 {
-
     public function getCurrentVersion()
     {
+        return '1.0';
         // TODO: Implement getCurrentVersion() method.
     }
 
@@ -16,4 +17,10 @@ class ChangelogPersister implements PersisterInterface
         // Ask user about comment
         // TODO: Implement save() method.
     }
+
+    public function getUserQuestions()
+    {
+        // TODO: Implement getUserQuestions() method.
+    }
 }
+

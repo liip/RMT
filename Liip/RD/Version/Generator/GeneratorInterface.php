@@ -2,7 +2,6 @@
 
 namespace Liip\RD\Version\Generator;
 
-
 interface GeneratorInterface
 {
     /**
@@ -11,7 +10,8 @@ interface GeneratorInterface
      * @param array $options
      * @return string
      */
-    public function getNextVersion($currentVersion, $options=array());
+    public function generateNextVersion($currentVersion, $options=array());
 
     public function getUserQuestions();
 }
+

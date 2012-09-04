@@ -18,10 +18,30 @@ class Context
     {
         $this->config = new Config();
         $this->config->setEnv($input->getOption('config'));
-        $this->preActions = $this->getPreActions();
+        //$this->preActions = $this->getPreActions();
         $this->input = $input;
         $this->output = $output;
         $this->currentVersion = $this->getVersionPersister()->getCurrentVersion();
+    }
+
+    public function getVersionPersister()
+    {
+        $class = ucwords($this->config->getVersionPersister());
+        if (!class_exists($class)){
+            $class = '\\Liip\\RD\\Version\\Persister\\'.$class.'Persister';
+        }
+        $persister = new $class();
+        return $persister;
+    }
+
+    public function getVersionGenerator()
+    {
+        $class = ucwords($this->config->getVersionGenerator());
+        if (!class_exists($class)){
+            $class = '\\Liip\\RD\\Version\\Generator\\'.$class.'Generator';
+        }
+        $generator = new $class();
+        return $generator;
     }
 
     public function getPreActions()
@@ -58,6 +78,6 @@ class Context
 
     public function getCurrentVersion()
     {
-        return '1.0';
+        return $this->currentVersion;
     }
 }

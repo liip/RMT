@@ -41,8 +41,7 @@ class ReleaseCommand extends Command {
 
         // Ask questions
 
-        $version = $this->context->getVersionGenerator()->generateNextVersion();
-
+        $version = $this->context->getVersionGenerator()->generateNextVersion($this->context->getCurrentVersion());
 
         // Pre-release
         foreach ($this->context->getPreActions() as $action){

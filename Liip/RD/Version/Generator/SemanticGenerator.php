@@ -13,7 +13,7 @@ class SemanticGenerator implements GeneratorInterface
      * {@inheritDoc}
      * @throws \InvalidArgumentException
      */
-    public function getNextVersion($currentVersion, $options = array())
+    public function generateNextVersion($currentVersion, $options = array())
     {
         // Type validation
         $validTypes = array('patch', 'minor', 'major');
@@ -39,4 +39,9 @@ class SemanticGenerator implements GeneratorInterface
 
         return implode(array($full, $major, $minor), '.');
     }
+
+    public function getUserQuestions()
+    {
+    }
 }
+
