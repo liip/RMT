@@ -37,15 +37,21 @@ class ReleaseCommand extends Command {
     {
         $this->context = new Context($input, $output);
 
+        // Prerequistes
+
+        // Ask questions
+
+        $version = $this->context->getVersionGenerator()->generateNextVersion();
+
+
+        // Pre-release
         foreach ($this->context->getPreActions() as $action){
             $this->context->getOutput()->writeln("Pre-action: ".$action->getTitle());
             $action->execute($this->context);
         }
 
-        exit();
+        $this->context->getPersister()->save($version, array('comment' => $comment));
 
-        // Ask the version type
-        $major = $this->askConfirmation("Is those changes brings a new functionality (major version) ? (y/n)");
 
         // Ask the comment
         $comment = '';

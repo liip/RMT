@@ -12,4 +12,6 @@ interface GeneratorInterface
      * @return string
      */
     public function getNextVersion($currentVersion, $options=array());
+
+    public function getUserQuestions();
 }

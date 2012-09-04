@@ -12,6 +12,7 @@ class Context
     protected $config;
     protected $input;
     protected $output;
+    protected $currentVersion;
 
     public function __construct(InputInterface $input, OutputInterface $output)
     {
@@ -20,6 +21,7 @@ class Context
         $this->preActions = $this->getPreActions();
         $this->input = $input;
         $this->output = $output;
+        $this->currentVersion = $this->getVersionPersister()->getCurrentVersion();
     }
 
     public function getPreActions()
