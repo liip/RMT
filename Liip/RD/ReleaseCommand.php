@@ -12,7 +12,6 @@ use Liip\RD\Context;
 
 class ReleaseCommand extends Command {
     
-    protected $output;
     protected $context;
 
     protected function configure()
@@ -40,6 +39,16 @@ class ReleaseCommand extends Command {
         // Prerequistes
 
         // Ask questions
+        $questions = $this->context->getUserQuestions();
+        $dialog = $this->getHelperSet()->get('dialog');
+        foreach($questions as $topic => $question) {
+            $answer = $dialog->ask($this->context->getOutput(), $question->getQuestionText(), $question->getDefaultValue());
+            $question->setAnswer($answer);
+        }
+
+        // we'll need the comment afterwards
+        $commentQuestion = $this->context->getUserQuestionByTopic('comment');
+        $comment = $commentQuestion->getAnswer();
 
         $version = $this->context->getVersionGenerator()->generateNextVersion($this->context->getCurrentVersion());
 
@@ -49,16 +58,15 @@ class ReleaseCommand extends Command {
             $action->execute($this->context);
         }
 
-        $this->context->getPersister()->save($version, array('comment' => $comment));
+        $this->context->getVersionPersister()->save($version, array('comment' => $comment));
 
-
+        /*
         // Ask the comment
         $comment = '';
         while (strlen($comment) < 1){
             $hint = $major ? 'add reference to the story ticket JLC-XX' : 'small hint why you have to do this minor version';
             $comment = $this->ask("Please provide a description ($hint):");
         }
-
 
         // Generate the new version number
         $newVersion = $changelog->getNextVersion($version, $major);
@@ -67,13 +75,10 @@ class ReleaseCommand extends Command {
         // Update local files
         $this->logSection('update', 'changelog file');
         $changelog->update($newVersion, $comment, $major);
-
-
-
-
+         */
 
         // Display comfirmation messages
-        $this->logInfo($messages);
+        $this->logInfo('working!');
 
     }
 
@@ -93,7 +98,7 @@ class ReleaseCommand extends Command {
     protected function logInfo($message) {
         $message = is_array($message) ? implode("\n", $message) : $message;
         $msg = $this->getHelper('formatter')->formatBlock("\n".$message, 'info');
-        $this->output->writeln($msg);
+        $this->context->getOutput()->writeln($msg);
     }
 
     protected function ask($question, $yesOrNo=false) {
