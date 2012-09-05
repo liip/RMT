@@ -7,6 +7,6 @@ class SimpleGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testIncrement()
     {
         $generator = new \Liip\RD\Version\Generator\SimpleGenerator();
-        $this->assertEquals(4, $generator->getNextVersion(3));
+        $this->assertEquals(4, $generator->generateNextVersion(3));
     }
 }
