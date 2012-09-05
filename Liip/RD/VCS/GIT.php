@@ -4,11 +4,7 @@ namespace Liip\RD\VCS;
 
 class GIT implements VCSInterface
 {
-    public function getChangesForNewVersion($lastVersionTag)
-    {
-        passthru("git log --oneline $lastVersionTag..master --color=always");
-    }
-
+/*
     public function checkStatus(){
         $this->gitExec('fetch origin');
         $statLines = $this->gitExec('status', true);
@@ -47,16 +43,50 @@ class GIT implements VCSInterface
             $messages[] = "   > git push origin master && git push origin $gitTagName";
         }
     }
+*/
 
-    protected function gitExec($cmd, $returnResult=false){
+    public function getAllModificationsSince($tag)
+    {
+        return $this->executeGitCommand("log --oneline $tag..HEAD");
+        //return $this->executeGitCommand("log --oneline $tag..HEAD --color=always");
+    }
+
+    public function getTags()
+    {
+        return $this->executeGitCommand("tag");
+    }
+
+    public function createTag($tagName)
+    {
+        return $this->executeGitCommand("tag $tagName");
+    }
+
+    public function publishTag($tagName)
+    {
+        $this->executeGitCommand("push $tagName");
+    }
+
+    public function publishChanges()
+    {
+        $this->executeGitCommand("push origin");
+    }
+
+    public function saveWorkingCopy($commitMsg='')
+    {
+        $this->executeGitCommand("add --all");
+        $this->executeGitCommand("commit -m \"$commitMsg\"");
+    }
+
+    public function getWorkingCopyModifications()
+    {
+        return $this->gitExec('status');
+    }
+
+    protected function executeGitCommand($cmd)
+    {
         $cmd = 'git '.$cmd;
-        //$this->logSection('exec', $cmd);
-        if ($returnResult){
-            exec($cmd, $result);
-            return $result;
-        } else {
-            system($cmd);
-        }
+        exec($cmd, $result);
+        return $result;
     }
 
 }
