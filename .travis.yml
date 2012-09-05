@@ -13,4 +13,4 @@ script: phpunit
 notifications:
   email:
     - david.jeanmonod@liip.ch
-    - laurant.prodon@liip.ch
+    - laurent.prodon@liip.ch
