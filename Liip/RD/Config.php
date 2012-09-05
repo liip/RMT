@@ -43,6 +43,9 @@ class Config
 
     public function getPreActions()
     {
+        // TODO change this when we know of actions will be called
+        return array();
+
         $actions = $this->config['pre-actions'];
         return $actions;
     }
@@ -54,7 +57,12 @@ class Config
 
     public function getVersionPersister()
     {
-        return $this->config['version_persister'];
+        return $this->config['version_persister']['type'];
+    }
+
+    public function getVersionPersisterOptions()
+    {
+        return $this->config['version_persister']['options'];
     }
 
     public function getVCS()
