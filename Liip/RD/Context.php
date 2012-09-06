@@ -27,6 +27,9 @@ class Context
         $this->input = $input;
         $this->output = $output;
         $this->currentVersion = $this->getVersionPersister()->getCurrentVersion();
+
+        // we need to instantiate the version generator so that it registers its user questions
+        $this->versionGenerator = $this->getVersionGenerator();
     }
 
     public function getVersionPersister()
@@ -48,7 +51,7 @@ class Context
             if (!class_exists($class)){
                 $class = '\\Liip\\RD\\Version\\Generator\\'.$class.'Generator';
             }
-            $this->versionGenerator = new $class();
+            $this->versionGenerator = new $class($this);
         }
         return $this->versionGenerator;
     }
