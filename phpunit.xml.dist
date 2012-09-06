@@ -8,7 +8,7 @@
         </testsuite>
         <!--
         <testsuite name="RD Functional test suite">
-            <directory suffix="Test.php">./tests/functional</directory>
+            <directory suffix="Test.php">./Liip/RD/Tests/Functional</directory>
         </testsuite>
         -->
     </testsuites>
