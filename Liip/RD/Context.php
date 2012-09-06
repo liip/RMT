@@ -113,5 +113,10 @@ class Context
     {
         return $this->userQuestions[$topic];
     }
+
+    public function getProjectRootDir()
+    {
+        return $this->config->getProjectRootDir();
+    }
 }
 

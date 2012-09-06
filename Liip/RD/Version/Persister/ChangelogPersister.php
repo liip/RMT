@@ -4,17 +4,21 @@ namespace Liip\RD\Version\Persister;
 
 use Liip\RD\Version\Persister\PersisterInterface;
 use Liip\RD\UserQuestion\SimpleQuestion;
+use Liip\RD\Context;
 
 class ChangelogPersister implements PersisterInterface
 {
     protected $filePath;
     protected $context;
 
-    public function __construct($context, $options = array()){
+    public function __construct(Context $context, $options = array()){
         if (!array_key_exists('location', $options)) {
             throw new \Exception('location of the changelog should be defined');
         }
-        $this->filePath = realpath(__DIR__.'/../../../../../../../' . $options['location']);
+        $this->filePath = $context->getProjectRootDir().'/' . $options['location'];
+        if (!file_exists($this->filePath)){
+            throw new \Exception("Invalid changelog location: $this->filePath");
+        }
         $this->context = $context;
         $this->registerUserQuestions();
     }

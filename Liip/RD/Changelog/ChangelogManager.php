@@ -8,6 +8,9 @@ class ChangelogManager {
     protected $filePath;
 
     public function __construct($filePath){
+        if (!file_exists($filePath)){
+            throw new \Exception("Invalid changelog location: $filePath");
+        }
         $this->filePath = $filePath;
     }
 

@@ -15,10 +15,20 @@ class Config
         }
     }
 
+    public function getProjectRootDir()
+    {
+        // TODO: add auto-discover project root
+        if (defined('RD_CONFIG_DIR')){
+            return RD_CONFIG_DIR;
+        }
+        else {
+            return realpath(__DIR__.'/../../../../..');
+        }
+    }
+
     protected function load()
     {
-        // TODO: add auto-discover of rd.json file
-        $file = realpath(__DIR__.'/../../../../../rd.json');
+        $file = realpath($this->getProjectRootDir().'/rd.json');
         return json_decode(file_get_contents($file), true);
     }
 
