@@ -7,29 +7,12 @@ class Config
     protected $config;
     protected $env = 'default';
 
-    public function __construct()
+    public function __construct($rawConfig)
     {
-        $this->fullConfig = $this->load();
+        $this->fullConfig = $rawConfig;
         if (!array_key_exists('default', $this->fullConfig)) {
-            throw new \Exception('the environment "default" should be defined');
+            throw new \InvalidArgumentException('the environment "default" should be defined');
         }
-    }
-
-    public function getProjectRootDir()
-    {
-        // TODO: add auto-discover project root
-        if (defined('RD_CONFIG_DIR')){
-            return RD_CONFIG_DIR;
-        }
-        else {
-            return realpath(__DIR__.'/../../../../..');
-        }
-    }
-
-    protected function load()
-    {
-        $file = realpath($this->getProjectRootDir().'/rd.json');
-        return json_decode(file_get_contents($file), true);
     }
 
     protected function getConfigByEnv()
@@ -45,7 +28,7 @@ class Config
     public function setEnv($env)
     {
         if (!array_key_exists($env, $this->fullConfig)) {
-            throw new \Exception('the environment '. $env . ' is not defined');
+            throw new \InvalidArgumentException('the environment '. $env . ' is not defined');
         }
         $this->env = $env;
         $this->config = $this->getConfigByEnv($this->env);
@@ -67,12 +50,22 @@ class Config
 
     public function getVersionPersister()
     {
+        if ( is_string($this->config['version_persister'])){
+            return $this->config['version_persister'];
+        }
         return $this->config['version_persister']['type'];
     }
 
     public function getVersionPersisterOptions()
     {
-        return $this->config['version_persister']['options'];
+        if ( is_string($this->config['version_persister'])){
+            return array();
+        }
+        else if ( is_array($this->config['version_persister'])){
+            $options = $this->config['version_persister'];
+            unset($options['type']);
+            return $options;
+        }
     }
 
     public function getVCS()

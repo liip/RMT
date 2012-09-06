@@ -19,8 +19,10 @@ class Context
 
     public function __construct(InputInterface $input, OutputInterface $output)
     {
-        $this->config = new Config();
+        $configFile = realpath($this->getProjectRootDir().'/rd.json');
+        $this->config = new Config(json_decode(file_get_contents($configFile), true));
         $this->config->setEnv($input->getOption('config'));
+
         //$this->preActions = $this->getPreActions();
         $this->input = $input;
         $this->output = $output;
@@ -116,7 +118,13 @@ class Context
 
     public function getProjectRootDir()
     {
-        return $this->config->getProjectRootDir();
+        // TODO: add auto-discover project root
+        if (defined('RD_CONFIG_DIR')){
+            return RD_CONFIG_DIR;
+        }
+        else {
+            return realpath(__DIR__.'/../../../../..');
+        }
     }
 }
 
