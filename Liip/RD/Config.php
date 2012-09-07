@@ -70,6 +70,9 @@ class Config
 
     public function getVCS()
     {
+        if (!isset($this->config['vcs'])){
+            throw new \InvalidArgumentException('No [vcs] define in the config');
+        }
         return $this->config['vcs'];
     }
 
