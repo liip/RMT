@@ -10,8 +10,10 @@ interface GeneratorInterface
      * @param array $options
      * @return string
      */
-    public function generateNextVersion($currentVersion, $options=array());
+    public function generateNextVersion($currentVersion);
 
     public function registerUserQuestions();
+
+    public function getValidationRegex();
 }
 

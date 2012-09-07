@@ -13,5 +13,10 @@ class SimpleGenerator implements GeneratorInterface
     {
         return array();
     }
+
+    public function getValidationRegex()
+    {
+        return '\d+';
+    }
 }
 

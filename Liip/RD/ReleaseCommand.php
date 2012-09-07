@@ -46,10 +46,6 @@ class ReleaseCommand extends Command {
             $question->setAnswer($answer);
         }
 
-        // we'll need the comment afterwards
-        $commentQuestion = $this->context->getUserQuestionByTopic('comment');
-        $comment = $commentQuestion->getAnswer();
-
         $version = $this->context->getVersionGenerator()->generateNextVersion($this->context->getCurrentVersion());
 
         // Pre-release
@@ -58,16 +54,9 @@ class ReleaseCommand extends Command {
             $action->execute($this->context);
         }
 
-        $this->context->getVersionPersister()->save($version, array('comment' => $comment));
+        $this->context->getVersionPersister()->save($version);
 
         /*
-        // Ask the comment
-        $comment = '';
-        while (strlen($comment) < 1){
-            $hint = $major ? 'add reference to the story ticket JLC-XX' : 'small hint why you have to do this minor version';
-            $comment = $this->ask("Please provide a description ($hint):");
-        }
-
         // Generate the new version number
         $newVersion = $changelog->getNextVersion($version, $major);
         $this->logInfo("Current version is $version, new version will be $newVersion");

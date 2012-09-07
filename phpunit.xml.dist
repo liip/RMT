@@ -6,11 +6,9 @@
         <testsuite name="RD Unit test suite">
             <directory suffix="Test.php">./Liip/RD/Tests/Unit</directory>
         </testsuite>
-        <!--
         <testsuite name="RD Functional test suite">
             <directory suffix="Test.php">./Liip/RD/Tests/Functional</directory>
         </testsuite>
-        -->
     </testsuites>
 
 </phpunit>

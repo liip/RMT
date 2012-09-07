@@ -1,6 +1,7 @@
 {
     "default": {
+        "vcs": "git",
         "version_generator": "simple",
-        "version_persister": "git-tag"
+        "version_persister": "vcs-tag"
     }
 }

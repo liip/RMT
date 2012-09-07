@@ -61,5 +61,11 @@ class SemanticGenerator implements GeneratorInterface
         $question = new SimpleQuestion('Is it a major, minor or patch version?');
         $this->context->addUserQuestion('versionType', $question);
     }
+
+    public function getValidationRegex()
+    {
+        return '\d+\.\d+\.\d+';
+    }
+
 }
 
