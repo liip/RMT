@@ -5,6 +5,8 @@ namespace Liip\RD;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Liip\RD\Version\Persister\VcsTagPersister;
+
 
 class Context
 {
@@ -35,6 +37,10 @@ class Context
     public function getVersionPersister()
     {
         if (is_null($this->versionPersister)) {
+            if ($this->config->getVersionPersister()=='vcs-tag'){
+                $this->versionPersister = new VcsTagPersister($this->getVCS(), $this->getVersionGenerator()->getValidationRegex(), $this->config->getVersionPersisterOptions());
+                return $this->versionPersister;
+            }
             $class = ucwords($this->config->getVersionPersister());
             if (!class_exists($class)){
                 $class = '\\Liip\\RD\\Version\\Persister\\'.$class.'Persister';
