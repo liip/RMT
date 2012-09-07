@@ -1,6 +1,6 @@
 {
     "default": {
-        "version_generator": "simple",
+        "version_generator": "semantic",
         "version_persister": "changelog"
     }
 }

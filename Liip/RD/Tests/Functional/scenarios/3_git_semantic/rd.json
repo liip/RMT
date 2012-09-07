@@ -1,0 +1,6 @@
+{
+    "default": {
+        "version_generator": "semantic",
+        "version_persister": "git-tag"
+    }
+}
