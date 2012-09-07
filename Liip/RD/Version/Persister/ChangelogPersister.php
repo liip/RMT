@@ -35,11 +35,12 @@ class ChangelogPersister implements PersisterInterface
         return $version;
     }
 
-    public function save($versionNumber, $options)
+    public function save($versionNumber)
     {
         $changelog = file($this->filePath, FILE_IGNORE_NEW_LINES);
         $date = date('d/m/Y H:i');
-        $comment = $options['comment'];
+        $commentQuestion = $this->context->getUserQuestionByTopic('comment');
+        $comment = $commentQuestion->getAnswer();
 
         array_splice($changelog, 2, 0, array("    $date  $versionNumber  $comment"));
         file_put_contents($this->filePath, implode("\n", $changelog));
