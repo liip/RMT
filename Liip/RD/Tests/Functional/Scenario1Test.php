@@ -27,9 +27,7 @@ class Scenario1Test extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-//        echo $this->scenarioDir; exit();
         exec('rm -rf '.$this->scenarioDir.'/.git');
-        exec('git checkout .');
     }
 
 }

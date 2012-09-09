@@ -27,6 +27,7 @@ class ReleaseCommand extends Command {
         $config->setEnv($envGuesser->getCurrentEnvironment());
 
         $this->context = new Context();
+        $this->context->setProjectRoot($this->getProjectRootDir());
         $this->context->init($config);
 
         // Register the option of the pre-action
@@ -35,6 +36,12 @@ class ReleaseCommand extends Command {
 //                $this->getDefinition()->addOption($option);
 //            }
 //        }
+
+        foreach ($this->context->getUserQuestions() as $name => $question)
+        {
+            $this->addOption($name, null, InputOption::VALUE_REQUIRED, $question->getQuestionText(), $question->getDefaultValue());
+        }
+
     }
 
 
@@ -47,12 +54,19 @@ class ReleaseCommand extends Command {
 
         // Prerequistes
 
-        // Ask questions
+        // Fill up questions
         $questions = $this->context->getUserQuestions();
-        $dialog = $this->getHelperSet()->get('dialog');
         foreach($questions as $topic => $question) {
-            $answer = $dialog->ask($this->context->getOutput(), $question->getQuestionText(), $question->getDefaultValue());
-            $question->setAnswer($answer);
+            // Provided by options
+            if ($input->getOption($topic) !== null){
+                $question->setAnswer($input->getOption($topic));
+            }
+            // Or direct answers
+            else {
+                $dialog = $this->getHelperSet()->get('dialog');
+                $answer = $dialog->ask($this->context->getOutput(), $question->getQuestionText(), $question->getDefaultValue());
+                $question->setAnswer($answer);
+            }
         }
 
         $version = $this->context->getVersionGenerator()->generateNextVersion($this->context->getCurrentVersion());

@@ -9,17 +9,16 @@ class Scenario3Test extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-//        $this->scenarioDir = __DIR__.'/scenarios/3_git_semantic';
-//        chdir($this->scenarioDir);
-//        exec('git init');
-//        exec('git add *');
-//        exec('git commit -m "First commit"');
-//        exec('git tag 2.1.19');
+        $this->scenarioDir = __DIR__.'/scenarios/3_git_semantic';
+        chdir($this->scenarioDir);
+        exec('git init');
+        exec('git add *');
+        exec('git commit -m "First commit"');
+        exec('git tag 2.1.19');
     }
 
     public function testRelease()
     {
-        $this->markTestSkipped("Until we have --type option on the task");
         exec('RD release --type=minor');
         exec('git tag', $tags);
         $this->assertEquals(array('2.1.19', '2.2.0'), $tags);
@@ -27,8 +26,8 @@ class Scenario3Test extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-//        exec('rm -rf '.$this->scenarioDir.'/.git');
-//        exec('git checkout .');
+        exec('rm -rf '.$this->scenarioDir.'/.git');
+        exec('git checkout .');
     }
 
 }

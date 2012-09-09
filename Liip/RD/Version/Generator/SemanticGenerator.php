@@ -24,7 +24,7 @@ class SemanticGenerator implements GeneratorInterface
      */
     public function generateNextVersion($currentVersion, $options = array())
     {
-        $typeQuestion = $this->context->getUserQuestionByTopic('versionType');
+        $typeQuestion = $this->context->getUserQuestionByTopic('type');
         $type = $typeQuestion->getAnswer();
 
         // Type validation
@@ -59,7 +59,7 @@ class SemanticGenerator implements GeneratorInterface
     public function registerUserQuestions()
     {
         $question = new SimpleQuestion('Is it a major, minor or patch version?');
-        $this->context->addUserQuestion('versionType', $question);
+        $this->context->addUserQuestion('type', $question);
     }
 
     public function getValidationRegex()

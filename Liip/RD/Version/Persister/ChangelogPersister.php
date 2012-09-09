@@ -13,9 +13,9 @@ class ChangelogPersister implements PersisterInterface
 
     public function __construct(Context $context, $options = array()){
         if (!array_key_exists('location', $options)) {
-            throw new \Exception('location of the changelog should be defined');
+            $options['location'] = 'CHANGELOG';
         }
-        $this->filePath = $context->getProjectRootDir().'/' . $options['location'];
+        $this->filePath = $context->getProjectRoot().'/' . $options['location'];
         if (!file_exists($this->filePath)){
             throw new \Exception("Invalid changelog location: $this->filePath");
         }

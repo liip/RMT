@@ -8,7 +8,7 @@ class SimpleQuestion implements UserQuestionInterface
     protected $defaultValue;
     protected $answer;
 
-    public function __construct($text, $default = '')
+    public function __construct($text, $default = null)
     {
         $this->text = $text;
         $this->defaultValue = $default;

@@ -52,6 +52,9 @@ class Context
             if (!class_exists($class)){
                 $class = '\\Liip\\RD\\Version\\Persister\\'.$class.'Persister';
             }
+            if (!class_exists($class)){
+                throw new \Exception('Invalid persister defined: ['.$this->config->getVersionPersister().']');
+            }
             $this->versionPersister = new $class($this, $this->config->getVersionPersisterOptions());
         }
         return $this->versionPersister;
@@ -115,7 +118,7 @@ class Context
 
     /**
      * Returns all user questions
-     * @return array of UserQuestionInterface, keyed on topic
+     * @return UserQuestionInterface[] keyed on topic
      */
     public function getUserQuestions()
     {
@@ -131,6 +134,17 @@ class Context
     {
         return $this->userQuestions[$topic];
     }
+
+    public function setProjectRoot($projectRoot)
+    {
+        $this->projectRoot = $projectRoot;
+    }
+
+    public function getProjectRoot()
+    {
+        return $this->projectRoot;
+    }
+
 
 }
 
