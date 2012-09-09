@@ -23,8 +23,10 @@ class ReleaseCommand extends Command {
         $configFile = realpath($this->getProjectRootDir().'/rd.json');
         $config = new Config(json_decode(file_get_contents($configFile), true));
 
-        $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
-        $config->setEnv($envGuesser->getCurrentEnvironment());
+//        $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
+//        $config->setEnv($envGuesser->getCurrentEnvironment());
+        $config->setEnv('default');
+
 
         $this->context = new Context();
         $this->context->setProjectRoot($this->getProjectRootDir());

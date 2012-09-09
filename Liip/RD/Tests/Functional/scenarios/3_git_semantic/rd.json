@@ -1,7 +1,0 @@
-{
-    "default": {
-        "vcs": "git",
-        "version_generator": "semantic",
-        "version_persister": "vcs-tag"
-    }
-}
