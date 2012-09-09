@@ -20,7 +20,7 @@ class Scenario1Test extends \PHPUnit_Framework_TestCase
     }
 
     public function testRelease(){
-        exec('RD release');
+        exec('./RD release');
         exec('git tag', $tags);
         $this->assertEquals(array('1','3', '4', 'toto'), $tags);
     }

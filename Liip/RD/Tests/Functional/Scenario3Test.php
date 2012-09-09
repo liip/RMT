@@ -19,7 +19,7 @@ class Scenario3Test extends \PHPUnit_Framework_TestCase
 
     public function testRelease()
     {
-        exec('RD release --type=minor');
+        exec('./RD release --type=minor');
         exec('git tag', $tags);
         $this->assertEquals(array('2.1.19', '2.2.0'), $tags);
     }

@@ -14,7 +14,7 @@ class Scenario2Test extends \PHPUnit_Framework_TestCase
     }
 
     public function testRelease(){
-        exec('RD release --comment="test"');
+        exec('./RD release --comment="test"');
         $changelogLines = file($this->scenarioDir.'/CHANGELOG', FILE_IGNORE_NEW_LINES);
 
         $this->assertRegExp('/2\s\stest/', $changelogLines[2]);
