@@ -11,6 +11,7 @@ class Scenario1Test extends \PHPUnit_Framework_TestCase
     {
         $this->scenarioDir = __DIR__.'/scenarios/1_git_simple';
         chdir($this->scenarioDir);
+        exec('chmod +x RD');
         exec('git init');
         exec('git add *');
         exec('git commit -m "First commit"');

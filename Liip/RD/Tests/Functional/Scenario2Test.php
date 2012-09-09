@@ -11,6 +11,7 @@ class Scenario2Test extends \PHPUnit_Framework_TestCase
     {
         $this->scenarioDir = __DIR__.'/scenarios/2_changelog_simple';
         chdir($this->scenarioDir);
+        exec('chmod +x RD');
     }
 
     public function testRelease(){
