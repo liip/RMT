@@ -29,7 +29,7 @@ class Scenario1Test extends \PHPUnit_Framework_TestCase
     {
 //        echo $this->scenarioDir; exit();
         exec('rm -rf '.$this->scenarioDir.'/.git');
-        exec('git co .');
+        exec('git checkout .');
     }
 
 }
