@@ -89,4 +89,14 @@ class GIT implements VCSInterface
         return $result;
     }
 
+    public function getCurrentBranch(){
+        $branches = $this->executeGitCommand('branch');
+        foreach ($branches as $branch){
+            if (strpos($branch, '* ') == 0){
+                return substr($branch,2);
+            }
+        }
+        throw new \Exception("Not currently on any branch");
+    }
+
 }

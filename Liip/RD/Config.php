@@ -28,7 +28,7 @@ class Config
     public function setEnv($env)
     {
         if (!array_key_exists($env, $this->fullConfig)) {
-            throw new \InvalidArgumentException('the environment '. $env . ' is not defined');
+            $env = 'default';
         }
         $this->env = $env;
         $this->config = $this->getConfigByEnv($this->env);

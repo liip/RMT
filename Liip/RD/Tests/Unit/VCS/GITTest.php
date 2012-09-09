@@ -55,6 +55,12 @@ class GITTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1,$vcs->getAllModificationsSince('2.0.0'));
     }
 
+    public function testGetCurrentBranch()
+    {
+        $vcs = new GIT();
+        $this->assertEquals('master', $vcs->getCurrentBranch());
+    }
+
 
     protected function tearDown()
     {

@@ -41,4 +41,9 @@ interface VCSInterface
      */
     public function publishChanges();
 
+    /**
+     * Return the current branch
+     */
+    public function getCurrentBranch();
+
 }

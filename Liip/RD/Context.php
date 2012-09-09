@@ -19,19 +19,26 @@ class Context
     protected $versionGenerator;
     protected $userQuestions = array();
 
-    public function __construct(InputInterface $input, OutputInterface $output)
+    public function init(Config $config)
     {
-        $configFile = realpath($this->getProjectRootDir().'/rd.json');
-        $this->config = new Config(json_decode(file_get_contents($configFile), true));
-        $this->config->setEnv($input->getOption('config'));
+        $this->config = $config;
 
         //$this->preActions = $this->getPreActions();
-        $this->input = $input;
-        $this->output = $output;
         $this->currentVersion = $this->getVersionPersister()->getCurrentVersion();
 
         // we need to instantiate the version generator so that it registers its user questions
         $this->versionGenerator = $this->getVersionGenerator();
+
+    }
+
+    public function setInput(InputInterface $input)
+    {
+        $this->input = $input;
+    }
+
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
     }
 
     public function getVersionPersister()
@@ -125,15 +132,5 @@ class Context
         return $this->userQuestions[$topic];
     }
 
-    public function getProjectRootDir()
-    {
-        // TODO: add auto-discover project root
-        if (defined('RD_CONFIG_DIR')){
-            return RD_CONFIG_DIR;
-        }
-        else {
-            return realpath(__DIR__.'/../../../../..');
-        }
-    }
 }
 

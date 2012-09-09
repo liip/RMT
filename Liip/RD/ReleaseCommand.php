@@ -19,7 +19,15 @@ class ReleaseCommand extends Command {
         $this->setName('release');
         $this->setDescription('Release a new version of the project');
         $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project:');
-        $this->addOption('config', null, InputOption::VALUE_REQUIRED, 'Which config do you want to use? (as defined in rd.json)', 'default');
+
+        $configFile = realpath($this->getProjectRootDir().'/rd.json');
+        $config = new Config(json_decode(file_get_contents($configFile), true));
+
+        $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
+        $config->setEnv($envGuesser->getCurrentEnvironment());
+
+        $this->context = new Context();
+        $this->context->init($config);
 
         // Register the option of the pre-action
 //        foreach ($this->preActions as $action){
@@ -34,7 +42,8 @@ class ReleaseCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->context = new Context($input, $output);
+        $this->context->setInput($input);
+        $this->context->setOutput($output);
 
         // Prerequistes
 
@@ -103,5 +112,16 @@ class ReleaseCommand extends Command {
 
     protected function askConfirmation($question) {
         return $this->ask($question, true);
+    }
+
+    public function getProjectRootDir()
+    {
+        // TODO: add auto-discover project root
+        if (defined('RD_CONFIG_DIR')){
+            return RD_CONFIG_DIR;
+        }
+        else {
+            return realpath(__DIR__.'/../../../../..');
+        }
     }
 }
