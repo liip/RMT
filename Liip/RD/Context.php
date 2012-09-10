@@ -18,6 +18,9 @@ class Context
     protected $versionPersister;
     protected $versionGenerator;
     protected $userQuestions = array();
+    protected $services = array();
+    protected $params = array();
+    protected $lists = array();
 
     public function init(Config $config)
     {
@@ -145,6 +148,61 @@ class Context
         return $this->projectRoot;
     }
 
+    public function setService($id, $class)
+    {
+        $this->services[$id] = $class;
+    }
+
+    public function getService($id)
+    {
+        if (!isset($this->services[$id])){
+            throw new \InvalidArgumentException("There is no service define with id [$id]");
+        }
+        if (is_string($this->services[$id])) {
+            $className = $this->services[$id];
+            $this->services[$id] = new $className();
+        }
+        return $this->services[$id];
+    }
+
+    public function setParam($id, $value)
+    {
+        $this->params[$id] = $value;
+    }
+
+    public function getParam($id)
+    {
+        if (!isset($this->params[$id])){
+            throw new \InvalidArgumentException("There is no param define with id [$id]");
+        }
+        return $this->params[$id];
+    }
+
+    public function createEmptyList($id)
+    {
+        $this->lists[$id] = array();
+    }
+
+    public function addToList($id, $class)
+    {
+        if (!isset($this->lists[$id])){
+            $this->createEmptyList($id);
+        }
+        $this->lists[$id][] = $class;
+    }
+
+    public function getList($id)
+    {
+        if (!isset($this->lists[$id])){
+            throw new \InvalidArgumentException("There is no list define with id [$id]");
+        }
+        foreach ($this->lists[$id] as $pos => $className){
+            if (is_string($className)) {
+                $this->lists[$id][$pos] = new $className();
+            }
+        }
+        return $this->lists[$id];
+    }
 
 }
 
