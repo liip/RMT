@@ -18,6 +18,25 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($dateTime, $context->getService('date'), 'Two successive calls return the same object');
     }
 
+    public function testSetAndGetServiceWithObject()
+    {
+        $context = new Context();
+        $dateTime = new \DateTime();
+        $context->setService('date', $dateTime);
+        $this->assertEquals($dateTime, $context->getService('date'));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage setService() only accept an object or a valid class name
+     */
+    public function testSetServiceWithInvalidObject()
+    {
+        $context = new Context();
+        $context->setService('date', 12);
+    }
+
+
     public function testSetAndGetServiceWithOptions()
     {
         $context = new Context();

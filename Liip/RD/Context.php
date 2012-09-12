@@ -148,10 +148,18 @@ class Context
         return $this->projectRoot;
     }
 
-    public function setService($id, $class, $options = null)
+    public function setService($id, $classOrObject, $options = null)
     {
-        $this->validateClass($class);
-        $this->services[$id] = array($class, $options);
+        if (is_object($classOrObject)){
+            $this->services[$id] = $classOrObject;
+        }
+        else if (is_string($classOrObject)) {
+            $this->validateClass($classOrObject);
+            $this->services[$id] = array($classOrObject, $options);
+        }
+        else {
+            throw new \InvalidArgumentException("setService() only accept an object or a valid class name");
+        }
     }
 
     public function getService($id)
