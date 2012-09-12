@@ -148,9 +148,10 @@ class Context
         return $this->projectRoot;
     }
 
-    public function setService($id, $class)
+    public function setService($id, $class, $options = null)
     {
-        $this->services[$id] = $class;
+        $this->validateClass($class);
+        $this->services[$id] = array($class, $options);
     }
 
     public function getService($id)
@@ -158,9 +159,8 @@ class Context
         if (!isset($this->services[$id])){
             throw new \InvalidArgumentException("There is no service define with id [$id]");
         }
-        if (is_string($this->services[$id])) {
-            $className = $this->services[$id];
-            $this->services[$id] = new $className();
+        if (is_array($this->services[$id])) {
+            $this->services[$id] = $this->instanciateObject($this->services[$id]);
         }
         return $this->services[$id];
     }
@@ -183,12 +183,13 @@ class Context
         $this->lists[$id] = array();
     }
 
-    public function addToList($id, $class)
+    public function addToList($id, $class, $options = null)
     {
+        $this->validateClass($class);
         if (!isset($this->lists[$id])){
             $this->createEmptyList($id);
         }
-        $this->lists[$id][] = $class;
+        $this->lists[$id][] = array($class, $options);
     }
 
     public function getList($id)
@@ -196,12 +197,25 @@ class Context
         if (!isset($this->lists[$id])){
             throw new \InvalidArgumentException("There is no list define with id [$id]");
         }
-        foreach ($this->lists[$id] as $pos => $className){
-            if (is_string($className)) {
-                $this->lists[$id][$pos] = new $className();
+        foreach ($this->lists[$id] as $pos => $object){
+            if (is_array($object)) {
+                $this->lists[$id][$pos] = $this->instanciateObject($object);
             }
         }
         return $this->lists[$id];
+    }
+
+    protected function instanciateObject($objectDefinition)
+    {
+        list($className, $options) = $objectDefinition;
+        return new $className($options);
+    }
+
+    protected function validateClass($className)
+    {
+        if (!class_exists($className)){
+            throw new \InvalidArgumentException("The class [$className] does not exist");
+        }
     }
 
 }
