@@ -2,9 +2,9 @@
 
 namespace Liip\RD\Tests\Unit\Version;
 
-use Liip\RD\VCS\GIT;
+use Liip\RD\VCS\Git;
 
-class GITTest extends \PHPUnit_Framework_TestCase
+class GitTest extends \PHPUnit_Framework_TestCase
 {
     protected $testDir;
 
@@ -24,7 +24,7 @@ class GITTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAllModificationsSince()
     {
-        $vcs = new GIT();
+        $vcs = new Git();
         $modifs = $vcs->getAllModificationsSince('1.1.0');
         $this->assertEquals(array(
             "4c95178 Add a third file",
@@ -34,20 +34,20 @@ class GITTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTags()
     {
-        $vcs = new GIT();
+        $vcs = new Git();
         $this->assertEquals(array("1.0.0","1.1.0"), $vcs->getTags());
     }
 
     public function testCreateTag()
     {
-        $vcs = new GIT();
+        $vcs = new Git();
         $vcs->createTag('2.0.0');
         $this->assertEquals(array("1.0.0","1.1.0","2.0.0"), $vcs->getTags());
     }
 
     public function testSaveWorkingCopy()
     {
-        $vcs = new GIT();
+        $vcs = new Git();
         $vcs->createTag('2.0.0');
         $this->assertEquals(array(), $vcs->getAllModificationsSince('2.0.0'));
         exec('rm file2');
@@ -57,7 +57,7 @@ class GITTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentBranch()
     {
-        $vcs = new GIT();
+        $vcs = new Git();
         $this->assertEquals('master', $vcs->getCurrentBranch());
     }
 
