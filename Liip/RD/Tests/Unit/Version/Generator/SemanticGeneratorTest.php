@@ -2,6 +2,8 @@
 
 namespace Liip\RD\Tests\Unit\Version;
 
+use Liip\RD\Context;
+
 class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -9,12 +11,11 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrement($current, $type, $result)
     {
-        $this->markTestSkipped("Waitting for the new Context implementation");
         $options = array();
         if ($type){
             $options['type'] = $type;
         }
-        $generator = new \Liip\RD\Version\Generator\SemanticGenerator();
+        $generator = new \Liip\RD\Version\Generator\SemanticGenerator(new Context());
         $this->assertEquals($result, $generator->generateNextVersion($current, $options));
     }
 
@@ -22,7 +23,6 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('1.0.0',  'patch', '1.0.1'),
-            array('1.0.23', null,    '1.0.24'),  // Increment without type give a patch level
             array('1.23.0', 'minor', '1.24.0'),
             array('1.1.19', 'minor', '1.2.0'),
             array('1.0.0',  'major',  '2.0.0'),
@@ -33,12 +33,11 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedMessage \ The option "type" must one of [minor, major, full], "toto" given
+     * @expectedExceptionMessage The option [type] must be one of: {patch, minor, major}, "full" given
      */
     public function testIncrementWithInvalidType()
     {
-        $this->markTestSkipped("Waitting for the new Context implementation");
-        $generator = new \Liip\RD\Version\Generator\SemanticGenerator();
+        $generator = new \Liip\RD\Version\Generator\SemanticGenerator(new Context());
         $generator->generateNextVersion('1.0.0', array('type'=>'full'));
     }
 

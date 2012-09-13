@@ -24,18 +24,23 @@ class SemanticGenerator implements GeneratorInterface
      */
     public function generateNextVersion($currentVersion, $options = array())
     {
-        $typeQuestion = $this->context->getUserQuestionByTopic('type');
-        $type = $typeQuestion->getAnswer();
+        if (isset($options['type'])) {
+            $type = $options['type'];
+        }
+        else {
+            $typeQuestion = $this->context->getUserQuestionByTopic('type');
+            $type = $typeQuestion->getAnswer();
+        }
 
         // Type validation
-        $validTypes = array('patch', 'minor', 'major', '');
+        $validTypes = array('patch', 'minor', 'major');
         if (!in_array($type, $validTypes)){
             throw new \InvalidArgumentException(
-                'The option "type" must one of ['.implode($validTypes, ', ').'], "'.$type.'" given'
+                "The option [type] must be one of: {".implode($validTypes, ', ')."}, \"$type\" given"
             );
         }
 
-        if (!preg_match('#^\d+\.\d+\.\d+$#', $currentVersion) ){
+        if (!preg_match('#^'.$this->getValidationRegex().'$#', $currentVersion) ){
             throw new \Exception('Current version format is invalid (' . $currentVersion . '). It should be major.minor.patch');
         }
 

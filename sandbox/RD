@@ -1,0 +1,4 @@
+#!/usr/bin/env php
+<?php define('RD_CONFIG_DIR', __DIR__); ?>
+<?php require __DIR__.'/../command.php'; ?>
+

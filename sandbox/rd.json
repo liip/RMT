@@ -1,0 +1,6 @@
+{
+    "all": {
+        "version-generator": "simple",
+        "version-persister": "changelog"
+    }
+}

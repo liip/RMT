@@ -11,13 +11,14 @@ class ChangelogPersister implements PersisterInterface
     protected $filePath;
     protected $context;
 
-    public function __construct(Context $context, $options = array()){
+    public function __construct($context, $options = array())
+    {
         if (!array_key_exists('location', $options)) {
             $options['location'] = 'CHANGELOG';
         }
-        $this->filePath = $context->getProjectRoot().'/' . $options['location'];
+        $this->filePath = $context->getParam('project-root').'/' . $options['location'];
         if (!file_exists($this->filePath)){
-            throw new \Exception("Invalid changelog location: $this->filePath");
+            throw new \Exception("Invalid changelog location: $this->filePath, if it's the first time you use RD use the --init parameter to create it");
         }
         $this->context = $context;
         $this->registerUserQuestions();
@@ -27,12 +28,10 @@ class ChangelogPersister implements PersisterInterface
     {
         $changelog = file_get_contents($this->filePath);
         preg_match('#\s+\d+/\d+/\d+\s\d+:\d+\s\s([^\s]+)#', $changelog, $match);
-        $version = $match[1];
-        // TODO: do we need any check
-        //if ( ! preg_match('#^\d+\.\d+$#', $version) ){
-        //    throw new \Exception('Invalid format of the CHANGELOG file');
-        //}
-        return $version;
+        if (isset($match[1])){
+            return $match[1];
+        }
+        throw new \Liip\RD\Exception("There is a format error in the CHANGELOG file");
     }
 
     public function save($versionNumber)
@@ -50,6 +49,11 @@ class ChangelogPersister implements PersisterInterface
     {
         $question = new SimpleQuestion('Please insert a comment');
         $this->context->addUserQuestion('comment', $question);
+    }
+
+    public function init()
+    {
+        // TODO: Implement init() method.
     }
 }
 

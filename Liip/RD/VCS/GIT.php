@@ -2,7 +2,7 @@
 
 namespace Liip\RD\VCS;
 
-class GIT implements VCSInterface
+class Git implements VCSInterface
 {
 /*
     public function checkStatus(){

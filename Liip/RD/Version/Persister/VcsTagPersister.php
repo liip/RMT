@@ -10,10 +10,10 @@ class VcsTagPersister implements PersisterInterface
 {
     protected $vcs;
 
-    public function __construct(VCSInterface $vcs, $versionRegex, $options)
+    public function __construct($context, $options = array())
     {
-        $this->vcs = $vcs;
-        $this->versionRegex = $versionRegex;
+        $this->vcs = $context->getService('vcs');
+        $this->versionRegex = $context->getService('version-generator')->getValidationRegex();
         $this->options = $options;
     }
 
@@ -61,5 +61,10 @@ class VcsTagPersister implements PersisterInterface
     protected function getPrefix()
     {
         return isset($this->option['prefix']) ? $this->option['prefix'] : '';
+    }
+
+    public function init()
+    {
+        // TODO: Implement init() method.
     }
 }

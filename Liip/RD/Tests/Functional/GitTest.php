@@ -13,10 +13,10 @@ class GitTest extends RDFunctionalTestBase
         exec('git tag toto');
         $this->setJsonConfig(<<<JSON
 {
-    "default": {
+    "all": {
         "vcs": "git",
-        "version_generator": "simple",
-        "version_persister": "vcs-tag"
+        "version-generator": "simple",
+        "version-persister": "vcs-tag"
     }
 }
 JSON
@@ -33,10 +33,10 @@ JSON
         exec('git tag 2.1.19');
         $this->setJsonConfig(<<<JSON
 {
-    "default": {
+    "all": {
         "vcs": "git",
-        "version_generator": "semantic",
-        "version_persister": "vcs-tag"
+        "version-generator": "semantic",
+        "version-persister": "vcs-tag"
     }
 }
 JSON

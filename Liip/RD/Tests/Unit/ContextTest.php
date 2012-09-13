@@ -4,6 +4,8 @@ namespace Liip\RD\Tests\Unit;
 
 use Liip\RD\Context;
 
+use Liip\RD\Tests\Unit\ServiceClass;
+
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -12,48 +14,36 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetService()
     {
         $context = new Context();
-        $context->setService('date', '\DateTime');
-        $dateTime = $context->getService('date');
-        $this->assertInstanceOf('\DateTime', $dateTime);
-        $this->assertEquals($dateTime, $context->getService('date'), 'Two successive calls return the same object');
+        $context->setService('foo', '\Liip\RD\Tests\Unit\ServiceClass');
+        $objectFoo = $context->getService('foo');
+        $this->assertInstanceOf('\Liip\RD\Tests\Unit\ServiceClass', $objectFoo);
+        $this->assertEquals($objectFoo, $context->getService('foo'), 'Two successive calls return the same object');
     }
 
     public function testSetAndGetServiceWithObject()
     {
         $context = new Context();
-        $dateTime = new \DateTime();
-        $context->setService('date', $dateTime);
-        $this->assertEquals($dateTime, $context->getService('date'));
+        $object = new ServiceClass(new Context());
+        $context->setService('foo', $object);
+        $this->assertEquals($object, $context->getService('foo'));
     }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage setService() only accept an object or a valid class name
-     */
-    public function testSetServiceWithInvalidObject()
-    {
-        $context = new Context();
-        $context->setService('date', 12);
-    }
-
 
     public function testSetAndGetServiceWithOptions()
     {
         $context = new Context();
         $options = array('pi'=>3.14);
-        $context->setService('foo', '\Liip\RD\Tests\Unit\ClassWithOptions', $options);
-        $object = $context->getService('foo');
-        $this->assertEquals($options, $object->getOptions());
+        $context->setService('foo', '\Liip\RD\Tests\Unit\ServiceClass', $options);
+        $this->assertEquals($options, $context->getService('foo')->getOptions());
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no service define with id [date]
+     * @expectedExceptionMessage There is no service define with id [foo]
      */
     public function testGetServiceWithoutSet()
     {
         $context = new Context();
-        $context->getService('date');
+        $context->getService('foo');
     }
 
     /**
@@ -65,6 +55,17 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $context = new Context();
         $context->setService('foo', 'Bar');
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage setService() only accept an object or a valid class name
+     */
+    public function testSetServiceWithInvalidObject()
+    {
+        $context = new Context();
+        $context->setService('foo', 12);
+    }
+
 
 
     // PARAM TESTS
@@ -92,11 +93,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testAddToList()
     {
         $context = new Context();
-        $context->addToList('prerequisites', '\DateTime');
+        $context->addToList('prerequisites', '\Liip\RD\Tests\Unit\ServiceClass');
         $context->addToList('prerequisites', '\Liip\RD\Context');
         $objects = $context->getList('prerequisites');
         $this->assertCount(2, $objects);
-        $this->assertInstanceOf('\DateTime', $objects[0]);
+        $this->assertInstanceOf('\Liip\RD\Tests\Unit\ServiceClass', $objects[0]);
         $this->assertInstanceOf('\Liip\RD\Context', $objects[1]);
     }
 
@@ -104,19 +105,19 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new Context();
         $options = array('pi'=>3.14);
-        $context->addToList('foo', '\Liip\RD\Tests\Unit\ClassWithOptions', $options);
+        $context->addToList('foo', '\Liip\RD\Tests\Unit\ServiceClass', $options);
         $objects = $context->getList('foo');
         $this->assertEquals($options, $objects[0]->getOptions());
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no list define with id [date]
+     * @expectedExceptionMessage There is no list define with id [foo]
      */
     public function testGetListParamWithoutAdd()
     {
         $context = new Context();
-        $context->getList('date');
+        $context->getList('foo');
     }
 
     /**

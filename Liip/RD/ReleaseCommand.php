@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Changelog\ChangelogManager;
-use Liip\RD\Config;
+use Liip\RD\Config\Handler;
 use Liip\RD\Context;
 
 
@@ -21,16 +21,25 @@ class ReleaseCommand extends Command {
         $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project:');
 
         $configFile = realpath($this->getProjectRootDir().'/rd.json');
-        $config = new Config(json_decode(file_get_contents($configFile), true));
+        if (!is_file($configFile)){
+            throw new \Exception("Impossible to locate the config file rd.json");
+        }
 
+        $env = null;
 //        $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
-//        $config->setEnv($envGuesser->getCurrentEnvironment());
-        $config->setEnv('default');
+//        $env = $envGuesser->getCurrentEnvironment();
+        $configHandler = new Handler();
+        $this->context = $configHandler->createContext(json_decode(file_get_contents($configFile), true), $env);
 
 
-        $this->context = new Context();
-        $this->context->setProjectRoot($this->getProjectRootDir());
-        $this->context->init($config);
+        $this->context->setParam('project-root', $this->getProjectRootDir());
+
+        //$this->preActions = $this->getPreActions();
+        $this->context->setParam('current-version', $this->context->getService('version-persister')->getCurrentVersion());
+
+        // we need to instantiate the version generator so that it registers its user questions
+        $this->context->getService('version-generator');
+
 
         // Register the option of the pre-action
 //        foreach ($this->preActions as $action){
@@ -51,8 +60,8 @@ class ReleaseCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->context->setInput($input);
-        $this->context->setOutput($output);
+        $this->context->setService('input', $input);
+        $this->context->setService('output', $output);
 
         // Prerequistes
 
@@ -66,30 +75,21 @@ class ReleaseCommand extends Command {
             // Or direct answers
             else {
                 $dialog = $this->getHelperSet()->get('dialog');
-                $answer = $dialog->ask($this->context->getOutput(), $question->getQuestionText(), $question->getDefaultValue());
+                $answer = $dialog->ask($this->context->getService('output'), $question->getQuestionText(), $question->getDefaultValue());
                 $question->setAnswer($answer);
             }
         }
 
-        $version = $this->context->getVersionGenerator()->generateNextVersion($this->context->getCurrentVersion());
+        $version = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
 
         // Pre-release
-        foreach ($this->context->getPreActions() as $action){
+        foreach ($this->context->getList('pre-release-actions') as $action){
             $this->context->getOutput()->writeln("Pre-action: ".$action->getTitle());
             $action->execute($this->context);
         }
 
-        $this->context->getVersionPersister()->save($version);
+        $this->context->getService('version-persister')->save($version);
 
-        /*
-        // Generate the new version number
-        $newVersion = $changelog->getNextVersion($version, $major);
-        $this->logInfo("Current version is $version, new version will be $newVersion");
-
-        // Update local files
-        $this->logSection('update', 'changelog file');
-        $changelog->update($newVersion, $comment, $major);
-         */
 
         // Display comfirmation messages
         $this->logInfo('working!');
@@ -112,7 +112,7 @@ class ReleaseCommand extends Command {
     protected function logInfo($message) {
         $message = is_array($message) ? implode("\n", $message) : $message;
         $msg = $this->getHelper('formatter')->formatBlock("\n".$message, 'info');
-        $this->context->getOutput()->writeln($msg);
+        $this->context->getService('output')->writeln($msg);
     }
 
     protected function ask($question, $yesOrNo=false) {

@@ -2,112 +2,13 @@
 
 namespace Liip\RD;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use Liip\RD\Version\Persister\VcsTagPersister;
-
 
 class Context
 {
-    protected $preActions;
-    protected $config;
-    protected $input;
-    protected $output;
-    protected $currentVersion;
-    protected $versionPersister;
-    protected $versionGenerator;
     protected $userQuestions = array();
     protected $services = array();
     protected $params = array();
     protected $lists = array();
-
-    public function init(Config $config)
-    {
-        $this->config = $config;
-
-        //$this->preActions = $this->getPreActions();
-        $this->currentVersion = $this->getVersionPersister()->getCurrentVersion();
-
-        // we need to instantiate the version generator so that it registers its user questions
-        $this->versionGenerator = $this->getVersionGenerator();
-
-    }
-
-    public function setInput(InputInterface $input)
-    {
-        $this->input = $input;
-    }
-
-    public function setOutput(OutputInterface $output)
-    {
-        $this->output = $output;
-    }
-
-    public function getVersionPersister()
-    {
-        if (is_null($this->versionPersister)) {
-            if ($this->config->getVersionPersister()=='vcs-tag'){
-                $this->versionPersister = new VcsTagPersister($this->getVCS(), $this->getVersionGenerator()->getValidationRegex(), $this->config->getVersionPersisterOptions());
-                return $this->versionPersister;
-            }
-            $class = ucwords($this->config->getVersionPersister());
-            if (!class_exists($class)){
-                $class = '\\Liip\\RD\\Version\\Persister\\'.$class.'Persister';
-            }
-            if (!class_exists($class)){
-                throw new \Exception('Invalid persister defined: ['.$this->config->getVersionPersister().']');
-            }
-            $this->versionPersister = new $class($this, $this->config->getVersionPersisterOptions());
-        }
-        return $this->versionPersister;
-    }
-
-    public function getVersionGenerator()
-    {
-        if (is_null($this->versionGenerator)) {
-            $class = ucwords($this->config->getVersionGenerator());
-            if (!class_exists($class)){
-                $class = '\\Liip\\RD\\Version\\Generator\\'.$class.'Generator';
-            }
-            $this->versionGenerator = new $class($this);
-        }
-        return $this->versionGenerator;
-    }
-
-    public function getPreActions()
-    {
-        $actions = array();
-        foreach ($this->config->getPreActions() as $action){
-            $class = $action['name'];
-            if (!class_exists($class)){
-                $class = '\\Liip\\RD\\PreReleaseAction\\'.$class;
-            }
-            $actions[] = new $class($action['options']);
-        }
-        return $actions;
-    }
-
-    public function getVCS()
-    {
-        // VCS
-        $class = strtoupper($this->config->getVCS());
-        if (!class_exists($class)){
-            $class = '\\Liip\\RD\\VCS\\'.$class;
-        }
-        $vcs = new $class();
-        return $vcs;
-    }
-
-    public function getOutput()
-    {
-        return $this->output;
-    }
-
-    public function getCurrentVersion()
-    {
-        return $this->currentVersion;
-    }
 
     /**
      * Register questions to ask to the user
@@ -138,15 +39,6 @@ class Context
         return $this->userQuestions[$topic];
     }
 
-    public function setProjectRoot($projectRoot)
-    {
-        $this->projectRoot = $projectRoot;
-    }
-
-    public function getProjectRoot()
-    {
-        return $this->projectRoot;
-    }
 
     public function setService($id, $classOrObject, $options = null)
     {
@@ -216,7 +108,7 @@ class Context
     protected function instanciateObject($objectDefinition)
     {
         list($className, $options) = $objectDefinition;
-        return new $className($options);
+        return new $className($this, $options);
     }
 
     protected function validateClass($className)

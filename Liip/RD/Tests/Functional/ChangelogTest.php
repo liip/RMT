@@ -14,9 +14,9 @@ CHANGELOG
 );
         $this->setJsonConfig(<<<JSON
 {
-    "default": {
-        "version_generator": "simple",
-        "version_persister": "changelog"
+    "all": {
+        "version-generator": "simple",
+        "version-persister": "changelog"
     }
 }
 JSON

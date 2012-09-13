@@ -2,7 +2,6 @@
 
 namespace Liip\RD\Tests\Functional;
 
-
 class RDFunctionalTestBase extends \PHPUnit_Framework_TestCase
 {
     protected $tempDir;
@@ -35,6 +34,18 @@ EOF
     protected function tearDown()
     {
         exec('rm -rf '.$this->tempDir);
+    }
+
+    protected function initGit()
+    {
+        exec('git init');
+        exec('git add *');
+        exec('git commit -m "First commit"');
+    }
+
+    protected function  manualDebug()
+    {
+        echo "\n\nMANUAL DEBUG Go to:\n > cd ".$this->tempDir."\n\n"; exit();
     }
 
 }
