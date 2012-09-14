@@ -17,7 +17,7 @@ class RDFunctionalTestBase extends \PHPUnit_Framework_TestCase
         chdir($this->tempDir);
 
         // Create the executable task inside
-        $rdDir = realpath(__DIR__.'/../../../../');
+        $rdDir = realpath(__DIR__.'/../../../../../');
         file_put_contents('RD', <<<EOF
 #!/usr/bin/env php
 <?php define('RD_CONFIG_DIR', __DIR__); ?>

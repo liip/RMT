@@ -13,4 +13,5 @@ else {
 }
 
 // and manually add the Liip namespace, until we move the project on packagist
-$loader->add('Liip', __DIR__);
+$loader->add('Liip\RD\Tests', __DIR__.'/test');
+$loader->add('Liip', __DIR__.'/src');
