@@ -18,7 +18,6 @@ class GitTest extends RDFunctionalTestBase
         $this->assertEquals(array('1','3', '4', 'toto'), $tags);
     }
 
-
     public function testSemantic()
     {
         $this->initGit();
@@ -28,6 +27,17 @@ class GitTest extends RDFunctionalTestBase
         exec('git tag', $tags);
 //        $this->manualDebug();
         $this->assertEquals(array('2.1.19', '2.2.0'), $tags);
+    }
+
+    public function testTagPrefix(){
+        $this->initGit();
+        exec('git tag 2');
+        exec('git tag v_1');
+        $this->createJsonConfig('simple', array('type'=>'vcs-tag', 'prefix'=>'v_'), array('vcs'=>'git'));
+        exec('./RD release');
+        exec('git tag', $tags);
+//        $this->manualDebug();
+        $this->assertEquals(array('2','v_1', 'v_2'), $tags);
     }
 
     protected function initGit()

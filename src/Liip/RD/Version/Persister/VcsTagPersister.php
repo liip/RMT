@@ -22,7 +22,8 @@ class VcsTagPersister implements PersisterInterface
         $validator = new TagValidator($this->versionRegex, $this->getPrefix());
         $tags = $validator->filtrateList($this->vcs->getTags());
         sort($tags);
-        return array_pop($tags);
+        $lastTag = array_pop($tags);
+        return substr($lastTag, strlen($this->getPrefix()));
     }
 
     public function save($versionNumber)
@@ -60,7 +61,7 @@ class VcsTagPersister implements PersisterInterface
 
     protected function getPrefix()
     {
-        return isset($this->option['prefix']) ? $this->option['prefix'] : '';
+        return isset($this->options['prefix']) ? $this->options['prefix'] : '';
     }
 
     public function init()
