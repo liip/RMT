@@ -12,17 +12,10 @@ Version 1 - Changelog init
     06/09/2012 08:34  1  First version
 CHANGELOG
 );
-        $this->setJsonConfig(<<<JSON
-{
-    "all": {
-        "version-generator": "simple",
-        "version-persister": "changelog"
-    }
-}
-JSON
-        );
+        $this->createJsonConfig("simple", "changelog");
         exec('./RD release --comment="test"');
         $changelogLines = file($this->tempDir.'/CHANGELOG', FILE_IGNORE_NEW_LINES);
+//        $this->manualDebug();
         $this->assertRegExp('/2\s\stest/', $changelogLines[2]);
     }
 }

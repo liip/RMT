@@ -27,8 +27,13 @@ EOF
         exec('chmod +x RD');
     }
 
-    protected function setJsonConfig($config) {
-        file_put_contents('rd.json', $config);
+    protected function createJsonConfig($generator, $persister, $otherConfig=array(), $envSpecificConfig=array()) {
+        $allConfig = array_merge($otherConfig, array(
+            'version-persister'=>$persister,
+            'version-generator'=>$generator
+        ));
+        $envSpecificConfig['all'] = $allConfig;
+        file_put_contents('rd.json', json_encode($envSpecificConfig));
     }
 
     protected function tearDown()
