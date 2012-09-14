@@ -4,6 +4,14 @@ namespace Liip\RD\VCS;
 
 interface VCSInterface
 {
+
+    /**
+     * Return the current branch
+     */
+    public function getCurrentBranch();
+
+
+
     /**
      * Return all tags of the project
      * @return array
@@ -22,6 +30,8 @@ interface VCSInterface
      */
     public function publishTag($tagName);
 
+
+
     /**
      * Return the list of all modifications from the given tag until now
      * @param $tag
@@ -36,14 +46,10 @@ interface VCSInterface
      */
     public function saveWorkingCopy($commitMsg = '');
 
+
     /**
      * Publish local modification
      */
     public function publishChanges();
-
-    /**
-     * Return the current branch
-     */
-    public function getCurrentBranch();
 
 }

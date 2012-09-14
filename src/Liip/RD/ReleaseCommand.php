@@ -12,6 +12,7 @@ use Liip\RD\Context;
 
 class ReleaseCommand extends Command {
     
+    public static $projectRoot;  // Needed for testing
     protected $context;
 
     protected function configure()
@@ -42,11 +43,11 @@ class ReleaseCommand extends Command {
 
 
         // Register the option of the pre-action
-//        foreach ($this->preActions as $action){
-//            foreach($action->getOptions() as $option) {
-//                $this->getDefinition()->addOption($option);
-//            }
-//        }
+        foreach ($this->context->getList('prerequisites') as $pr){
+            foreach($pr->getOptions() as $option) {
+                $this->getDefinition()->addOption($option);
+            }
+        }
 
         foreach ($this->context->getUserQuestions() as $name => $question)
         {
@@ -64,6 +65,9 @@ class ReleaseCommand extends Command {
         $this->context->setService('output', $output);
 
         // Prerequistes
+        foreach ($this->context->getList('prerequisites') as $pr){
+            $pr->execute($this->context);
+        }
 
         // Fill up questions
         $questions = $this->context->getUserQuestions();
@@ -89,10 +93,6 @@ class ReleaseCommand extends Command {
         }
 
         $this->context->getService('version-persister')->save($version);
-
-
-        // Display comfirmation messages
-        $this->logInfo('working!');
 
     }
 
@@ -132,8 +132,10 @@ class ReleaseCommand extends Command {
 
     public function getProjectRootDir()
     {
-        // TODO: add auto-discover project root
-        if (defined('RD_CONFIG_DIR')){
+        if (self::$projectRoot !== null){
+            return self::$projectRoot;
+        }
+        else if (defined('RD_CONFIG_DIR')){
             return RD_CONFIG_DIR;
         }
         else {

@@ -26,10 +26,19 @@ class VcsTagPersister implements PersisterInterface
         return substr($lastTag, strlen($this->getPrefix()));
     }
 
+    public function getCurrentVersionTag()
+    {
+        return $this->getTagForVersion($this->getCurrentVersion());
+    }
+
+    public function getTagForVersion($version)
+    {
+        return $this->getPrefix().$version;
+    }
+
     public function save($versionNumber)
     {
-        $tagName = $this->getPrefix().$versionNumber;
-        $this->vcs->createTag($tagName);
+        $this->vcs->createTag($this->getTagForVersion($versionNumber));
     }
 
     /**

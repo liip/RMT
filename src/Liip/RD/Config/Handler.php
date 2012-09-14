@@ -161,7 +161,7 @@ class Handler
         // Convert from xxx-yyy-zzz to XxxYyyZzz and append suffix
         $suffixByType = array(
             'vcs' => '',
-            'prerequisites' => 'Action',
+            'prerequisites' => '',
             'pre-release-actions' => 'Action',
             'post-release-actions' => 'Action',
             "version-generator" => 'Generator',
