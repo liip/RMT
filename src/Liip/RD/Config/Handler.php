@@ -123,7 +123,7 @@ class Handler
                 unset($rawConfig['type']);
             }
             else {
-                throw new Exception('Missing information for [$name], you must provide a [type] or a [class] value');
+                throw new Exception("Missing information for [$sectionName], you must provide a [type] or a [class] value");
             }
             $options = $rawConfig;
         }

@@ -5,7 +5,6 @@ namespace Liip\RD\Version\Persister;
 use Liip\RD\VCS\VCSInterface;
 use Liip\RD\VCS\TagValidator;
 
-
 class VcsTagPersister implements PersisterInterface
 {
     protected $vcs;
@@ -19,58 +18,26 @@ class VcsTagPersister implements PersisterInterface
 
     public function getCurrentVersion()
     {
-        $validator = new TagValidator($this->versionRegex, $this->getPrefix());
-        $tags = $validator->filtrateList($this->vcs->getTags());
+        $tags = $this->vcs->getValidVersionTags($this->versionRegex);
         sort($tags);
-        $lastTag = array_pop($tags);
-        return substr($lastTag, strlen($this->getPrefix()));
+        return $this->vcs->getVersionFromTag(array_pop($tags));
     }
 
     public function getCurrentVersionTag()
     {
-        return $this->getTagForVersion($this->getCurrentVersion());
-    }
-
-    public function getTagForVersion($version)
-    {
-        return $this->getPrefix().$version;
+        return $this->vcs->getTagFromVersion($this->getCurrentVersion());
     }
 
     public function save($versionNumber)
     {
-        $this->vcs->createTag($this->getTagForVersion($versionNumber));
+        $this->vcs->createTag($this->vcs->getTagFromVersion($versionNumber));
     }
 
-    /**
-     * Filtrate the provided list and remove tags that don't match the prefix and the regex
-     * @param $tags
-     * @param $prefix
-     * @param $versionRegex
-     */
-    public function filterTags($tags, $prefix, $versionRegex)
-    {
-        $validTags = array();
-        foreach ($tags as $tag){
-            if (strpos($tag,$prefix) !==0){
-                continue;
-            }
-            if (!preg_match($versionRegex, substr($tag, strlen($prefix)))){
-                continue;
-            }
-            $validTags[] = $tag;
-        }
 
-        return $validTags;
-    }
 
     public function registerUserQuestions()
     {
         // TODO: Implement registerUserQuestions() method.
-    }
-
-    protected function getPrefix()
-    {
-        return isset($this->options['prefix']) ? $this->options['prefix'] : '';
     }
 
     public function init()

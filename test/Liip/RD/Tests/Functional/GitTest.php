@@ -33,7 +33,7 @@ class GitTest extends RDFunctionalTestBase
         $this->initGit();
         exec('git tag 2');
         exec('git tag v_1');
-        $this->createJsonConfig('simple', array('type'=>'vcs-tag', 'prefix'=>'v_'), array('vcs'=>'git'));
+        $this->createJsonConfig('simple', 'vcs-tag', array('vcs'=>array('type'=>'git', 'tag-prefix'=>'v_')));
         exec('./RD release');
         exec('git tag', $tags);
 //        $this->manualDebug();

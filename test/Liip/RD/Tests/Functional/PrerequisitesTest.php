@@ -2,8 +2,6 @@
 
 namespace Liip\RD\Tests\Functional;
 
-use Liip\RD\ReleaseCommand;
-
 class PrerequisitesTest extends RDFunctionalTestBase
 {
 
@@ -38,7 +36,6 @@ class PrerequisitesTest extends RDFunctionalTestBase
         exec('git tag 1');
 
         exec('touch toto');
-        ReleaseCommand::$projectRoot = $this->tempDir;
         exec('./RD release', $consoleOutput, $exitCode);
         $this->assertEquals(1, $exitCode);
         $this->assertContains("local modification", implode("\n", $consoleOutput));
