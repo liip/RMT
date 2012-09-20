@@ -51,6 +51,11 @@ class Git implements VCSInterface
         //return $this->executeGitCommand("log --oneline $tag..HEAD --color=always");
     }
 
+    public function getLocalModifications(){
+        return $this->executeGitCommand('status');
+    }
+
+
     public function getTags()
     {
         return $this->executeGitCommand("tag");

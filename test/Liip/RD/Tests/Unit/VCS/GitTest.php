@@ -32,6 +32,14 @@ class GitTest extends \PHPUnit_Framework_TestCase
         ), $modifs);
     }
 
+    public function testGetLocalModifications()
+    {
+        $vcs = new Git();
+        exec('touch foo');
+        $modifs = $vcs->getLocalModifications();
+        $this->assertContains('foo', implode($modifs));
+    }
+
     public function testGetTags()
     {
         $vcs = new Git();

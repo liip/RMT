@@ -40,6 +40,12 @@ interface VCSInterface
     public function getAllModificationsSince($tag);
 
     /**
+     * Return local modification
+     * @return array of local modification
+     */
+    public function getLocalModifications();
+
+    /**
      * Save the local modifications (commit)
      * @param $commitMsg
      * @return mixed
