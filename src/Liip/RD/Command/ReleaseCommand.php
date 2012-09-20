@@ -1,5 +1,5 @@
 <?php
-namespace Liip\RD;
+namespace Liip\RD\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,6 +57,15 @@ class ReleaseCommand extends Command {
     }
 
 
+    protected function interact(InputInterface $input, OutputInterface $output){
+
+        $formatter = $this->getHelperSet()->get('formatter');
+        $output->writeln(array(
+            '',
+            $formatter->formatBlock('Welcome to Release Management Tool', 'bg=blue;fg=white', true),
+            ''
+        ));
+    }
 
 
     protected function execute(InputInterface $input, OutputInterface $output)

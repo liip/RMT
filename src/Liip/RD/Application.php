@@ -2,7 +2,7 @@
 
 namespace Liip\RD;
 
-use Liip\RD\ReleaseCommand;
+use Liip\RD\Command\ReleaseCommand;
 
 
 use Symfony\Component\Console\Application as BaseApplication;
