@@ -6,14 +6,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Changelog\ChangelogManager;
-use Liip\RD\Config\Handler;
-use Liip\RD\Context;
 
-
-class ReleaseCommand extends Command {
-    
-    public static $projectRoot;  // Needed for testing
-    protected $context;
+class ReleaseCommand extends BaseCommand {
 
     protected function configure()
     {
@@ -21,26 +15,7 @@ class ReleaseCommand extends Command {
         $this->setDescription('Release a new version of the project');
         $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project:');
 
-        $configFile = realpath($this->getProjectRootDir().'/rd.json');
-        if (!is_file($configFile)){
-            throw new \Exception("Impossible to locate the config file rd.json");
-        }
-
-        $env = null;
-//        $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
-//        $env = $envGuesser->getCurrentEnvironment();
-        $configHandler = new Handler();
-        $this->context = $configHandler->createContext(json_decode(file_get_contents($configFile), true), $env);
-
-
-        $this->context->setParam('project-root', $this->getProjectRootDir());
-
-        //$this->preActions = $this->getPreActions();
-        $this->context->setParam('current-version', $this->context->getService('version-persister')->getCurrentVersion());
-
-        // we need to instantiate the version generator so that it registers its user questions
-        $this->context->getService('version-generator');
-
+        $this->loadContext();
 
         // Register the option of the pre-action
         foreach ($this->context->getList('prerequisites') as $pr){
@@ -105,50 +80,4 @@ class ReleaseCommand extends Command {
 
     }
 
-
-
-
-
-
-
-
-    protected function logSection($sectionName, $message) {
-    $message = is_array($message) ? implode("\n", $message) : $message;
-    $msg = $this->getHelper('formatter')->formatSection($sectionName, $message);
-    $this->output->writeln($msg);
-}
-
-    protected function logInfo($message) {
-        $message = is_array($message) ? implode("\n", $message) : $message;
-        $msg = $this->getHelper('formatter')->formatBlock("\n".$message, 'info');
-        $this->context->getService('output')->writeln($msg);
-    }
-
-    protected function ask($question, $yesOrNo=false) {
-        $question = $this->getHelperSet()->get('formatter')->formatBlock($question, 'question', true);
-        $question = $question."\n";
-        $dialog = $this->getHelperSet()->get('dialog');
-        if ($yesOrNo){
-            return $dialog->askConfirmation($this->output, $question);
-        }
-        return $dialog->ask($this->output, $question);
-
-    }
-
-    protected function askConfirmation($question) {
-        return $this->ask($question, true);
-    }
-
-    public function getProjectRootDir()
-    {
-        if (self::$projectRoot !== null){
-            return self::$projectRoot;
-        }
-        else if (defined('RD_CONFIG_DIR')){
-            return RD_CONFIG_DIR;
-        }
-        else {
-            return realpath(__DIR__.'/../../../../..');
-        }
-    }
 }
