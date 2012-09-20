@@ -1,6 +1,11 @@
 {
     "all": {
-        "version-generator": "simple",
-        "version-persister": "changelog"
+        "version-generator": "semantic",
+        "version-persister": "changelog",
+        "prerequisites": [
+            "working-copy-check",
+            "display-last-changes"
+        ],
+        "vcs": "git"
     }
 }
