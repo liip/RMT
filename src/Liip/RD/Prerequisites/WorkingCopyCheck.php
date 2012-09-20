@@ -12,24 +12,28 @@ use Liip\RD\Context;
 
 class WorkingCopyCheck  {
 
+    public $ignoreCheckOptionName = 'ignore-check';
+
     public function execute($context)
     {
-        if ($context->getService('input')->getOption('ignore-check'))
+        $context->getService('output')->write('<info>Check that your working copy is clean:</info> ');
+        if ($context->getService('input')->getOption($this->ignoreCheckOptionName))
         {
             $context->getService('output')->writeln("Check is ignored...");
             return;
         }
-        $context->getService('output')->writeln('<info>Check that your working copy is clean</info>');
         if (count($modif = $context->getService('vcs')->getLocalModifications()) > 0){
-            throw new \Exception('Your working directory contain local modifications');
+            throw new \Exception('Your working directory contain local modifications, use --'.$this->ignoreCheckOptionName.' option to bypass this check');
         }
         $context->getService('output')->writeln("Check OK !");
+        $context->getService('output')->writeln(" ");
+
     }
 
     public function getOptions()
     {
         return array(
-            new InputOption('ignore-check', null, InputOption::VALUE_NONE, 'Do not process the check for clean working copy')
+            new InputOption($this->ignoreCheckOptionName, null, InputOption::VALUE_NONE, 'Do not process the check for clean working copy')
         );
     }
 }
