@@ -149,9 +149,9 @@ class Handler
         // Guess the namespace
         $namespacesByType = array(
             'vcs' => 'Liip\RD\VCS',
-            'prerequisites' => 'Liip\RD\Prerequisites',
-            'pre-release-actions' => 'Liip\RD\Actions',
-            'post-release-actions' => 'Liip\RD\Actions',
+            'prerequisites' => 'Liip\RD\Prerequisite',
+            'pre-release-actions' => 'Liip\RD\Action',
+            'post-release-actions' => 'Liip\RD\Action',
             "version-generator" => 'Liip\RD\Version\Generator',
             "version-persister" => 'Liip\RD\Version\Persister'
         );

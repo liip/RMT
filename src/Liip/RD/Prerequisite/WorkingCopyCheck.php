@@ -1,6 +1,6 @@
 <?php
 
-namespace Liip\RD\Prerequisites;
+namespace Liip\RD\Prerequisite;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,7 +10,7 @@ use Liip\RD\VCS\VCSInterface;
 use Liip\RD\Context;
 
 
-class WorkingCopyCheck  {
+class WorkingCopyCheck extends BasePrerequisite {
 
     public $ignoreCheckOptionName = 'ignore-check';
 

@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('version-persister', 'vcs-tag', 'Liip\RD\Version\Persister\VcsTagPersister', array()),
             array('vcs', array('type'=>'git'), 'Liip\RD\VCS\Git', array()),
             array('vcs', array('type'=>'git', 'opt1'=>'val1'), 'Liip\RD\VCS\Git', array('opt1'=>'val1')),
-            array('prerequisites_1', 'vcs-clean-check', 'Liip\RD\Prerequisites\VcsCleanCheck', array())
+            array('prerequisites_1', 'vcs-clean-check', 'Liip\RD\Prerequisite\VcsCleanCheck', array())
         );
     }
 
