@@ -26,10 +26,8 @@ class GitTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Git();
         $modifs = $vcs->getAllModificationsSince('1.1.0');
-        $this->assertEquals(array(
-            "4c95178 Add a third file",
-            "9aca70b Modification of the first file"
-        ), $modifs);
+        $this->assertContains("Add a third file", $modifs[0]);
+        $this->assertContains("Modification of the first file", $modifs[1]);
     }
 
     public function testGetLocalModifications()

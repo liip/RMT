@@ -47,8 +47,7 @@ class Git extends BaseVCS
 
     public function getAllModificationsSince($tag)
     {
-        return $this->executeGitCommand("log --oneline $tag..HEAD");
-        //return $this->executeGitCommand("log --oneline $tag..HEAD --color=always");
+        return $this->executeGitCommand("log --oneline $tag..HEAD --color=always");
     }
 
     public function getLocalModifications(){
@@ -90,7 +89,10 @@ class Git extends BaseVCS
     protected function executeGitCommand($cmd)
     {
         $cmd = 'git '.$cmd;
-        exec($cmd, $result);
+        exec($cmd, $result, $exitCode);
+        if ($exitCode !== 0){
+            throw new \Exception('Error while executing git command: '.$cmd);
+        }
         return $result;
     }
 
