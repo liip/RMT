@@ -68,7 +68,9 @@ class ReleaseCommand extends BaseCommand {
             }
         }
 
-        $version = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
+        // Generate and save the new version number
+        $newVersion = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
+        $this->context->setParam('new-version', $newVersion);
 
         // Pre-release
         foreach ($this->context->getList('pre-release-actions') as $action){
@@ -76,7 +78,14 @@ class ReleaseCommand extends BaseCommand {
             $action->execute($this->context);
         }
 
-        $this->context->getService('version-persister')->save($version);
+        // TODO Can we say than when it's vcs-tag persister we have to force commit first?
+        $this->context->getService('version-persister')->save($newVersion);
+
+        // Post-release
+        foreach ($this->context->getList('post-release-actions') as $action){
+            $this->context->getService('output')->writeln("Pre-action: ".$action->getTitle());
+            $action->execute($this->context);
+        }
 
     }
 
