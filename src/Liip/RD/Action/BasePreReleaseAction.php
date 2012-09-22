@@ -22,7 +22,7 @@ abstract class BasePreReleaseAction
      * A pre-release action can provide options, override this method and return a array of InputOption
      * @return InputOption[]
      */
-    public function getOptions()
+    public function getInformationRequests()
     {
         return array();
     }

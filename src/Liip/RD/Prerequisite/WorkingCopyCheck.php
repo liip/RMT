@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RD\VCS\VCSInterface;
 use Liip\RD\Context;
+use Liip\RD\Information\InformationRequest;
 
 
 class WorkingCopyCheck extends BasePrerequisite {
@@ -17,7 +18,7 @@ class WorkingCopyCheck extends BasePrerequisite {
     public function execute($context)
     {
         $context->getService('output')->write('<info>Check that your working copy is clean:</info> ');
-        if ($context->getService('input')->getOption($this->ignoreCheckOptionName))
+        if ($context->getService('information-collector')->getValueFor($this->ignoreCheckOptionName))
         {
             $context->getService('output')->writeln("Check is ignored...");
             return;
@@ -26,14 +27,15 @@ class WorkingCopyCheck extends BasePrerequisite {
             throw new \Exception('Your working directory contain local modifications, use --'.$this->ignoreCheckOptionName.' option to bypass this check');
         }
         $context->getService('output')->writeln("Check OK !");
-        $context->getService('output')->writeln(" ");
-
     }
 
-    public function getOptions()
+    public function getInformationRequests()
     {
         return array(
-            new InputOption($this->ignoreCheckOptionName, null, InputOption::VALUE_NONE, 'Do not process the check for clean working copy')
+            new InformationRequest($this->ignoreCheckOptionName, array(
+                'description' => 'Do not process the check for clean working copy',
+                'type' => 'boolean'
+            ))
         );
     }
 }

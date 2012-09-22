@@ -5,40 +5,9 @@ namespace Liip\RD;
 
 class Context
 {
-    protected $userQuestions = array();
     protected $services = array();
     protected $params = array();
     protected $lists = array();
-
-    /**
-     * Register questions to ask to the user
-     * @param String topic of the question (ie. comment)
-     * @param UserQuestionInterface question object
-     */
-    public function addUserQuestion($topic, $question)
-    {
-        $this->userQuestions[$topic] = $question;
-    }
-
-    /**
-     * Returns all user questions
-     * @return UserQuestionInterface[] keyed on topic
-     */
-    public function getUserQuestions()
-    {
-        return $this->userQuestions;
-    }
-
-    /**
-     * Returns a single question (probably used to get its answer)
-     * @param topic of the question (see addUserQuestion)
-     * @return UserQuestionInterface
-     */
-    public function getUserQuestionByTopic($topic)
-    {
-        return $this->userQuestions[$topic];
-    }
-
 
     public function setService($id, $classOrObject, $options = null)
     {

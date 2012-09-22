@@ -15,7 +15,6 @@ class SemanticGenerator implements GeneratorInterface
     public function __construct($context, $options = array())
     {
         $this->context = $context;
-        $this->registerUserQuestions();
     }
 
     /**
@@ -28,8 +27,7 @@ class SemanticGenerator implements GeneratorInterface
             $type = $options['type'];
         }
         else {
-            $typeQuestion = $this->context->getUserQuestionByTopic('type');
-            $type = $typeQuestion->getAnswer();
+            $type = $this->context->getService('information-collector')->getValueFor('type');
         }
 
         // Type validation
@@ -61,10 +59,9 @@ class SemanticGenerator implements GeneratorInterface
         return implode(array($major, $minor, $patch), '.');
     }
 
-    public function registerUserQuestions()
+    public function getInformationRequests()
     {
-        $question = new SimpleQuestion('Is it a major, minor or patch version?');
-        $this->context->addUserQuestion('type', $question);
+        return array('type');
     }
 
     public function getValidationRegex()

@@ -21,7 +21,6 @@ class ChangelogPersister implements PersisterInterface
             throw new \Exception("Invalid changelog location: $this->filePath, if it's the first time you use RD use the --init parameter to create it");
         }
         $this->context = $context;
-        $this->registerUserQuestions();
     }
 
     public function getCurrentVersion()
@@ -38,17 +37,15 @@ class ChangelogPersister implements PersisterInterface
     {
         $changelog = file($this->filePath, FILE_IGNORE_NEW_LINES);
         $date = date('d/m/Y H:i');
-        $commentQuestion = $this->context->getUserQuestionByTopic('comment');
-        $comment = $commentQuestion->getAnswer();
+        $comment = $this->context->getService('information-collector')->getValueFor('comment');
 
         array_splice($changelog, 2, 0, array("    $date  $versionNumber  $comment"));
         file_put_contents($this->filePath, implode("\n", $changelog));
     }
 
-    public function registerUserQuestions()
+    public function getInformationRequests()
     {
-        $question = new SimpleQuestion('Please insert a comment');
-        $this->context->addUserQuestion('comment', $question);
+        return array('comment');
     }
 
     public function init()

@@ -23,15 +23,5 @@ class SimpleQuestion implements UserQuestionInterface
     {
         return $this->defaultValue;
     }
-
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-    }
-
-    public function getAnswer()
-    {
-        return $this->answer;
-    }
 }
 

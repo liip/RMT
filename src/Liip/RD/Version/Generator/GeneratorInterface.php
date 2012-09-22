@@ -14,7 +14,7 @@ interface GeneratorInterface
      */
     public function generateNextVersion($currentVersion);
 
-    public function registerUserQuestions();
+    public function getInformationRequests();
 
     public function getValidationRegex();
 }

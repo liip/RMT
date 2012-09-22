@@ -3,7 +3,7 @@
 namespace Liip\RD\Prerequisite;
 
 
-class DisplayLastChanges
+class DisplayLastChanges extends BasePrerequisite
 {
     public function execute($context)
     {
@@ -17,10 +17,5 @@ class DisplayLastChanges
             )
         );
         $context->getService('output')->writeln("<<<");
-    }
-
-    public function getOptions()
-    {
-        return array();
     }
 }

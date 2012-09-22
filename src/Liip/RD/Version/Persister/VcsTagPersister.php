@@ -33,15 +33,12 @@ class VcsTagPersister implements PersisterInterface
         $this->vcs->createTag($this->vcs->getTagFromVersion($versionNumber));
     }
 
-
-
-    public function registerUserQuestions()
-    {
-        // TODO: Implement registerUserQuestions() method.
-    }
-
     public function init()
     {
-        // TODO: Implement init() method.
+    }
+
+    public function getInformationRequests()
+    {
+        return array();
     }
 }

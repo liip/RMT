@@ -13,7 +13,7 @@ class SimpleGenerator implements GeneratorInterface
         return ++$currentVersion;
     }
 
-    public function registerUserQuestions()
+    public function getInformationRequests()
     {
         return array();
     }

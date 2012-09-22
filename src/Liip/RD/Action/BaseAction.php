@@ -12,7 +12,7 @@ abstract class BaseAction
         return str_replace('Action', '', $className);
     }
 
-    public function getOptions()
+    public function getInformationRequests()
     {
         return array();
     }

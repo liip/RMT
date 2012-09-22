@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Changelog\ChangelogManager;
+use Liip\RD\Information\InformationCollector;
 
 class ReleaseCommand extends BaseCommand {
 
@@ -16,19 +17,30 @@ class ReleaseCommand extends BaseCommand {
         $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project:');
 
         $this->loadContext();
+        $this->loadInformationCollector();
 
-        // Register the option of the pre-action
-        foreach ($this->context->getList('prerequisites') as $pr){
-            foreach($pr->getOptions() as $option) {
-                $this->getDefinition()->addOption($option);
+        // Register the command option
+        foreach ($this->context->getService('information-collector')->getCommandOptions() as $option) {
+            $this->getDefinition()->addOption($option);
+        }
+    }
+
+    protected function loadInformationCollector()
+    {
+        $ic = new InformationCollector();
+
+        // Register options of the release tasks
+        $ic->registerRequests($this->context->getService('version-generator')->getInformationRequests());
+        $ic->registerRequests($this->context->getService('version-persister')->getInformationRequests());
+
+        // Register options of all lists (prerequistes and actions)
+        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName){
+            foreach ($this->context->getList($listName) as $listItem){
+                $ic->registerRequests($listItem->getInformationRequests());
             }
         }
 
-        foreach ($this->context->getUserQuestions() as $name => $question)
-        {
-            $this->addOption($name, null, InputOption::VALUE_REQUIRED, $question->getQuestionText(), $question->getDefaultValue());
-        }
-
+        $this->context->setService('information-collector', $ic);
     }
 
 
@@ -45,8 +57,10 @@ class ReleaseCommand extends BaseCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->context->setService('input', $input);
         $this->context->setService('output', $output);
+
+        $this->context->getService('information-collector')->handleCommandInput($input);
+
 
         // Prerequistes
         foreach ($this->context->getList('prerequisites') as $pr){
@@ -54,18 +68,10 @@ class ReleaseCommand extends BaseCommand {
         }
 
         // Fill up questions
-        $questions = $this->context->getUserQuestions();
-        foreach($questions as $topic => $question) {
-            // Provided by options
-            if ($input->getOption($topic) !== null){
-                $question->setAnswer($input->getOption($topic));
-            }
-            // Or direct answers
-            else {
-                $dialog = $this->getHelperSet()->get('dialog');
-                $answer = $dialog->ask($this->context->getService('output'), $question->getQuestionText(), $question->getDefaultValue());
-                $question->setAnswer($answer);
-            }
+        foreach($this->context->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $answer = $dialog->ask($this->context->getService('output'), $question->getQuestionText(), $question->getDefaultValue());
+            $this->context->getService('information-collector')->setValueFor($name, $answer);
         }
 
         // Generate and save the new version number
