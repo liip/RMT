@@ -9,7 +9,7 @@ elseif ( file_exists( __DIR__.'/vendor/autoload.php')) {
     $loader = require_once __DIR__.'/vendor/autoload.php';
 }
 else {
-    throw new Exception("Unable to find the composer autoloader");
+    throw new \Exception("Unable to find the composer autoloader");
 }
 
 // and manually add the Liip namespace, until we move the project on packagist
