@@ -30,6 +30,7 @@ class SemanticGenerator implements GeneratorInterface
             $type = $this->context->getService('information-collector')->getValueFor('type');
         }
 
+
         // Type validation
         $validTypes = array('patch', 'minor', 'major');
         if (!in_array($type, $validTypes)){

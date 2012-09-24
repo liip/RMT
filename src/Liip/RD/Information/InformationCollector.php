@@ -51,11 +51,8 @@ class InformationCollector
 
     public function registerStandardRequest($name)
     {
-        if (!in_array($name, array_keys(static::$standardRequests))){
-            throw new \Exception("There is no standard request named [$name]");
-        }
         if (!isset($this->requests[$name])) {
-            $this->requests[$name] = new InformationRequest($name, static::$standardRequests[$name]);
+            $this->requests[$name] = new InformationRequest($name, \Liip\ArrayHelper::get(static::$standardRequests, $name));
         }
     }
 
@@ -64,10 +61,7 @@ class InformationCollector
      */
     public function getRequest($name)
     {
-        if (!$this->hasRequest($name)){
-            throw new \InvalidArgumentException("There is no information request named [$name]");
-        }
-        return $this->requests[$name];
+        return \Liip\ArrayHelper::get($this->requests, $name, null, "There is no information request named [%s]");
     }
 
 
@@ -123,16 +117,13 @@ class InformationCollector
         }
     }
 
-    public function setValueFor($requestName, $value){
+    public function setValueFor($requestName, $value)
+    {
         return $this->getRequest($requestName)->setValue($value);
     }
 
-    public function getValueFor($requestName){
-        if ($this->hasRequest($requestName)){
-            return $this->getRequest($requestName)->getValue();
-        }
-        else {
-            throw new \Exception("No request named $requestName");
-        }
+    public function getValueFor($requestName)
+    {
+        return $this->getRequest($requestName)->getValue();
     }
 }
