@@ -49,7 +49,7 @@ class InformationRequest
 
     public function getOption($name)
     {
-        return $this->options[$name];
+        return \Liip\ArrayHelper::get($this->options, $name);
     }
 
     public function isAvailableAsCommandOption()

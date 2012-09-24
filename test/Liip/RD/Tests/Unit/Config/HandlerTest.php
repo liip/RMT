@@ -18,7 +18,7 @@ class EasyHandler extends Handler {
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \Liip\RD\Config\Exception
+     * @expectedException \InvalidArgumentException
      */
     public function testMergeWithoutAnAllSection()
     {

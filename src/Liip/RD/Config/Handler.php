@@ -51,13 +51,9 @@ class Handler
      */
     public function merge($rawConfig, $env = null)
     {
-        if (!array_key_exists('all', $rawConfig)) {
-            throw new Exception('the environment "all" should be defined');
-        }
-
         $defaultConfig = $this->getDefaultConfig();
-        $globalConfig = $rawConfig['all'];
-        $envSpecific = isset($rawConfig[$env]) ? $rawConfig[$env] : array();
+        $globalConfig = \Liip\ArrayHelper::get($rawConfig, 'all', null, 'The environment "all" should be defined');
+        $envSpecific = \Liip\ArrayHelper::get($rawConfig, $env, array());
 
         return array_merge($defaultConfig, $globalConfig, $envSpecific);
     }

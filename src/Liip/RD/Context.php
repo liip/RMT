@@ -25,13 +25,11 @@ class Context
 
     public function getService($id)
     {
-        if (!isset($this->services[$id])){
-            throw new \InvalidArgumentException("There is no service define with id [$id]");
+        $service = \Liip\ArrayHelper::get($this->services, $id, null, 'There is no service define with id [%s]');
+        if (is_array($service)) {
+            $this->services[$id] = ($service = $this->instanciateObject($service));
         }
-        if (is_array($this->services[$id])) {
-            $this->services[$id] = $this->instanciateObject($this->services[$id]);
-        }
-        return $this->services[$id];
+        return $service;
     }
 
     public function setParam($id, $value)
@@ -41,10 +39,7 @@ class Context
 
     public function getParam($id)
     {
-        if (!isset($this->params[$id])){
-            throw new \InvalidArgumentException("There is no param define with id [$id]");
-        }
-        return $this->params[$id];
+        return \Liip\ArrayHelper::get($this->params, $id, null, 'There is no param define with id [%s]');
     }
 
     public function createEmptyList($id)

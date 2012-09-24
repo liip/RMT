@@ -13,7 +13,7 @@ abstract class BaseVCS implements \Liip\RD\VCS\VCSInterface
 
     public function getTagPrefix()
     {
-        return isset($this->options['tag-prefix']) ? $this->options['tag-prefix'] : '';
+        return \Liip\ArrayHelper::get($this->options, 'tag-prefix', '');
     }
 
     public function getTagFromVersion($versionName)
