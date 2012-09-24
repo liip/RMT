@@ -43,37 +43,36 @@ class ReleaseCommand extends BaseCommand {
         $this->context->setService('information-collector', $ic);
     }
 
-
-    protected function interact(InputInterface $input, OutputInterface $output){
-
-        $formatter = $this->getHelperSet()->get('formatter');
-        $output->writeln(array(
-            '',
-            $formatter->formatBlock('Welcome to Release Management Tool', 'bg=blue;fg=white', true),
-            ''
-        ));
-    }
-
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    // Always executed
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->context->setService('output', $output);
-
         $this->context->getService('information-collector')->handleCommandInput($input);
 
+        $this->writeBigTitle('Welcome to Release Management Tool');
 
         // Prerequistes
         foreach ($this->context->getList('prerequisites') as $pr){
             $pr->execute($this->context);
         }
+    }
+
+    // Executed only when we are in interactive mode
+    protected function interact(InputInterface $input, OutputInterface $output){
 
         // Fill up questions
-        foreach($this->context->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
-            $dialog = $this->getHelperSet()->get('dialog');
-            $answer = $dialog->ask($this->context->getService('output'), $question->getQuestionText(), $question->getDefaultValue());
-            $this->context->getService('information-collector')->setValueFor($name, $answer);
+        if ($this->context->getService('information-collector')->hasMissingInformation()){
+            $this->writeSmallTitle('Information collect');
+            foreach($this->context->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
+                $answer = $this->askQuestion($question);
+                $this->context->getService('information-collector')->setValueFor($name, $answer);
+            }
         }
+    }
 
+    // Always executed, but first initialize and execute have already been called
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         // Generate and save the new version number
         $newVersion = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
         $this->context->setParam('new-version', $newVersion);

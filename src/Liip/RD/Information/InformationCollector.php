@@ -12,7 +12,7 @@ class InformationCollector
         ),
         'type' => array(
             'description' => 'Release type, can be major, minor or patch',
-            'type' => 'enum',
+            'type' => 'choice',
             'choices' => array('major', 'minor', 'patch'),
             'choices_shortcuts' => array('m'=>'major', 'i'=>'minor', 'p'=>'patch'),
         )
@@ -59,6 +59,9 @@ class InformationCollector
         }
     }
 
+    /**
+     * @return InformationRequest
+     */
     public function getRequest($name)
     {
         if (!$this->hasRequest($name)){
@@ -89,6 +92,15 @@ class InformationCollector
         return $consoleOptions;
     }
 
+    public function hasMissingInformation()
+    {
+        $missing = false;
+        foreach ($this->requests as $request){
+            $missing |= $request->hasValue();
+        }
+        return $missing;
+    }
+
     public function getInteractiveQuestions()
     {
         $questions = array();
@@ -105,7 +117,7 @@ class InformationCollector
     public function handleCommandInput(InputInterface $input)
     {
         foreach ($input->getOptions() as $name => $value){
-            if ($this->hasRequest($name)){
+            if ($this->hasRequest($name) && $this->getRequest($name)->getOption('default') !== $value){
                 $this->getRequest($name)->setValue($value);
             }
         }

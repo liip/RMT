@@ -5,6 +5,7 @@ namespace Liip\RD\Command;
 use Symfony\Component\Console\Command\Command;
 use Liip\RD\Config\Handler;
 use Liip\RD\Context;
+use Liip\RD\Information\InteractiveQuestion;
 
 abstract class BaseCommand extends Command
 {
@@ -36,6 +37,18 @@ abstract class BaseCommand extends Command
 
     }
 
+    protected function writeBigTitle($title)
+    {
+        $formatter = $this->getHelperSet()->get('formatter');
+        $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white', true));
+    }
+
+    protected function writeSmallTitle($title)
+    {
+        $formatter = $this->getHelperSet()->get('formatter');
+        $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white'));
+    }
+
     protected function logSection($sectionName, $message) {
         $message = is_array($message) ? implode("\n", $message) : $message;
         $msg = $this->getHelper('formatter')->formatSection($sectionName, $message);
@@ -48,15 +61,15 @@ abstract class BaseCommand extends Command
         $this->context->getService('output')->writeln($msg);
     }
 
-    protected function ask($question, $yesOrNo=false) {
-        $question = $this->getHelperSet()->get('formatter')->formatBlock($question, 'question', true);
-        $question = $question."\n";
+    protected function askQuestion(InteractiveQuestion $question) {
         $dialog = $this->getHelperSet()->get('dialog');
-        if ($yesOrNo){
-            return $dialog->askConfirmation($this->output, $question);
-        }
-        return $dialog->ask($this->output, $question);
-
+        return $dialog->askAndValidate(
+            $this->context->getService('output'),
+            $question->getFormatedText(),
+            $question->getValidator(),
+            false,
+            $question->getDefault()
+        );
     }
 
     protected function askConfirmation($question) {

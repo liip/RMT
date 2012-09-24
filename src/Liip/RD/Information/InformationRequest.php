@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class InformationRequest
 {
-    static $validTypes = array('text', 'boolean', 'yes-no', 'enum');
+    static $validTypes = array('text', 'boolean', 'yes-no', 'choice');
     static $defaults = array(
         'description' => '',
         'type' => 'text',
@@ -47,6 +47,11 @@ class InformationRequest
         return $this->name;
     }
 
+    public function getOption($name)
+    {
+        return $this->options[$name];
+    }
+
     public function isAvailableAsCommandOption()
     {
         return $this->options['command_argument'];
@@ -65,33 +70,33 @@ class InformationRequest
             $this->options['command_shortcut'],
             $this->options['type']=='boolean' || $this->options['type']=='yes-no' ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
             $this->options['description'],
-            $this->options['default']
+            $this->options['type']!=='boolean' ? $this->options['default'] : null
         );
     }
 
     public function convertToInteractiveQuestion() {
-        return new \Liip\RD\UserQuestion\SimpleQuestion(
-            'Please provide the '.strtolower($this->options['description']),
-            $this->options['default']
-        );
+        $questionOptions = array();
+        foreach (array('choices', 'choices_shortcuts', 'interactive_help', 'interactive_help_shortcut') as $optionName){
+            $questionOptions[$optionName] = $this->options[$optionName];
+        }
+        return new \Liip\RD\Information\InteractiveQuestion($this);
     }
 
     public function setValue($value)
     {
-        if ($this->isValid($value)) {
-            $this->value = $value;
-        }
-        else {
-            throw new \Liip\RD\Config\Exception('Invalid value');
-        }
+        $value = $this->validate($value);
+        $this->value = $value;
     }
 
-    public function isValid($value)
+    public function validate($value)
     {
         if ($this->options['type'] == 'boolean' && !is_bool($value)) {
-            return false;
+            throw new \Exception('Value of type bool, must be a boolean');
         }
-        return true;
+        if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
+            throw new \Exception('Invalid choice, must be on of '.json_encode($this->options['choices']));
+        }
+        return $value;
     }
 
     public function getValue()
