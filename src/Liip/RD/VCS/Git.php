@@ -44,6 +44,8 @@ class Git extends BaseVCS
         }
     }
 */
+    protected $dryRun = false;
+
 
     public function getAllModificationsSince($tag)
     {
@@ -86,16 +88,6 @@ class Git extends BaseVCS
         return $this->gitExec('status');
     }
 
-    protected function executeGitCommand($cmd)
-    {
-        $cmd = 'git '.$cmd;
-        exec($cmd, $result, $exitCode);
-        if ($exitCode !== 0){
-            throw new \Exception('Error while executing git command: '.$cmd);
-        }
-        return $result;
-    }
-
     public function getCurrentBranch(){
         $branches = $this->executeGitCommand('branch');
         foreach ($branches as $branch){
@@ -105,5 +97,27 @@ class Git extends BaseVCS
         }
         throw new \Exception("Not currently on any branch");
     }
+
+    protected function executeGitCommand($cmd)
+    {
+        // Avoid using some commands in dry mode
+        if ($this->dryRun){
+            if ($cmd !== 'tag'){
+                $cmdWords = explode(' ',$cmd);
+                if (in_array($cmdWords[0], array('tag', 'push', 'add', 'commit'))){
+                    return;
+                }
+            }
+        }
+
+        // Execute
+        $cmd = 'git '.$cmd;
+        exec($cmd, $result, $exitCode);
+        if ($exitCode !== 0){
+            throw new \Exception('Error while executing git command: '.$cmd);
+        }
+        return $result;
+    }
+
 
 }
