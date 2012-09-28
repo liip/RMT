@@ -11,6 +11,7 @@ class VcsTagAction extends BaseAction
                 $context->getParam('new-version')
             )
         );
+        $this->confirmSuccess($context);
     }
 
 }

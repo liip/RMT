@@ -12,5 +12,6 @@ class VcsPublishAction extends BaseAction
             )
         );
         $context->getService('vcs')->publishChanges();
+        $this->confirmSuccess($context);
     }
 }
