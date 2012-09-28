@@ -13,7 +13,7 @@ class InteractiveQuestion
 
     public function getFormatedText()
     {
-        $text = '<info>Please provide '.strtolower($this->informationRequest->getOption('description'))."</info>";
+        $text = 'Please provide '.strtolower($this->informationRequest->getOption('description'));
         if ($this->informationRequest->getOption('type') == 'choice') {
             $text .= "\n". $this->formatChoices(
                 $this->informationRequest->getOption('choices'),
@@ -36,11 +36,11 @@ class InteractiveQuestion
                 $shortcuts[$choice] = '<info>'.$shortcut.'</info>';
             }
             foreach ($choices as $pos => $choice){
-                $choices[$pos] = $choice.'['.$shortcuts[$choice].']';
+                $choices[$pos] = '['.$shortcuts[$choice].'] '. $choice ;
             }
         }
-        $text = "Select one of: ".implode(', ', $choices);
-        return $text;
+        $text = '    '.implode(PHP_EOL.'    ', $choices);
+        return $text."\nYour choice";
     }
 
     public function getDefault()

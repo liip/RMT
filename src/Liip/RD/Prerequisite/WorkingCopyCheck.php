@@ -15,18 +15,23 @@ class WorkingCopyCheck extends BasePrerequisite {
 
     public $ignoreCheckOptionName = 'ignore-check';
 
+    public function getTitle()
+    {
+        return 'Check that your working copy is clean';
+    }
+
     public function execute($context)
     {
-        $context->getService('output')->write('<info>Check that your working copy is clean:</info> ');
-        if ($context->getService('information-collector')->getValueFor($this->ignoreCheckOptionName))
-        {
-            $context->getService('output')->writeln("Check is ignored...");
+        if ($context->getService('information-collector')->getValueFor($this->ignoreCheckOptionName)){
+            $context->getService('output')->writeln('<error>requested to be ignore</error>');
             return;
         }
+
         if (count($modif = $context->getService('vcs')->getLocalModifications()) > 0){
             throw new \Exception('Your working directory contain local modifications, use --'.$this->ignoreCheckOptionName.' option to bypass this check');
         }
-        $context->getService('output')->writeln("Check OK !");
+        
+        $this->confirmSuccess($context);
     }
 
     public function getInformationRequests()

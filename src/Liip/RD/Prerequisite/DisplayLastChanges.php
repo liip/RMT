@@ -5,10 +5,14 @@ namespace Liip\RD\Prerequisite;
 
 class DisplayLastChanges extends BasePrerequisite
 {
+    public function getTitle()
+    {
+        return "Here is the list of change you are going to released";
+    }
+
     public function execute($context)
     {
-        $context->getService('output')->writeln("<info>Here is the list of change you are going to released:</info>");
-        $context->getService('output')->writeln(">>>");
+        $context->getService('output')->writeln('');
         $context->getService('output')->writeln(
             $context->getService('vcs')->getAllModificationsSince(
                 $context->getService('vcs')->getTagFromVersion(
@@ -16,6 +20,5 @@ class DisplayLastChanges extends BasePrerequisite
                 )
             )
         );
-        $context->getService('output')->writeln("<<<");
     }
 }

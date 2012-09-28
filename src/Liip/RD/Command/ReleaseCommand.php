@@ -46,16 +46,15 @@ class ReleaseCommand extends BaseCommand {
     // Always executed
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->context->setService('output', $output);
+        $this->context->setService('output', $this->output);
         $this->context->getService('information-collector')->handleCommandInput($input);
 
         $this->writeBigTitle('Welcome to Release Management Tool');
 
-        // Prerequistes
-        foreach ($this->context->getList('prerequisites') as $pr){
-            $pr->execute($this->context);
-        }
+        $this->executeActionListIfExist('prerequisites');
     }
+
+
 
     // Executed only when we are in interactive mode
     protected function interact(InputInterface $input, OutputInterface $output){
@@ -63,10 +62,13 @@ class ReleaseCommand extends BaseCommand {
         // Fill up questions
         if ($this->context->getService('information-collector')->hasMissingInformation()){
             $this->writeSmallTitle('Information collect');
+            $this->getOutput()->indent();
             foreach($this->context->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
                 $answer = $this->askQuestion($question);
                 $this->context->getService('information-collector')->setValueFor($name, $answer);
+                $this->writeEmptyLine();
             }
+            $this->getOutput()->unIndent();
         }
     }
 
@@ -77,21 +79,36 @@ class ReleaseCommand extends BaseCommand {
         $newVersion = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
         $this->context->setParam('new-version', $newVersion);
 
-        // Pre-release
-        foreach ($this->context->getList('pre-release-actions') as $action){
-            $this->context->getOutput()->writeln("Pre-action: ".$action->getTitle());
-            $action->execute($this->context);
-        }
+        $this->executeActionListIfExist('pre-release-actions');
+
+        $this->writeSmallTitle('Release process');
+        $this->getOutput()->indent();
 
         // TODO Can we say than when it's vcs-tag persister we have to force commit first?
+        $this->getOutput()->writeln("A new version named [$newVersion] is going to be released");
         $this->context->getService('version-persister')->save($newVersion);
+        $this->getOutput()->writeln("Release: <info>Success</info>");
 
-        // Post-release
-        foreach ($this->context->getList('post-release-actions') as $action){
-            $this->context->getService('output')->writeln("Pre-action: ".$action->getTitle());
-            $action->execute($this->context);
+        $this->getOutput()->unIndent();
+
+        $this->executeActionListIfExist('post-release-actions');
+
+    }
+
+    protected function executeActionListIfExist($name, $title=null){
+        $actions = $this->context->getList($name);
+        if (count($actions) > 0) {
+            $this->writeSmallTitle($title ?: ucfirst($name));
+            $this->getOutput()->indent();
+            foreach ($actions as $num => $action){
+                $this->write($num++.") ".$action->getTitle().' : ');
+                $this->getOutput()->indent();
+                $action->execute($this->context);
+                $this->writeEmptyLine();
+                $this->getOutput()->unIndent();
+            }
+            $this->getOutput()->unIndent();
         }
-
     }
 
 }

@@ -3,6 +3,8 @@
 namespace Liip\RD\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Config\Handler;
 use Liip\RD\Context;
 use Liip\RD\Information\InteractiveQuestion;
@@ -11,6 +13,33 @@ abstract class BaseCommand extends Command
 {
     public static $projectRoot;  // Needed for testing
     protected $context;
+    protected $input;
+    protected $output;
+
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        // Store the input and output for easier usage
+        $this->input = $input;
+        $this->output = $output;
+        parent::run($input, $output);
+    }
+
+    /**
+     * @return InputInterface
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
 
     public function loadContext()
     {
@@ -39,14 +68,28 @@ abstract class BaseCommand extends Command
 
     protected function writeBigTitle($title)
     {
+        $this->writeEmptyLine();
         $formatter = $this->getHelperSet()->get('formatter');
         $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white', true));
     }
 
     protected function writeSmallTitle($title)
     {
+        $this->writeEmptyLine();
         $formatter = $this->getHelperSet()->get('formatter');
         $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white'));
+        $this->writeEmptyLine();
+    }
+
+    protected function writeEmptyLine($repeat=1)
+    {
+        $this->context->getService('output')->writeln(array_fill(0,$repeat,''));
+    }
+
+
+    protected function write($text)
+    {
+        $this->context->getService('output')->write($text);
     }
 
     protected function logSection($sectionName, $message) {
