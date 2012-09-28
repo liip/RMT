@@ -20,6 +20,12 @@ class InteractiveQuestion
                 $this->informationRequest->getOption('choices_shortcuts')
             );
         }
+
+        // print the default if exist
+        if ($this->informationRequest->getOption('default') !== null){
+            $text .= ' (default: <info>'.$this->informationRequest->getOption('default').'</info>)';
+        }
+
         return $text.": ";
     }
 
@@ -39,7 +45,7 @@ class InteractiveQuestion
 
     public function getDefault()
     {
-        return 'toto';
+        return $this->informationRequest->getOption('default');
     }
 
 

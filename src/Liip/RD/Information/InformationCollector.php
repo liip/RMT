@@ -8,13 +8,14 @@ class InformationCollector
 {
     static $standardRequests = array(
         'comment' => array(
-            'description' => 'Comment associted with the release'
+            'description' => 'Comment associated with the release'
         ),
         'type' => array(
             'description' => 'Release type, can be major, minor or patch',
             'type' => 'choice',
             'choices' => array('major', 'minor', 'patch'),
             'choices_shortcuts' => array('m'=>'major', 'i'=>'minor', 'p'=>'patch'),
+            'default' => 'p'
         )
     );
 

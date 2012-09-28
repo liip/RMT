@@ -96,6 +96,9 @@ class InformationRequest
         if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
             throw new \Exception('Invalid choice, must be on of '.json_encode($this->options['choices']));
         }
+        if ($this->options['type'] == 'text' && strlen($value) < 1) {
+            throw new \Exception('Please provide a value');
+        }
         return $value;
     }
 
