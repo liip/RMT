@@ -35,15 +35,24 @@ class PrerequisitesTest extends RDFunctionalTestBase
         $this->initGit();
         exec('git tag 1');
 
+        // Release blocked by the check
         exec('touch toto');
         exec('./RD release', $consoleOutput, $exitCode);
         $this->assertEquals(1, $exitCode);
         $this->assertContains("local modification", implode("\n", $consoleOutput));
 
+        // Release working, check is ignore
         exec('./RD release --ignore-check', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode);
         exec('git tag', $tags);
         $this->assertEquals(array('1','2'), $tags);
+
+        // Normal case, check is passing
+        exec('rm toto');
+        exec('./RD release', $consoleOutput, $exitCode);
+        $this->assertEquals(0, $exitCode);
+        exec('git tag', $tags2);
+        $this->assertEquals(array('1','2','3'), $tags2);
     }
 
 }
