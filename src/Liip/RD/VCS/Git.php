@@ -53,7 +53,7 @@ class Git extends BaseVCS
     }
 
     public function getLocalModifications(){
-        return $this->executeGitCommand('status');
+        return $this->executeGitCommand('status -s');
     }
 
 
@@ -81,11 +81,6 @@ class Git extends BaseVCS
     {
         $this->executeGitCommand("add --all");
         $this->executeGitCommand("commit -m \"$commitMsg\"");
-    }
-
-    public function getWorkingCopyModifications()
-    {
-        return $this->gitExec('status');
     }
 
     public function getCurrentBranch(){
@@ -118,6 +113,5 @@ class Git extends BaseVCS
         }
         return $result;
     }
-
-
 }
+
