@@ -46,6 +46,8 @@ class ReleaseCommand extends BaseCommand {
     // Always executed
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        $this->context->setParam('current-version', $this->context->getService('version-persister')->getCurrentVersion());
+
         $this->context->setService('output', $this->output);
         $this->context->getService('information-collector')->handleCommandInput($input);
 

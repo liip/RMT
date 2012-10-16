@@ -20,7 +20,7 @@ class RDFunctionalTestBase extends \PHPUnit_Framework_TestCase
         $rdDir = realpath(__DIR__.'/../../../../../');
         file_put_contents('RD', <<<EOF
 #!/usr/bin/env php
-<?php define('RD_CONFIG_DIR', __DIR__); ?>
+<?php define('RD_ROOT_DIR', __DIR__); ?>
 <?php require '$rdDir/command.php'; ?>
 EOF
         );

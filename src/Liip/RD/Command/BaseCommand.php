@@ -11,7 +11,6 @@ use Liip\RD\Information\InteractiveQuestion;
 
 abstract class BaseCommand extends Command
 {
-    public static $projectRoot;  // Needed for testing
     protected $context;
     protected $input;
     protected $output;
@@ -41,9 +40,10 @@ abstract class BaseCommand extends Command
     }
 
 
+
     public function loadContext()
     {
-        $configFile = $this->getProjectRootDir().'/rd.json';
+        $configFile = $this->getApplication()->getConfigFilePath();
         if (!is_file($configFile)){
             throw new \Exception("Impossible to locate the config file rd.json at $configFile. If it's the first time you
                 are using this tool, you setup your project using the [RD init] command"
@@ -57,13 +57,7 @@ abstract class BaseCommand extends Command
 
         $configHandler = new Handler();
         $this->context = $configHandler->createContext(json_decode(file_get_contents($configFile), true), $env);
-        $this->context->setParam('project-root', $this->getProjectRootDir());
-        $this->context->setParam('current-version', $this->context->getService('version-persister')->getCurrentVersion());
-
-        // we need to instantiate the version generator so that it registers its user questions
-        // TODO, remove this
-        $this->context->getService('version-generator');
-
+        $this->context->setParam('project-root', $this->getApplication()->getProjectRootDir());
     }
 
     protected function writeBigTitle($title)
@@ -119,17 +113,12 @@ abstract class BaseCommand extends Command
         return $this->ask($question, true);
     }
 
-    public function getProjectRootDir()
+    /**
+     * @return \Liip\RD\Application
+     */
+    public function getApplication()
     {
-        if (self::$projectRoot !== null){
-            return self::$projectRoot;
-        }
-        else if (defined('RD_CONFIG_DIR')){
-            return RD_CONFIG_DIR;
-        }
-        else {
-            return realpath(__DIR__.'/../../../../..');
-        }
+        return \Liip\RD\Application::$instance;
     }
 
 }
