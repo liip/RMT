@@ -1,16 +1,14 @@
 {
-    "all": {
-        "version-generator": "semantic",
-        "version-persister": "changelog",
-        "prerequisites": [
-            "working-copy-check",
-            "display-last-changes"
-        ],
-        "post-release-actions": [
-            "vcs-commit",
-            "vcs-tag",
-            "vcs-publish"
-        ],
-        "vcs": "git"
-    }
+    "version-generator": "semantic",
+    "version-persister": "changelog",
+    "prerequisites": [
+        "working-copy-check",
+        "display-last-changes"
+    ],
+    "post-release-actions": [
+        "vcs-commit",
+        "vcs-tag",
+        "vcs-publish"
+    ],
+    "vcs": "git"
 }

@@ -32,8 +32,7 @@ EOF
             'version-persister'=>$persister,
             'version-generator'=>$generator
         ));
-        $envSpecificConfig['all'] = $allConfig;
-        file_put_contents('rd.json', json_encode($envSpecificConfig));
+        file_put_contents('rd.json', json_encode($allConfig));
     }
 
     protected function tearDown()

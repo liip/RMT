@@ -17,27 +17,41 @@ class EasyHandler extends Handler {
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @expectedException \Liip\RD\Config\Exception
+     * @expectedExceptionMessage Config error: key(s) [toto] are invalid, must be [vcs, prerequisites, pre-release-actions, version-generator, version-persister, post-release-actions, branch-specific]
      */
-    public function testMergeWithoutAnAllSection()
+    public function testValidationWithExtraKeys()
     {
         $configHandler = new Handler();
-        $configHandler->merge(array());
+        $config = $configHandler->merge(array('toto'=>'tata'));
+        $configHandler->validateRootElements($config);
+    }
+
+    /**
+     * @expectedException \Liip\RD\Config\Exception
+     * @expectedExceptionMessage Config error: key(s) [toto] are invalid, must be [vcs, prerequisites, pre-release-actions, version-generator, version-persister, post-release-actions, branch-specific]
+     */
+    public function testValidationWithExtraKeysInBranchSpecific()
+    {
+        $configHandler = new Handler();
+        $config = $configHandler->merge(array('branch-specific'=>array('dev'=>array('toto'=>'tata'))), 'dev');
+        $configHandler->validateRootElements($config);
     }
 
     public function test3LevelsMerge()
     {
         $configHandler = new EasyHandler();
         $mergeConfig = $configHandler->merge(array(
-            'all' => array(
-                'option2' => 'all2',
-                'option3' => 'all3',
-                'option4' => 'all4'
-            ),
-            'dev' => array(
-                'option3' => 'dev3',
-                'option5' => 'dev5'
+            'option2' => 'all2',
+            'option3' => 'all3',
+            'option4' => 'all4',
+            'branch-specific' => array(
+                'dev' => array(
+                    'option3' => 'dev3',
+                    'option5' => 'dev5'
+                )
             )
         ), 'dev');
         $this->assertEquals(array(
@@ -49,27 +63,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         ), $mergeConfig);
     }
 
-    /**
-     * @expectedException \Liip\RD\Config\Exception
-     * @expectedExceptionMessage Config error: key(s) [toto] are invalid, must be [vcs, prerequisites, pre-release-actions, version-generator, version-persister, post-release-actions]
-     */
-    public function testValidationWithExtraKeys(){
-        $configHandler = new Handler();
-        $config = $configHandler->merge(array('all'=>array('toto'=>'tata')));
-        $configHandler->validateRootElements($config);
-    }
 
     /**
      * @expectedException \Liip\RD\Config\Exception
      * @expectedExceptionMessage Config error: [version-generator] should be defined
      */
-    public function testValidationWithMissingElement(){
+    public function testValidationWithMissingElement()
+    {
         $configHandler = new Handler();
-        $config = $configHandler->merge(array('all'=>array()));
+        $config = $configHandler->merge(array());
         $configHandler->validateRootElements($config);
     }
 
-    public function testNormalize(){
+    public function testNormalize()
+    {
         $config = array(
             'vcs' => null,
             'prerequisites' => array(array('class'=>'\\DateTime', 'time'=>'now')),

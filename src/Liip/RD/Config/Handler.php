@@ -18,7 +18,8 @@ class Handler
             "pre-release-actions" => array(),
             "version-generator" => null,
             "version-persister" => null,
-            "post-release-actions" => array()
+            "post-release-actions" => array(),
+            "branch-specific" => array()
         );
     }
 
@@ -47,19 +48,20 @@ class Handler
     }
 
     /**
-     * Merge the 3 config level: default, user config [all] and environment specific
+     * Merge the 3 config level: default, user config and potentially branch specific
      */
     public function merge($rawConfig, $env = null)
     {
-        if (!array_key_exists('all', $rawConfig)) {
-            throw new Exception('the environment "all" should be defined');
+        $defaultConfig = $this->getDefaultConfig();
+        $config = array_merge($defaultConfig, $rawConfig);
+
+        if (isset($config['branch-specific'][$env])){
+            $envSpecific = $config['branch-specific'][$env];
+            unset($config['branch-specific']);
+            $config = array_merge($config, $envSpecific);
         }
 
-        $defaultConfig = $this->getDefaultConfig();
-        $globalConfig = $rawConfig['all'];
-        $envSpecific = isset($rawConfig[$env]) ? $rawConfig[$env] : array();
-
-        return array_merge($defaultConfig, $globalConfig, $envSpecific);
+        return $config;
     }
 
     public function validateRootElements($config)
