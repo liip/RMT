@@ -97,7 +97,7 @@ class InformationCollector
     {
         $missing = false;
         foreach ($this->requests as $request){
-            $missing |= $request->hasValue();
+            $missing |= !$request->hasValue();
         }
         return $missing;
     }

@@ -2,8 +2,6 @@
 
 namespace Liip\RD\Version\Generator;
 
-use Liip\RD\UserQuestion\SimpleQuestion;
-
 /**
  * Generator based on the Semantic Versioning defined by Tom Preston-Werner
  * Description available here: http://semver.org/

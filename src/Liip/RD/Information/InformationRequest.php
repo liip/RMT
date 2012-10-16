@@ -84,20 +84,25 @@ class InformationRequest
 
     public function setValue($value)
     {
-        $value = $this->validate($value);
+        try {
+            $value = $this->validate($value);
+        }
+        catch (\Exception $e){
+            throw new \InvalidArgumentException("Validation error for [".$this->getName()."]: ".$e->getMessage());
+        }
         $this->value = $value;
     }
 
     public function validate($value)
     {
         if ($this->options['type'] == 'boolean' && !is_bool($value)) {
-            throw new \Exception('Value of type bool, must be a boolean');
+            throw new \Exception('Must be a boolean');
         }
         if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
-            throw new \Exception('Invalid choice, must be on of '.json_encode($this->options['choices']));
+            throw new \Exception('Must be on of '.json_encode($this->options['choices']));
         }
         if ($this->options['type'] == 'text' && strlen($value) < 1) {
-            throw new \Exception('Please provide a value');
+            throw new \Exception('Text must be provided');
         }
         return $value;
     }

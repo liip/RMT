@@ -74,7 +74,7 @@ class ReleaseCommand extends BaseCommand {
         }
     }
 
-    // Always executed, but first initialize and execute have already been called
+    // Always executed, but first initialize and interact have already been called
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Generate and save the new version number

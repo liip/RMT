@@ -64,26 +64,26 @@ abstract class BaseCommand extends Command
     {
         $this->writeEmptyLine();
         $formatter = $this->getHelperSet()->get('formatter');
-        $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white', true));
+        $this->getOutput()->writeln($formatter->formatBlock($title, 'bg=blue;fg=white', true));
     }
 
     protected function writeSmallTitle($title)
     {
         $this->writeEmptyLine();
         $formatter = $this->getHelperSet()->get('formatter');
-        $this->context->getService('output')->writeln($formatter->formatBlock($title, 'bg=blue;fg=white'));
+        $this->getOutput()->writeln($formatter->formatBlock($title, 'bg=blue;fg=white'));
         $this->writeEmptyLine();
     }
 
     protected function writeEmptyLine($repeat=1)
     {
-        $this->context->getService('output')->writeln(array_fill(0,$repeat,''));
+        $this->getOutput()->writeln(array_fill(0,$repeat,''));
     }
 
 
     protected function write($text)
     {
-        $this->context->getService('output')->write($text);
+        $this->getOutput()->write($text);
     }
 
     protected function logSection($sectionName, $message) {
@@ -95,13 +95,13 @@ abstract class BaseCommand extends Command
     protected function logInfo($message) {
         $message = is_array($message) ? implode("\n", $message) : $message;
         $msg = $this->getHelper('formatter')->formatBlock("\n".$message, 'info');
-        $this->context->getService('output')->writeln($msg);
+        $this->getOutput()->writeln($msg);
     }
 
     protected function askQuestion(InteractiveQuestion $question) {
         $dialog = $this->getHelperSet()->get('dialog');
         return $dialog->askAndValidate(
-            $this->context->getService('output'),
+            $this->getOutput(),
             $question->getFormatedText(),
             $question->getValidator(),
             false,
