@@ -120,12 +120,12 @@ class Handler
                 $class = $rawConfig['class'];
                 unset($rawConfig['class']);
             }
-            else if (isset($rawConfig['type'])){
-                $class = $this->findInternalClass($rawConfig['type'], $sectionName);
-                unset($rawConfig['type']);
+            else if (isset($rawConfig['name'])){
+                $class = $this->findInternalClass($rawConfig['name'], $sectionName);
+                unset($rawConfig['name']);
             }
             else {
-                throw new Exception("Missing information for [$sectionName], you must provide a [type] or a [class] value");
+                throw new Exception("Missing information for [$sectionName], you must provide a [name] or a [class] value");
             }
             $options = $rawConfig;
         }
