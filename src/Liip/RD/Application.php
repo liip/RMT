@@ -28,13 +28,21 @@ class Application extends BaseApplication
         //     $/home/www> myproject/RD release
         chdir($this->getProjectRootDir());
 
-        // Add the default command
-        $this->add(new InitCommand());
-
-        // Add command that require the config file
-        if (file_exists($this->getConfigFilePath())){
-            $this->add(new ReleaseCommand());
-            $this->add(new CurrentCommand());
+        // Add all command, in a controlled way and render exception if any
+        try {
+            // Add the default command
+            $this->add(new InitCommand());
+            // Add command that require the config file
+            if (file_exists($this->getConfigFilePath())){
+                $this->add(new ReleaseCommand());
+                $this->add(new CurrentCommand());
+            }
+        }
+        catch (\Exception $e) {
+            $output = new \Liip\RD\Output\Output();
+            $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+            $this->renderException($e, $output);
+            exit(1);
         }
     }
 
