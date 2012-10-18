@@ -58,4 +58,21 @@ class Application extends BaseApplication
         return $this->getProjectRootDir().'/rd.json';
     }
 
+    public function getConfig()
+    {
+        $configFile = $this->getConfigFilePath();
+        if (!is_file($configFile)){
+            throw new \Exception("Impossible to locate the config file rd.json at $configFile. If it's the first time you
+                are using this tool, you setup your project using the [RD init] command"
+            );
+        }
+
+        $config = json_decode(file_get_contents($configFile), true);
+        if (!is_array($config)){
+            throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the JSON syntax");
+        }
+
+        return $config;
+    }
+
 }

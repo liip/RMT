@@ -43,12 +43,6 @@ abstract class BaseCommand extends Command
 
     public function loadContext()
     {
-        $configFile = $this->getApplication()->getConfigFilePath();
-        if (!is_file($configFile)){
-            throw new \Exception("Impossible to locate the config file rd.json at $configFile. If it's the first time you
-                are using this tool, you setup your project using the [RD init] command"
-            );
-        }
 
         // TODO How to use envGuesser as vcs can be env specific??
         $env = null;
@@ -56,7 +50,7 @@ abstract class BaseCommand extends Command
         // $env = $envGuesser->getCurrentEnvironment();
 
         $configHandler = new Handler();
-        $this->context = $configHandler->createContext(json_decode(file_get_contents($configFile), true), $env);
+        $this->context = $configHandler->createContext($this->getApplication()->getConfig(), $env);
         $this->context->setParam('project-root', $this->getApplication()->getProjectRootDir());
     }
 
