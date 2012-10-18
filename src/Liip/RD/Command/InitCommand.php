@@ -11,6 +11,19 @@ class InitCommand extends BaseCommand
 {
     protected $informationCollector;
 
+    protected $executablePath;
+    protected $commandPath;
+    protected $configPath;
+
+
+    protected function buildPaths()
+    {
+        $projectDir = $this->getApplication()->getProjectRootDir();
+        $this->executablePath = $projectDir.'/RD';
+        $this->commandPath = realpath(__DIR__.'/../../../../command.php');
+        $this->configPath = $projectDir.'/rd.json';
+    }
+
     protected function configure()
     {
         $this->setName('init');
@@ -55,6 +68,14 @@ class InitCommand extends BaseCommand
         $this->informationCollector->handleCommandInput($input);
         $this->writeBigTitle('Welcome to Release Management Tool Initialization');
         $this->writeEmptyLine();
+
+        // Guessing elements path
+        $this->buildPaths();
+
+        // Security check
+        if (file_exists($this->configPath) && $input->getOption('force')!==true) {
+            throw new \Exception("A rd.json file already exist, if you want to regenerate it, use the --force option");
+        }
     }
 
     protected function interact(InputInterface $input, OutputInterface $output){
@@ -71,29 +92,18 @@ class InitCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Guessing elements path
-        $projectDir = getcwd();
-        $executablePath = $projectDir.'/RD';
-        $commandPath = realpath(__DIR__.'/../../../../command.php');
-        $configPath = $projectDir.'/rd.json';
-
-        // Security check
-        if (file_exists($configPath) && $input->getOption('force')!==true) {
-            throw new \Exception("A rd.json file already exist, if you want to regenerate it, use the --force option");
-        }
-
         // Create the executable task inside the project home
-        $this->getOutput()->writeln("Creation of the new executable <info>$executablePath</info>");
-        file_put_contents($executablePath,
+        $this->getOutput()->writeln("Creation of the new executable <info>{$this->executablePath}</info>");
+        file_put_contents($this->executablePath,
             "#!/usr/bin/env php\n".
             "<?php define('RD_ROOT_DIR', __DIR__); ?>\n".
-            "<?php require '$commandPath'; ?>\n"
+            "<?php require '{$this->commandPath}'; ?>\n"
         );
         exec('chmod +x RD');
 
         // Create the config file
-        $this->getOutput()->writeln("Creation of the config file <info>$configPath</info>");
-        file_put_contents($configPath, json_encode($this->getConfigData()));
+        $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
+        file_put_contents($this->configPath, json_encode($this->getConfigData()));
 
         // Confirmation
         $this->writeBigTitle('Success, you can start using RD by calling <info>RD release</info>');
