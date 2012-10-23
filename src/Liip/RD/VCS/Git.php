@@ -83,14 +83,15 @@ class Git extends BaseVCS
         $this->executeGitCommand("commit -m \"$commitMsg\"");
     }
 
-    public function getCurrentBranch(){
+    public function getCurrentBranch()
+    {
         $branches = $this->executeGitCommand('branch');
         foreach ($branches as $branch){
-            if (strpos($branch, '* ') == 0){
+            if (strpos($branch, '* ') === 0 && $branch !== '* (no branch)'){
                 return substr($branch,2);
             }
         }
-        throw new \Exception("Not currently on any branch");
+        throw new \Liip\RD\Exception("Not currently on any branch");
     }
 
     protected function executeGitCommand($cmd)
@@ -109,7 +110,7 @@ class Git extends BaseVCS
         $cmd = 'git '.$cmd;
         exec($cmd, $result, $exitCode);
         if ($exitCode !== 0){
-            throw new \Exception('Error while executing git command: '.$cmd);
+            throw new \Liip\RD\Exception('Error while executing git command: '.$cmd);
         }
         return $result;
     }

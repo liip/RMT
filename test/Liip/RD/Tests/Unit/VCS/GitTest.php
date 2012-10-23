@@ -65,6 +65,22 @@ class GitTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Git();
         $this->assertEquals('master', $vcs->getCurrentBranch());
+        exec("git co -b foo");
+        $this->assertEquals('foo', $vcs->getCurrentBranch());
+        exec("git co master");
+        $this->assertEquals('master', $vcs->getCurrentBranch());
+    }
+
+    /**
+     * @expectedException \Liip\RD\Exception
+     * @expectedExceptionMessage Not currently on any branch
+     */
+
+    public function testGetCurrentBranchWhenNotInBranch()
+    {
+        $vcs = new Git();
+        exec("git co 9aca70b");
+        $vcs->getCurrentBranch();
     }
 
 
