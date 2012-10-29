@@ -43,15 +43,33 @@ abstract class BaseCommand extends Command
 
     public function loadContext()
     {
+        $configHandler = new Handler($this->getApplication()->getConfig());
+        $config = $configHandler->getBaseConfig();
+        $context = new Context();
 
-        // TODO How to use envGuesser as vcs can be env specific??
-        $env = null;
-        // $envGuesser = new \Liip\RD\EnvironmentGuesser\GitBranchGuesser();
-        // $env = $envGuesser->getCurrentEnvironment();
+        // Select a branch specific config if a VCS is in use
+        if (isset($config['vcs'])) {
+            $context->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
+            $vcs = $context->getService('vcs');
+            $branch = $vcs->getCurrentBranch();
+            $config = $configHandler->getConfigForBranch($branch);
+        }
 
-        $configHandler = new Handler();
-        $this->context = $configHandler->createContext($this->getApplication()->getConfig(), $env);
-        $this->context->setParam('project-root', $this->getApplication()->getProjectRootDir());
+        // Populate the context
+        foreach (array("version-generator", "version-persister") as $service){
+            $context->setService($service, $config[$service]['class'], $config[$service]['options']);
+        }
+        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName){
+            $context->createEmptyList($listName);
+            foreach ($config[$listName] as $service){
+                $context->addToList($listName, $service['class'], $service['options']);
+            }
+        }
+
+        // Provide the root dir as a context parameter
+        $context->setParam('project-root', $this->getApplication()->getProjectRootDir());
+
+        $this->context = $context;
     }
 
     protected function writeBigTitle($title)

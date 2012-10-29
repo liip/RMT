@@ -4,17 +4,6 @@ namespace Liip\RD\Tests\Unit\Config;
 
 use Liip\RD\Config\Handler;
 
-class EasyHandler extends Handler {
-    public function getDefaultConfig()
-    {
-        return array(
-            'option1' => 'def1',
-            'option2' => 'def2',
-            'option3' => 'def3'
-        );
-    }
-}
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -24,9 +13,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithExtraKeys()
     {
-        $configHandler = new Handler();
-        $config = $configHandler->merge(array('toto'=>'tata'));
-        $configHandler->validateRootElements($config);
+        $handler = new Handler(array('toto'=>'tata'));
+        $handler->getBaseConfig();
     }
 
     /**
@@ -35,34 +23,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithExtraKeysInBranchSpecific()
     {
-        $configHandler = new Handler();
-        $config = $configHandler->merge(array('branch-specific'=>array('dev'=>array('toto'=>'tata'))), 'dev');
-        $configHandler->validateRootElements($config);
+        $handler = new Handler(array('branch-specific'=>array('dev'=>array('toto'=>'tata'))));
+        $handler->getConfigForBranch('dev');
     }
-
-    public function test3LevelsMerge()
-    {
-        $configHandler = new EasyHandler();
-        $mergeConfig = $configHandler->merge(array(
-            'option2' => 'all2',
-            'option3' => 'all3',
-            'option4' => 'all4',
-            'branch-specific' => array(
-                'dev' => array(
-                    'option3' => 'dev3',
-                    'option5' => 'dev5'
-                )
-            )
-        ), 'dev');
-        $this->assertEquals(array(
-            'option1' => 'def1',
-            'option2' => 'all2',
-            'option3' => 'dev3',
-            'option4' => 'all4',
-            'option5' => 'dev5'
-        ), $mergeConfig);
-    }
-
 
     /**
      * @expectedException \Liip\RD\Config\Exception
@@ -70,27 +33,45 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithMissingElement()
     {
-        $configHandler = new Handler();
-        $config = $configHandler->merge(array());
-        $configHandler->validateRootElements($config);
+        $configHandler = new Handler(array('version-persister'=>'foo'));
+        $configHandler->getBaseConfig();
     }
 
-    public function testNormalize()
+    public function testMerge()
     {
-        $config = array(
-            'vcs' => null,
-            'prerequisites' => array(array('class'=>'\\DateTime', 'time'=>'now')),
-            'pre-release-actions' => array(),
-            'version-generator' => 'semantic',
-            'version-persister' => '\\DateTime',
-            'post-release-actions' => array()
+        $configHandler = new Handler(array(
+            'version-persister' => 'foo',
+            'version-generator' => 'bar',
+            'branch-specific' => array(
+                'dev' => array(
+                    'version-generator' => 'foobar',
+                )
+            )
+        ));
+        $method = new \ReflectionMethod(
+            'Liip\RD\Config\Handler', 'mergeConfig'
         );
-        $configHandler = new Handler();
-        $config = $configHandler->normalize($config);
-        $this->assertFalse(isset($config['vcs']));
-        $this->assertEquals(array('class'=>'\\DateTime', 'options'=>array('time'=>'now')), $config['prerequisites'][0]);
-        $this->assertEquals(array('class'=>'Liip\RD\Version\Generator\SemanticGenerator', 'options'=>array()), $config['version-generator']);
-        $this->assertEquals(array('class'=>'\\DateTime', 'options'=>array()), $config['version-persister']);
+        $method->setAccessible(TRUE);
+        $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+            'vcs' => null,
+            'prerequisites' => array(),
+            'pre-release-actions' => array(),
+            'version-generator' => array(),
+            'version-persister' => array (),
+            'post-release-actions' => array(),
+            'version-generator' => 'bar',
+            'version-persister' => 'foo',
+        ));
+        $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+            'vcs' => null,
+            'prerequisites' => array(),
+            'pre-release-actions' => array(),
+            'version-generator' => array(),
+            'version-persister' => array (),
+            'post-release-actions' => array(),
+            'version-generator' => 'foobar',
+            'version-persister' => 'foo',
+        ));
     }
 
     /**
@@ -98,13 +79,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetClassAndOptions($configKey, $rawConfig, $expectedClass, $expectedOptions)
     {
+        $configHandler = new Handler(array(
+            'version-persister' => 'foo',
+            'version-generator' => 'bar',
+        ));
         $method = new \ReflectionMethod(
              'Liip\RD\Config\Handler', 'getClassAndOptions'
         );
         $method->setAccessible(TRUE);
         $this->assertEquals(
             array('class'=>$expectedClass, 'options'=>$expectedOptions),
-            $method->invokeArgs(new Handler(), array($rawConfig, $configKey))
+            $method->invokeArgs($configHandler, array($rawConfig, $configKey))
         );
     }
     public function getDataForTestingGetClassAndOptions()

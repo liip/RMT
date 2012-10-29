@@ -6,9 +6,11 @@ use Liip\RD\Context;
 
 class Handler
 {
-    protected $fullConfig;
-    protected $config;
-    protected $env = 'default';
+
+    public function __construct($rawConfig = null)
+    {
+        $this->rawConfig = $rawConfig;
+    }
 
     public function getDefaultConfig()
     {
@@ -23,68 +25,46 @@ class Handler
         );
     }
 
-    public function createContext($config, $env = null)
+    public function getConfigForBranch($branchName)
     {
-        // Parse and normalize config
-        $config = $this->merge($config, $env);
-        $this->validateRootElements($config);
+        return $this->prepareConfigFor($branchName);
+    }
+
+    public function getBaseConfig()
+    {
+        return $this->prepareConfigFor(null);
+    }
+
+    protected function prepareConfigFor($branch)
+    {
+        $config = $this->mergeConfig($branch);
         $config = $this->normalize($config);
 
-        // Create the context and populate it
-        $context = new Context();
-        foreach (array("vcs", "version-generator", "version-persister") as $service){
-            if (isset($config[$service])){
-                $context->setService($service, $config[$service]['class'], $config[$service]['options']);
-            }
-        }
-        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName){
-            $context->createEmptyList($listName);
-            foreach ($config[$listName] as $service){
-                $context->addToList($listName, $service['class'], $service['options']);
-            }
-        }
+        return $config;
 
-        return $context;
     }
 
-    /**
-     * Merge the 3 config level: default, user config and potentially branch specific
-     */
-    public function merge($rawConfig, $env = null)
+    protected function mergeConfig($branchName = null)
     {
         $defaultConfig = $this->getDefaultConfig();
-        $config = array_merge($defaultConfig, $rawConfig);
-
-        if (isset($config['branch-specific'][$env])){
-            $envSpecific = $config['branch-specific'][$env];
-            unset($config['branch-specific']);
+        $config = array_merge($defaultConfig, $this->rawConfig);
+        if (isset($branchName) && isset($config['branch-specific'][$branchName])) {
+            $envSpecific = $config['branch-specific'][$branchName];
             $config = array_merge($config, $envSpecific);
         }
+        unset($config['branch-specific']);
 
         return $config;
-    }
-
-    public function validateRootElements($config)
-    {
-        // Check for extra keys
-        $extraKeys = array_diff(array_keys($config),array_keys($this->getDefaultConfig()));
-        if (count($extraKeys) > 0){
-            throw new Exception('key(s) ['.implode(', ',$extraKeys).'] are invalid, must be ['.implode(', ',array_keys($this->getDefaultConfig())).']');
-        }
-
-        // Check for missing keys
-        foreach(array("version-generator", "version-persister") as $mandatoryParam){
-            if ($config[$mandatoryParam] == null) {
-                throw new Exception("[$mandatoryParam] should be defined");
-            }
-        }
     }
 
     /**
      * Normalize all config entry to be a normalize class entry: array("class"=>XXX, "options"=>YYY)
      */
-    public function normalize($config)
+    protected function normalize($config)
     {
+        // Validate the config entry
+        $this->validateRootElements($config);
+
         // Normalize all class name and options, remove null entry
         foreach (array("vcs", "version-generator", "version-persister") as $configKey){
             if ($config[$configKey] == null){
@@ -102,6 +82,23 @@ class Handler
 
         return $config;
     }
+
+    protected function validateRootElements($config)
+    {
+        // Check for extra keys
+        $extraKeys = array_diff(array_keys($config),array_keys($this->getDefaultConfig()));
+        if (count($extraKeys) > 0){
+            throw new Exception('key(s) ['.implode(', ',$extraKeys).'] are invalid, must be ['.implode(', ',array_keys($this->getDefaultConfig())).']');
+        }
+
+        // Check for missing keys
+        foreach(array("version-generator", "version-persister") as $mandatoryParam){
+            if ($config[$mandatoryParam] == null) {
+                throw new Exception("[$mandatoryParam] should be defined");
+            }
+        }
+    }
+
 
     /**
      * Sub part of the normalize()
@@ -174,5 +171,6 @@ class Handler
 
         return $nameSpace.'\\'.$className;
     }
+
 }
 
