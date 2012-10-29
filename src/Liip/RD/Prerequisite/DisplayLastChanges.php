@@ -7,7 +7,7 @@ class DisplayLastChanges extends BasePrerequisite
 {
     public function getTitle()
     {
-        return "Here is the list of change you are going to released";
+        return "Here is the list of changes you are going to released";
     }
 
     public function execute($context)

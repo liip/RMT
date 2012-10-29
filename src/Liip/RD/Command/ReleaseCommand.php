@@ -14,7 +14,7 @@ class ReleaseCommand extends BaseCommand {
     {
         $this->setName('release');
         $this->setDescription('Release a new version of the project');
-        $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project:');
+        $this->setHelp('The <comment>release</comment> interactive task must be used to create a new version of a project');
 
         $this->loadContext();
         $this->loadInformationCollector();
