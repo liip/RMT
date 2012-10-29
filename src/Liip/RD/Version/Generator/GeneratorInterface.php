@@ -17,5 +17,7 @@ interface GeneratorInterface
     public function getInformationRequests();
 
     public function getValidationRegex();
+
+    public function getInitialVersion();
 }
 

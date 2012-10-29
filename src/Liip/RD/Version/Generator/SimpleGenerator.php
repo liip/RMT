@@ -22,5 +22,10 @@ class SimpleGenerator implements GeneratorInterface
     {
         return '\d+';
     }
+
+    public function getInitialVersion()
+    {
+        return '0';
+    }
 }
 

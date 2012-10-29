@@ -67,5 +67,10 @@ class SemanticGenerator implements GeneratorInterface
         return '\d+\.\d+\.\d+';
     }
 
+    public function getInitialVersion()
+    {
+        return '0.0.0';
+    }
+
 }
 

@@ -18,6 +18,9 @@ class VcsTagPersister implements PersisterInterface
     public function getCurrentVersion()
     {
         $tags = $this->getValidVersionTags($this->versionRegex);
+        if (count($tags)===0){
+            throw new \Liip\RD\Exception\NoReleaseFoundException('No VCS tag matching the regex ['.$this->versionRegex.']');
+        }
         sort($tags);
         return $this->getVersionFromTag(array_pop($tags));
     }

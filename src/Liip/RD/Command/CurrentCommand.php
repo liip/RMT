@@ -17,6 +17,7 @@ class CurrentCommand extends BaseCommand {
         $this->setName('current');
         $this->setDescription('Display information about the current version');
         $this->setHelp('The <comment>current</comment> task can be used to display information on the current release');
+        $this->setAliases(array('version'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -24,12 +25,5 @@ class CurrentCommand extends BaseCommand {
         $this->loadContext();
         $output->writeln('Current release is: '. $this->context->getService('version-persister')->getCurrentVersion());
     }
-
-
-
-
-
-
-
 
 }

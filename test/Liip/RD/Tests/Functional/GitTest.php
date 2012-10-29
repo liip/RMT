@@ -6,6 +6,25 @@ namespace Liip\RD\Tests\Functional;
 class GitTest extends RDFunctionalTestBase
 {
 
+    public function testInitialVersion(){
+        $this->initGit();
+        $this->createJsonConfig('simple', 'vcs-tag', array('vcs'=>'git'));
+        exec('./RD release');
+        exec('git tag', $tags);
+//        $this->manualDebug();
+        $this->assertEquals(array('1'), $tags);
+    }
+
+    public function testInitialVersionSemantic(){
+        $this->initGit();
+        $this->createJsonConfig('semantic', 'vcs-tag', array('vcs'=>'git'));
+        exec('./RD release --type=patch');
+        exec('git tag', $tags);
+//        $this->manualDebug();
+        $this->assertEquals(array('0.0.1'), $tags);
+    }
+
+
     public function testSimple(){
         $this->initGit();
         exec('git tag 1');
