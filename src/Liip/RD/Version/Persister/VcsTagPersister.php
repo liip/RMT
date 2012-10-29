@@ -3,7 +3,6 @@
 namespace Liip\RD\Version\Persister;
 
 use Liip\RD\VCS\VCSInterface;
-use Liip\RD\VCS\TagValidator;
 
 class VcsTagPersister implements PersisterInterface
 {
@@ -18,19 +17,14 @@ class VcsTagPersister implements PersisterInterface
 
     public function getCurrentVersion()
     {
-        $tags = $this->vcs->getValidVersionTags($this->versionRegex);
+        $tags = $this->getValidVersionTags($this->versionRegex);
         sort($tags);
-        return $this->vcs->getVersionFromTag(array_pop($tags));
-    }
-
-    public function getCurrentVersionTag()
-    {
-        return $this->vcs->getTagFromVersion($this->getCurrentVersion());
+        return $this->getVersionFromTag(array_pop($tags));
     }
 
     public function save($versionNumber)
     {
-        $this->vcs->createTag($this->vcs->getTagFromVersion($versionNumber));
+        $this->vcs->createTag($this->getTagFromVersion($versionNumber));
     }
 
     public function init()
@@ -41,4 +35,37 @@ class VcsTagPersister implements PersisterInterface
     {
         return array();
     }
+
+    public function getTagPrefix()
+    {
+        $prefix = isset($this->options['tag-prefix']) ? $this->options['tag-prefix'] : '';
+        return $prefix;
+    }
+
+    public function getTagFromVersion($versionName)
+    {
+        return $this->getTagPrefix().$versionName;
+    }
+
+    public function getVersionFromTag($tagName)
+    {
+        return substr($tagName, strlen($this->getTagPrefix()));
+    }
+
+    public function getCurrentVersionTag()
+    {
+        return $this->getTagFromVersion($this->getCurrentVersion());
+    }
+
+    /**
+     * Return all tags matching the versionRegex and prefix
+     * @param $versionRegex
+     */
+    public function getValidVersionTags($versionRegex)
+    {
+        $validator = new TagValidator($versionRegex, $this->getTagPrefix());
+        return $validator->filtrateList($this->vcs->getTags());
+    }
+
+
 }

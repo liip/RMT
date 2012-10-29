@@ -1,8 +1,8 @@
 <?php
 
-namespace Liip\RD\Tests\VCS;
+namespace Liip\RD\Tests\Version\Persister;
 
-use Liip\RD\VCS\TagValidator;
+use Liip\RD\Version\Persister\TagValidator;
 
 class TagValidatorTest extends \PHPUnit_Framework_TestCase
 {

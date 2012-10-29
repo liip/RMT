@@ -15,9 +15,7 @@ class DisplayLastChanges extends BasePrerequisite
         $context->getService('output')->writeln('');
         $context->getService('output')->writeln(
             $context->getService('vcs')->getAllModificationsSince(
-                $context->getService('vcs')->getTagFromVersion(
-                    $context->getService('version-persister')->getCurrentVersion()
-                )
+                $context->getService('version-persister')->getCurrentVersionTag()
             )
         );
     }

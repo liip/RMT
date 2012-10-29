@@ -1,6 +1,6 @@
 <?php
 
-namespace Liip\RD\VCS;
+namespace Liip\RD\Version\Persister;
 
 class TagValidator
 {
