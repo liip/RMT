@@ -93,9 +93,9 @@ class ReleaseCommand extends BaseCommand {
         $this->getOutput()->indent();
 
         // TODO Can we say than when it's vcs-tag persister we have to force commit first?
-        $this->getOutput()->writeln("A new version named [$newVersion] is going to be released");
+        $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
         $this->context->getService('version-persister')->save($newVersion);
-        $this->getOutput()->writeln("Release: <info>Success</info>");
+        $this->getOutput()->writeln("Release: <green>Success</green>");
 
         $this->getOutput()->unIndent();
 
