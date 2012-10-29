@@ -6,13 +6,17 @@ use Liip\RD\VCS\VCSInterface;
 
 class VcsTagPersister implements PersisterInterface
 {
+    protected $context;
+    protected $versionRegex;
     protected $vcs;
+    protected $prefix;
 
     public function __construct($context, $options = array())
     {
         $this->vcs = $context->getService('vcs');
         $this->versionRegex = $context->getService('version-generator')->getValidationRegex();
-        $this->options = $options;
+        $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
+        $this->context = $context;
     }
 
     public function getCurrentVersion()
@@ -27,7 +31,9 @@ class VcsTagPersister implements PersisterInterface
 
     public function save($versionNumber)
     {
-        $this->vcs->createTag($this->getTagFromVersion($versionNumber));
+        $tagName = $this->getTagFromVersion($versionNumber);
+        $this->context->getService('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
+        $this->vcs->createTag($tagName);
     }
 
     public function init()
@@ -41,8 +47,7 @@ class VcsTagPersister implements PersisterInterface
 
     public function getTagPrefix()
     {
-        $prefix = isset($this->options['tag-prefix']) ? $this->options['tag-prefix'] : '';
-        return $prefix;
+        return $this->prefix;
     }
 
     public function getTagFromVersion($versionName)
@@ -68,6 +73,23 @@ class VcsTagPersister implements PersisterInterface
     {
         $validator = new TagValidator($versionRegex, $this->getTagPrefix());
         return $validator->filtrateList($this->vcs->getTags());
+    }
+
+    protected function generatePrefix($userTag){
+        preg_match_all('/\{([^\}]*)\}/', $userTag, $placeHolders);
+        foreach ($placeHolders[1] as $pos => $placeHolder){
+            if ($placeHolder == 'branch-name'){
+                $replacement = $this->vcs->getCurrentBranch();
+            }
+            else if ($placeHolder == 'date'){
+                $replacement = date('Y-m-d');
+            }
+            else {
+                throw new \Liip\RD\Exception("There is no rules to process the prefix placeholder [$placeHolder]");
+            }
+            $userTag = str_replace($placeHolders[0][$pos], $replacement, $userTag);
+        }
+        return $userTag;
     }
 
 

@@ -59,6 +59,15 @@ class GitTest extends RDFunctionalTestBase
         $this->assertEquals(array('2','v_1', 'v_2'), $tags);
     }
 
+    public function testTagPrefixWithBranchNamePlaceHolder(){
+        $this->initGit();
+        $this->createJsonConfig('simple', array('name'=>'vcs-tag', 'tag-prefix'=>'_{branch-name}_'), array('vcs'=>'git'));
+        exec('./RD release');
+        exec('git tag', $tags);
+//        $this->manualDebug();
+        $this->assertEquals(array('_master_1'), $tags);
+    }
+
     protected function initGit()
     {
         exec('git init');
