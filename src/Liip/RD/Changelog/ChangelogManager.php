@@ -2,14 +2,13 @@
 
 namespace Liip\RD\Changelog;
 
-
 class ChangelogManager {
     
     protected $filePath;
 
     public function __construct($filePath){
         if (!file_exists($filePath)){
-            throw new \Exception("Invalid changelog location: $filePath");
+            throw new \Liip\RD\Exception("Invalid changelog location: $filePath");
         }
         $this->filePath = $filePath;
     }
@@ -19,7 +18,7 @@ class ChangelogManager {
         preg_match('#\s+\d+/\d+/\d+\s\d+:\d+\s\s([^\s]+)#', $changelog, $match);
         $version = $match[1];
         if ( ! preg_match('#^\d+\.\d+$#', $version) ){
-            throw new Exception('Invalid format of the CHANGELOG file');
+            throw new \Liip\RD\Exception('Invalid format of the CHANGELOG file');
         }
         return $version;
     }
@@ -30,7 +29,7 @@ class ChangelogManager {
         return $major ? implode('.', array(++$maj,0)) : implode('.', array($maj,++$min));
     }
 
-    public function update($version, $comment, $major){
+    public function update($version, $comment, $type = 'patch'){
         $changelog = file($this->filePath, FILE_IGNORE_NEW_LINES);
         $date = date('d/m/Y H:i');
         if ($major){
