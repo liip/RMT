@@ -43,7 +43,7 @@ abstract class BaseCommand extends Command
 
     public function loadContext()
     {
-        $configHandler = new Handler($this->getApplication()->getConfig());
+        $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir() );
         $config = $configHandler->getBaseConfig();
         $context = new Context();
 
