@@ -132,11 +132,16 @@ class Handler
     protected function findClass($name, $sectionName)
     {
         $file = $this->projectRoot.DIRECTORY_SEPARATOR.$name;
-        if (file_exists($file) && strpos($file, '.php') > 0){
-            require_once $file;
-            $parts = explode(DIRECTORY_SEPARATOR, $file);
-            $lastPart = array_pop($parts);
-            return str_replace('.php', '', $lastPart);
+        if (strpos($file, '.php') > 0){
+            if (file_exists($file)) {
+                require_once $file;
+                $parts = explode(DIRECTORY_SEPARATOR, $file);
+                $lastPart = array_pop($parts);
+                return str_replace('.php', '', $lastPart);
+            }
+            else {
+                throw new \Liip\RD\Exception("Impossible to open [$file] please review your config");
+            }
         }
         return $this->findInternalClass($name, $sectionName);
     }
