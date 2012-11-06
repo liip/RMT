@@ -95,7 +95,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function getDataForTestingGetClassAndOptions()
     {
         return array(
-            array('vcs', '\DateTime', '\DateTime', array()),
             array('vcs', 'git', 'Liip\RD\VCS\Git', array()),
             array('version-persister', 'vcs-tag', 'Liip\RD\Version\Persister\VcsTagPersister', array()),
             array('vcs', array('name'=>'git'), 'Liip\RD\VCS\Git', array()),

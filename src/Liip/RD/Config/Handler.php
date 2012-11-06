@@ -7,9 +7,10 @@ use Liip\RD\Context;
 class Handler
 {
 
-    public function __construct($rawConfig = null)
+    public function __construct($rawConfig = null, $projectRoot = null)
     {
         $this->rawConfig = $rawConfig;
+        $this->projectRoot = $projectRoot;
     }
 
     public function getDefaultConfig()
@@ -99,40 +100,51 @@ class Handler
         }
     }
 
-
     /**
      * Sub part of the normalize()
      */
     protected function getClassAndOptions($rawConfig, $sectionName)
     {
         if ( is_string($rawConfig)){
-            $class = $rawConfig;
-            if (!class_exists($class)){
-                $class = $this->findInternalClass($class, $sectionName);
-            }
+            $class = $this->findClass($rawConfig, $sectionName);
             $options = array();
         }
         else if ( is_array($rawConfig)){
-            if (isset($rawConfig['class'])){
-                $class = $rawConfig['class'];
-                unset($rawConfig['class']);
-            }
-            else if (isset($rawConfig['name'])){
-                $class = $this->findInternalClass($rawConfig['name'], $sectionName);
+            if (isset($rawConfig['name'])){
+                $class = $this->findClass($rawConfig['name'], $sectionName);
                 unset($rawConfig['name']);
             }
             else {
-                throw new Exception("Missing information for [$sectionName], you must provide a [name] or a [class] value");
+                throw new Exception("Missing information for [$sectionName], you must provide a [name] value");
             }
             $options = $rawConfig;
         }
         else {
-            throw new Exception("Invalid configuration for [$sectionName] should be a class name or an array with class and options");
+            throw new Exception("Invalid configuration for [$sectionName] should be a object name or an array with name and options");
         }
 
         return array("class"=>$class, "options"=>$options);
     }
 
+    /**
+     * Sub part of the normalize()
+     */
+    protected function findClass($name, $sectionName)
+    {
+        $file = $this->projectRoot.DIRECTORY_SEPARATOR.$name;
+        if (strpos($file, '.php') > 0){
+            if (file_exists($file)) {
+                require_once $file;
+                $parts = explode(DIRECTORY_SEPARATOR, $file);
+                $lastPart = array_pop($parts);
+                return str_replace('.php', '', $lastPart);
+            }
+            else {
+                throw new \Liip\RD\Exception("Impossible to open [$file] please review your config");
+            }
+        }
+        return $this->findInternalClass($name, $sectionName);
+    }
 
     /**
      * Sub part of the normalize()

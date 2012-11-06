@@ -23,7 +23,7 @@ class WorkingCopyCheck extends BasePrerequisite {
     public function execute($context)
     {
         if ($context->getService('information-collector')->getValueFor($this->ignoreCheckOptionName)){
-            $context->getService('output')->writeln('<error>requested to be ignore</error>');
+            $context->getService('output')->writeln('<error>requested to be ignored</error>');
             return;
         }
 
