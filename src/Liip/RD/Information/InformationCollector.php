@@ -129,11 +129,14 @@ class InformationCollector
         return $this->getRequest($requestName)->setValue($value);
     }
 
-    public function getValueFor($requestName){
+    public function getValueFor($requestName, $default = null){
         if ($this->hasRequest($requestName)){
             return $this->getRequest($requestName)->getValue();
         }
         else {
+            if (func_num_args() == 2){
+                return $default;
+            }
             throw new \Exception("No request named $requestName");
         }
     }
