@@ -9,7 +9,7 @@ class GitTest extends RDFunctionalTestBase
     public function testInitialVersion(){
         $this->initGit();
         $this->createJsonConfig('simple', 'vcs-tag', array('vcs'=>'git'));
-        exec('./RD release');
+        exec('./RD release --confirm-first');
         exec('git tag', $tags);
 //        $this->manualDebug();
         $this->assertEquals(array('1'), $tags);
@@ -18,7 +18,7 @@ class GitTest extends RDFunctionalTestBase
     public function testInitialVersionSemantic(){
         $this->initGit();
         $this->createJsonConfig('semantic', 'vcs-tag', array('vcs'=>'git'));
-        exec('./RD release --type=patch');
+        exec('./RD release --type=patch --confirm-first');
         exec('git tag', $tags);
 //        $this->manualDebug();
         $this->assertEquals(array('0.0.1'), $tags);
@@ -62,7 +62,7 @@ class GitTest extends RDFunctionalTestBase
     public function testTagPrefixWithBranchNamePlaceHolder(){
         $this->initGit();
         $this->createJsonConfig('simple', array('name'=>'vcs-tag', 'tag-prefix'=>'_{branch-name}_'), array('vcs'=>'git'));
-        exec('./RD release');
+        exec('./RD release --confirm-first');
         exec('git tag', $tags);
 //        $this->manualDebug();
         $this->assertEquals(array('_master_1'), $tags);

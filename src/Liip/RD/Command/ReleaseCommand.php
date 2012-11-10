@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RD\Changelog\ChangelogManager;
 use Liip\RD\Information\InformationCollector;
+use Liip\RD\Information\InteractiveQuestion;
+use Liip\RD\Information\InformationRequest;
 
 class ReleaseCommand extends BaseCommand {
 
@@ -29,6 +31,19 @@ class ReleaseCommand extends BaseCommand {
     {
         $ic = new InformationCollector();
 
+        // Add a specific option if it's the first release
+        try {
+            $this->context->getService('version-persister')->getCurrentVersion();
+        }
+        catch (\Liip\RD\Exception\NoReleaseFoundException $e){
+            $ic->registerRequest(
+                new InformationRequest('confirm-first', array(
+                    'description' => 'Confirm that this is the first release for the current branch',
+                    'type' => 'boolean',
+                ))
+            );
+        }
+
         // Register options of the release tasks
         $ic->registerRequests($this->context->getService('version-generator')->getInformationRequests());
         $ic->registerRequests($this->context->getService('version-persister')->getInformationRequests());
@@ -46,14 +61,6 @@ class ReleaseCommand extends BaseCommand {
     // Always executed
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $currentVersion = $this->context->getService('version-persister')->getCurrentVersion();
-        }
-        catch (\Liip\RD\Exception\NoReleaseFoundException $e){
-            $currentVersion = $this->context->getService('version-generator')->getInitialVersion();
-        }
-        $this->context->setParam('current-version', $currentVersion);
-
         $this->context->setService('output', $this->output);
         $this->context->getService('information-collector')->handleCommandInput($input);
 
@@ -65,7 +72,8 @@ class ReleaseCommand extends BaseCommand {
 
 
     // Executed only when we are in interactive mode
-    protected function interact(InputInterface $input, OutputInterface $output){
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
 
         // Fill up questions
         if ($this->context->getService('information-collector')->hasMissingInformation()){
@@ -83,6 +91,18 @@ class ReleaseCommand extends BaseCommand {
     // Always executed, but first initialize and interact have already been called
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Get the current version or generate a new one if the user has confirm that this is required
+        try {
+            $currentVersion = $this->context->getService('version-persister')->getCurrentVersion();
+        }
+        catch (\Liip\RD\Exception\NoReleaseFoundException $e){
+            if ($this->context->getService('information-collector')->getValueFor('confirm-first')==false){
+                throw $e;
+            }
+            $currentVersion = $this->context->getService('version-generator')->getInitialVersion();
+        }
+        $this->context->setParam('current-version', $currentVersion);
+
         // Generate and save the new version number
         $newVersion = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
         $this->context->setParam('new-version', $newVersion);

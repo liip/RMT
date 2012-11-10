@@ -22,8 +22,9 @@ class InformationCollector
     protected $requests = array();
     protected $values = array();
 
-    public function registerRequest($name, $request)
+    public function registerRequest($request)
     {
+        $name = $request->getName();
         if (in_array($name, static::$standardRequests)){
             throw new \Exception("Request [$name] is reserved as a standard request name, choose an other name please");
         }
@@ -42,7 +43,7 @@ class InformationCollector
                 $this->registerStandardRequest($request);
             }
             else if ($request instanceof InformationRequest){
-                $this->registerRequest($request->getName(), $request);
+                $this->registerRequest($request);
             }
             else {
                 throw new \Exception("Invalid request, must a Request class or a string for standard requests");
