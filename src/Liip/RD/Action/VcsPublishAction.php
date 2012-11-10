@@ -20,11 +20,9 @@ class VcsPublishAction extends BaseAction
     public function getInformationRequests()
     {
         return array(
-            new InformationRequest('auto-publish', array(
+            new InformationRequest('confirm-publish', array(
                 'description' => 'Automatically publish the change',
-                'type' => 'boolean',
-                'interactive' => true,
-                'default' => false
+                'type' => 'confirmation'
             ))
         );
     }

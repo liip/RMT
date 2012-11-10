@@ -13,7 +13,15 @@ class InteractiveQuestion
 
     public function getFormatedText()
     {
-        $text = 'Please provide '.strtolower($this->informationRequest->getOption('description'));
+        if ($this->informationRequest->getOption('type') == 'confirmation') {
+            $text = 'Please confirm that ';
+        }
+        else {
+            $text = 'Please provide ';
+        }
+
+        $text .= strtolower($this->informationRequest->getOption('description'));
+
         if ($this->informationRequest->getOption('type') == 'choice') {
             $text .= "\n". $this->formatChoices(
                 $this->informationRequest->getOption('choices'),
@@ -43,11 +51,23 @@ class InteractiveQuestion
         return $text."\nYour choice";
     }
 
-    public function getDefault()
+    public function hasDefault()
     {
-        return $this->informationRequest->getOption('default');
+        return $this->informationRequest->getOption('default') !== null;
     }
 
+    public function getDefault()
+    {
+        $default = $this->informationRequest->getOption('default');
+        if (count($shortcuts = $this->informationRequest->getOption('choices_shortcuts')) > 0) {
+            foreach ($shortcuts as $shortcut => $value) {
+                if ($default == $value){
+                    return $shortcut;
+                }
+            }
+        }
+        return $default;
+    }
 
     public function getValidator()
     {

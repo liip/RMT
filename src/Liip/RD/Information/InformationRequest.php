@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class InformationRequest
 {
-    static $validTypes = array('text', 'boolean', 'yes-no', 'choice');
+    static $validTypes = array('text', 'yes-no', 'choice', 'confirmation');
     static $defaults = array(
         'description' => '',
         'type' => 'text',
@@ -23,6 +23,7 @@ class InformationRequest
     protected $name;
     protected $options;
     protected $value;
+    protected $hasValue = false;
 
     public function __construct($name, $options = array())
     {
@@ -32,6 +33,11 @@ class InformationRequest
         $invalidOptions = array_diff(array_keys($options),array_keys(self::$defaults));
         if (count($invalidOptions) > 0){
             throw new \Exception('Invalid config option(s) ['.implode(', ',$invalidOptions).']');
+        }
+
+        // Set a default false for confirmation
+        if (isset($options['type']) && $options['type'] == 'confirmation'){
+            $options['default'] = false;
         }
 
         // Merging with defaults
@@ -62,15 +68,13 @@ class InformationRequest
         return $this->options['interactive'];
     }
 
-
-
     public function convertToCommandOption() {
         return new InputOption(
             $this->name,
             $this->options['command_shortcut'],
-            $this->options['type']=='boolean' || $this->options['type']=='yes-no' ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
+            $this->options['type']=='boolean' || $this->options['type']=='confirmation' ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
             $this->options['description'],
-            $this->options['type']!=='boolean' ? $this->options['default'] : null
+            $this->options['type']!=='confirmation' ? $this->options['default'] : null
         );
     }
 
@@ -91,30 +95,48 @@ class InformationRequest
             throw new \InvalidArgumentException("Validation error for [".$this->getName()."]: ".$e->getMessage());
         }
         $this->value = $value;
+        $this->hasValue = true;
     }
 
     public function validate($value)
     {
         if ($this->options['type'] == 'boolean' && !is_bool($value)) {
-            throw new \Exception('Must be a boolean');
+            throw new \InvalidArgumentException('Must be a boolean');
         }
         if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
-            throw new \Exception('Must be on of '.json_encode($this->options['choices']));
+            throw new \InvalidArgumentException('Must be on of '.json_encode($this->options['choices']));
         }
-        if ($this->options['type'] == 'text' && strlen($value) < 1) {
-            throw new \Exception('Text must be provided');
+        if ($this->options['type'] == 'text') {
+            if (!is_string($value) || strlen($value) < 1) {
+                throw new \InvalidArgumentException('Text must be provided');
+            }
+        }
+        if ($this->options['type'] == 'yes-no') {
+            if ($value === 'yes'){
+                $value = 'y';
+            }
+            if ($value === 'no'){
+                $value = 'n';
+            }
+            if ($value !== 'y' && $value !== 'n' ){
+                throw new \InvalidArgumentException('Value should be [y] or [n]');
+            }
         }
         return $value;
     }
 
     public function getValue()
     {
-        return $this->value;
+        if ( !$this->hasValue() && $this->options['default'] === null ){
+            throw new \Liip\RD\Exception("No value available");
+        }
+
+        return $this->hasValue() ? $this->value : $this->options['default'];
     }
 
     public function hasValue()
     {
-        return $this->value !== null;
+        return $this->hasValue;
     }
 
 

@@ -8,7 +8,8 @@ class InformationCollector
 {
     static $standardRequests = array(
         'comment' => array(
-            'description' => 'Comment associated with the release'
+            'description' => 'Comment associated with the release',
+            'type' => 'text'
         ),
         'type' => array(
             'description' => 'Release type, can be major, minor or patch',
@@ -96,11 +97,12 @@ class InformationCollector
 
     public function hasMissingInformation()
     {
-        $missing = false;
         foreach ($this->requests as $request){
-            $missing |= !$request->hasValue();
+            if (!$request->hasValue()) {
+                return true;
+            }
         }
-        return $missing;
+        return false;
     }
 
     public function getInteractiveQuestions()

@@ -38,8 +38,8 @@ class ReleaseCommand extends BaseCommand {
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
             $ic->registerRequest(
                 new InformationRequest('confirm-first', array(
-                    'description' => 'Confirm that this is the first release for the current branch',
-                    'type' => 'boolean',
+                    'description' => 'This is the first release for the current branch',
+                    'type' => 'confirmation',
                 ))
             );
         }

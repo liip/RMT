@@ -39,9 +39,8 @@ class WorkingCopyCheck extends BasePrerequisite {
         return array(
             new InformationRequest($this->ignoreCheckOptionName, array(
                 'description' => 'Do not process the check for clean working copy',
-                'type' => 'boolean',
-                'interactive' => false,
-                'default' => false
+                'type' => 'confirmation',
+                'interactive' => false
             ))
         );
     }
