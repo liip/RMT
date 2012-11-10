@@ -18,12 +18,19 @@ class CurrentCommand extends BaseCommand {
         $this->setDescription('Display information about the current version');
         $this->setHelp('The <comment>current</comment> task can be used to display information on the current release');
         $this->setAliases(array('version'));
+        $this->addOption('raw', null, InputOption::VALUE_NONE, 'display only the version name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->loadContext();
-        $output->writeln('Current release is: '. $this->context->getService('version-persister')->getCurrentVersion());
+        $version = $this->context->getService('version-persister')->getCurrentVersion();
+        if ($input->getOption('raw')==true) {
+            $output->writeln($version);
+        }
+        else {
+            $output->writeln("Current release is: <green>$version</green>");
+        }
     }
 
 }
