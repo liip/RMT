@@ -55,6 +55,9 @@ abstract class BaseCommand extends Command
             $config = $configHandler->getConfigForBranch($branch);
         }
 
+        // Store the config for latter usage
+        $context->setParam('config', $config);
+
         // Populate the context
         foreach (array("version-generator", "version-persister") as $service){
             $context->setService($service, $config[$service]['class'], $config[$service]['options']);
