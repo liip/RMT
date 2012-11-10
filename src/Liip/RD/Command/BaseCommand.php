@@ -39,8 +39,6 @@ abstract class BaseCommand extends Command
         return $this->output;
     }
 
-
-
     public function loadContext()
     {
         $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir() );
@@ -122,10 +120,6 @@ abstract class BaseCommand extends Command
             false,
             $question->getDefault()
         );
-    }
-
-    protected function askConfirmation($question) {
-        return $this->ask($question, true);
     }
 
     /**
