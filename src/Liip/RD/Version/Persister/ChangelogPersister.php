@@ -3,44 +3,45 @@
 namespace Liip\RD\Version\Persister;
 
 use Liip\RD\Version\Persister\PersisterInterface;
-use Liip\RD\UserQuestion\SimpleQuestion;
 use Liip\RD\Context;
+use Liip\RD\Changelog\ChangelogManager;
 
 class ChangelogPersister implements PersisterInterface
 {
-    protected $filePath;
     protected $context;
+    protected $changelogManager;
 
     public function __construct($context, $options = array())
     {
+        $this->context = $context;
+
+        // Define a default changelog name
         if (!array_key_exists('location', $options)) {
             $options['location'] = 'CHANGELOG';
         }
-        $this->filePath = $context->getParam('project-root').'/' . $options['location'];
-        if (!file_exists($this->filePath)){
-            throw new \Exception("Invalid changelog location: $this->filePath, if it's the first time you use RD use the --init parameter to create it");
-        }
-        $this->context = $context;
+
+        // The changelog format is related to the version-generator
+        $config = $this->context->getParam('config');
+        preg_match('/([^\\\]+)Generator/', $config['version-generator']['class'], $match);
+        $format = $match[1];
+
+        // Create the changlelog manager
+        $this->changelogManager = new ChangelogManager(
+            $context->getParam('project-root').'/' . $options['location'],
+            $format
+        );
     }
 
     public function getCurrentVersion()
     {
-        $changelog = file_get_contents($this->filePath);
-        preg_match('#\s+\d+/\d+/\d+\s\d+:\d+\s\s([^\s]+)#', $changelog, $match);
-        if (isset($match[1])){
-            return $match[1];
-        }
-        throw new \Liip\RD\Exception("There is a format error in the CHANGELOG file");
+        return $this->changelogManager->getCurrentVersion();
     }
 
     public function save($versionNumber)
     {
-        $changelog = file($this->filePath, FILE_IGNORE_NEW_LINES);
-        $date = date('d/m/Y H:i');
         $comment = $this->context->getService('information-collector')->getValueFor('comment');
-
-        array_splice($changelog, 2, 0, array("    $date  $versionNumber  $comment"));
-        file_put_contents($this->filePath, implode("\n", $changelog));
+        $type = $this->context->getService('information-collector')->getValueFor('type', null);
+        $this->changelogManager->update($versionNumber, $comment, array('type'=>$type));
     }
 
     public function getInformationRequests()

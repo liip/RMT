@@ -4,19 +4,23 @@ namespace Liip\RD\Changelog\Formatter;
 
 class SemanticChangelogFormatter
 {
-    public function updateExistingLines($lines, $type, $version, $comment)
+    public function updateExistingLines($lines, $version, $comment, $options)
     {
+        if (!isset($options['type'])){
+            throw new \InvalidArgumentException("Option [type] in mandatory");
+        }
+        $type = $options['type'];
         if (!in_array($type, array('patch', 'minor', 'major'))) {
-            throw new \InvalidArgumentException("Invalid type");
+            throw new \InvalidArgumentException("Invalid type [$type]");
         }
         if ($type==='major') {
             array_splice($lines, 0, 0, $this->getNewMajorLines($version, $comment));
         }
         else if ($type==='minor') {
-            array_splice($lines, 0, 4, $this->getNewMinorLines($version, $comment));
+            array_splice($lines, 3, 0, $this->getNewMinorLines($version, $comment));
         }
         else {
-            array_splice($lines, 0, 5, $this->getNewPatchLines($version, $comment));
+            array_splice($lines, 5, 0, $this->getNewPatchLines($version, $comment));
         }
         return $lines;
     }
@@ -27,6 +31,7 @@ class SemanticChangelogFormatter
         $title = "version $major  $comment";
         return array_merge(
             array(
+                '',
                 strtoupper($title),
                 str_pad('', strlen($title), '=')
             ),
@@ -52,8 +57,13 @@ class SemanticChangelogFormatter
         );
     }
 
-    public function getFormattedDate()
+    protected function getFormattedDate()
     {
         return date('d/m/Y H:i');
+    }
+
+    public function getLastVersionRegex()
+    {
+        return '#\s+\d+/\d+/\d+\s\d+:\d+\s+([^\s]+)#';
     }
 }

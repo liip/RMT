@@ -18,23 +18,7 @@ class ChangelogManagerTest extends \PHPUnit_Framework_TestCase
     public function testExceptionWhenNoFileFound()
     {
         unlink($this->file);
-        new ChangelogManager($this->file);
-    }
-
-    public function testPatchVersion()
-    {
-        $manager = new ChangelogManager($this->file);
-        $manager->update()
-    }
-
-    public function testMinorVersion()
-    {
-        $manager = new ChangelogManager($this->file);
-    }
-
-    public function testMajorVersion()
-    {
-        $manager = new ChangelogManager($this->file);
+        new ChangelogManager($this->file, 'semantic');
     }
 
     protected function tearDown()
