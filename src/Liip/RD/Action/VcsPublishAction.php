@@ -21,8 +21,9 @@ class VcsPublishAction extends BaseAction
     {
         return array(
             new InformationRequest('confirm-publish', array(
-                'description' => 'Automatically publish the change',
-                'type' => 'confirmation'
+                'description' => 'Changes will be published automatically',
+                'type' => 'confirmation',
+                'default' => true
             ))
         );
     }

@@ -16,7 +16,10 @@ class InteractiveQuestion
         if ($this->informationRequest->getOption('type') == 'confirmation') {
             $text = 'Please confirm that ';
         }
-        else {
+        else if ($this->informationRequest->getOption('type') == 'yes-no') {
+            $text = 'Type [<green>yes</green>] ';
+        }
+        else{
             $text = 'Please provide ';
         }
 
@@ -30,8 +33,8 @@ class InteractiveQuestion
         }
 
         // print the default if exist
-        if ($this->informationRequest->getOption('default') !== null){
-            $text .= ' (default: <info>'.$this->informationRequest->getOption('default').'</info>)';
+        if ($this->hasDefault()){
+            $text .= ' (default: <info>'.$this->getDefault().'</info>)';
         }
 
         return $text.": ";

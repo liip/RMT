@@ -16,7 +16,7 @@ class InformationCollector
             'type' => 'choice',
             'choices' => array('major', 'minor', 'patch'),
             'choices_shortcuts' => array('m'=>'major', 'i'=>'minor', 'p'=>'patch'),
-            'default' => 'p'
+            'default' => 'patch'
         )
     );
 
