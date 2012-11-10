@@ -19,7 +19,7 @@ class PrerequisitesTest extends RDFunctionalTestBase
         exec('git mv fileFoo fileBar');
         exec('git commit -m "Rename foo to bar"');
 
-        exec('./RD release', $consoleOutput, $exitCode);
+        exec('./RD release -n', $consoleOutput, $exitCode);
         $consoleOutput = implode("\n", $consoleOutput);
         $this->assertNotContains("First commit", $consoleOutput);
         $this->assertContains("Add a simple file", $consoleOutput);
@@ -37,19 +37,19 @@ class PrerequisitesTest extends RDFunctionalTestBase
 
         // Release blocked by the check
         exec('touch toto');
-        exec('./RD release', $consoleOutput, $exitCode);
+        exec('./RD release -n', $consoleOutput, $exitCode);
         $this->assertEquals(1, $exitCode);
         $this->assertContains("local modification", implode("\n", $consoleOutput));
 
         // Release working, check is ignore
-        exec('./RD release --ignore-check', $consoleOutput, $exitCode);
+        exec('./RD release -n --ignore-check', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode);
         exec('git tag', $tags);
         $this->assertEquals(array('1','2'), $tags);
 
         // Normal case, check is passing
         exec('rm toto');
-        exec('./RD release', $consoleOutput, $exitCode);
+        exec('./RD release -n', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode);
         exec('git tag', $tags2);
         $this->assertEquals(array('1','2','3'), $tags2);

@@ -48,9 +48,9 @@ class ChangelogTest extends RDFunctionalTestBase
     {
 //        $this->manualDebug();
         if (is_null($semanticType)) {
-            exec('./RD release --comment="'.$comment.'"');
+            exec('./RD release -n --comment="'.$comment.'"');
         } else {
-            exec('./RD release --type='.$semanticType.' --comment="'.$comment.'"');
+            exec('./RD release -n --type='.$semanticType.' --comment="'.$comment.'"');
         }
         $changelog = file_get_contents($this->tempDir.'/CHANGELOG');
         $this->assertRegExp('/'.$expectedVersion.'/',$changelog);
