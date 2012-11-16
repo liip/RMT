@@ -8,12 +8,18 @@ class VcsPublishAction extends BaseAction
 {
     public function execute($context)
     {
+        if ($context->getService('information-collector')->getValueFor('confirm-publish') !== 'y'){
+            $context->getService('output')->writeln('<error>requested to be ignored</error>');
+            return;
+        }
+
+        $context->getService('vcs')->publishChanges();
         $context->getService('vcs')->publishTag(
             $context->getService('version-persister')->getTagFromVersion(
                 $context->getParam('new-version')
             )
         );
-        $context->getService('vcs')->publishChanges();
+
         $this->confirmSuccess($context);
     }
 
@@ -22,8 +28,8 @@ class VcsPublishAction extends BaseAction
         return array(
             new InformationRequest('confirm-publish', array(
                 'description' => 'Changes will be published automatically',
-                'type' => 'confirmation',
-                'default' => true
+                'type' => 'yes-no',
+                'default' => 'yes'
             ))
         );
     }
