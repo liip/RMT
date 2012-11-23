@@ -27,7 +27,7 @@ EOF
         exec('chmod +x RD');
     }
 
-    protected function createJsonConfig($generator, $persister, $otherConfig=array(), $envSpecificConfig=array()) {
+    protected function createJsonConfig($generator, $persister, $otherConfig=array()) {
         $allConfig = array_merge($otherConfig, array(
             'version-persister'=>$persister,
             'version-generator'=>$generator
