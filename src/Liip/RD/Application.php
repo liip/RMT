@@ -2,6 +2,8 @@
 
 namespace Liip\RD;
 
+define('RMT_VERSION', '0.9.0');
+
 use Liip\RD\Command\ReleaseCommand;
 use Liip\RD\Command\CurrentCommand;
 use Liip\RD\Command\InitCommand;
@@ -20,7 +22,7 @@ class Application extends BaseApplication
     public function __construct(){
 
         // Creation
-        parent::__construct('Release Management Tool', '1.0');
+        parent::__construct('Release Management Tool', RMT_VERSION);
         self::$instance = $this;
 
         // Change the current directory in favor of the project root folder,
