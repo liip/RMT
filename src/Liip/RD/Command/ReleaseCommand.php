@@ -39,7 +39,7 @@ class ReleaseCommand extends BaseCommand {
             $ic->registerRequest(
                 new InformationRequest('confirm-first', array(
                     'description' => 'This is the first release for the current branch',
-                    'type' => 'confirmation',
+                    'type' => 'confirmation'
                 ))
             );
         }

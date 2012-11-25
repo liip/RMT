@@ -1,0 +1,16 @@
+{
+  "vcs":"git",
+  "prerequisites": ["working-copy-check"],
+  "pre-release-actions": [
+    "bin/UpdateApplicationVersionCurrentVersion.php",
+    {
+      "name": "changelog-update",
+      "format": "semantic",
+      "dump-commits": true
+    },
+    "vcs-commit"
+   ],
+  "version-generator":"semantic",
+  "version-persister":"vcs-tag",
+  "post-release-actions": ["vcs-publish"]
+}
