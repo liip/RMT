@@ -1,148 +1,187 @@
 RMT - Release Management Tool
 =============================
 
-[![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](http://travis-ci.org/liip/RMT)
+[![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
 
-Installation / Usage
---------------------
+RMT is a simple tool to help releasing new version of your software. You can define the type of version generator you want o use (example: semantic versioning), where you want to store the version (in a changelog file, as a VCS tag, etc…) and a list of action that will be executed and before or after the release of a new version.
 
-## 1. Clone the project:   
-`git clone git@github.com:liip/RMT.git`
-and move it to your vendor/external directory
 
-## 2. Run the following command to init your release configuration 
-`vendor/RMT/command.php init`
+Installation
+------------
 
-## 3. Preferences
-Answer the asked questions: 
-* Choose your favorite persistance method (vcs or changelog), see the doc
-* Choose your favorite version generation method (simple or semantic), see the doc
+RMT should be install with [Composer](http://getcomposer.org/). Just go on your project root directory and execute:
 
-## 4. Run your first RD command
-`RD release`
-and see your changelog or git tag updated!
+    php composer.phar require liip/rmt 0.9.*         # lastest beta
+    # or
+    php composer.phar require liip/rmt dev-master    # lastest unstable
 
-## 5. Where to go from here
-* edit the rd.json file that you find at the root of your project
- * if you use git as vcs add 2 prerequisites command in the "prerequisites" array:
-`"prerequisites": [
-   "working-copy-check",
-   "display-last-changes"
-]`  
-This will check that your local repository is clean before anything and display your last changes
- * if you use git as vcs add this post release action  
-`"post-release-actions": [
-   "vcs-publish"
-]`  
-This will push your new tag
+Then you must initialize RMT by running the following command:
 
-## 6. Custom actions
-You can define your own actions by creating a new php class which extends Liip/RD/Action
+    php vendor/liip/rmt/command.php init
+    
+This command will create for you a `rd.json` config file and a `RD` executable script in your root folder. For that point you can start using RMT, just execute it:
 
+    ./RD
+    
+Once here, the best is to pick one of the configuration example bellow and to adapt it to your need.
+
+
+Usage
+-----
+Using RMT is very streintforward, you just have to run the command:
+
+    ./RD release
+
+RMT will then do the following tasks:
+
+* Executing the prerequisites checks
+* Asking the user to answers potentials questions
+* Generate a new version number
+* Executing the pre-release actions
+* Persisting the new version number
+* Executing the post-release actions
+
+### Additional commands
+
+The `release` command is the main behavior of the tool, but some extra commands are available:
+
+* `current` will show you the current version number
 
 Configuration
 -------------
 
-## Available commands
+All RMT configuration have to be done in the `rd.json`. The file is divided in 5 root elements:
 
-### RD release
-update your changelog/vcs tag using the method defined in your config as "version-generator"
+* `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
+* `prerequisites`: A list `[]` of prerequisites that must be matched before starting the release process
+* `pre-release-actions`: A list `[]` of actions that will be executed before the release process
+* `version-generator`: The generator to use to create a new version (mandatory)
+* `version-persister`: The persister to use to store the versions (mandatory)
+* `post-release-actions`: A list `[]` of actions that will be executed after the release
+* `branch-specific`: A list of config parameters that will be used to override the defaults from specific branches
 
-### RD version
-reads current version
+All the entry of this config (except the `branch-specifc`) are all working the same. You have to specify the class you want to handle the action. There is two syntax available:
 
-### RD init
-interactive command to create the base configuration for your project
+* The short one, example: `"version-generator": "simple"` when you have no specific parameter to provide
+* The config array, example:  `"version-persister": {"name": "vcs-tag", "tag-prefix": "v_"}` when you have to provide parameters to the class.
 
-## Existing Prerequisite actions
+### Version generator
 
-### working-copy-check
-check that you don't have any local changes before tagging  
-* only available for version-persister = vcs
+Version number generation strategy
 
-### display-last-changes
-display your last changes before tagging  
-* only available for version-persister = vcs
+* simple: This generator is doing a simple increment (1,2,3...)
+* semantic: A generator who implements (Semantic versioning)[http://semver.org]
 
-## Post release actions
+### Version persister
 
-### vcs-publish
-push your new tag  
-* only available for version-persister = vcs
+Class is charged of saving/retrieving the version number
+
+* vcs-tag: Save the version as a VCS tag
+* changelog: Save the version in the changelog file 
+
+### Prerequisite actions
+
+Prerequisite actions are executed before the interactive part.
+
+* working-copy-check: Check that you don't have any VCS local changes before release
+* display-last-changes: display your last changes before release
+
+### Actions
+
+Actions can be used for pre or post release parts.
+
+* changelog-update: Update a changelog file
+* vcs-commit: Process a VCS commit
+* vcs-tag: Tag the last commit
+* vcs-publish: Publish the changes (commit and tags)
+* composer-update: Update the version number in a composer file
+
+Extend it
+---------
+
+RMT is providing a large bunch of existing actions, generator and persister. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
+
+    "version-generator": "bin/myOwnGenerator.php"
+    
+or with parameters:
+
+    "version-persister": {"file": "bin/myOwnGenerator.php", "parameter1": "value1"}
 
 
-Example
--------
+Configuration examples
+----------------------
+Most of the time, it will be easier for you to pick up and example bellow and to adapt it to your needs.
 
-## Configuration examples
+### No VCS, changelog updater only
 
-### Using a changelog, and the simple method
-* changelog is updated at each new version, following the "simple" pattern: 1, 2, 3, etc...
-```
-{
-    "version-generator": "simple",  
-    "version-persister": "changelog",  
-    "prerequisites": [],  
-    "post-release-actions": [],
-}
-```
-
-### Using Git tags, and the semantic method
-* 1 tag created for each new version, following the pattern "major.minor.draft": 1.0.0, 1.1.0, etc.. 
 ```
 {
     "version-generator": "semantic",  
-    "version-persister": "vcs",  
-    "prerequisites": [],  
-    "post-release-actions": [],
-    "vcs": "git"
+    "version-persister": "changelog"
 }
 ```
 
-### Using Git tags, the semantic method with prefix, and pushing the tag automatically
-* 1 tag created for each new version, using a prefix: v1.0.0, v1.1.0, etc..
+### Using Git tags, simple versioning and prerequisites
 ```
 {
+    "vcs": "git",
+    "version-generator": "simple",  
+    "version-persister": "vcs-tag",  
+    "prerequisites": [
+    	"working-copy-check",
+    	"display-last-changes"
+    ]
+}
+```
+
+### Using Git tags with prefix, semantic versioning and pushing automatically
+```
+{
+    "vcs": "git",
     "version-generator": "semantic",  
     "version-persister": {
-        "type" : "vcs",
-        "prefix" : "v"
+        "type" : "vcs-tag",
+        "prefix" : "v_"
     },
-    "prerequisites": [],  
     "post-release-actions": [
        "vcs-publish"
     ],
-    "vcs": "git"
 }
 ```
-Note that each parameter can be either a String (like "vcs") either an object (like {type: vcs, prefix: v}) if you need to specify option to the constructor of the class
-
-### Using Git tags, the semantic method, and adding some prerequisites
-* 1 tag created for each new version, 1.0.0, v1.1.0, etc..
-* displays your last changes
-* check that your repo has no local change before tagging
+### Using semantic versioning on master and simple versioning on topic branches
 ```
 {
-    "version-generator": "semantic",  
-    "version-persister": "vcs"
-    "prerequisites": [
-        "working-copy-check",
-        "display-last-changes"
-    ],  
-    "post-release-actions": [],
-    "vcs": "git"
+  "vcs": "git",
+  "prerequisites": ["working-copy-check"],
+  "version-generator": "simple",
+  "version-persister": {"name": "vcs-tag","tag-prefix": "{branch-name}_"},
+  "post-release-actions": ["vcs-publish"],
+  "branch-specific" : {
+    "master": {
+      "version-generator": "semantic",
+      "version-persister": "vcs-tag",
+      "prerequisites": ["working-copy-check", "display-last-changes"],
+      "pre-release-actions": [
+        {
+          "name": "changelog-update",
+          "format": "semantic"
+        },
+        "vcs-commit"
+      ]
+    }
+  }
 }
 ```
-
-See all pre and post actions in the [commands and options page](Options)
 
 Contributing
 ------------
+If you would like to help, to submit one of your action script or just to report a bug: just go on the project page: https://github.com/liip/RMT
 
 Requirements
 ------------
 
-PHP 5.3+
+PHP 5.2
+Composer
 
 Authors
 -------
