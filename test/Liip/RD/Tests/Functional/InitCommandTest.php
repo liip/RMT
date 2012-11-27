@@ -9,7 +9,7 @@ class InitCommandTest extends RDFunctionalTestBase
     {
         $this->assertFileNotExists('rd.json');
 //        $this->manualDebug();
-        exec('RD init --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
+        exec('./RD init --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
         $this->assertFileExists('rd.json');
         $config = json_decode(file_get_contents('rd.json'), true);
         $this->assertEquals('git', $config['vcs']);
