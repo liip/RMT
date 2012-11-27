@@ -54,6 +54,34 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
         ), $lines);
     }
 
+    public function testExtraLines()
+    {
+        $formatter = $this->getFormatter();
+        $lines = $formatter->updateExistingLines(array(
+            '',
+            'VERSION 1  FOO BAR',
+            '==================',
+            '',
+            '   Version 1.0 - foo bar',
+            '      08/11/1980 12:34  1.0.0  initial release'
+
+        ), '1.0.0', 'foo bar', array('type'=>'patch', 'extra-lines' => array(
+            'ada96f3 Add new tests for command RD init and RD current ref #10',
+            '2eb6fae Documentation review'
+        )));
+        $this->assertEquals(array(
+            '',
+            'VERSION 1  FOO BAR',
+            '==================',
+            '',
+            '   Version 1.0 - foo bar',
+            '      08/11/1980 12:34  1.0.0  foo bar',
+            '         ada96f3 Add new tests for command RD init and RD current ref #10',
+            '         2eb6fae Documentation review',
+            '      08/11/1980 12:34  1.0.0  initial release'
+        ), $lines);
+    }
+
     public function testUpdateExistingWithPatch()
     {
         $formatter = $this->getFormatter();

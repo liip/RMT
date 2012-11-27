@@ -37,7 +37,7 @@ interface VCSInterface
      * @param $tag
      * @return array
      */
-    public function getAllModificationsSince($tag);
+    public function getAllModificationsSince($tag, $color=true);
 
     /**
      * Return local modification

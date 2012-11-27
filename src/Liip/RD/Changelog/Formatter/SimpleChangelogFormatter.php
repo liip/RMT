@@ -9,6 +9,10 @@ class SimpleChangelogFormatter
         $date = $this->getFormattedDate();
         array_splice($lines, 0, 0, array("$date  $version  $comment"));
 
+        if (isset($options['extra-lines'])) {
+            array_splice($lines, 1, 0, $options['extra-lines']);
+        }
+
         return $lines;
     }
 

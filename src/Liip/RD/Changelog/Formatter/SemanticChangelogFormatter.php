@@ -13,6 +13,7 @@ class SemanticChangelogFormatter
         if (!in_array($type, array('patch', 'minor', 'major'))) {
             throw new \InvalidArgumentException("Invalid type [$type]");
         }
+
         if ($type==='major') {
             array_splice($lines, 0, 0, $this->getNewMajorLines($version, $comment));
         }
@@ -21,6 +22,13 @@ class SemanticChangelogFormatter
         }
         else {
             array_splice($lines, 5, 0, $this->getNewPatchLines($version, $comment));
+        }
+
+        if (isset($options['extra-lines'])) {
+            foreach($options['extra-lines'] as $pos => $line) {
+                $options['extra-lines'][$pos] = '         '.$line;
+            }
+            array_splice($lines, 6, 0, $options['extra-lines']);
         }
         return $lines;
     }

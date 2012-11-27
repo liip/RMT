@@ -36,9 +36,7 @@ class ChangelogTest extends RDFunctionalTestBase
         );
     }
 
-
-
-        /**
+    /**
      * Execute changelog test
      * @param String [major/minor/patch]
      * @param String comment
@@ -56,5 +54,6 @@ class ChangelogTest extends RDFunctionalTestBase
         $this->assertRegExp('/'.$expectedVersion.'/',$changelog);
         $this->assertRegExp('/'.$comment.'/',$changelog);
     }
+
 }
 

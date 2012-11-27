@@ -26,9 +26,9 @@ class Git extends BaseVCS
     protected $dryRun = false;
 
 
-    public function getAllModificationsSince($tag)
+    public function getAllModificationsSince($tag, $color=true)
     {
-        return $this->executeGitCommand("log --oneline $tag..HEAD --color=always");
+        return $this->executeGitCommand("log --oneline $tag..HEAD ".($color?'--color=always':''));
     }
 
     public function getLocalModifications(){
