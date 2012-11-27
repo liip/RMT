@@ -2,6 +2,7 @@
 
 namespace Liip\RD\Prerequisite;
 
+use Liip\RD\Context;
 
 class DisplayLastChanges extends BasePrerequisite
 {
@@ -10,12 +11,12 @@ class DisplayLastChanges extends BasePrerequisite
         return "Here is the list of changes you are going to released";
     }
 
-    public function execute($context)
+    public function execute()
     {
-        $context->getService('output')->writeln('');
-        $context->getService('output')->writeln(
-            $context->getService('vcs')->getAllModificationsSince(
-                $context->getService('version-persister')->getCurrentVersionTag()
+        Context::getInstance()->getService('output')->writeln('');
+        Context::getInstance()->getService('output')->writeln(
+            Context::getInstance()->getService('vcs')->getAllModificationsSince(
+                Context::getInstance()->getService('version-persister')->getCurrentVersionTag()
             )
         );
     }

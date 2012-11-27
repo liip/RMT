@@ -6,7 +6,7 @@ use Liip\RD\Context;
 
 interface PersisterInterface
 {
-    public function __construct($context, $options = array());
+    public function __construct($options = array());
     public function getCurrentVersion();
     public function save($versionNumber);
     public function getInformationRequests();

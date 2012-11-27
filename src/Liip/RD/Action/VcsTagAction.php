@@ -1,17 +1,18 @@
 <?php
 
 namespace Liip\RD\Action;
+use Liip\RD\Context;
 
 class VcsTagAction extends BaseAction
 {
-    public function execute($context)
+    public function execute()
     {
-        $context->getService('vcs')->createTag(
-            $context->getService('vcs')->getTagFromVersion(
-                $context->getParam('new-version')
+        Context::getInstance()->getService('vcs')->createTag(
+            Context::getInstance()->getService('vcs')->getTagFromVersion(
+                Context::getInstance()->getParam('new-version')
             )
         );
-        $this->confirmSuccess($context);
+        $this->confirmSuccess();
     }
 
 }

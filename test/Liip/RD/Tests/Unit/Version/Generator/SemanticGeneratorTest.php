@@ -15,7 +15,7 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
         if ($type){
             $options['type'] = $type;
         }
-        $generator = new \Liip\RD\Version\Generator\SemanticGenerator(new Context());
+        $generator = new \Liip\RD\Version\Generator\SemanticGenerator();
         $this->assertEquals($result, $generator->generateNextVersion($current, $options));
     }
 
@@ -37,7 +37,7 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementWithInvalidType()
     {
-        $generator = new \Liip\RD\Version\Generator\SemanticGenerator(new Context());
+        $generator = new \Liip\RD\Version\Generator\SemanticGenerator();
         $generator->generateNextVersion('1.0.0', array('type'=>'full'));
     }
 
