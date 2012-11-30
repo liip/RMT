@@ -25,8 +25,12 @@ class VcsTagPersister implements PersisterInterface
             throw new \Liip\RD\Exception\NoReleaseFoundException(
                 'No VCS tag matching the regex ['.$this->getTagPrefix().$this->versionRegex.']');
         }
-        sort($tags, SORT_NUMERIC);
-        return $this->getVersionFromTag(array_pop($tags));
+
+        // Extract versions from tags and sort them
+        $versions = $this->getVersionFromTags($tags);
+        usort($versions, array(Context::getInstance()->getService('version-generator'), 'compareTwoVersions'));
+
+        return array_pop($versions);
     }
 
     public function save($versionNumber)
@@ -59,6 +63,16 @@ class VcsTagPersister implements PersisterInterface
     {
         return substr($tagName, strlen($this->getTagPrefix()));
     }
+
+    public function getVersionFromTags($tags)
+    {
+        $versions = array();
+        foreach ($tags as $tag) {
+            $versions[] = $this->getVersionFromTag($tag);
+        }
+        return $versions;
+    }
+
 
     public function getCurrentVersionTag()
     {

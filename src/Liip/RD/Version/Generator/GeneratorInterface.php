@@ -14,6 +14,17 @@ interface GeneratorInterface
      */
     public function generateNextVersion($currentVersion);
 
+    /**
+     * Function used to compare two versions. Must return:
+     *  * -1 if $a is older than $b
+     *  * 0 if $a and $b are the same
+     *  * 1 if $a is more recent than $b
+     * @param $a
+     * @param $b
+     * @return integer
+     */
+    public function compareTwoVersions($a, $b);
+
     public function getInformationRequests();
 
     public function getValidationRegex();

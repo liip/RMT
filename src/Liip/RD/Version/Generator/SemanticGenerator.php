@@ -71,5 +71,21 @@ class SemanticGenerator implements GeneratorInterface
         return '0.0.0';
     }
 
+    public function compareTwoVersions($a, $b) {
+        list($majorA, $minorA, $patchA) = explode('.', $a);
+        list($majorB, $minorB, $patchB) = explode('.', $b);
+        if ($majorA !== $majorB) {
+            return $majorA < $majorB ? -1 : 1 ;
+        }
+        if ($minorA !== $minorB) {
+            return $minorA < $minorB ? -1 : 1 ;
+        }
+        if ($patchA !== $patchB) {
+            return $patchA < $patchB ? -1 : 1 ;
+        }
+        return 0;
+    }
+
+
 }
 

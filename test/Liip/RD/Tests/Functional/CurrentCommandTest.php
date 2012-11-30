@@ -25,9 +25,10 @@ class CurrentCommandTest extends RDFunctionalTestBase
     {
         $this->initGit();
         $this->createJsonConfig('semantic', 'vcs-tag', array('vcs'=>'git'));
-        exec('git tag 1.3.9');
+        exec('git tag 1.3.11');
         exec('git tag 1.3.10');
-        $this->assertEquals("1.3.10", exec('./RD current --raw'));
+        exec('git tag 1.3.1');
+        $this->assertEquals("1.3.11", exec('./RD current --raw'));
     }
 
 }

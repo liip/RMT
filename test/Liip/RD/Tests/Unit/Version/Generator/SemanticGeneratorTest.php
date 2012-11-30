@@ -41,5 +41,13 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
         $generator->generateNextVersion('1.0.0', array('type'=>'full'));
     }
 
+    public function testCompare()
+    {
+        $generator = new \Liip\RD\Version\Generator\SemanticGenerator();
+        $this->assertEquals(-1, $generator->compareTwoVersions('1.0.0', '1.0.1'));
+        $this->assertEquals(0, $generator->compareTwoVersions('1.0.0', '1.0.0'));
+        $this->assertEquals(1, $generator->compareTwoVersions('1.0.1', '1.0.0'));
+        $this->assertEquals(1, $generator->compareTwoVersions('1.0.11', '1.0.1'));
+    }
 
 }
