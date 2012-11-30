@@ -9,6 +9,7 @@ use Liip\RD\Changelog\ChangelogManager;
 use Liip\RD\Information\InformationCollector;
 use Liip\RD\Information\InteractiveQuestion;
 use Liip\RD\Information\InformationRequest;
+use Liip\RD\Context;
 
 class ReleaseCommand extends BaseCommand {
 
@@ -22,7 +23,7 @@ class ReleaseCommand extends BaseCommand {
         $this->loadInformationCollector();
 
         // Register the command option
-        foreach ($this->context->getService('information-collector')->getCommandOptions() as $option) {
+        foreach (Context::getInstance()->getService('information-collector')->getCommandOptions() as $option) {
             $this->getDefinition()->addOption($option);
         }
     }
@@ -33,7 +34,7 @@ class ReleaseCommand extends BaseCommand {
 
         // Add a specific option if it's the first release
         try {
-            $this->context->getService('version-persister')->getCurrentVersion();
+            Context::getInstance()->getService('version-persister')->getCurrentVersion();
         }
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
             $ic->registerRequest(
@@ -45,24 +46,24 @@ class ReleaseCommand extends BaseCommand {
         }
 
         // Register options of the release tasks
-        $ic->registerRequests($this->context->getService('version-generator')->getInformationRequests());
-        $ic->registerRequests($this->context->getService('version-persister')->getInformationRequests());
+        $ic->registerRequests(Context::getInstance()->getService('version-generator')->getInformationRequests());
+        $ic->registerRequests(Context::getInstance()->getService('version-persister')->getInformationRequests());
 
         // Register options of all lists (prerequistes and actions)
         foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName){
-            foreach ($this->context->getList($listName) as $listItem){
+            foreach (Context::getInstance()->getList($listName) as $listItem){
                 $ic->registerRequests($listItem->getInformationRequests());
             }
         }
 
-        $this->context->setService('information-collector', $ic);
+        Context::getInstance()->setService('information-collector', $ic);
     }
 
     // Always executed
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->context->setService('output', $this->output);
-        $this->context->getService('information-collector')->handleCommandInput($input);
+        Context::getInstance()->setService('output', $this->output);
+        Context::getInstance()->getService('information-collector')->handleCommandInput($input);
 
         $this->writeBigTitle('Welcome to Release Management Tool');
 
@@ -76,12 +77,12 @@ class ReleaseCommand extends BaseCommand {
     {
 
         // Fill up questions
-        if ($this->context->getService('information-collector')->hasMissingInformation()){
+        if (Context::getInstance()->getService('information-collector')->hasMissingInformation()){
             $this->writeSmallTitle('Information collect');
             $this->getOutput()->indent();
-            foreach($this->context->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
+            foreach(Context::getInstance()->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
                 $answer = $this->askQuestion($question);
-                $this->context->getService('information-collector')->setValueFor($name, $answer);
+                Context::getInstance()->getService('information-collector')->setValueFor($name, $answer);
                 $this->writeEmptyLine();
             }
             $this->getOutput()->unIndent();
@@ -93,19 +94,21 @@ class ReleaseCommand extends BaseCommand {
     {
         // Get the current version or generate a new one if the user has confirm that this is required
         try {
-            $currentVersion = $this->context->getService('version-persister')->getCurrentVersion();
+            $currentVersion = Context::getInstance()->getService('version-persister')->getCurrentVersion();
         }
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
-            if ($this->context->getService('information-collector')->getValueFor('confirm-first')==false){
+            if (Context::getInstance()->getService('information-collector')->getValueFor('confirm-first')==false){
                 throw $e;
             }
-            $currentVersion = $this->context->getService('version-generator')->getInitialVersion();
+            $currentVersion = Context::getInstance()->getService('version-generator')->getInitialVersion();
         }
-        $this->context->setParam('current-version', $currentVersion);
+        Context::getInstance()->setParam('current-version', $currentVersion);
 
         // Generate and save the new version number
-        $newVersion = $this->context->getService('version-generator')->generateNextVersion($this->context->getParam('current-version'));
-        $this->context->setParam('new-version', $newVersion);
+        $newVersion = Context::getInstance()->getService('version-generator')->generateNextVersion(
+            Context::getInstance()->getParam('current-version')
+        );
+        Context::getInstance()->setParam('new-version', $newVersion);
 
         $this->executeActionListIfExist('pre-release-actions');
 
@@ -114,7 +117,7 @@ class ReleaseCommand extends BaseCommand {
 
         // TODO Can we say than when it's vcs-tag persister we have to force commit first?
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
-        $this->context->getService('version-persister')->save($newVersion);
+        Context::getInstance()->getService('version-persister')->save($newVersion);
         $this->getOutput()->writeln("Release: <green>Success</green>");
 
         $this->getOutput()->unIndent();
@@ -124,14 +127,14 @@ class ReleaseCommand extends BaseCommand {
     }
 
     protected function executeActionListIfExist($name, $title=null){
-        $actions = $this->context->getList($name);
+        $actions = Context::getInstance()->getList($name);
         if (count($actions) > 0) {
             $this->writeSmallTitle($title ?: ucfirst($name));
             $this->getOutput()->indent();
             foreach ($actions as $num => $action){
                 $this->write($num++.") ".$action->getTitle().' : ');
                 $this->getOutput()->indent();
-                $action->execute($this->context);
+                $action->execute();
                 $this->writeEmptyLine();
                 $this->getOutput()->unIndent();
             }

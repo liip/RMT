@@ -13,7 +13,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetService()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->setService('foo', '\Liip\RD\Tests\Unit\ServiceClass');
         $objectFoo = $context->getService('foo');
         $this->assertInstanceOf('\Liip\RD\Tests\Unit\ServiceClass', $objectFoo);
@@ -22,15 +22,15 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetServiceWithObject()
     {
-        $context = new Context();
-        $object = new ServiceClass(new Context());
+        $context = Context::getInstance();
+        $object = new ServiceClass();
         $context->setService('foo', $object);
         $this->assertEquals($object, $context->getService('foo'));
     }
 
     public function testSetAndGetServiceWithOptions()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $options = array('pi'=>3.14);
         $context->setService('foo', '\Liip\RD\Tests\Unit\ServiceClass', $options);
         $this->assertEquals($options, $context->getService('foo')->getOptions());
@@ -38,12 +38,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no service define with id [foo]
+     * @expectedExceptionMessage There is no service define with id [abc]
      */
     public function testGetServiceWithoutSet()
     {
-        $context = new Context();
-        $context->getService('foo');
+        Context::getInstance()->getService('abc');
     }
 
     /**
@@ -52,8 +51,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetServiceWithInvalidClass()
     {
-        $context = new Context();
-        $context->setService('foo', 'Bar');
+        Context::getInstance()->setService('foo', 'Bar');
     }
 
     /**
@@ -62,7 +60,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetServiceWithInvalidObject()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->setService('foo', 12);
     }
 
@@ -72,19 +70,19 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAndGetParam()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->setParam('date', '11.11.11');
         $this->assertEquals('11.11.11', $context->getParam('date'));
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no param define with id [date]
+     * @expectedExceptionMessage There is no param define with id [abc]
      */
     public function testGetParamWithoutSet()
     {
-        $context = new Context();
-        $context->getParam('date');
+        $context = Context::getInstance();
+        $context->getParam('abc');
     }
 
 
@@ -92,7 +90,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToList()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->addToList('prerequisites', '\Liip\RD\Tests\Unit\ServiceClass');
         $context->addToList('prerequisites', '\Liip\RD\Context');
         $objects = $context->getList('prerequisites');
@@ -103,7 +101,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToListWithOptions()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $options = array('pi'=>3.14);
         $context->addToList('foo', '\Liip\RD\Tests\Unit\ServiceClass', $options);
         $objects = $context->getList('foo');
@@ -112,12 +110,12 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no list define with id [foo]
+     * @expectedExceptionMessage There is no list define with id [abc]
      */
     public function testGetListParamWithoutAdd()
     {
-        $context = new Context();
-        $context->getList('foo');
+        $context = Context::getInstance();
+        $context->getList('abc');
     }
 
     /**
@@ -126,14 +124,14 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddToListWithInvalidClass()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->addToList('foo', 'Bar');
     }
 
 
     public function testEmptyList()
     {
-        $context = new Context();
+        $context = Context::getInstance();
         $context->createEmptyList('prerequisites');
         $this->assertEquals(array(), $context->getList('prerequisites'));
     }

@@ -11,7 +11,6 @@ use Liip\RD\Information\InteractiveQuestion;
 
 abstract class BaseCommand extends Command
 {
-    protected $context;
     protected $input;
     protected $output;
 
@@ -43,34 +42,31 @@ abstract class BaseCommand extends Command
     {
         $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir() );
         $config = $configHandler->getBaseConfig();
-        $context = new Context();
 
         // Select a branch specific config if a VCS is in use
         if (isset($config['vcs'])) {
-            $context->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
-            $vcs = $context->getService('vcs');
+            Context::getInstance()->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
+            $vcs = Context::getInstance()->getService('vcs');
             $branch = $vcs->getCurrentBranch();
             $config = $configHandler->getConfigForBranch($branch);
         }
 
         // Store the config for latter usage
-        $context->setParam('config', $config);
+        Context::getInstance()->setParam('config', $config);
 
         // Populate the context
         foreach (array("version-generator", "version-persister") as $service){
-            $context->setService($service, $config[$service]['class'], $config[$service]['options']);
+            Context::getInstance()->setService($service, $config[$service]['class'], $config[$service]['options']);
         }
         foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName){
-            $context->createEmptyList($listName);
+            Context::getInstance()->createEmptyList($listName);
             foreach ($config[$listName] as $service){
-                $context->addToList($listName, $service['class'], $service['options']);
+                Context::getInstance()->addToList($listName, $service['class'], $service['options']);
             }
         }
 
         // Provide the root dir as a context parameter
-        $context->setParam('project-root', $this->getApplication()->getProjectRootDir());
-
-        $this->context = $context;
+        Context::getInstance()->setParam('project-root', $this->getApplication()->getProjectRootDir());
     }
 
     protected function writeBigTitle($title)

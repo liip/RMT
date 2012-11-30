@@ -3,24 +3,25 @@
 namespace Liip\RD\Action;
 
 use Liip\RD\Information\InformationRequest;
+use Liip\RD\Context;
 
 class VcsPublishAction extends BaseAction
 {
-    public function execute($context)
+    public function execute()
     {
-        if ($context->getService('information-collector')->getValueFor('confirm-publish') !== 'y'){
-            $context->getService('output')->writeln('<error>requested to be ignored</error>');
+        if (Context::getInstance()->getService('information-collector')->getValueFor('confirm-publish') !== 'y'){
+            Context::getInstance()->getService('output')->writeln('<error>requested to be ignored</error>');
             return;
         }
 
-        $context->getService('vcs')->publishChanges();
-        $context->getService('vcs')->publishTag(
-            $context->getService('version-persister')->getTagFromVersion(
-                $context->getParam('new-version')
+        Context::getInstance()->getService('vcs')->publishChanges();
+        Context::getInstance()->getService('vcs')->publishTag(
+            Context::getInstance()->getService('version-persister')->getTagFromVersion(
+                Context::getInstance()->getParam('new-version')
             )
         );
 
-        $this->confirmSuccess($context);
+        $this->confirmSuccess();
     }
 
     public function getInformationRequests()

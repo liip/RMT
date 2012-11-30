@@ -2,17 +2,16 @@
 
 namespace Liip\RD\Version\Generator;
 
+use Liip\RD\Context;
+
 /**
  * Generator based on the Semantic Versioning defined by Tom Preston-Werner
  * Description available here: http://semver.org/
  */
 class SemanticGenerator implements GeneratorInterface
 {
-    protected $context;
+    public function __construct($options = array()){
 
-    public function __construct($context, $options = array())
-    {
-        $this->context = $context;
     }
 
     /**
@@ -25,7 +24,7 @@ class SemanticGenerator implements GeneratorInterface
             $type = $options['type'];
         }
         else {
-            $type = $this->context->getService('information-collector')->getValueFor('type');
+            $type = Context::getInstance()->getService('information-collector')->getValueFor('type');
         }
 
         // Type validation

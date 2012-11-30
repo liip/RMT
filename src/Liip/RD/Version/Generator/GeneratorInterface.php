@@ -4,7 +4,7 @@ namespace Liip\RD\Version\Generator;
 
 interface GeneratorInterface
 {
-    public function __construct($context, $options = array());
+    public function __construct($options = array());
 
     /**
      * Return the next version number, according to the current one and optional options

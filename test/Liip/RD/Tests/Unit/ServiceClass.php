@@ -6,6 +6,6 @@ namespace Liip\RD\Tests\Unit;
 class ServiceClass
 {
     private $options;
-    public function __construct($context, $options = null){ $this->options = $options; }
+    public function __construct($options = null){ $this->options = $options; }
     public function getOptions(){ return $this->options; }
 }

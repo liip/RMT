@@ -9,6 +9,21 @@ class Context
     protected $params = array();
     protected $lists = array();
 
+    private static $instance;
+
+    protected function __construct() {
+    }
+
+    /**
+     * @return Context
+     */
+    public static function getInstance() {
+        if (self::$instance == null) {
+            self::$instance = new Context();
+        }
+        return self::$instance;
+    }
+
     public function setService($id, $classOrObject, $options = null)
     {
         if (is_object($classOrObject)){
@@ -77,7 +92,7 @@ class Context
     protected function instanciateObject($objectDefinition)
     {
         list($className, $options) = $objectDefinition;
-        return new $className($this, $options);
+        return new $className($options);
     }
 
     protected function validateClass($className)
