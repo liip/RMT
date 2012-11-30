@@ -1,17 +1,32 @@
 <?php
 
-// Project context autoloader
-if (file_exists(__DIR__.'/../../autoload.php')) {
-    $loader = require_once __DIR__.'/../../autoload.php';
+// Search for an autoloader
+if (file_exists($file = __DIR__.'/../../autoload.php')) {
+
+    // Composer standard location
+    $loader = require_once $file;
+    $loader->add('Liip\RD\Tests', __DIR__.'/test');
+    $loader->add('Liip', __DIR__.'/src');
 }
-// Standalone autoloader
-elseif ( file_exists( __DIR__.'/vendor/autoload.php')) {
-    $loader = require_once __DIR__.'/vendor/autoload.php';
+elseif ( file_exists($file = __DIR__.'/vendor/autoload.php')) {
+
+    // Composer when on RMT standalone install (used in travis.ci)
+    $loader = require_once $file;
+    $loader->add('Liip\RD\Tests', __DIR__.'/test');
+    $loader->add('Liip', __DIR__.'/src');
+}
+elseif ( file_exists( $file = __DIR__.'/../symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php')) {
+
+    // Symfony 2.0
+    require_once $file;
+    $loader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+    $loader->registerNamespaces(array(
+        'Liip' => array(__DIR__.'/src', __DIR__.'/test'),
+        'Symfony' => __DIR__.'/../symfony/src',
+    ));
+    $loader->register();
 }
 else {
-    throw new \Exception("Unable to find the composer autoloader");
-}
 
-// and manually add the Liip namespace, until we move the project on packagist
-$loader->add('Liip\RD\Tests', __DIR__.'/test');
-$loader->add('Liip', __DIR__.'/src');
+    throw new \Exception("Unable to find the an autoloader");
+}
