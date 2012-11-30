@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RD\VCS\VCSInterface;
-use Liip\RD\Context;
 
 abstract class BasePreReleaseAction
 {
@@ -16,7 +15,7 @@ abstract class BasePreReleaseAction
         return get_class($this);
     }
 
-    abstract public function execute(Context $context);
+    abstract public function execute();
 
     /**
      * A pre-release action can provide options, override this method and return a array of InputOption

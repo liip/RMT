@@ -2,10 +2,12 @@
 
 namespace Liip\RD\Action;
 
+use Liip\RD\Context;
+
 abstract class BaseAction
 {
 
-    abstract public function execute($context);
+    abstract public function execute();
 
     /**
      * Return the name of the action as it will be display to the user
@@ -32,8 +34,8 @@ abstract class BaseAction
     /**
      * A common method to confirm success to the user
      */
-    public function confirmSuccess($context)
+    public function confirmSuccess()
     {
-        $context->getService('output')->writeln('<info>OK</info>');
+        Context::getInstance()->getService('output')->writeln('<info>OK</info>');
     }
 }

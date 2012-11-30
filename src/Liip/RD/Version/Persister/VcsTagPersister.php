@@ -3,20 +3,19 @@
 namespace Liip\RD\Version\Persister;
 
 use Liip\RD\VCS\VCSInterface;
+use Liip\RD\Context;
 
 class VcsTagPersister implements PersisterInterface
 {
-    protected $context;
     protected $versionRegex;
     protected $vcs;
     protected $prefix;
 
-    public function __construct($context, $options = array())
+    public function __construct($options = array())
     {
-        $this->vcs = $context->getService('vcs');
-        $this->versionRegex = $context->getService('version-generator')->getValidationRegex();
+        $this->vcs = Context::getInstance()->getService('vcs');
+        $this->versionRegex = Context::getInstance()->getService('version-generator')->getValidationRegex();
         $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
-        $this->context = $context;
     }
 
     public function getCurrentVersion()
@@ -33,7 +32,7 @@ class VcsTagPersister implements PersisterInterface
     public function save($versionNumber)
     {
         $tagName = $this->getTagFromVersion($versionNumber);
-        $this->context->getService('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
+        Context::getInstance()->getService('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
         $this->vcs->createTag($tagName);
     }
 

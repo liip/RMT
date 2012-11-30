@@ -3,21 +3,22 @@
 namespace Liip\RD\Action;
 
 use Liip\RD\Changelog\ChangelogManager;
+use Liip\RD\Context;
 
 class ChangelogUpdateAction extends BaseAction
 {
     protected $options;
 
-    public function __construct($context, $options)
+    public function __construct($options)
     {
         $this->options = $options;
     }
 
-    public function execute($context)
+    public function execute()
     {
         if (isset($this->options['dump-commits']) && $this->options['dump-commits']===true) {
-            $extraLines = $context->getService('vcs')->getAllModificationsSince(
-                $context->getService('version-persister')->getCurrentVersionTag(),
+            $extraLines = Context::getInstance()->getService('vcs')->getAllModificationsSince(
+                Context::getInstance()->getService('version-persister')->getCurrentVersionTag(),
                 false
             );
             $this->options['extra-lines'] = $extraLines;
@@ -26,14 +27,14 @@ class ChangelogUpdateAction extends BaseAction
 
         $manager = new ChangelogManager('CHANGELOG', 'semantic');
         $manager->update(
-            $context->getParam('new-version'),
-            $context->getService('information-collector')->getValueFor('comment'),
+            Context::getInstance()->getParam('new-version'),
+            Context::getInstance()->getService('information-collector')->getValueFor('comment'),
             array_merge(
-                array('type' => $context->getService('information-collector')->getValueFor('type', null)),
+                array('type' => Context::getInstance()->getService('information-collector')->getValueFor('type', null)),
                 $this->options
             )
         );
-        $this->confirmSuccess($context);
+        $this->confirmSuccess();
     }
 
     public function getInformationRequests()

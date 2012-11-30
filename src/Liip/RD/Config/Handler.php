@@ -2,8 +2,6 @@
 
 namespace Liip\RD\Config;
 
-use Liip\RD\Context;
-
 class Handler
 {
 
