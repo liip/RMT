@@ -65,9 +65,9 @@ class GitTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Git();
         $this->assertEquals('master', $vcs->getCurrentBranch());
-        system("git checkout -b foo &> /dev/null");
+        system("git checkout -b foo --quiet");
         $this->assertEquals('foo', $vcs->getCurrentBranch());
-        exec("git checkout master &> /dev/null");
+        exec("git checkout master --quiet");
         $this->assertEquals('master', $vcs->getCurrentBranch());
     }
 
@@ -79,7 +79,7 @@ class GitTest extends \PHPUnit_Framework_TestCase
     public function testGetCurrentBranchWhenNotInBranch()
     {
         $vcs = new Git();
-        exec("git checkout 9aca70b &> /dev/null");
+        exec("git checkout 9aca70b --quiet");
         $vcs->getCurrentBranch();
     }
 
