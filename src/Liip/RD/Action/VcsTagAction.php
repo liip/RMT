@@ -7,9 +7,9 @@ class VcsTagAction extends BaseAction
 {
     public function execute()
     {
-        Context::getInstance()->getService('vcs')->createTag(
-            Context::getInstance()->getService('vcs')->getTagFromVersion(
-                Context::getInstance()->getParam('new-version')
+        Context::get('vcs')->createTag(
+            Context::get('vcs')->getTagFromVersion(
+                Context::getParam('new-version')
             )
         );
         $this->confirmSuccess();

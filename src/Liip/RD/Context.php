@@ -49,12 +49,12 @@ class Context
         return $this->services[$id];
     }
 
-    public function setParam($id, $value)
+    public function setParameter($id, $value)
     {
         $this->params[$id] = $value;
     }
 
-    public function getParam($id)
+    public function getParameter($id)
     {
         if (!isset($this->params[$id])){
             throw new \InvalidArgumentException("There is no param define with id [$id]");
@@ -101,6 +101,23 @@ class Context
             throw new \InvalidArgumentException("The class [$className] does not exist");
         }
     }
+
+    /**
+     * Shortcut to retried a service
+     * */
+    public static function get($serviceName)
+    {
+        return self::getInstance()->getService($serviceName);
+    }
+
+    /**
+     * Shortcut to retried a parameter
+     * */
+    public static function getParam($name)
+    {
+        return self::getInstance()->getParameter($name);
+    }
+
 
 }
 

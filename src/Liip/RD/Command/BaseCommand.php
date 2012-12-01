@@ -46,13 +46,13 @@ abstract class BaseCommand extends Command
         // Select a branch specific config if a VCS is in use
         if (isset($config['vcs'])) {
             Context::getInstance()->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
-            $vcs = Context::getInstance()->getService('vcs');
+            $vcs = Context::get('vcs');
             $branch = $vcs->getCurrentBranch();
             $config = $configHandler->getConfigForBranch($branch);
         }
 
         // Store the config for latter usage
-        Context::getInstance()->setParam('config', $config);
+        Context::getInstance()->setParameter('config', $config);
 
         // Populate the context
         foreach (array("version-generator", "version-persister") as $service){
@@ -66,7 +66,7 @@ abstract class BaseCommand extends Command
         }
 
         // Provide the root dir as a context parameter
-        Context::getInstance()->setParam('project-root', $this->getApplication()->getProjectRootDir());
+        Context::getInstance()->setParameter('project-root', $this->getApplication()->getProjectRootDir());
     }
 
     protected function writeBigTitle($title)

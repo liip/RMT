@@ -36,6 +36,6 @@ abstract class BaseAction
      */
     public function confirmSuccess()
     {
-        Context::getInstance()->getService('output')->writeln('<info>OK</info>');
+        Context::get('output')->writeln('<info>OK</info>');
     }
 }

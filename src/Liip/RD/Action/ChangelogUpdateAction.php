@@ -17,8 +17,8 @@ class ChangelogUpdateAction extends BaseAction
     public function execute()
     {
         if (isset($this->options['dump-commits']) && $this->options['dump-commits']===true) {
-            $extraLines = Context::getInstance()->getService('vcs')->getAllModificationsSince(
-                Context::getInstance()->getService('version-persister')->getCurrentVersionTag(),
+            $extraLines = Context::get('vcs')->getAllModificationsSince(
+                Context::get('version-persister')->getCurrentVersionTag(),
                 false
             );
             $this->options['extra-lines'] = $extraLines;
@@ -27,10 +27,10 @@ class ChangelogUpdateAction extends BaseAction
 
         $manager = new ChangelogManager('CHANGELOG', 'semantic');
         $manager->update(
-            Context::getInstance()->getParam('new-version'),
-            Context::getInstance()->getService('information-collector')->getValueFor('comment'),
+            Context::getParam('new-version'),
+            Context::get('information-collector')->getValueFor('comment'),
             array_merge(
-                array('type' => Context::getInstance()->getService('information-collector')->getValueFor('type', null)),
+                array('type' => Context::get('information-collector')->getValueFor('type', null)),
                 $this->options
             )
         );

@@ -13,8 +13,8 @@ class VcsTagPersister implements PersisterInterface
 
     public function __construct($options = array())
     {
-        $this->vcs = Context::getInstance()->getService('vcs');
-        $this->versionRegex = Context::getInstance()->getService('version-generator')->getValidationRegex();
+        $this->vcs = Context::get('vcs');
+        $this->versionRegex = Context::get('version-generator')->getValidationRegex();
         $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
     }
 
@@ -28,7 +28,7 @@ class VcsTagPersister implements PersisterInterface
 
         // Extract versions from tags and sort them
         $versions = $this->getVersionFromTags($tags);
-        usort($versions, array(Context::getInstance()->getService('version-generator'), 'compareTwoVersions'));
+        usort($versions, array(Context::get('version-generator'), 'compareTwoVersions'));
 
         return array_pop($versions);
     }
@@ -36,7 +36,7 @@ class VcsTagPersister implements PersisterInterface
     public function save($versionNumber)
     {
         $tagName = $this->getTagFromVersion($versionNumber);
-        Context::getInstance()->getService('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
+        Context::get('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
         $this->vcs->createTag($tagName);
     }
 

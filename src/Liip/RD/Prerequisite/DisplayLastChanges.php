@@ -13,10 +13,10 @@ class DisplayLastChanges extends BasePrerequisite
 
     public function execute()
     {
-        Context::getInstance()->getService('output')->writeln('');
-        Context::getInstance()->getService('output')->writeln(
-            Context::getInstance()->getService('vcs')->getAllModificationsSince(
-                Context::getInstance()->getService('version-persister')->getCurrentVersionTag()
+        Context::get('output')->writeln('');
+        Context::get('output')->writeln(
+            Context::get('vcs')->getAllModificationsSince(
+                Context::get('version-persister')->getCurrentVersionTag()
             )
         );
     }

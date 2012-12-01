@@ -23,7 +23,7 @@ class ReleaseCommand extends BaseCommand {
         $this->loadInformationCollector();
 
         // Register the command option
-        foreach (Context::getInstance()->getService('information-collector')->getCommandOptions() as $option) {
+        foreach (Context::get('information-collector')->getCommandOptions() as $option) {
             $this->getDefinition()->addOption($option);
         }
     }
@@ -34,7 +34,7 @@ class ReleaseCommand extends BaseCommand {
 
         // Add a specific option if it's the first release
         try {
-            Context::getInstance()->getService('version-persister')->getCurrentVersion();
+            Context::get('version-persister')->getCurrentVersion();
         }
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
             $ic->registerRequest(
@@ -46,8 +46,8 @@ class ReleaseCommand extends BaseCommand {
         }
 
         // Register options of the release tasks
-        $ic->registerRequests(Context::getInstance()->getService('version-generator')->getInformationRequests());
-        $ic->registerRequests(Context::getInstance()->getService('version-persister')->getInformationRequests());
+        $ic->registerRequests(Context::get('version-generator')->getInformationRequests());
+        $ic->registerRequests(Context::get('version-persister')->getInformationRequests());
 
         // Register options of all lists (prerequistes and actions)
         foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName){
@@ -63,7 +63,7 @@ class ReleaseCommand extends BaseCommand {
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         Context::getInstance()->setService('output', $this->output);
-        Context::getInstance()->getService('information-collector')->handleCommandInput($input);
+        Context::get('information-collector')->handleCommandInput($input);
 
         $this->writeBigTitle('Welcome to Release Management Tool');
 
@@ -77,12 +77,12 @@ class ReleaseCommand extends BaseCommand {
     {
 
         // Fill up questions
-        if (Context::getInstance()->getService('information-collector')->hasMissingInformation()){
+        if (Context::get('information-collector')->hasMissingInformation()){
             $this->writeSmallTitle('Information collect');
             $this->getOutput()->indent();
-            foreach(Context::getInstance()->getService('information-collector')->getInteractiveQuestions() as $name => $question) {
+            foreach(Context::get('information-collector')->getInteractiveQuestions() as $name => $question) {
                 $answer = $this->askQuestion($question);
-                Context::getInstance()->getService('information-collector')->setValueFor($name, $answer);
+                Context::get('information-collector')->setValueFor($name, $answer);
                 $this->writeEmptyLine();
             }
             $this->getOutput()->unIndent();
@@ -94,21 +94,21 @@ class ReleaseCommand extends BaseCommand {
     {
         // Get the current version or generate a new one if the user has confirm that this is required
         try {
-            $currentVersion = Context::getInstance()->getService('version-persister')->getCurrentVersion();
+            $currentVersion = Context::get('version-persister')->getCurrentVersion();
         }
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
-            if (Context::getInstance()->getService('information-collector')->getValueFor('confirm-first')==false){
+            if (Context::get('information-collector')->getValueFor('confirm-first')==false){
                 throw $e;
             }
-            $currentVersion = Context::getInstance()->getService('version-generator')->getInitialVersion();
+            $currentVersion = Context::get('version-generator')->getInitialVersion();
         }
-        Context::getInstance()->setParam('current-version', $currentVersion);
+        Context::getInstance()->setParameter('current-version', $currentVersion);
 
         // Generate and save the new version number
-        $newVersion = Context::getInstance()->getService('version-generator')->generateNextVersion(
-            Context::getInstance()->getParam('current-version')
+        $newVersion = Context::get('version-generator')->generateNextVersion(
+            Context::getParam('current-version')
         );
-        Context::getInstance()->setParam('new-version', $newVersion);
+        Context::getInstance()->setParameter('new-version', $newVersion);
 
         $this->executeActionListIfExist('pre-release-actions');
 
@@ -117,7 +117,7 @@ class ReleaseCommand extends BaseCommand {
 
         // TODO Can we say than when it's vcs-tag persister we have to force commit first?
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
-        Context::getInstance()->getService('version-persister')->save($newVersion);
+        Context::get('version-persister')->save($newVersion);
         $this->getOutput()->writeln("Release: <green>Success</green>");
 
         $this->getOutput()->unIndent();

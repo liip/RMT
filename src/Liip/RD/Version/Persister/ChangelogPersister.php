@@ -18,13 +18,13 @@ class ChangelogPersister implements PersisterInterface
         }
 
         // The changelog format is related to the version-generator
-        $config = Context::getInstance()->getParam('config');
+        $config = Context::getParam('config');
         preg_match('/([^\\\]+)Generator/', $config['version-generator']['class'], $match);
         $format = $match[1];
 
         // Create the changlelog manager
         $this->changelogManager = new ChangelogManager(
-            Context::getInstance()->getParam('project-root').'/' . $options['location'],
+            Context::getParam('project-root').'/' . $options['location'],
             $format
         );
     }
@@ -36,8 +36,8 @@ class ChangelogPersister implements PersisterInterface
 
     public function save($versionNumber)
     {
-        $comment = Context::getInstance()->getService('information-collector')->getValueFor('comment');
-        $type = Context::getInstance()->getService('information-collector')->getValueFor('type', null);
+        $comment = Context::get('information-collector')->getValueFor('comment');
+        $type = Context::get('information-collector')->getValueFor('type', null);
         $this->changelogManager->update($versionNumber, $comment, array('type'=>$type));
     }
 

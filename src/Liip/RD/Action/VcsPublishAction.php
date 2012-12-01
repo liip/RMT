@@ -9,15 +9,15 @@ class VcsPublishAction extends BaseAction
 {
     public function execute()
     {
-        if (Context::getInstance()->getService('information-collector')->getValueFor('confirm-publish') !== 'y'){
-            Context::getInstance()->getService('output')->writeln('<error>requested to be ignored</error>');
+        if (Context::get('information-collector')->getValueFor('confirm-publish') !== 'y'){
+            Context::get('output')->writeln('<error>requested to be ignored</error>');
             return;
         }
 
-        Context::getInstance()->getService('vcs')->publishChanges();
-        Context::getInstance()->getService('vcs')->publishTag(
-            Context::getInstance()->getService('version-persister')->getTagFromVersion(
-                Context::getInstance()->getParam('new-version')
+        Context::get('vcs')->publishChanges();
+        Context::get('vcs')->publishTag(
+            Context::get('version-persister')->getTagFromVersion(
+                Context::getParam('new-version')
             )
         );
 

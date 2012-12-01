@@ -71,8 +71,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetParam()
     {
         $context = Context::getInstance();
-        $context->setParam('date', '11.11.11');
-        $this->assertEquals('11.11.11', $context->getParam('date'));
+        $context->setParameter('date', '11.11.11');
+        $this->assertEquals('11.11.11', $context->getParameter('date'));
     }
 
     /**
@@ -82,7 +82,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testGetParamWithoutSet()
     {
         $context = Context::getInstance();
-        $context->getParam('abc');
+        $context->getParameter('abc');
     }
 
 

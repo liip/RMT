@@ -24,7 +24,7 @@ class CurrentCommand extends BaseCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->loadContext();
-        $version = Context::getInstance()->getService('version-persister')->getCurrentVersion();
+        $version = Context::get('version-persister')->getCurrentVersion();
         if ($input->getOption('raw')==true) {
             $output->writeln($version);
         }

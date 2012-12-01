@@ -12,9 +12,9 @@ class UpdateApplicationVersionCurrentVersion extends \Liip\RD\Action\BaseAction
     public function execute()
     {
         // Output for devs
-        $newVersion = Context::getInstance()->getParam('new-version');
+        $newVersion = Context::getParam('new-version');
         $appFile = realpath(__DIR__.'/../src/Liip/RD/Application.php');
-        Context::getInstance()->getService('output')->write("New version [<yellow>$newVersion</yellow>] udpated into $appFile: ");
+        Context::get('output')->write("New version [<yellow>$newVersion</yellow>] udpated into $appFile: ");
 
         // Update the application file
         $fileContent = file_get_contents($appFile);

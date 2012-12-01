@@ -9,8 +9,8 @@ class ComposerUpdateAction extends \Liip\RD\Action\BaseAction
 {
     public function execute()
     {
-        $newVersion = Context::getInstance()->getParam('new-version');
-        $composerFile = Context::getInstance()->getParam('project-root').'/composer.json';
+        $newVersion = Context::getParam('new-version');
+        $composerFile = Context::getParam('project-root').'/composer.json';
         if (!file_exists($composerFile)) {
             throw new \Liip\RD\Exception("Impossible to file the composer file ($composerFile)");
         }

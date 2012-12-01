@@ -24,7 +24,7 @@ class SemanticGenerator implements GeneratorInterface
             $type = $options['type'];
         }
         else {
-            $type = Context::getInstance()->getService('information-collector')->getValueFor('type');
+            $type = Context::get('information-collector')->getValueFor('type');
         }
 
         // Type validation
