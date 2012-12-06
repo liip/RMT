@@ -19,17 +19,25 @@ class CurrentCommand extends BaseCommand {
         $this->setHelp('The <comment>current</comment> task can be used to display information on the current release');
         $this->setAliases(array('version'));
         $this->addOption('raw', null, InputOption::VALUE_NONE, 'display only the version name');
+        $this->addOption('vcs-tag', null, InputOption::VALUE_NONE, 'display the associated vcs-tag');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->loadContext();
         $version = Context::get('version-persister')->getCurrentVersion();
+        if ($input->getOption('vcs-tag')) {
+            $vcsTag = Context::get('version-persister')->getCurrentVersionTag();
+        }
         if ($input->getOption('raw')==true) {
-            $output->writeln($version);
+            $output->writeln($input->getOption('vcs-tag') ? $vcsTag : $version);
         }
         else {
-            $output->writeln("Current release is: <green>$version</green>");
+            $msg = "Current release is: <green>$version</green>";
+            if ($input->getOption('vcs-tag')) {
+                $msg .= " (VCS tag: <green>$vcsTag</green>)";
+            }
+            $output->writeln($msg);
         }
     }
 
