@@ -23,7 +23,7 @@ This command will create for you a `rd.json` config file and a `RD` executable s
 
     ./RD
 
-Once here, the best is to pick one of the configuration example below and to adapt it to your needs.
+Once here, the best is to pick one of the [configuration example](#configuration-examples) below and to adapt it to your needs.
 
 
 Usage
