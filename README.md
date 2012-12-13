@@ -9,43 +9,44 @@ RMT is a simple tool to help releasing new version of your software. You can def
 Installation
 ------------
 
-RMT should be install with [Composer](http://getcomposer.org/). Just go on your project root directory and execute:
+In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be installed as a dev-dependency. Just go on your project root directory and execute:
 
-    php composer.phar require liip/rmt 0.9.*         # lastest beta
+    php composer.phar require-dev liip/rmt 0.9.*         # lastest beta
     # or
-    php composer.phar require liip/rmt dev-master    # lastest unstable
+    php composer.phar require-dev liip/rmt dev-master    # lastest unstable
 
 Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
-    
+
 This command will create for you a `rd.json` config file and a `RD` executable script in your root folder. For that point you can start using RMT, just execute it:
 
     ./RD
-    
-Once here, the best is to pick one of the configuration example bellow and to adapt it to your need.
+
+Once here, the best is to pick one of the configuration example below and to adapt it to your needs.
 
 
 Usage
 -----
-Using RMT is very streintforward, you just have to run the command:
+Using RMT is very straightforward, you just have to run the command:
 
     ./RD release
 
 RMT will then do the following tasks:
 
-* Executing the prerequisites checks
-* Asking the user to answers potentials questions
+* Execute the prerequisites checks
+* Ask the user to answers potentials questions
 * Generate a new version number
-* Executing the pre-release actions
-* Persisting the new version number
-* Executing the post-release actions
+* Execute the pre-release actions
+* Persist the new version number
+* Execute the post-release actions
 
 ### Additional commands
 
 The `release` command is the main behavior of the tool, but some extra commands are available:
 
-* `current` will show you the current version number
+* `current` will show your project current version number (alias version)
+* `init` create rd.json config file
 
 Configuration
 -------------
