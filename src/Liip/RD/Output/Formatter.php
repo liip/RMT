@@ -4,6 +4,9 @@ namespace Liip\RD\Output;
 
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
+/**
+ * Define log colors
+ */
 class Formatter extends \Symfony\Component\Console\Formatter\OutputFormatter
 {
     public function __construct($decorated = null, array $styles = array())

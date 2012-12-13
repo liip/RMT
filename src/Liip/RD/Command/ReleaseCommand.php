@@ -11,8 +11,11 @@ use Liip\RD\Information\InteractiveQuestion;
 use Liip\RD\Information\InformationRequest;
 use Liip\RD\Context;
 
-class ReleaseCommand extends BaseCommand {
-
+/**
+ * Main command, used to release a new version
+ */
+class ReleaseCommand extends BaseCommand
+{
     protected function configure()
     {
         $this->setName('release');
@@ -70,12 +73,9 @@ class ReleaseCommand extends BaseCommand {
         $this->executeActionListIfExist('prerequisites');
     }
 
-
-
     // Executed only when we are in interactive mode
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
         // Fill up questions
         if (Context::get('information-collector')->hasMissingInformation()){
             $this->writeSmallTitle('Information collect');
@@ -97,7 +97,7 @@ class ReleaseCommand extends BaseCommand {
             $currentVersion = Context::get('version-persister')->getCurrentVersion();
         }
         catch (\Liip\RD\Exception\NoReleaseFoundException $e){
-            if (Context::get('information-collector')->getValueFor('confirm-first')==false){
+            if (Context::get('information-collector')->getValueFor('confirm-first') == false){
                 throw $e;
             }
             $currentVersion = Context::get('version-generator')->getInitialVersion();
@@ -115,7 +115,6 @@ class ReleaseCommand extends BaseCommand {
         $this->writeSmallTitle('Release process');
         $this->getOutput()->indent();
 
-        // TODO Can we say than when it's vcs-tag persister we have to force commit first?
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
         Context::get('version-persister')->save($newVersion);
         $this->getOutput()->writeln("Release: <green>Success</green>");
@@ -123,10 +122,10 @@ class ReleaseCommand extends BaseCommand {
         $this->getOutput()->unIndent();
 
         $this->executeActionListIfExist('post-release-actions');
-
     }
 
-    protected function executeActionListIfExist($name, $title=null){
+    protected function executeActionListIfExist($name, $title=null)
+    {
         $actions = Context::getInstance()->getList($name);
         if (count($actions) > 0) {
             $this->writeSmallTitle($title ?: ucfirst($name));
@@ -141,5 +140,5 @@ class ReleaseCommand extends BaseCommand {
             $this->getOutput()->unIndent();
         }
     }
-
 }
+

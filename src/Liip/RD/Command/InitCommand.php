@@ -7,14 +7,15 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RD\Information\InformationRequest;
 
+/**
+ * Create json settings file and rmt executable
+ */
 class InitCommand extends BaseCommand
 {
     protected $informationCollector;
-
     protected $executablePath;
     protected $commandPath;
     protected $configPath;
-
 
     protected function buildPaths()
     {
@@ -119,10 +120,11 @@ class InitCommand extends BaseCommand
         }
 
         $generator = $this->informationCollector->getValueFor('vcs');
-        $config['version-generator'] = $generator=='semantic-versioning' ? 'sementic' : 'simple';
+        $config['version-generator'] = $generator == 'semantic-versioning' ? 'semantic' : 'simple';
 
         $config['version-persister'] = $this->informationCollector->getValueFor('persister');
 
         return $config;
     }
 }
+

@@ -3,6 +3,9 @@
 namespace Liip\RD\Action;
 use Liip\RD\Context;
 
+/**
+ * Create a tag with the new version number
+ */
 class VcsTagAction extends BaseAction
 {
     public function execute()
@@ -14,5 +17,5 @@ class VcsTagAction extends BaseAction
         );
         $this->confirmSuccess();
     }
-
 }
+

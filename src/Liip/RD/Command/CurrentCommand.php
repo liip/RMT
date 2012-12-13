@@ -1,7 +1,6 @@
 <?php
 namespace Liip\RD\Command;
 
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -9,7 +8,9 @@ use Liip\RD\Changelog\ChangelogManager;
 use Liip\RD\Config\Handler;
 use Liip\RD\Context;
 
-
+/**
+ * Outputs current version
+ */
 class CurrentCommand extends BaseCommand {
 
     protected function configure()
@@ -40,5 +41,5 @@ class CurrentCommand extends BaseCommand {
             $output->writeln($msg);
         }
     }
-
 }
+

@@ -5,6 +5,9 @@ namespace Liip\RD\Action;
 use Liip\RD\Information\InformationRequest;
 use Liip\RD\Context;
 
+/**
+ * Update the version in composer.json
+ */
 class ComposerUpdateAction extends \Liip\RD\Action\BaseAction
 {
     public function execute()
@@ -19,5 +22,5 @@ class ComposerUpdateAction extends \Liip\RD\Action\BaseAction
         file_put_contents($composerFile, $fileContent);
         $this->confirmSuccess();
     }
-
 }
+

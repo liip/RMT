@@ -5,6 +5,9 @@ namespace Liip\RD\Action;
 use Liip\RD\Information\InformationRequest;
 use Liip\RD\Context;
 
+/**
+ * Push current branch and tag to version control
+ */
 class VcsPublishAction extends BaseAction
 {
     public function execute()
@@ -35,3 +38,4 @@ class VcsPublishAction extends BaseAction
         );
     }
 }
+

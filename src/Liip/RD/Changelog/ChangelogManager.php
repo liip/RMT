@@ -2,6 +2,9 @@
 
 namespace Liip\RD\Changelog;
 
+/**
+ * Class to read/write the changelog file
+ */
 class ChangelogManager {
     
     protected $filePath;
@@ -43,3 +46,4 @@ class ChangelogManager {
         );
     }
 }
+

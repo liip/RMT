@@ -4,12 +4,10 @@ namespace Liip\RD\VCS;
 
 interface VCSInterface
 {
-
     /**
      * Return the current branch
      */
     public function getCurrentBranch();
-
 
 
     /**
@@ -29,7 +27,6 @@ interface VCSInterface
      * @param $tagName
      */
     public function publishTag($tagName);
-
 
 
     /**
@@ -52,10 +49,9 @@ interface VCSInterface
      */
     public function saveWorkingCopy($commitMsg = '');
 
-
     /**
      * Publish local modification
      */
     public function publishChanges();
-
 }
+

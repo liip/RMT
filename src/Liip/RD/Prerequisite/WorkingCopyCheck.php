@@ -9,9 +9,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Liip\RD\VCS\VCSInterface;
 use Liip\RD\Context;
 use Liip\RD\Information\InformationRequest;
+use Liip\RD\Action\BaseAction;
 
-
-class WorkingCopyCheck extends BasePrerequisite {
+/**
+ * Ensure VCS working copy is clean
+ */
+class WorkingCopyCheck extends BaseAction {
 
     public $ignoreCheckOptionName = 'ignore-check';
 
@@ -22,12 +25,12 @@ class WorkingCopyCheck extends BasePrerequisite {
 
     public function execute()
     {
-        if (Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)){
+        if (Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
             Context::get('output')->writeln('<error>requested to be ignored</error>');
             return;
         }
 
-        if (count($modif = Context::get('vcs')->getLocalModifications()) > 0){
+        if (count($modif = Context::get('vcs')->getLocalModifications()) > 0) {
             throw new \Exception('Your working directory contain local modifications, use --'.$this->ignoreCheckOptionName.' option to bypass this check');
         }
         
@@ -45,3 +48,4 @@ class WorkingCopyCheck extends BasePrerequisite {
         );
     }
 }
+

@@ -11,7 +11,6 @@ use Liip\RD\Context;
 class SemanticGenerator implements GeneratorInterface
 {
     public function __construct($options = array()){
-
     }
 
     /**
@@ -85,7 +84,5 @@ class SemanticGenerator implements GeneratorInterface
         }
         return 0;
     }
-
-
 }
 

@@ -4,6 +4,9 @@ namespace Liip\RD\Action;
 
 use Liip\RD\Context;
 
+/**
+ * Commit everything
+ */
 class VcsCommitAction extends BaseAction
 {
     public function execute()
@@ -13,5 +16,5 @@ class VcsCommitAction extends BaseAction
         );
         $this->confirmSuccess();
     }
-
 }
+

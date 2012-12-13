@@ -4,6 +4,9 @@ namespace Liip\RD\Information;
 
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Define a user information request
+ */
 class InformationRequest
 {
     static $validTypes = array('text', 'yes-no', 'choice', 'confirmation');
@@ -138,6 +141,5 @@ class InformationRequest
     {
         return $this->hasValue;
     }
-
-
 }
+

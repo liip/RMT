@@ -2,9 +2,11 @@
 
 namespace Liip\RD\Config;
 
+/**
+ * Read, parse and validate configuration file
+ */
 class Handler
 {
-
     public function __construct($rawConfig = null, $projectRoot = null)
     {
         $this->rawConfig = $rawConfig;
@@ -40,7 +42,6 @@ class Handler
         $config = $this->normalize($config);
 
         return $config;
-
     }
 
     protected function mergeConfig($branchName = null)
@@ -181,6 +182,5 @@ class Handler
 
         return $nameSpace.'\\'.$className;
     }
-
 }
 

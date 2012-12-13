@@ -75,3 +75,4 @@ class SemanticChangelogFormatter
         return '#\s+\d+/\d+/\d+\s\d+:\d+\s+([^\s]+)#';
     }
 }
+

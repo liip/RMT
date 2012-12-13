@@ -7,6 +7,9 @@ use Liip\RD\Context;
 abstract class BaseAction
 {
 
+    /**
+     * Main part of the action
+     */
     abstract public function execute();
 
     /**
@@ -20,9 +23,9 @@ abstract class BaseAction
     }
 
     /**
-     * Return a array of options that can be
+     * Return an array of options that can be
      *   * Liip\RD\Option\Option    A new option specific to this prerequiste
-     *   * string                   The name of a standard option (command, type, author...)
+     *   * string                   The name of a standard option (comment, type, author...)
      *
      * @return array
      */
@@ -39,3 +42,4 @@ abstract class BaseAction
         Context::get('output')->writeln('<info>OK</info>');
     }
 }
+

@@ -5,6 +5,9 @@ namespace Liip\RD\Action;
 use Liip\RD\Changelog\ChangelogManager;
 use Liip\RD\Context;
 
+/**
+ * Update the changelog file
+ */
 class ChangelogUpdateAction extends BaseAction
 {
     protected $options;
@@ -41,6 +44,5 @@ class ChangelogUpdateAction extends BaseAction
     {
         return array('comment');
     }
-
 }
 

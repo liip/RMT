@@ -4,6 +4,9 @@ namespace Liip\RD\Output;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * Specific console output to allow indentation
+ */
 class Output extends ConsoleOutput
 {
     protected $indentationLevel;

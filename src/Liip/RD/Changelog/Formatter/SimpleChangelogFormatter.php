@@ -26,3 +26,4 @@ class SimpleChangelogFormatter
         return '#\d+/\d+/\d+\s\d+:\d+\s\s([^\s]+)#';
     }
 }
+

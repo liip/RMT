@@ -4,6 +4,9 @@ namespace Liip\RD\Information;
 
 use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * Collect user info
+ */
 class InformationCollector
 {
     static $standardRequests = array(
@@ -73,7 +76,6 @@ class InformationCollector
         return $this->requests[$name];
     }
 
-
     public function hasRequest($name)
     {
         return isset($this->requests[$name]);
@@ -116,8 +118,6 @@ class InformationCollector
         return $questions;
     }
 
-
-
     public function handleCommandInput(InputInterface $input)
     {
         foreach ($input->getOptions() as $name => $value){
@@ -143,3 +143,4 @@ class InformationCollector
         }
     }
 }
+

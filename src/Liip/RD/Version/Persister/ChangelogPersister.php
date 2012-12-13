@@ -22,7 +22,7 @@ class ChangelogPersister implements PersisterInterface
         preg_match('/([^\\\]+)Generator/', $config['version-generator']['class'], $match);
         $format = $match[1];
 
-        // Create the changlelog manager
+        // Create the changelog manager
         $this->changelogManager = new ChangelogManager(
             Context::getParam('project-root').'/' . $options['location'],
             $format

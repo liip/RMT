@@ -2,6 +2,9 @@
 
 namespace Liip\RD\Information;
 
+/**
+ * Represents the question asked to the user (formatter for InformationRequest)
+ */
 class InteractiveQuestion
 {
     protected $informationRequest;
@@ -16,7 +19,7 @@ class InteractiveQuestion
         if ($this->informationRequest->getOption('type') == 'confirmation') {
             $text = 'Please confirm that ';
         }
-        else{
+        else {
             $text = 'Please provide ';
         }
 
@@ -30,7 +33,7 @@ class InteractiveQuestion
         }
 
         // print the default if exist
-        if ($this->hasDefault()){
+        if ($this->hasDefault()) {
             $defaultVal = $this->getDefault();
             if ( is_bool($defaultVal) ) {
                 $defaultVal = $defaultVal===true ? 'true' : 'false';
@@ -38,10 +41,11 @@ class InteractiveQuestion
             $text .= ' (default: <info>'.$defaultVal.'</info>)';
         }
 
-        return $text.": ";
+        return $text . ": ";
     }
 
-    public function formatChoices($choices, $shortcuts){
+    public function formatChoices($choices, $shortcuts)
+    {
         if (count($shortcuts) > 0){
             $shortcuts = array_flip($shortcuts);
             foreach ($shortcuts as $choice => $shortcut){
@@ -93,6 +97,5 @@ class InteractiveQuestion
         // Validation
         return $this->informationRequest->validate($value);
     }
-
 }
 

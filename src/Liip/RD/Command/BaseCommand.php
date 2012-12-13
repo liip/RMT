@@ -9,6 +9,9 @@ use Liip\RD\Config\Handler;
 use Liip\RD\Context;
 use Liip\RD\Information\InteractiveQuestion;
 
+/**
+ * Wrapper/helper around sf2 command
+ */
 abstract class BaseCommand extends Command
 {
     protected $input;
@@ -95,18 +98,6 @@ abstract class BaseCommand extends Command
         $this->getOutput()->write($text);
     }
 
-    protected function logSection($sectionName, $message) {
-        $message = is_array($message) ? implode("\n", $message) : $message;
-        $msg = $this->getHelper('formatter')->formatSection($sectionName, $message);
-        $this->output->writeln($msg);
-    }
-
-    protected function logInfo($message) {
-        $message = is_array($message) ? implode("\n", $message) : $message;
-        $msg = $this->getHelper('formatter')->formatBlock("\n".$message, 'info');
-        $this->getOutput()->writeln($msg);
-    }
-
     protected function askQuestion(InteractiveQuestion $question) {
         $dialog = $this->getHelperSet()->get('dialog');
         return $dialog->askAndValidate(
@@ -125,5 +116,5 @@ abstract class BaseCommand extends Command
     {
         return \Liip\RD\Application::$instance;
     }
-
 }
+

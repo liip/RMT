@@ -3,8 +3,9 @@
 namespace Liip\RD\Prerequisite;
 
 use Liip\RD\Context;
+use Liip\RD\Action\BaseAction;
 
-class DisplayLastChanges extends BasePrerequisite
+class DisplayLastChanges extends BaseAction
 {
     public function getTitle()
     {
@@ -21,3 +22,4 @@ class DisplayLastChanges extends BasePrerequisite
         );
     }
 }
+
