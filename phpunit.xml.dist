@@ -3,11 +3,11 @@
 <phpunit colors="true" bootstrap="autoload.php">
 
     <testsuites>
-        <testsuite name="RD Unit test suite">
-            <directory suffix="Test.php">./test/Liip/RD/Tests/Unit</directory>
+        <testsuite name="RMT Unit test suite">
+            <directory suffix="Test.php">./test/Liip/RMT/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="RD Functional test suite">
-            <directory suffix="Test.php">./test/Liip/RD/Tests/Functional</directory>
+        <testsuite name="RMT Functional test suite">
+            <directory suffix="Test.php">./test/Liip/RMT/Tests/Functional</directory>
         </testsuite>
     </testsuites>
 

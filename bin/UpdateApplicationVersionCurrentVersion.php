@@ -1,9 +1,9 @@
 <?php
 
-use Liip\RD\Information\InformationRequest;
-use Liip\RD\Context;
+use Liip\RMT\Information\InformationRequest;
+use Liip\RMT\Context;
 
-class UpdateApplicationVersionCurrentVersion extends \Liip\RD\Action\BaseAction
+class UpdateApplicationVersionCurrentVersion extends \Liip\RMT\Action\BaseAction
 {
     public function getTitle() {
         return "Application version update";
@@ -13,7 +13,7 @@ class UpdateApplicationVersionCurrentVersion extends \Liip\RD\Action\BaseAction
     {
         // Output for devs
         $newVersion = Context::getParam('new-version');
-        $appFile = realpath(__DIR__.'/../src/Liip/RD/Application.php');
+        $appFile = realpath(__DIR__.'/../src/Liip/RMT/Application.php');
         Context::get('output')->write("New version [<yellow>$newVersion</yellow>] udpated into $appFile: ");
 
         // Update the application file

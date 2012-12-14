@@ -19,18 +19,18 @@ Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
 
-This command will create for you a `rd.json` config file and a `RD` executable script in your root folder. For that point you can start using RMT, just execute it:
+This command will create for you a `rmt.json` config file and a `RMT` executable script in your root folder. For that point you can start using RMT, just execute it:
 
-    ./RD
+    ./RMT
 
 Once here, the best is to pick one of the [configuration example](#configuration-examples) below and to adapt it to your needs.
 
 
 Usage
 -----
-Using RMT is very straightforward, you just have to run the command:
+Using RMT is very straightforwarmt, you just have to run the command:
 
-    ./RD release
+    ./RMT release
 
 RMT will then do the following tasks:
 
@@ -46,12 +46,12 @@ RMT will then do the following tasks:
 The `release` command is the main behavior of the tool, but some extra commands are available:
 
 * `current` will show your project current version number (alias version)
-* `init` create rd.json config file
+* `init` create rmt.json config file
 
 Configuration
 -------------
 
-All RMT configuration have to be done in the `rd.json`. The file is divided in 5 root elements:
+All RMT configuration have to be done in the `rmt.json`. The file is divided in 5 root elements:
 
 * `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
 * `prerequisites`: A list `[]` of prerequisites that must be matched before starting the release process

@@ -3,16 +3,16 @@
 // Search for an autoloader
 if (file_exists($file = __DIR__.'/../../autoload.php')) {
 
-    // Composer standard location
+    // Composer standarmt location
     $loader = require_once $file;
-    $loader->add('Liip\RD\Tests', __DIR__.'/test');
+    $loader->add('Liip\RMT\Tests', __DIR__.'/test');
     $loader->add('Liip', __DIR__.'/src');
 }
 elseif ( file_exists($file = __DIR__.'/vendor/autoload.php')) {
 
     // Composer when on RMT standalone install (used in travis.ci)
     $loader = require_once $file;
-    $loader->add('Liip\RD\Tests', __DIR__.'/test');
+    $loader->add('Liip\RMT\Tests', __DIR__.'/test');
     $loader->add('Liip', __DIR__.'/src');
 }
 elseif ( file_exists( $file = __DIR__.'/../symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php')) {
