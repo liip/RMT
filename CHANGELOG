@@ -3,6 +3,14 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      14/12/2012 07:57  0.9.3  Rename all from RD to RMT + Various bugs fixes
+         34bde25 Master renaming from RD to RMT fix #21
+         1e7456f Fix the init command: fix #10
+         7f623c0 first cleaning round
+         3283c31 anchor to config
+         1c89b38 update readme
+         6abb145 New option --vcs-tag on the command RD current
+         d938629 Test output cleanup
       01/12/2012 22:45  0.9.2  Refactoring of the Context and bug fixes
          95fefbf New shortcut methods Context::get() and Context::getParam()
          895ea0c Fix for the sorting issue fix #18
