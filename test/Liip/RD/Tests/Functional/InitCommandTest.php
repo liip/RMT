@@ -14,7 +14,6 @@ class InitCommandTest extends RDFunctionalTestBase
         $config = json_decode(file_get_contents('rd.json'), true);
         $this->assertEquals('git', $config['vcs']);
         $this->assertEquals('vcs-tag', $config['version-persister']);
-        $this->markTestSkipped('Issue #10 identified in github');
         $this->assertEquals('semantic', $config['version-generator']);
     }
 }

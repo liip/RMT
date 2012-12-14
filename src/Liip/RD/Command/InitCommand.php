@@ -42,7 +42,7 @@ class InitCommand extends BaseCommand
                 'type' => 'choice',
                 'choices' => array('git', 'none'),
                 'choices_shortcuts' => array('g'=>'git', 'n'=>'none'),
-                'default' => 'g'
+                'default' => 'none'
             )),
             new InformationRequest('generator', array(
                 'description' => 'The generator to use for version incrementing',
@@ -119,7 +119,7 @@ class InitCommand extends BaseCommand
             $config['vcs'] = $vcs;
         }
 
-        $generator = $this->informationCollector->getValueFor('vcs');
+        $generator = $this->informationCollector->getValueFor('generator');
         $config['version-generator'] = $generator == 'semantic-versioning' ? 'semantic' : 'simple';
 
         $config['version-persister'] = $this->informationCollector->getValueFor('persister');
