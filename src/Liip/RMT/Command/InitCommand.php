@@ -6,6 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
+use Liip\RMT\Helpers\JSONHelper;
 
 /**
  * Create json settings file and rmt executable
@@ -104,7 +105,10 @@ class InitCommand extends BaseCommand
 
         // Create the config file
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
-        file_put_contents($this->configPath, json_encode($this->getConfigData()));
+        file_put_contents(
+            $this->configPath,
+            JSONHelper::format(json_encode($this->getConfigData()))
+        );
 
         // Confirmation
         $this->writeBigTitle('Success, you can start using RMT by calling <info>RMT release</info>');
