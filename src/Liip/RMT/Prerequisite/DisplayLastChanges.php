@@ -14,12 +14,17 @@ class DisplayLastChanges extends BaseAction
 
     public function execute()
     {
-        Context::get('output')->writeln('');
-        Context::get('output')->writeln(
-            Context::get('vcs')->getAllModificationsSince(
-                Context::get('version-persister')->getCurrentVersionTag()
-            )
-        );
+        try {
+            Context::get('output')->writeln('');
+            Context::get('output')->writeln(
+                Context::get('vcs')->getAllModificationsSince(
+                    Context::get('version-persister')->getCurrentVersionTag()
+                )
+            );
+        }
+        catch (\Exception $e){
+            Context::get('output')->writeln('<error>No modification found: '.$e->getMessage().'</error>');
+        }
     }
 }
 
