@@ -14,12 +14,16 @@ class ChangelogUpdateAction extends BaseAction
 
     public function __construct($options)
     {
-        $this->options = $options;
+        $this->options = array_merge(array(
+            'dump-commits' => false,
+            'format' => 'simple',
+            'file' => 'CHANGELOG'
+        ), $options);
     }
 
     public function execute()
     {
-        if (isset($this->options['dump-commits']) && $this->options['dump-commits']===true) {
+        if ($this->options['dump-commits'] == true) {
             $extraLines = Context::get('vcs')->getAllModificationsSince(
                 Context::get('version-persister')->getCurrentVersionTag(),
                 false
@@ -28,7 +32,7 @@ class ChangelogUpdateAction extends BaseAction
             unset($this->options['dump-commits']);
         }
 
-        $manager = new ChangelogManager('CHANGELOG', 'semantic');
+        $manager = new ChangelogManager($this->options['file'], $this->options['format']);
         $manager->update(
             Context::getParam('new-version'),
             Context::get('information-collector')->getValueFor('comment'),
