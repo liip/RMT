@@ -22,8 +22,13 @@ class InitCommand extends BaseCommand
     {
         $projectDir = $this->getApplication()->getProjectRootDir();
         $this->executablePath = $projectDir.'/RMT';
-        $this->commandPath = realpath(__DIR__.'/../../../../command.php');
         $this->configPath = $projectDir.'/rmt.json';
+        $this->commandPath = realpath(__DIR__.'/../../../../command.php');
+
+        // If possible try to generate a relative link for the command if RMT is installed inside the project
+        if (strpos($this->commandPath, $projectDir) === 0) {
+            $this->commandPath = substr($this->commandPath, strlen($projectDir)+1);
+        }
     }
 
     protected function configure()

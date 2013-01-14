@@ -5,8 +5,9 @@ namespace Liip\RMT\Tests\Functional;
 
 class InitCommandTest extends RMTFunctionalTestBase
 {
-    public function testInit()
+    public function testInitConfig()
     {
+        unlink('rmt.json');
         $this->assertFileNotExists('rmt.json');
 //        $this->manualDebug();
         exec('./RMT init --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
