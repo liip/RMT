@@ -18,13 +18,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 
         // Create the executable task inside
         $rmtDir = realpath(__DIR__.'/../../../../../');
-        file_put_contents('RMT', <<<EOF
-#!/usr/bin/env php
-<?php define('RMT_ROOT_DIR', __DIR__); ?>
-<?php require '$rmtDir/command.php'; ?>
-EOF
-        );
-        exec('chmod +x RMT');
+        exec("php $rmtDir/command.php init --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
     protected function createJsonConfig($generator, $persister, $otherConfig=array()) {
