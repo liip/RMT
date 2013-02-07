@@ -3,6 +3,13 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      07/02/2013 07:07  0.9.4  Various bug fixes: #11, #12 and #24 + Functionnal test enhancement
+         cdf11f9 Use the init command to setup functionnal tests
+         b82bed0 Generate a relative path in the init command fix #24
+         2c1c27d Update composer command
+         3f5474d Add possibility to configure the action CHANGELOG update
+         d939469 Fixing DisplayLastChanges when no release yet fix #11
+         d73ef3b Indent the rmt.json file when running the init function fix #13
       14/12/2012 07:57  0.9.3  Rename all from RD to RMT + Various bugs fixes
          34bde25 Master renaming from RD to RMT fix #21
          1e7456f Fix the init command: fix #10
