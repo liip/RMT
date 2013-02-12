@@ -71,7 +71,9 @@ class HgTest extends RMTFunctionalTestBase
     protected function initHg()
     {
         exec('hg init');
-        exec('hg add *');
+	    exec('echo "[ui]" > .hg/hgrc');
+	    exec('echo "username = John Doe <test@test.com>" >> .hg/hgrc');
+	    exec('hg add *');
         exec('hg commit -m "First commit"');
     }
 
