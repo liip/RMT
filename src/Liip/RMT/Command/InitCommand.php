@@ -46,8 +46,8 @@ class InitCommand extends BaseCommand
             new InformationRequest('vcs', array(
                 'description' => 'The VCS system to use',
                 'type' => 'choice',
-                'choices' => array('git', 'none'),
-                'choices_shortcuts' => array('g'=>'git', 'n'=>'none'),
+                'choices' => array('git', 'hg', 'none'),
+                'choices_shortcuts' => array('g'=>'git', 'h'=>'hg', 'n'=>'none'),
                 'default' => 'none'
             )),
             new InformationRequest('generator', array(
