@@ -2,7 +2,7 @@
 
 namespace Liip\RMT;
 
-define('RMT_VERSION', '0.9.4');
+define('RMT_VERSION', '0.9.5');
 
 use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;

@@ -3,6 +3,12 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      13/02/2013 21:58  0.9.5  Mercurial support (thanks to krtek4)
+         d46189c Small formatting fix in the README.md
+         652dc65 Merge pull request #26 from liip/mercurial-support
+         3352378 Update tests so we give some default username for systems without global hgrc
+         300f4dd Add HG to the init options
+         04a2287 Add mercurial support
       07/02/2013 07:07  0.9.4  Various bug fixes: #11, #12 and #24 + Functionnal test enhancement
          cdf11f9 Use the init command to setup functionnal tests
          b82bed0 Generate a relative path in the init command fix #24
