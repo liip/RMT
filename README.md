@@ -187,8 +187,8 @@ Composer
 Authors
 -------
 
-Laurent Prodon Liip AG
-David Jeanmonod Liip AG
+* Laurent Prodon Liip AG
+* David Jeanmonod Liip AG
 
 License
 -------
