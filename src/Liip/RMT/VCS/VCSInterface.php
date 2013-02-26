@@ -32,9 +32,19 @@ interface VCSInterface
     /**
      * Return the list of all modifications from the given tag until now
      * @param $tag
+     * @param bool $color
      * @return array
      */
-    public function getAllModificationsSince($tag, $color=true);
+    public function getAllModificationsSince($tag, $color = true);
+
+    /**
+     * Return the list of all modified files from the given tag until now
+     * The result is an array with the filename as key and the status as value.
+     * Status is one of the following : M (modified), A (added), R (removed)
+     * @param $tag
+     * @return array
+     */
+    public function getModifiedFilesSince($tag);
 
     /**
      * Return local modification

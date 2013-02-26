@@ -13,10 +13,19 @@ class Hg extends BaseVCS
         return $modifications;
     }
 
+    public function getModifiedFilesSince($tag) {
+        $data = $this->executeHgCommand("status --rev $tag:tip");
+        $files = array();
+        foreach($data as $d) {
+            $parts = explode(" ", $d);
+            $files[$parts[1]] = $parts[0];
+        }
+        return $files;
+    }
+
     public function getLocalModifications(){
         return $this->executeHgCommand('status');
     }
-
 
     public function getTags()
     {

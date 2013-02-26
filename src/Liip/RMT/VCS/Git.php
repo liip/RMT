@@ -31,6 +31,17 @@ class Git extends BaseVCS
         return $this->executeGitCommand("log --oneline $tag..HEAD ".($color?'--color=always':''));
     }
 
+    public function getModifiedFilesSince($tag)
+    {
+        $data = $this->executeGitCommand("diff --name-status $tag..HEAD");
+        $files = array();
+        foreach($data as $d) {
+            $parts = explode("\t", $d);
+            $files[$parts[1]] = $parts[0];
+        }
+        return $files;
+    }
+
     public function getLocalModifications(){
         return $this->executeGitCommand('status -s');
     }

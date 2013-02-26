@@ -30,6 +30,13 @@ class GitTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("Modification of the first file", $modifs[1]);
     }
 
+    public function testGetModifiedFilesSince()
+    {
+        $vcs = new Git();
+        $files = $vcs->getModifiedFilesSince('1.1.0');
+        $this->assertEquals(array("file1" => "M", "file3" => "A"), $files);
+    }
+
     public function testGetLocalModifications()
     {
         $vcs = new Git();

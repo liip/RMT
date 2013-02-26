@@ -30,6 +30,12 @@ class HgTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("Modification of the first file", $modifs[1]);
     }
 
+    public function testGetModifiedFilesSince() {
+        $vcs = new Hg();
+        $files = $vcs->getModifiedFilesSince('1.1.0');
+        $this->assertEquals(array("file1" => "M", "file3" => "A", ".hgtags" => "M"), $files);
+    }
+
     public function testGetLocalModifications()
     {
         $vcs = new Hg();
