@@ -19,7 +19,7 @@
 
     ],
     "require": {
-        "php": ">=5.2.0",
+        "php": ">=5.3.3",
         "symfony/console": "2.0.*"
     },
     "autoload": {
