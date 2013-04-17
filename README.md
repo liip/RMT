@@ -28,7 +28,7 @@ Once here, the best is to pick one of the [configuration example](#configuration
 
 Usage
 -----
-Using RMT is very straightforwarmt, you just have to run the command:
+Using RMT is very straightforward, you just have to run the command:
 
     ./RMT release
 
@@ -61,7 +61,7 @@ All RMT configuration have to be done in the `rmt.json`. The file is divided in 
 * `post-release-actions`: A list `[]` of actions that will be executed after the release
 * `branch-specific`: A list of config parameters that will be used to override the defaults from specific branches
 
-All the entry of this config (except the `branch-specifc`) are all working the same. You have to specify the class you want to handle the action. There is two syntax available:
+All the entry of this config (except the `branch-specific`) are all working the same. You have to specify the class you want to handle the action. There is two syntax available:
 
 * The short one, example: `"version-generator": "simple"` when you have no specific parameter to provide
 * The config array, example:  `"version-persister": {"name": "vcs-tag", "tag-prefix": "v_"}` when you have to provide parameters to the class.
@@ -129,8 +129,8 @@ Most of the time, it will be easier for you to pick up and example bellow and to
     "version-generator": "simple",  
     "version-persister": "vcs-tag",  
     "prerequisites": [
-    	"working-copy-check",
-    	"display-last-changes"
+        "working-copy-check",
+        "display-last-changes"
     ]
 }
 ```
@@ -181,7 +181,7 @@ If you would like to help, to submit one of your action script or just to report
 Requirements
 ------------
 
-PHP 5.2
+PHP 5.3
 Composer
 
 Authors
