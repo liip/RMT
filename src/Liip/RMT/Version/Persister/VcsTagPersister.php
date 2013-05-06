@@ -15,6 +15,9 @@ class VcsTagPersister implements PersisterInterface
     {
         $this->vcs = Context::get('vcs');
         $this->versionRegex = Context::get('version-generator')->getValidationRegex();
+        if (isset($options['tag-pattern'])) {
+            $this->versionRegex = $options['tag-pattern'];
+        }
         $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
     }
 
