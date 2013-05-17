@@ -85,4 +85,63 @@ class Application extends BaseApplication
         return $config;
     }
 
+
+    /**
+     * @inheritdoc
+     */
+    public function asText($namespace = null)
+    {
+        $messages = array();
+
+        // Title
+        $title = 'RMT '.$this->getLongVersion();
+        $messages[] = '';
+        $messages[] = $title;
+        $messages[] = str_pad('', 41, '-'); // strlen is not working here...
+        $messages[] = '';
+
+        // Usage
+        $messages[] = '<comment>Usage:</comment>';
+        $messages[] = '  RMT command [arguments] [options]';
+        $messages[] = '';
+
+        // Commands
+        $messages[] = '<comment>Available commands:</comment>';
+        $commands = $this->all();
+        $width = 0;
+        foreach ($commands as $command) {
+            $width = strlen($command->getName()) > $width ? strlen($command->getName()) : $width;
+        }
+        $width += 2;
+        foreach ($commands as $name => $command) {
+            if (in_array($name, array('list', 'help'))){
+                continue;
+            }
+            $messages[] = sprintf("  <info>%-${width}s</info> %s", $name, $command->getDescription());
+        }
+        $messages[] = '';
+
+        // Options
+        $messages[] = '<comment>Common options:</comment>';
+        foreach ($this->getDefinition()->getOptions() as $option) {
+            if (in_array($option->getName(), array('help', 'ansi', 'no-ansi', 'no-interaction', 'version'))){
+                continue;
+            }
+            $messages[] = sprintf('  %-29s %s %s',
+                '<info>--'.$option->getName().'</info>',
+                $option->getShortcut() ? '<info>-'.$option->getShortcut().'</info>' : '  ',
+                $option->getDescription()
+            );
+        }
+        $messages[] = '';
+
+        // Help
+        $messages[] = '<comment>Help:</comment>';
+        $messages[] = '   To get more information about a given command, you can use the help option:';
+        $messages[] = sprintf('     %-26s %s %s','<info>--help</info>', '<info>-h</info>', 'Provide help for the given command');
+        $messages[] = '';
+
+        return implode(PHP_EOL, $messages);
+    }
+
 }

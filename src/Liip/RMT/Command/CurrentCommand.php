@@ -16,9 +16,8 @@ class CurrentCommand extends BaseCommand {
     protected function configure()
     {
         $this->setName('current');
-        $this->setDescription('Display information about the current version');
+        $this->setDescription('Display information about the current release');
         $this->setHelp('The <comment>current</comment> task can be used to display information on the current release');
-        $this->setAliases(array('version'));
         $this->addOption('raw', null, InputOption::VALUE_NONE, 'display only the version name');
         $this->addOption('vcs-tag', null, InputOption::VALUE_NONE, 'display the associated vcs-tag');
     }
