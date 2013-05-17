@@ -3,6 +3,15 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      17/05/2013 23:32  0.9.6  Lot of small fixes
+         7159a29 Review the application output fix #23
+         3e56e54 Amelioration of the Changelog formatter fix #27
+         3654a60 Add a docbloc related to the github issue #29
+         c8d2a0b Add a new option tag-pattern for a tag persister
+         64c3f82 Merge pull request #28 from liip/minor_tweaks
+         802854a min requirement is php 5.3.3, some ws/typo fixes
+         d5c7f7c fix: set up default git username and email for travis tests
+         e466114 Add a getModifiedFilesSince to VCS
       13/02/2013 21:58  0.9.5  Mercurial support (thanks to krtek4)
          d46189c Small formatting fix in the README.md
          652dc65 Merge pull request #26 from liip/mercurial-support
