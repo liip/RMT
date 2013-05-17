@@ -21,6 +21,9 @@ class VcsTagPersister implements PersisterInterface
         $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getCurrentVersion()
     {
         $tags = $this->getValidVersionTags($this->versionRegex);
