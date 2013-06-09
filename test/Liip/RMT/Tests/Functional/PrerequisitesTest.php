@@ -38,8 +38,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         // Release blocked by the check
         exec('touch toto');
         exec('./RMT release -n', $consoleOutput, $exitCode);
-        $this->assertEquals(1, $exitCode, implode("\n", $consoleOutput));
-        $this->assertContains("local modification", implode("\n", $consoleOutput));
+        $this->assertGreaterThan(0, $exitCode);
     }
     
     public function testWorkingCopyWithIgnoreCheck()
