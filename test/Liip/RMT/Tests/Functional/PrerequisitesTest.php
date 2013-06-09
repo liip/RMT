@@ -50,7 +50,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         // Normal case, check is passing
         exec('rm toto');
         exec('./RMT release -n', $consoleOutput, $exitCode);
-        $this->assertEquals(0, $exitCode);
+        $this->assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
         exec('git tag', $tags2);
         $this->assertEquals(array('1','2','3'), $tags2);
     }
