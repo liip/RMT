@@ -71,7 +71,7 @@ All the entry of this config (except the `branch-specific`) are all working the 
 Version number generation strategy
 
 * simple: This generator is doing a simple increment (1,2,3...)
-* semantic: A generator who implements (Semantic versioning)[http://semver.org]
+* semantic: A generator which implements [Semantic versioning](http://semver.org)
 
 ### Version persister
 
