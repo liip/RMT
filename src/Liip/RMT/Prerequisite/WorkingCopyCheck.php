@@ -16,6 +16,13 @@ use Liip\RMT\Action\BaseAction;
  */
 class WorkingCopyCheck extends BaseAction {
 
+    /**
+     * Exception code when working copy is not clean.
+     * 
+     * @var int
+     */
+    const EXCEPTION_CODE = 412;
+    
     public $ignoreCheckOptionName = 'ignore-check';
 
     public function getTitle()
@@ -30,8 +37,13 @@ class WorkingCopyCheck extends BaseAction {
             return;
         }
 
-        if (count($modif = Context::get('vcs')->getLocalModifications()) > 0) {
-            throw new \Exception('Your working directory contain local modifications, use --'.$this->ignoreCheckOptionName.' option to bypass this check');
+        $modCount = count(Context::get('vcs')->getLocalModifications());
+        if ($modCount > 0) {
+            throw new \Exception(
+                'Your working directory contains ' . $modCount . ' local modifications, use --'
+                . $this->ignoreCheckOptionName.' option to bypass this check',
+                self::EXCEPTION_CODE
+            );
         }
         
         $this->confirmSuccess();
