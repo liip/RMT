@@ -85,7 +85,8 @@ class InitCommand extends BaseCommand
         }
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output){
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
 
         // Fill up questions
         if ($this->informationCollector->hasMissingInformation()){
@@ -120,7 +121,8 @@ class InitCommand extends BaseCommand
         $this->writeEmptyLine();
     }
 
-    public function getConfigData() {
+    public function getConfigData()
+    {
         $config = array();
 
         $vcs = $this->informationCollector->getValueFor('vcs');
