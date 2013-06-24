@@ -3,14 +3,13 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
+
+install: composer install
 
 before_script:
-  - curl -s http://getcomposer.org/installer | php --
-  - php composer.phar install
   - git config --global user.email "test@test.com"
   - git config --global user.name "John Doe"
-
-script: phpunit
 
 notifications:
   email:
