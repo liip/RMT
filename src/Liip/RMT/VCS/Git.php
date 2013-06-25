@@ -77,7 +77,7 @@ class Git extends BaseVCS
     {
         $branches = $this->executeGitCommand('branch');
         foreach ($branches as $branch){
-            if (strpos($branch, '* ') === 0 && $branch !== '* (no branch)'){
+            if (strpos($branch, '* ') === 0 && $branch !== '* (no branch)' && strpos($branch, '* (detached from ') !== 0) {
                 return substr($branch,2);
             }
         }
