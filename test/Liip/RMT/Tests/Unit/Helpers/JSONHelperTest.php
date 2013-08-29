@@ -25,7 +25,7 @@ class JSONHelperTest extends \PHPUnit_Framework_TestCase
 }
 JSON
 ,
-            JSONHelper::format('{"key1":"val1","key2":["item1",2,"item[{2"],"key3":{"bool":false,"int":    17    ,"float":17.9}}'));
+            JSONHelper::format('{"key1":"val1","key2":["item1",2,"item[{2"],"key3":{"bool":false,"int":    17    ,"float":17.9}}', 3));
     }
 
     /**

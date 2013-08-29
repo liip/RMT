@@ -9,11 +9,12 @@ class JSONHelper
      *  Picked from here: http://php.net/manual/en/function.json-encode.php#80339
      *
      * @param $json
-     * @param string $tab
+     * @param string $indentSize
      * @return bool|string
      */
-    public static function format($json, $tab = "   ")
+    public static function format($json, $indentSize = 4)
     {
+		$indentation = str_repeat(' ', $indentSize);
         $formatted = "";
         $indentLevel = 0;
         $inString = false;
@@ -33,7 +34,7 @@ class JSONHelper
                 case '{':
                 case '[':
                     if(!$inString) {
-                        $formatted .= $char . "\n" . str_repeat($tab, $indentLevel+1);
+                        $formatted .= $char . "\n" . str_repeat($indentation, $indentLevel+1);
                         $indentLevel++;
                     }
                     else {
@@ -44,7 +45,7 @@ class JSONHelper
                 case ']':
                     if(!$inString) {
                         $indentLevel--;
-                        $formatted .= "\n" . str_repeat($tab, $indentLevel) . $char;
+                        $formatted .= "\n" . str_repeat($indentation, $indentLevel) . $char;
                     }
                     else {
                         $formatted .= $char;
@@ -52,7 +53,7 @@ class JSONHelper
                     break;
                 case ',':
                     if(!$inString) {
-                        $formatted .= ",\n" . str_repeat($tab, $indentLevel);
+                        $formatted .= ",\n" . str_repeat($indentation, $indentLevel);
                     }
                     else {
                         $formatted .= $char;
