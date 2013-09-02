@@ -3,6 +3,17 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      02/09/2013 11:01  0.9.7  cleanup and better VCA-Commit action
+         1385543 Ignore commit action if no locale modifications are found
+         e64812d use indentation size as JSON format parameter, default to a size 4
+         5967701 Update installation steps and correct typos
+         9dabc50 Merge pull request #33 from gildegoma/travis-patches
+         07969aa Travis CI: Add php 5.5 and use more defaults
+         be4cb0f Merge pull request #34 from gildegoma/support-git-1.8.x
+         66dbf4b Handle output of `git branch` with git v1.8+
+         a956b2d Merge pull request #32 from cordoval/patch-1
+         9ca003b standards
+         eb5a9c6 Update README.md
       17/05/2013 23:32  0.9.6  Lot of small fixes
          7159a29 Review the application output fix #23
          3e56e54 Amelioration of the Changelog formatter fix #27
