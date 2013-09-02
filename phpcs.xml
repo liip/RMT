@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="MyRuleset">
+  <description>My rule set for PHP_CodeSniffer</description>
+  <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+  <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+</ruleset>

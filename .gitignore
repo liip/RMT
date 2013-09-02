@@ -1,2 +1,6 @@
 /composer.lock
 /vendor
+cache.properties
+/build
+/builds
+/docs
