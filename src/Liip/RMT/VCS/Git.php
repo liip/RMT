@@ -4,7 +4,7 @@ namespace Liip\RMT\VCS;
 
 class Git extends BaseVCS
 {
-/*
+    /*
     public function checkStatus(){
         $this->gitExec('fetch origin');
         $statLines = $this->gitExec('status', true);
@@ -22,7 +22,7 @@ class Git extends BaseVCS
             throw new \Exception('Your working directory must be clean to generate a new version. Please commit or stash your change and push everything to origin');
         }
     }
-*/
+    */
     protected $dryRun = false;
 
 
@@ -42,7 +42,8 @@ class Git extends BaseVCS
         return $files;
     }
 
-    public function getLocalModifications(){
+    public function getLocalModifications()
+    {
         return $this->executeGitCommand('status -s');
     }
 

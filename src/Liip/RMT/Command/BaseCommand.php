@@ -98,7 +98,8 @@ abstract class BaseCommand extends Command
         $this->getOutput()->write($text);
     }
 
-    protected function askQuestion(InteractiveQuestion $question) {
+    protected function askQuestion(InteractiveQuestion $question)
+    {
         $dialog = $this->getHelperSet()->get('dialog');
         return $dialog->askAndValidate(
             $this->getOutput(),

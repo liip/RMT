@@ -52,7 +52,8 @@ class InformationRequest
         }
     }
 
-    public function getName(){
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -71,7 +72,8 @@ class InformationRequest
         return $this->options['interactive'];
     }
 
-    public function convertToCommandOption() {
+    public function convertToCommandOption()
+    {
         return new InputOption(
             $this->name,
             $this->options['command_shortcut'],
@@ -81,7 +83,8 @@ class InformationRequest
         );
     }
 
-    public function convertToInteractiveQuestion() {
+    public function convertToInteractiveQuestion()
+    {
         $questionOptions = array();
         foreach (array('choices', 'choices_shortcuts', 'interactive_help', 'interactive_help_shortcut') as $optionName){
             $questionOptions[$optionName] = $this->options[$optionName];

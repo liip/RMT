@@ -19,8 +19,8 @@ class Application extends BaseApplication
     // See Liip\Command\BaseCommand::getApplication()
     static $instance;
 
-    public function __construct(){
-
+    public function __construct()
+    {
         // Creation
         parent::__construct('Release Management Tool', RMT_VERSION);
         self::$instance = $this;

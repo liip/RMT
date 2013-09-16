@@ -4,8 +4,8 @@ namespace Liip\RMT\Version\Generator;
 
 class SimpleGenerator implements GeneratorInterface
 {
-    public function __construct($options = array()){
-
+    public function __construct($options = array())
+    {
     }
 
     public function generateNextVersion($currentVersion, $options = array())
@@ -28,7 +28,8 @@ class SimpleGenerator implements GeneratorInterface
         return '0';
     }
 
-    public function compareTwoVersions($a, $b) {
+    public function compareTwoVersions($a, $b)
+    {
         if ($a == $b) {
             return 0;
         }

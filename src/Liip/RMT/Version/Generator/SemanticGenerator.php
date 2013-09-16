@@ -10,7 +10,8 @@ use Liip\RMT\Context;
  */
 class SemanticGenerator implements GeneratorInterface
 {
-    public function __construct($options = array()){
+    public function __construct($options = array())
+    {
     }
 
     /**
@@ -70,7 +71,8 @@ class SemanticGenerator implements GeneratorInterface
         return '0.0.0';
     }
 
-    public function compareTwoVersions($a, $b) {
+    public function compareTwoVersions($a, $b)
+    {
         list($majorA, $minorA, $patchA) = explode('.', $a);
         list($majorB, $minorB, $patchB) = explode('.', $b);
         if ($majorA !== $majorB) {

@@ -95,7 +95,8 @@ class VcsTagPersister implements PersisterInterface
         return $validator->filtrateList($this->vcs->getTags());
     }
 
-    protected function generatePrefix($userTag){
+    protected function generatePrefix($userTag)
+    {
         preg_match_all('/\{([^\}]*)\}/', $userTag, $placeHolders);
         foreach ($placeHolders[1] as $pos => $placeHolder){
             if ($placeHolder == 'branch-name'){

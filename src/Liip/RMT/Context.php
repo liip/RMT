@@ -11,13 +11,15 @@ class Context
 
     private static $instance;
 
-    protected function __construct() {
+    protected function __construct()
+    {
     }
 
     /**
      * @return Context
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new Context();
         }

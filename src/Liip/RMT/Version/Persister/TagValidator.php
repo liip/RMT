@@ -16,7 +16,8 @@ class TagValidator
      * @param $tag
      * @return boolean
      */
-    public function isValid($tag){
+    public function isValid($tag)
+    {
         if (strlen($this->tagPrefix) > 0 && strpos($tag,$this->tagPrefix) !== 0){
             return false;
         }

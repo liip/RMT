@@ -127,11 +127,13 @@ class InformationCollector
         }
     }
 
-    public function setValueFor($requestName, $value){
+    public function setValueFor($requestName, $value)
+    {
         return $this->getRequest($requestName)->setValue($value);
     }
 
-    public function getValueFor($requestName, $default = null){
+    public function getValueFor($requestName, $default = null)
+    {
         if ($this->hasRequest($requestName)){
             return $this->getRequest($requestName)->getValue();
         }
