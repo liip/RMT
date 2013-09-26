@@ -9,7 +9,7 @@ class DisplayLastChanges extends BaseAction
 {
     public function getTitle()
     {
-        return "Here is the list of changes you are going to released";
+        return "Here is the list of changes you are going to release";
     }
 
     public function execute()

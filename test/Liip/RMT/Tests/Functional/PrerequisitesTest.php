@@ -26,7 +26,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         $this->assertContains("Rename foo to bar", $consoleOutput);
     }
 
-    public function testWorkingCopyCheck()
+    public function testWorkingCopyCheckFailsWithLocalModifications()
     {
         $this->createJsonConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
@@ -38,21 +38,39 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         // Release blocked by the check
         exec('touch toto');
         exec('./RMT release -n', $consoleOutput, $exitCode);
-        $this->assertEquals(1, $exitCode);
-        $this->assertContains("local modification", implode("\n", $consoleOutput));
+        $this->assertGreaterThan(0, $exitCode);
+    }
+    
+    public function testWorkingCopyWithIgnoreCheck()
+    {
+        $this->createJsonConfig('simple', 'vcs-tag', array(
+            'prerequisites' => array('working-copy-check'),
+            'vcs' => 'git'
+        ));
+        $this->initGit();
+        exec('git tag 1');
 
         // Release working, check is ignore
         exec('./RMT release -n --ignore-check', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode);
         exec('git tag', $tags);
         $this->assertEquals(array('1','2'), $tags);
+    }
+    
+    public function testWorkingCopy()
+    {
+        $this->createJsonConfig('simple', 'vcs-tag', array(
+            'prerequisites' => array('working-copy-check'),
+            'vcs' => 'git'
+        ));
+        $this->initGit();
+        exec('git tag 1');
 
         // Normal case, check is passing
-        exec('rm toto');
         exec('./RMT release -n', $consoleOutput, $exitCode);
-        $this->assertEquals(0, $exitCode);
+        $this->assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
         exec('git tag', $tags2);
-        $this->assertEquals(array('1','2','3'), $tags2);
+        $this->assertEquals(array('1','2'), $tags2);
     }
 
 }
