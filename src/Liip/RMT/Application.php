@@ -89,7 +89,7 @@ class Application extends BaseApplication
     /**
      * @inheritdoc
      */
-    public function asText($namespace = null)
+    public function asText($namespace = null, $raw = false)
     {
         $messages = array();
 
