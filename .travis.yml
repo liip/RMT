@@ -5,11 +5,21 @@ php:
   - 5.4
   - 5.5
 
+env:
+  - SYMFONY_VERSION=2.0.*
+  - SYMFONY_VERSION=2.1.*
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=dev-master
+
 install: composer install
 
 before_script:
   - git config --global user.email "test@test.com"
   - git config --global user.name "John Doe"
+  - composer require symfony/console:${SYMFONY_VERSION}
+
+script: phpunit --coverage-text
 
 notifications:
   email:
