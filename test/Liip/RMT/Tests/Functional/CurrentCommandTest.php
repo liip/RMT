@@ -10,7 +10,7 @@ class CurrentCommandTest extends RMTFunctionalTestBase
         $this->initGit();
         $this->createJsonConfig('simple', 'vcs-tag', array('vcs'=>'git'));
         exec('git tag 4');
-        $this->assertEquals("Current release is: 4", exec('./RMT current'));
+        $this->assertEquals("Current release is: 4", exec('./RMT current --no-ansi'));
     }
 
     public function testRaw()
