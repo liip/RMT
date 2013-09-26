@@ -3,6 +3,21 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      26/09/2013 23:07  0.9.8  Various fix, including the PR from @bonndan
+         a05865d Execute the current test on no-ansi mode, to avoid errors on some environments
+         cd778fc Revert "changed current command test to expected a formatted string on the console"
+         c0adab0 Merge remote-tracking branch 'bonndan/master'
+         479daea RMT command clean-up
+         393d32b correct brace position and indentation
+         5dbc1d4 prepare RMT for jenkins
+         0e6e279 #30 maintains compatibility to symfony/console 2.0*
+         37e1ce4 exception thrown in working copy check has code greather than zero, causing exit code to be non-zero as well
+         b2d1c87 fixed typo
+         142d602 separated working copy checkout tests
+         952d360 testWorkingCopyCheck sends the console output as message to phpunit
+         5ee8164 fixes a failing test with localized git console output
+         9a9a88a changed current command test to expected a formatted string on the console
+         7a9058d Changed symfony console version
       02/09/2013 11:01  0.9.7  cleanup and better VCA-Commit action
          1385543 Ignore commit action if no locale modifications are found
          e64812d use indentation size as JSON format parameter, default to a size 4
