@@ -104,8 +104,9 @@ class InitCommand extends BaseCommand
         $this->getOutput()->writeln("Creation of the new executable <info>{$this->executablePath}</info>");
         file_put_contents($this->executablePath,
             "#!/usr/bin/env php\n".
-            "<?php define('RMT_ROOT_DIR', __DIR__); ?>\n".
-            "<?php require '{$this->commandPath}'; ?>\n"
+            "<?php\n".
+            "define('RMT_ROOT_DIR', __DIR__);\n".
+            "require '{$this->commandPath}';\n"
         );
         exec('chmod +x RMT');
 
