@@ -50,7 +50,7 @@ class Handler
         $config = array_merge($defaultConfig, $this->rawConfig);
         if (isset($branchName) && isset($config['branch-specific'][$branchName])) {
             $envSpecific = $config['branch-specific'][$branchName];
-            $config = array_merge($config, $envSpecific);
+            $config = array_replace_recursive($config, $envSpecific);
         }
         unset($config['branch-specific']);
 
