@@ -65,7 +65,7 @@ class Handler
         // Validate the config entry
         $this->validateRootElements($config);
 
-        // Normalize all class name and options, remove null entry
+        // For single value elements, normalize all class name and options, remove null entry
         foreach (array("vcs", "version-generator", "version-persister") as $configKey){
             if ($config[$configKey] == null){
                 unset($config[$configKey]);
@@ -74,9 +74,20 @@ class Handler
                 $config[$configKey] = $this->getClassAndOptions($config[$configKey], $configKey);
             }
         }
+
+        // Same process but for list value elements
         foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $configKey){
-            foreach($config[$configKey] as $pos => $item){
-                $config[$configKey][$pos] = $this->getClassAndOptions($config[$configKey][$pos], $configKey.'_'.$pos);
+            foreach($config[$configKey] as $pos => $item) {
+
+                // Accept the element to be define by key or by value
+                if (!is_numeric($pos)){
+                    if ($item == null) {
+                        $item = array();
+                    }
+                    $item['name'] = $pos;
+                }
+
+                $config[$configKey][$pos] = $this->getClassAndOptions($item, $configKey.'_'.$pos);
             }
         }
 
