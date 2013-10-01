@@ -74,6 +74,43 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
+    public function testMergeOptions()
+    {
+        $configHandler = new Handler(array(
+            'version-persister' => 'foo',
+            'version-generator' => array('name'=>'bar', 'opt1'=>'val1'),
+            'branch-specific' => array(
+                'dev' => array(
+                    'version-generator' => array('opt1'=>'val2')
+                )
+            )
+        ));
+        $method = new \ReflectionMethod(
+            'Liip\RMT\Config\Handler', 'mergeConfig'
+        );
+        $method->setAccessible(TRUE);
+        $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+            'vcs' => null,
+            'prerequisites' => array(),
+            'pre-release-actions' => array(),
+            'version-generator' => array(),
+            'version-persister' => array (),
+            'post-release-actions' => array(),
+            'version-generator' => array('name'=>'bar', 'opt1'=>'val1'),
+            'version-persister' => 'foo',
+        ));
+        $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+            'vcs' => null,
+            'prerequisites' => array(),
+            'pre-release-actions' => array(),
+            'version-generator' => array(),
+            'version-persister' => array (),
+            'post-release-actions' => array(),
+            'version-generator' => array('name'=>'bar', 'opt1'=>'val2'),
+            'version-persister' => 'foo',
+        ));
+    }
+
     /**
      * @dataProvider getDataForTestingGetClassAndOptions
      */
@@ -102,5 +139,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array())
         );
     }
-
 }
