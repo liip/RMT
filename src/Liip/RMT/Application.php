@@ -12,6 +12,7 @@ use Liip\RMT\Output\Output;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Yaml\Yaml;
 
 class Application extends BaseApplication
 {
@@ -65,21 +66,37 @@ class Application extends BaseApplication
 
     public function getConfigFilePath()
     {
-        return $this->getProjectRootDir().'/rmt.json';
+        $validConfigFileName = array('rmt.json', 'rmt.yml', '.rmt.json', '.rmt.yml' );
+        foreach($validConfigFileName as $filename){
+            if (file_exists($path = $this->getProjectRootDir().DIRECTORY_SEPARATOR.$filename)){
+                return $path;
+            }
+        }
+        return null;
     }
 
     public function getConfig()
     {
         $configFile = $this->getConfigFilePath();
         if (!is_file($configFile)){
-            throw new \Exception("Impossible to locate the config file rmt.json at $configFile. If it's the first time you
+            throw new \Exception("Impossible to locate the config file rmt.xxx at $configFile. If it's the first time you
                 are using this tool, you setup your project using the [RMT init] command"
             );
         }
 
-        $config = json_decode(file_get_contents($configFile), true);
-        if (!is_array($config)){
-            throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the JSON syntax");
+        if (pathinfo($configFile, PATHINFO_EXTENSION) == 'json') {
+            $config = json_decode(file_get_contents($configFile), true);
+            if (!is_array($config)){
+                throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the JSON syntax");
+            }
+        }
+        else {
+            try {
+                $config = Yaml::parse(file_get_contents($configFile), true);
+            }
+            catch(\Exception $e) {
+                throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the YML syntax: ".$e->getMessage());
+            }
         }
 
         return $config;

@@ -112,11 +112,13 @@ Extend it
 
 RMT is providing a large bunch of existing actions, generator and persister. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
 
-    "version-generator": "bin/myOwnGenerator.php"
+    version-generator: "bin/myOwnGenerator.php"
     
 or with parameters:
 
-    "version-persister": {"file": "bin/myOwnGenerator.php", "parameter1": "value1"}
+    version-persister:
+        name: "bin/myOwnGenerator.php"
+        parameter1: value1
 
 
 Configuration examples
@@ -125,64 +127,44 @@ Most of the time, it will be easier for you to pick up and example bellow and to
 
 ### No VCS, changelog updater only
 
-```
-{
-    "version-generator": "semantic",  
-    "version-persister": "changelog"
-}
-```
+    version-generator: semantic
+    version-persister: changelog
 
 ### Using Git tags, simple versioning and prerequisites
-```
-{
-    "vcs": "git",
-    "version-generator": "simple",  
-    "version-persister": "vcs-tag",  
-    "prerequisites": [
-        "working-copy-check",
-        "display-last-changes"
-    ]
-}
-```
+
+    vcs: git
+    version-generator: simple
+    version-persister: vcs-tag
+    prerequisites: [working-copy-check, display-last-changes]
 
 ### Using Git tags with prefix, semantic versioning and pushing automatically
-```
-{
-    "vcs": "git",
-    "version-generator": "semantic",  
-    "version-persister": {
-        "type" : "vcs-tag",
-        "prefix" : "v_"
-    },
-    "post-release-actions": [
-       "vcs-publish"
-    ],
-}
-```
+
+    vcs: git
+    version-generator: semantic
+    version-persister:
+        name: vcs-tag
+        prefix : "v_"
+    post-release-actions: [vcs-publish]
+
 ### Using semantic versioning on master and simple versioning on topic branches
-```
-{
-  "vcs": "git",
-  "prerequisites": ["working-copy-check"],
-  "version-generator": "simple",
-  "version-persister": {"name": "vcs-tag","tag-prefix": "{branch-name}_"},
-  "post-release-actions": ["vcs-publish"],
-  "branch-specific" : {
-    "master": {
-      "version-generator": "semantic",
-      "version-persister": "vcs-tag",
-      "prerequisites": ["working-copy-check", "display-last-changes"],
-      "pre-release-actions": [
-        {
-          "name": "changelog-update",
-          "format": "semantic"
-        },
-        "vcs-commit"
-      ]
-    }
-  }
-}
-```
+
+    vcs: git
+    prerequisites: [working-copy-check]
+    version-generator: simple
+    version-persister:
+        name: vcs-tag
+        tag-prefix: "{branch-name}_"
+    post-release-actions: [vcs-publish]
+    branch-specific:
+        # This entry allow to override some parameters for the master branch
+        master:
+            prerequisites: [working-copy-check, display-last-changes]
+            pre-release-actions:
+                changelog-update:
+                    format: semantic
+                vcs-commit: ~
+            version-generator: semantic
+            version-persister: vcs-tag
 
 Contributing
 ------------

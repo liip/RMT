@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Helpers\JSONHelper;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Create json settings file and rmt executable
@@ -22,7 +23,7 @@ class InitCommand extends BaseCommand
     {
         $projectDir = $this->getApplication()->getProjectRootDir();
         $this->executablePath = $projectDir.'/RMT';
-        $this->configPath = $projectDir.'/rmt.json';
+        $this->configPath = $projectDir.'/rmt.yml';
         $this->commandPath = realpath(__DIR__.'/../../../../command.php');
 
         // If possible try to generate a relative link for the command if RMT is installed inside the project
@@ -114,7 +115,7 @@ class InitCommand extends BaseCommand
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
         file_put_contents(
             $this->configPath,
-            JSONHelper::format(json_encode($this->getConfigData()))
+            Yaml::dump($this->getConfigData())
         );
 
         // Confirmation
