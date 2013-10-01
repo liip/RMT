@@ -2,6 +2,8 @@
 
 namespace Liip\RMT\Tests\Functional;
 
+use Symfony\Component\Yaml\Yaml;
+
 class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 {
     protected $tempDir;
@@ -26,7 +28,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
             'version-persister'=>$persister,
             'version-generator'=>$generator
         ));
-        file_put_contents('rmt.json', json_encode($allConfig));
+        file_put_contents('rmt.yml', Yaml::dump($allConfig));
     }
 
     protected function tearDown()
