@@ -12,11 +12,15 @@ class ChangelogManager {
 
     public function __construct($filePath, $format)
     {
-        // Store the filePath
-        if (!file_exists($filePath)){
-            throw new \Liip\RMT\Exception("Invalid changelog location: $filePath");
+        // File name validation
+        if (!file_exists($filePath)) {
+            touch($filePath);
+        }
+        if (!is_file($filePath) || !is_writable($filePath)) {
+            throw new \Liip\RMT\Exception("Unable to write file [$filePath]");
         }
         $this->filePath = $filePath;
+
 
         // Store the formatter
         $this->format = $format;

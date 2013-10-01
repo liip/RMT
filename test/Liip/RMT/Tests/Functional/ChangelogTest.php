@@ -27,7 +27,6 @@ class ChangelogTest extends RMTFunctionalTestBase
     protected function createChangelog($format)
     {
         $file = $this->tempDir.'/CHANGELOG';
-        touch($file);
         $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
         $manager->update(
             $format=='semantic' ? '0.0.1' : '1',
