@@ -65,7 +65,8 @@
       <arg path="${basedir}/src"/>
       <arg value="xml"/>
       <arg value="${basedir}/phpmd.xml"/>
-      <arg value="--reportfile ${basedir}/build/logs/pmd.xml"/>
+      <arg value="--reportfile"/>
+      <arg value="${basedir}/build/logs/pmd.xml"/>
     </exec>
   </target>
   <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
