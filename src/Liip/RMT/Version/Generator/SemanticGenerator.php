@@ -73,16 +73,13 @@ class SemanticGenerator implements GeneratorInterface
 
     public function compareTwoVersions($a, $b)
     {
-        list($majorA, $minorA, $patchA) = explode('.', $a);
-        list($majorB, $minorB, $patchB) = explode('.', $b);
-        if ($majorA !== $majorB) {
-            return $majorA < $majorB ? -1 : 1 ;
-        }
-        if ($minorA !== $minorB) {
-            return $minorA < $minorB ? -1 : 1 ;
-        }
-        if ($patchA !== $patchB) {
-            return $patchA < $patchB ? -1 : 1 ;
+        $a = explode('.', $a);
+        $b = explode('.', $b);
+        $length = count($a);
+        for($i = 0; $i < $length; ++$i) {
+            if ($a[$i] !== $b[$i]) {
+                return $a[$i] < $b[$i] ? -1 : 1;
+            }
         }
         return 0;
     }

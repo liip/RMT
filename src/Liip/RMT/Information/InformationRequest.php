@@ -112,18 +112,12 @@ class InformationRequest
         if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
             throw new \InvalidArgumentException('Must be on of '.json_encode($this->options['choices']));
         }
-        if ($this->options['type'] == 'text') {
-            if (!is_string($value) || strlen($value) < 1) {
-                throw new \InvalidArgumentException('Text must be provided');
-            }
+        if ($this->options['type'] == 'text' && (!is_string($value) || strlen($value) < 1)) {
+            throw new \InvalidArgumentException('Text must be provided');
         }
         if ($this->options['type'] == 'yes-no') {
-            if ($value === 'yes'){
-                $value = 'y';
-            }
-            if ($value === 'no'){
-                $value = 'n';
-            }
+            // take only the first character
+            $value = lcfirst($value[0]);
             if ($value !== 'y' && $value !== 'n' ){
                 throw new \InvalidArgumentException('Value should be [y] or [n]');
             }
