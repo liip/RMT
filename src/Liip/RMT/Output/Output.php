@@ -24,7 +24,7 @@ class Output extends ConsoleOutput
         $this->getFormatter()->setStyle('green', new OutputFormatterStyle('green'));
         $this->getFormatter()->setStyle('yellow', new OutputFormatterStyle('yellow'));
         $this->getFormatter()->setStyle('question', new OutputFormatterStyle('black', 'cyan'));
-
+        $this->getFormatter()->setStyle('title', new OutputFormatterStyle('white', 'blue'));
     }
 
     public function doWrite($message, $newline)

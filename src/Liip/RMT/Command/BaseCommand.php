@@ -2,7 +2,10 @@
 
 namespace Liip\RMT\Command;
 
+use Liip\RMT\VCS\VCSInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Config\Handler;
@@ -52,6 +55,7 @@ abstract class BaseCommand extends Command
         // Select a branch specific config if a VCS is in use
         if (isset($config['vcs'])) {
             Context::getInstance()->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
+            /** @var VCSInterface $vcs */
             $vcs = Context::get('vcs');
             $branch = $vcs->getCurrentBranch();
             $config = $configHandler->getConfigForBranch($branch);
@@ -75,18 +79,22 @@ abstract class BaseCommand extends Command
         Context::getInstance()->setParameter('project-root', $this->getApplication()->getProjectRootDir());
     }
 
-    protected function writeBigTitle($title)
+    protected function writeTitle($title, $large = true)
     {
         $this->writeEmptyLine();
+        /** @var FormatterHelper $formatter */
         $formatter = $this->getHelperSet()->get('formatter');
-        $this->getOutput()->writeln($formatter->formatBlock($title, 'bg=blue;fg=white', true));
+        $this->getOutput()->writeln($formatter->formatBlock($title, 'title', $large));
+    }
+
+    protected function writeBigTitle($title)
+    {
+        $this->writeTitle($title, true);
     }
 
     protected function writeSmallTitle($title)
     {
-        $this->writeEmptyLine();
-        $formatter = $this->getHelperSet()->get('formatter');
-        $this->getOutput()->writeln($formatter->formatBlock($title, 'bg=blue;fg=white'));
+        $this->writeTitle($title, false);
         $this->writeEmptyLine();
     }
 
@@ -103,6 +111,7 @@ abstract class BaseCommand extends Command
 
     protected function askQuestion(InteractiveQuestion $question)
     {
+        /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
         return $dialog->askAndValidate(
             $this->getOutput(),
