@@ -2,6 +2,8 @@
 
 namespace Liip\RMT\Output;
 
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
@@ -16,7 +18,13 @@ class Output extends ConsoleOutput
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
     {
         // Use our own formatter
-        parent::__construct($verbosity, $decorated, new Formatter());
+        parent::__construct($verbosity, $decorated, $formatter);
+        // set some custom styles
+        $this->getFormatter()->setStyle('error', new OutputFormatterStyle('white', 'red'));
+        $this->getFormatter()->setStyle('green', new OutputFormatterStyle('green'));
+        $this->getFormatter()->setStyle('yellow', new OutputFormatterStyle('yellow'));
+        $this->getFormatter()->setStyle('question', new OutputFormatterStyle('black', 'cyan'));
+
     }
 
     public function doWrite($message, $newline)
