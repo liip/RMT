@@ -20,6 +20,9 @@ class Application extends BaseApplication
     // See Liip\Command\BaseCommand::getApplication()
     static $instance;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     */
     public function __construct()
     {
         // Creation
@@ -49,6 +52,9 @@ class Application extends BaseApplication
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         return parent::run($input, new \Liip\RMT\Output\Output());
