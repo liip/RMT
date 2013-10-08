@@ -16,6 +16,9 @@ use Liip\RMT\Context;
  */
 class ReleaseCommand extends BaseCommand
 {
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('release');
@@ -62,9 +65,15 @@ class ReleaseCommand extends BaseCommand
         Context::getInstance()->setService('information-collector', $ic);
     }
 
-    // Always executed
+    /**
+     * Always executed
+     *
+     * @inheritdoc
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        parent::initialize($input, $output);
+
         Context::getInstance()->setService('output', $this->output);
         Context::get('information-collector')->handleCommandInput($input);
 
@@ -73,9 +82,15 @@ class ReleaseCommand extends BaseCommand
         $this->executeActionListIfExist('prerequisites');
     }
 
-    // Executed only when we are in interactive mode
+    /**
+     * Executed only when we are in interactive mode
+     *
+     * @inheritdoc
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        parent::interact($input, $output);
+
         // Fill up questions
         if (Context::get('information-collector')->hasMissingInformation()){
             $this->writeSmallTitle('Information collect');
@@ -89,7 +104,11 @@ class ReleaseCommand extends BaseCommand
         }
     }
 
-    // Always executed, but first initialize and interact have already been called
+    /**
+     * Always executed, but first initialize and interact have already been called
+     *
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Get the current version or generate a new one if the user has confirm that this is required

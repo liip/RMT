@@ -17,6 +17,9 @@ abstract class BaseCommand extends Command
     protected $input;
     protected $output;
 
+    /**
+     * @inheritdoc
+     */
     public function run(InputInterface $input, OutputInterface $output)
     {
         // Store the input and output for easier usage

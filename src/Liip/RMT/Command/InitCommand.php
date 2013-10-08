@@ -6,6 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
+use Liip\RMT\Information\InformationCollector;
 use Liip\RMT\Helpers\JSONHelper;
 use Symfony\Component\Yaml\Yaml;
 
@@ -14,6 +15,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class InitCommand extends BaseCommand
 {
+    /** @var InformationCollector $informationCollector  */
     protected $informationCollector;
     protected $executablePath;
     protected $commandPath;
@@ -32,6 +34,9 @@ class InitCommand extends BaseCommand
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('init');
@@ -42,7 +47,7 @@ class InitCommand extends BaseCommand
         $this->getDefinition()->addOption(new InputOption('force', null, InputOption::VALUE_NONE, 'Force update of the config file'));
 
         // Create an information collector and configure the different information request
-        $this->informationCollector = new \Liip\RMT\Information\InformationCollector();
+        $this->informationCollector = new InformationCollector();
         $this->informationCollector->registerRequests(array(
             new InformationRequest('vcs', array(
                 'description' => 'The VCS system to use',
@@ -71,8 +76,13 @@ class InitCommand extends BaseCommand
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        parent::initialize($input, $output);
+
         $this->informationCollector->handleCommandInput($input);
         $this->writeBigTitle('Welcome to Release Management Tool Initialization');
         $this->writeEmptyLine();
@@ -86,8 +96,12 @@ class InitCommand extends BaseCommand
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        parent::interact($input, $output);
 
         // Fill up questions
         if ($this->informationCollector->hasMissingInformation()){
@@ -99,6 +113,9 @@ class InitCommand extends BaseCommand
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Create the executable task inside the project home
