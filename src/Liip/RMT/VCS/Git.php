@@ -101,9 +101,8 @@ class Git extends BaseVCS
         $cmd = 'git '.$cmd;
         exec($cmd, $result, $exitCode);
         if ($exitCode !== 0){
-            throw new \Liip\RMT\Exception('Error while executing git command: '.$cmd);
+            throw new \Liip\RMT\Exception('Error while executing git command: '.$cmd . "\n" . implode("\n", $result));
         }
         return $result;
     }
 }
-
