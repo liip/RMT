@@ -20,7 +20,8 @@ class InformationRequest
         'interactive' => true,
         'default' => null,
         'interactive_help' => '',
-        'interactive_help_shortcut' => 'h'
+        'interactive_help_shortcut' => 'h',
+        'hidden_answer' => false,
     );
 
     protected $name;

@@ -113,6 +113,16 @@ abstract class BaseCommand extends Command
     {
         /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
+
+        if ($question->isHiddenAnswer()) {
+            return $dialog->askHiddenResponseAndValidate(
+                $this->getOutput(),
+                $question->getFormatedText(),
+                $question->getValidator(),
+                false
+            );
+        }
+
         return $dialog->askAndValidate(
             $this->getOutput(),
             $question->getFormatedText(),
