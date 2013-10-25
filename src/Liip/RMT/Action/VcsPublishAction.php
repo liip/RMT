@@ -17,11 +17,14 @@ class VcsPublishAction extends BaseAction
             return;
         }
 
-        Context::get('vcs')->publishChanges();
+        $remote = Context::get('information-collector')->getValueFor('remote');
+
+        Context::get('vcs')->publishChanges($remote);
         Context::get('vcs')->publishTag(
             Context::get('version-persister')->getTagFromVersion(
                 Context::getParam('new-version')
-            )
+            ),
+            $remote
         );
 
         $this->confirmSuccess();
@@ -34,6 +37,11 @@ class VcsPublishAction extends BaseAction
                 'description' => 'Changes will be published automatically',
                 'type' => 'yes-no',
                 'default' => 'yes'
+            )),
+            new InformationRequest('remote', array(
+                'description' => 'Remote to push changes',
+                'type' => 'text',
+                'default' => 'origin'
             ))
         );
     }

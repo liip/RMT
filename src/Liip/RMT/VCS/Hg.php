@@ -44,14 +44,14 @@ class Hg extends BaseVCS
         return $this->executeHgCommand("tag $tagName");
     }
 
-    public function publishTag($tagName)
+    public function publishTag($tagName, $remote = null)
     {
         // nothing to do, tags are published with other changes
     }
 
-    public function publishChanges()
+    public function publishChanges($remote = 'default')
     {
-        $this->executeHgCommand("push default");
+        $this->executeHgCommand("push $remote");
     }
 
     public function saveWorkingCopy($commitMsg='')
