@@ -35,6 +35,10 @@ class UpdateVersionClassAction extends BaseAction
         if (false === strpos($content, $current)) {
             throw new Exception('The version class ' . $versionClass->getFileName() . " does not contain the current version $current");
         }
+        if (isset($this->options['pattern'])) {
+            $current = str_replace('%version%', $current, $this->options['pattern']);
+            $next = str_replace('%version%', $next, $this->options['pattern']);
+        }
         $content = str_replace($current, $next, $content);
         file_put_contents($versionClass->getFileName(), $content);
     }

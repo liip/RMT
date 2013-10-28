@@ -111,6 +111,10 @@ Actions can be used for pre or post release parts.
 * composer-update: Update the version number in a composer file
 * update-version-class: Update the version constant in a class file.
     * **class**: fully qualified class name of the class containing the version constant
+    * **pattern**: optional, use to specify the string replacement pattern in your
+      version class. %version% will be replaced by the current / next version strings.
+      For example you could use `const VERSION = '%version%';`. If you do not specify
+      this option, every occurrence of the version string in the file will be replaced.
 
 Extend it
 ---------
@@ -169,6 +173,9 @@ Most of the time, it will be easier for you to pick up and example bellow and to
                     format: semantic
                     file: CHANGELOG.md
                     dump-commits: true
+                update-version-class:
+                    class: Doctrine\ODM\PHPCR\Version
+                    pattern: const VERSION = '%version%';
                 vcs-commit: ~
             version-generator: semantic
             version-persister: vcs-tag
