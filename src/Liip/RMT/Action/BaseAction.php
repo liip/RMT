@@ -6,6 +6,12 @@ use Liip\RMT\Context;
 
 abstract class BaseAction
 {
+    protected $options = array();
+
+    public function __construct($options = array())
+    {
+        $this->options = $options;
+    }
 
     /**
      * Main part of the action

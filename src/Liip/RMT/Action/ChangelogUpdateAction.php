@@ -11,7 +11,6 @@ use Liip\RMT\Exception\NoReleaseFoundException;
  */
 class ChangelogUpdateAction extends BaseAction
 {
-    protected $options;
 
     public function __construct($options)
     {

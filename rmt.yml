@@ -9,4 +9,6 @@ pre-release-actions:
   vcs-commit: ~
 version-generator: semantic
 version-persister: vcs-tag
-post-release-actions: [vcs-publish]
+post-release-actions:
+  vcs-publish:
+    ask-remote-name: true
