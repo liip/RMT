@@ -3,6 +3,24 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      31/10/2013 23:52  0.9.10  YAML syntax + various bug fixes
+         c141283 Fix #38 when using the dump-commit option on a first release
+         a223ec3 Small cleanup
+         a2ddebb Merge pull request #46 from liip/improve-error
+         65452f5 improve exception message when git command fails
+         156f007 try to reduce complexity
+         6179cf7 phpdoc and supress PHPMD warning for necessary exit
+         7cbaacd add a title formatting style, phpdoc
+         6875a0c move the custom styles to the Output class
+         cbbd341 phpdoc cleanup, call parent methods
+         aa78a9d fix build to generate phpmd log file
+         7c97bd0 Merge pull request #41 from jeanmonod/option-merge
+         73ad1e7 Merge pull request #42 from jeanmonod/yaml-config
+         f2b619e Auto create the CHANGELOG file if absent fix #40
+         0f4222f Change the init command to use yaml by default and adapt test
+         6793372 Convert the documentation from JSON to YML
+         872f336 Allow to override only options for branch specific
+         bd05cfb Accept YML as config syntax
       26/09/2013 23:51  0.9.9  Fix compatibility accross all symfony:console version
          387e342 Configure travis to build over all version of the symfony:console dependency
          b3a014b Put back a test removed by @bonndan by fix it by redirecting errors on the standard output
