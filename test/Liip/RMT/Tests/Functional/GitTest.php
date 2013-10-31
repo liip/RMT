@@ -68,11 +68,4 @@ class GitTest extends RMTFunctionalTestBase
         $this->assertEquals(array('_master_1'), $tags);
     }
 
-    protected function initGit()
-    {
-        exec('git init');
-        exec('git add *');
-        exec('git commit -m "First commit"');
-    }
-
 }

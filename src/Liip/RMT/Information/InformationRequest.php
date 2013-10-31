@@ -128,7 +128,7 @@ class InformationRequest
     public function getValue()
     {
         if ( !$this->hasValue() && $this->options['default'] === null ){
-            throw new \Liip\RMT\Exception("No value available");
+            throw new \Liip\RMT\Exception("No value [{$this->name}] available");
         }
 
         return $this->hasValue() ? $this->value : $this->options['default'];
