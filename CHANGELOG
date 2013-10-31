@@ -3,6 +3,10 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      01/11/2013 00:49  0.9.11  Better publish action
+         a8b875b Add 3 configuration options on the publish action: ask-confirmation, remote-name, ask-remote-name
+         7a71338 Merge branch 'pr/49'
+         c4b6d10 Add support for the name of the remote to push changes to
       31/10/2013 23:52  0.9.10  YAML syntax + various bug fixes
          c141283 Fix #38 when using the dump-commit option on a first release
          a223ec3 Small cleanup
