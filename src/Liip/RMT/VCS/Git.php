@@ -58,14 +58,14 @@ class Git extends BaseVCS
         return $this->executeGitCommand("tag $tagName");
     }
 
-    public function publishTag($tagName)
+    public function publishTag($tagName, $remote = 'origin')
     {
-        $this->executeGitCommand("push origin $tagName");
+        $this->executeGitCommand("push $remote $tagName");
     }
 
-    public function publishChanges()
+    public function publishChanges($remote = 'origin')
     {
-        $this->executeGitCommand("push origin ".$this->getCurrentBranch());
+        $this->executeGitCommand("push $remote ".$this->getCurrentBranch());
     }
 
     public function saveWorkingCopy($commitMsg='')

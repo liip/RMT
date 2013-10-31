@@ -24,10 +24,10 @@ interface VCSInterface
 
     /**
      * Publish a new created tag
-     * @param $tagName
+     * @param string $tagName
+     * @param string|null $remote
      */
-    public function publishTag($tagName);
-
+    public function publishTag($tagName, $remote = null);
 
     /**
      * Return the list of all modifications from the given tag until now
@@ -62,6 +62,6 @@ interface VCSInterface
     /**
      * Publish local modification
      */
-    public function publishChanges();
+    public function publishChanges($remote = null);
 }
 
