@@ -101,10 +101,14 @@ Prerequisite actions are executed before the interactive part.
 
 Actions can be used for pre or post release parts.
 
-* changelog-update: Update a changelog file
+* changelog-update: Update a changelog file. This action is further configured
+  to use a specific formatter.
     * format: *simple*|semantic|addTop
     * file: path from rmt.yml to changelog file, default 'CHANGELOG'
-    * dump-commits: *false*|true
+    * dump-commits: *false*|true - whether to write all commit messages since
+      the last release into the changelog file.
+    * insert-at: Only for addTop formatter: Number of lines to skip from the
+      top of the changelog file before adding the release number.
 * vcs-commit: Process a VCS commit
 * vcs-tag: Tag the last commit
 * vcs-publish: Publish the changes (commit and tags)

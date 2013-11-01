@@ -12,6 +12,13 @@ use Liip\RMT\Config\Exception as ConfigException;
  * Typically this would be a class defining a constant for client code to check
  * the version of the library they are using.
  *
+ * An example Version class might look like this:
+ *
+ * class Version
+ * {
+ *     const VERSION = '1.0.0-beta-4';
+ * }
+ *
  * @author David Buchmann <mail@davidbu.ch>
  */
 class UpdateVersionClassAction extends BaseAction
