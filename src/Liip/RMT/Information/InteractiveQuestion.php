@@ -77,6 +77,11 @@ class InteractiveQuestion
         return $default;
     }
 
+    public function isHiddenAnswer()
+    {
+        return $this->informationRequest->getOption('hidden_answer');
+    }
+
     public function getValidator()
     {
         return array($this, 'validate');
