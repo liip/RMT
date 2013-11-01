@@ -3,16 +3,16 @@ RMT - Release Management Tool
 
 [![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
 
-RMT is a simple tool to help releasing new version of your software. You can define the type 
-of version generator you want to use (example: semantic versioning), where you want to store 
-the version (in a changelog file, as a VCS tag…) and a list of action that will be 
+RMT is a simple tool to help releasing new version of your software. You can define the type
+of version generator you want to use (example: semantic versioning), where you want to store
+the version (in a changelog file, as a VCS tag…) and a list of action that will be
 executed and before or after the release of a new version.
 
 
 Installation
 ------------
 
-In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be 
+In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
 installed as a dev-dependency. Just go to your project root directory and execute:
 
     php composer.phar require --dev liip/rmt 0.9.*         # latest beta
@@ -23,12 +23,12 @@ Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
 
-This command will create for you a `rmt.json` config file and a `RMT` executable script in your 
+This command will create for you a `rmt.json` config file and a `RMT` executable script in your
 root folder. For that point you can start using RMT, just execute it:
 
     ./RMT
 
-Once here, the best is to pick one of the [configuration example](#configuration-examples) below 
+Once here, the best is to pick one of the [configuration example](#configuration-examples) below
 and to adapt it to your needs.
 
 If you are using a versionning tool, we recommand that you add both composer files (`composer.json`
@@ -88,7 +88,7 @@ Version number generation strategy
 Class is charged of saving/retrieving the version number
 
 * vcs-tag: Save the version as a VCS tag
-* changelog: Save the version in the changelog file 
+* changelog: Save the version in the changelog file
 
 ### Prerequisite actions
 
@@ -101,11 +101,24 @@ Prerequisite actions are executed before the interactive part.
 
 Actions can be used for pre or post release parts.
 
-* changelog-update: Update a changelog file
+* changelog-update: Update a changelog file. This action is further configured
+  to use a specific formatter.
+    * format: *simple*|semantic|addTop
+    * file: path from rmt.yml to changelog file, default 'CHANGELOG'
+    * dump-commits: *false*|true - whether to write all commit messages since
+      the last release into the changelog file.
+    * insert-at: Only for addTop formatter: Number of lines to skip from the
+      top of the changelog file before adding the release number.
 * vcs-commit: Process a VCS commit
 * vcs-tag: Tag the last commit
 * vcs-publish: Publish the changes (commit and tags)
 * composer-update: Update the version number in a composer file
+* update-version-class: Update the version constant in a class file.
+    * **class**: fully qualified class name of the class containing the version constant
+    * **pattern**: optional, use to specify the string replacement pattern in your
+      version class. %version% will be replaced by the current / next version strings.
+      For example you could use `const VERSION = '%version%';`. If you do not specify
+      this option, every occurrence of the version string in the file will be replaced.
 
 Extend it
 ---------
@@ -113,7 +126,7 @@ Extend it
 RMT is providing a large bunch of existing actions, generator and persister. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
 
     version-generator: "bin/myOwnGenerator.php"
-    
+
 or with parameters:
 
     version-persister:
@@ -162,6 +175,11 @@ Most of the time, it will be easier for you to pick up and example bellow and to
             pre-release-actions:
                 changelog-update:
                     format: semantic
+                    file: CHANGELOG.md
+                    dump-commits: true
+                update-version-class:
+                    class: Doctrine\ODM\PHPCR\Version
+                    pattern: const VERSION = '%version%';
                 vcs-commit: ~
             version-generator: semantic
             version-persister: vcs-tag
