@@ -4,6 +4,7 @@ namespace Liip\RMT;
 
 define('RMT_VERSION', '0.9.11');
 
+use Liip\RMT\Command\ChangesCommand;
 use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\InitCommand;
@@ -42,6 +43,7 @@ class Application extends BaseApplication
             if (file_exists($this->getConfigFilePath())){
                 $this->add(new ReleaseCommand());
                 $this->add(new CurrentCommand());
+                $this->add(new ChangesCommand());
             }
         }
         catch (\Exception $e) {
