@@ -2,6 +2,39 @@
 
 namespace Liip\RMT\Changelog\Formatter;
 
+/**
+ * Class SemanticChangelogFormatter
+ *
+ * Format a changelog file in a sementic style. Here is an example:
+ *
+ *  VERSION 1  MAJOR TITLE
+ *  ======================
+ *
+ *    Version 1.1 - Minor Title
+ *       08/11/1980 12:34  1.1.1  patch comment
+ *          ada96f3 commit msg
+ *          2eb6fae commit msg
+ *       08/11/1980 03:56  1.1.0  initial release'
+ *          2eb6fae commit msg
+ *
+ *    Version 1.0 - Minor Title
+ *       08/11/1980 03:56  1.0.0  initial release'
+ *          2eb6fae commit msg
+ *
+ *
+ *  VERSION 0  BETA
+ *  ===============
+ *
+ *    Version 0.9 - Minor Title
+ *       08/11/1980 12:34  0.9.1  patch comment
+ *          ada96f3 commit msg
+ *          2eb6fae commit msg
+ *       08/11/1980 03:56  0.9.0  initial release'
+ *          2eb6fae commit msg
+ *
+ *
+ * @package Liip\RMT\Changelog\Formatter
+ */
 class SemanticChangelogFormatter
 {
     public function updateExistingLines($lines, $version, $comment, $options)
