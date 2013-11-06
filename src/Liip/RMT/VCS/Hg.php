@@ -49,8 +49,9 @@ class Hg extends BaseVCS
         // nothing to do, tags are published with other changes
     }
 
-    public function publishChanges($remote = 'default')
+    public function publishChanges($remote = null)
     {
+        $remote = $remote==null ? 'default' : $remote;
         $this->executeHgCommand("push $remote");
     }
 
