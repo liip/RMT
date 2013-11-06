@@ -51,7 +51,7 @@ class Hg extends BaseVCS
 
     public function publishChanges($remote = null)
     {
-        $remote = $remote==null ? 'default' : $remote;
+        $remote = $remote===null ? 'default' : $remote;
         $this->executeHgCommand("push $remote");
     }
 

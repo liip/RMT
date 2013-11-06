@@ -66,7 +66,7 @@ class Git extends BaseVCS
 
     public function publishChanges($remote = null)
     {
-        $remote = $remote==null ? 'origin' : $remote;
+        $remote = $remote===null ? 'origin' : $remote;
         $this->executeGitCommand("push $remote ".$this->getCurrentBranch());
     }
 
