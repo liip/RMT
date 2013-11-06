@@ -3,6 +3,17 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      06/11/2013 08:23  0.9.12  Hidden response, new class updater, new 'changes' command + some bug fixes
+         90ef2c2 Fix a bug when publishing with no remote fix #53
+         05d91aa Better YML handling fix #54
+         337125e Merge pull request #45 from liip/add-handlers
+         e8264f2 adding documentation
+         c26b27a Commit an example of the current changelog formatter
+         e3828aa Add a new command that display the list of changes since the last release
+         d78b796 Merge pull request #48 from richardfullmer/hidden-response
+         10e325f adding optional pattern for version string
+         17d7757 Add support for "hidden" responses
+         a47d0c3 adding a version class updater and another changelog formatter
       01/11/2013 00:49  0.9.11  Better publish action
          a8b875b Add 3 configuration options on the publish action: ask-confirmation, remote-name, ask-remote-name
          7a71338 Merge branch 'pr/49'
