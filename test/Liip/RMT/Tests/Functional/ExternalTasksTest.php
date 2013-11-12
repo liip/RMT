@@ -8,7 +8,7 @@ class ExternalTaskTest extends RMTFunctionalTestBase
     public function testInvalidScript()
     {
         $scriptName = 'invalid-script-name.php';
-        $this->createJsonConfig("simple", "git", array("pre-release-actions" => array($scriptName)));
+        $this->createConfig("simple", "git", array("pre-release-actions" => array($scriptName)));
         exec('./RMT release -n', $output);
         $output = implode("\n", $output);
 //        $this->manualDebug();
@@ -20,7 +20,7 @@ class ExternalTaskTest extends RMTFunctionalTestBase
     {
         $this->initGit();
         file_put_contents('touch-file1.php', '<?php touch("file1");');
-        $this->createJsonConfig("simple", "git", array(
+        $this->createConfig("simple", "git", array(
             "pre-release-actions" => array("touch-file1.php")
         ));
         exec('./RMT release -n');

@@ -7,7 +7,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
 
     public function testDisplayLastChange()
     {
-        $this->createJsonConfig('simple', 'vcs-tag', array(
+        $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('display-last-changes'),
             'vcs' => 'git'
         ));
@@ -28,7 +28,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
 
     public function testWorkingCopyCheckFailsWithLocalModifications()
     {
-        $this->createJsonConfig('simple', 'vcs-tag', array(
+        $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
             'vcs' => 'git'
         ));
@@ -44,7 +44,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
     
     public function testWorkingCopyWithIgnoreCheck()
     {
-        $this->createJsonConfig('simple', 'vcs-tag', array(
+        $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
             'vcs' => 'git'
         ));
@@ -60,12 +60,14 @@ class PrerequisitesTest extends RMTFunctionalTestBase
     
     public function testWorkingCopy()
     {
-        $this->createJsonConfig('simple', 'vcs-tag', array(
+        $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
             'vcs' => 'git'
         ));
         $this->initGit();
         exec('git tag 1');
+
+//        $this->manualDebug();
 
         // Normal case, check is passing
         exec('./RMT release -n', $consoleOutput, $exitCode);

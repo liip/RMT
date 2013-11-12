@@ -7,7 +7,7 @@ class ChangelogDumpCommitsTest extends RMTFunctionalTestBase
 {
     public function testDump()
     {
-        $this->createJsonConfig("semantic", "vcs-tag", array(
+        $this->createConfig("semantic", "vcs-tag", array(
             "vcs" => "git",
             "pre-release-actions" => array(
                 "changelog-update" => array(

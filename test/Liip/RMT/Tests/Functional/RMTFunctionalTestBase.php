@@ -23,7 +23,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         exec("php $rmtDir/command.php init --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
-    protected function createJsonConfig($generator, $persister, $otherConfig=array()) {
+    protected function createConfig($generator, $persister, $otherConfig=array()) {
         $allConfig = array_merge($otherConfig, array(
             'version-persister'=>$persister,
             'version-generator'=>$generator
