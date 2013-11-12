@@ -9,16 +9,16 @@ class VcsTagPersister implements PersisterInterface
 {
     protected $versionRegex;
     protected $vcs;
-    protected $prefix;
+    protected $options;
 
     public function __construct($options = array())
     {
+        $this->options = $options;
         $this->vcs = Context::get('vcs');
         $this->versionRegex = Context::get('version-generator')->getValidationRegex();
         if (isset($options['tag-pattern'])) {
             $this->versionRegex = $options['tag-pattern'];
         }
-        $this->prefix = $this->generatePrefix(isset($options['tag-prefix']) ? $options['tag-prefix'] : '');
     }
 
     /**
@@ -57,7 +57,7 @@ class VcsTagPersister implements PersisterInterface
 
     public function getTagPrefix()
     {
-        return $this->prefix;
+        return $this->generatePrefix(isset($this->options['tag-prefix']) ? $this->options['tag-prefix'] : '');
     }
 
     public function getTagFromVersion($versionName)

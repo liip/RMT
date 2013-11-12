@@ -50,8 +50,12 @@ class ReleaseCommand extends BaseCommand
                 ))
             );
         }
+        catch (\Exception $e) {
+            echo "Error while trying to read the current version";
+        }
 
-        // Register options of the release tasks
+
+            // Register options of the release tasks
         $ic->registerRequests(Context::get('version-generator')->getInformationRequests());
         $ic->registerRequests(Context::get('version-persister')->getInformationRequests());
 

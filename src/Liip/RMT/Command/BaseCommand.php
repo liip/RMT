@@ -57,8 +57,13 @@ abstract class BaseCommand extends Command
             Context::getInstance()->setService('vcs', $config['vcs']['class'], $config['vcs']['options']);
             /** @var VCSInterface $vcs */
             $vcs = Context::get('vcs');
-            $branch = $vcs->getCurrentBranch();
-            $config = $configHandler->getConfigForBranch($branch);
+            try {
+                $branch = $vcs->getCurrentBranch();
+                $config = $configHandler->getConfigForBranch($branch);
+            }
+            catch (\Exception $e) {
+                echo "Impossible to read the branch name\n";
+            }
         }
 
         // Store the config for latter usage
