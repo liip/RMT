@@ -1,6 +1,6 @@
 {
     "name": "liip/rmt",
-    "version": "0.9.12",
+    "version": "0.9.13",
     "description": "Release Managment Tool",
     "keywords": ["release", "version", "semantic versioning", "vcs tag"],
     "homepage": "http://github.com/liip/RMT",
