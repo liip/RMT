@@ -23,22 +23,22 @@ Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
 
-This command will create for you a `.rmt.yml` config file and a `RMT` executable script in your
-root folder. For that point you can start using RMT, just execute it:
+This command will create a `.rmt.yml` config file and a `RMT` executable script in your
+root folder. You can now start using RMT by executing:
 
     ./RMT
 
-Once here, the best is to pick one of the [configuration example](#configuration-examples) below
+Once here, your best option is to pick one of the [configuration examples](#configuration-examples) below
 and to adapt it to your needs.
 
-If you are using a versionning tool, we recommand that you add both composer files (`composer.json`
+If you are using a versioning tool, we recommend to add both composer files (`composer.json`
 and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
 to it. The `vendor` directory should be ignored since it is populated simply by running
 `composer install`
 
 Usage
 -----
-Using RMT is very straightforward, you just have to run the command:
+Using RMT is very straightforward, just run the command:
 
     ./RMT release
 
@@ -61,7 +61,7 @@ The `release` command is the main behavior of the tool, but some extra commands 
 Configuration
 -------------
 
-All RMT configuration have to be done in the `.rmt.yml`. The file is divided in 5 root elements:
+All RMT configurations have to be done in the `.rmt.yml`. The file is divided in 5 root elements:
 
 * `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
 * `prerequisites`: A list `[]` of prerequisites that must be matched before starting the release process
