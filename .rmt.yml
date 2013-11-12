@@ -1,0 +1,20 @@
+vcs: git
+
+prerequisites:
+  - working-copy-check
+  - display-last-changes
+
+pre-release-actions:
+    bin/UpdateApplicationVersionCurrentVersion.php: ~
+    composer-update: ~
+    changelog-update:
+        format: semantic
+        dump-commits: true
+    vcs-commit: ~
+
+version-generator: semantic
+version-persister: vcs-tag
+
+post-release-actions:
+    vcs-publish:
+        ask-remote-name: true
