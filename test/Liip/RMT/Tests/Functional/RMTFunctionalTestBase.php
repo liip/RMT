@@ -28,7 +28,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
             'version-persister'=>$persister,
             'version-generator'=>$generator
         ));
-        file_put_contents('rmt.yml', Yaml::dump($allConfig));
+        file_put_contents('.rmt.yml', Yaml::dump($allConfig));
     }
 
     protected function tearDown()
@@ -39,7 +39,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
     protected function initGit()
     {
         exec('git init');
-        exec('git add *');
+        exec('git add .');
         exec('git commit -m "First commit"');
     }
 

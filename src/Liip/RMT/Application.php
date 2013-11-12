@@ -74,7 +74,7 @@ class Application extends BaseApplication
 
     public function getConfigFilePath()
     {
-        $validConfigFileName = array('rmt.json', 'rmt.yml', '.rmt.json', '.rmt.yml' );
+        $validConfigFileName = array('.rmt.yml', '.rmt.json', 'rmt.yml', 'rmt.json');
         foreach($validConfigFileName as $filename){
             if (file_exists($path = $this->getProjectRootDir().DIRECTORY_SEPARATOR.$filename)){
                 return $path;

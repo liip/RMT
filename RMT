@@ -1,3 +1,4 @@
 #!/usr/bin/env php
-<?php define('RMT_ROOT_DIR', __DIR__); ?>
-<?php require 'command.php'; ?>
+<?php
+define('RMT_ROOT_DIR', __DIR__);
+require 'command.php';

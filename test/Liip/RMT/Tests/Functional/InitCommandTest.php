@@ -9,15 +9,22 @@ class InitCommandTest extends RMTFunctionalTestBase
 {
     public function testInitConfig()
     {
-        unlink('rmt.yml');
-        $this->assertFileNotExists('rmt.yml');
+        $configFile = '.rmt.yml';
+        unlink($configFile);
+        $this->assertFileNotExists($configFile);
 //        $this->manualDebug();
         exec('./RMT init --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
-        $this->assertFileExists('rmt.yml');
-        $config = Yaml::parse(file_get_contents('rmt.yml'), true);
+        $this->assertFileExists($configFile);
+        $config = Yaml::parse(file_get_contents($configFile), true);
+        $masterConfig = $config["branch-specific"]["master"];
+
         $this->assertEquals('git', $config['vcs']);
-        $this->assertEquals('vcs-tag', $config['version-persister']);
-        $this->assertEquals('semantic', $config['version-generator']);
+
+        $this->assertEquals('simple', $config['version-generator']);
+        $this->assertEquals('semantic', $masterConfig['version-generator']);
+
+        $this->assertEquals(array("vcs-tag"=>array("tag-prefix"=>"{branch-name}_")), $config['version-persister']);
+        $this->assertEquals(array("vcs-tag"=>array("tag-prefix"=>"")), $masterConfig['version-persister']);
     }
 }
 

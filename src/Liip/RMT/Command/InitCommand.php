@@ -7,11 +7,10 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InformationCollector;
-use Liip\RMT\Helpers\JSONHelper;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Create json settings file and rmt executable
+ * Create config settings file and rmt executable
  */
 class InitCommand extends BaseCommand
 {
@@ -21,11 +20,11 @@ class InitCommand extends BaseCommand
     protected $commandPath;
     protected $configPath;
 
-    protected function buildPaths()
+    protected function buildPaths($configPath = null)
     {
         $projectDir = $this->getApplication()->getProjectRootDir();
         $this->executablePath = $projectDir.'/RMT';
-        $this->configPath = $projectDir.'/rmt.yml';
+        $this->configPath = $configPath==null ? $projectDir.'/.rmt.yml' : $configPath;
         $this->commandPath = realpath(__DIR__.'/../../../../command.php');
 
         // If possible try to generate a relative link for the command if RMT is installed inside the project
@@ -84,16 +83,17 @@ class InitCommand extends BaseCommand
         parent::initialize($input, $output);
 
         $this->informationCollector->handleCommandInput($input);
-        $this->writeBigTitle('Welcome to Release Management Tool Initialization');
+        $this->writeBigTitle('Welcome to Release Management Tool initialization');
         $this->writeEmptyLine();
 
-        // Guessing elements path
-        $this->buildPaths();
-
-        // Security check
-        if (file_exists($this->configPath) && $input->getOption('force')!==true) {
-            throw new \Exception("A rmt.json file already exist, if you want to regenerate it, use the --force option");
+        // Security check for the config
+        $configPath = $this->getApplication()->getConfigFilePath();
+        if ($configPath !== null && file_exists($configPath) && $input->getOption('force')!==true) {
+            throw new \Exception("A config file already exist ($configPath), if you want to regenerate it, use the --force option");
         }
+
+        // Guessing elements path
+        $this->buildPaths($configPath);
     }
 
     /**
@@ -128,12 +128,24 @@ class InitCommand extends BaseCommand
         );
         exec('chmod +x RMT');
 
-        // Create the config file
+        // Create the config file from a template
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
-        file_put_contents(
-            $this->configPath,
-            Yaml::dump($this->getConfigData())
-        );
+        $template = $this->informationCollector->getValueFor('vcs')=='none' ?
+            __DIR__.'/../Config/templates/no-vcs-config.yml.tmpl' :
+            __DIR__.'/../Config/templates/default-vcs-config.yml.tmpl'
+        ;
+        $config = file_get_contents($template);
+        $generator = $this->informationCollector->getValueFor('generator');
+        foreach (array(
+            'generator' => $generator=='semantic-versioning' ?
+                'semantic # More complex versionning (semantic)' : 'simple  # Same simple versionning',
+            'vcs' => $this->informationCollector->getValueFor('vcs'),
+            'persister' => $this->informationCollector->getValueFor('persister'),
+            'changelog-format' => $generator=='semantic-versioning' ? 'semantic' : 'simple'
+        ) as $key => $value) {
+            $config = str_replace("%%$key%%", $value, $config);
+        }
+        file_put_contents($this->configPath, $config);
 
         // Confirmation
         $this->writeBigTitle('Success, you can start using RMT by calling <info>RMT release</info>');
@@ -150,7 +162,6 @@ class InitCommand extends BaseCommand
         }
 
         $generator = $this->informationCollector->getValueFor('generator');
-        $config['version-generator'] = $generator == 'semantic-versioning' ? 'semantic' : 'simple';
 
         $config['version-persister'] = $this->informationCollector->getValueFor('persister');
 

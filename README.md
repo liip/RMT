@@ -23,7 +23,7 @@ Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
 
-This command will create for you a `rmt.json` config file and a `RMT` executable script in your
+This command will create for you a `.rmt.yml` config file and a `RMT` executable script in your
 root folder. For that point you can start using RMT, just execute it:
 
     ./RMT
@@ -32,7 +32,7 @@ Once here, the best is to pick one of the [configuration example](#configuration
 and to adapt it to your needs.
 
 If you are using a versionning tool, we recommand that you add both composer files (`composer.json`
-and `composer.lock`), the RMT configuration file(`rmt.json`) and the `RMT` executable script
+and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
 to it. The `vendor` directory should be ignored since it is populated simply by running
 `composer install`
 
@@ -56,12 +56,12 @@ RMT will then do the following tasks:
 The `release` command is the main behavior of the tool, but some extra commands are available:
 
 * `current` will show your project current version number (alias version)
-* `init` create rmt.json config file
+* `init` create .rmt.yml config file
 
 Configuration
 -------------
 
-All RMT configuration have to be done in the `rmt.json`. The file is divided in 5 root elements:
+All RMT configuration have to be done in the `.rmt.yml`. The file is divided in 5 root elements:
 
 * `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
 * `prerequisites`: A list `[]` of prerequisites that must be matched before starting the release process
@@ -104,7 +104,7 @@ Actions can be used for pre or post release parts.
 * changelog-update: Update a changelog file. This action is further configured
   to use a specific formatter.
     * format: *simple*|semantic|addTop
-    * file: path from rmt.yml to changelog file, default 'CHANGELOG'
+    * file: path from .rmt.yml to changelog file, default 'CHANGELOG'
     * dump-commits: *false*|true - whether to write all commit messages since
       the last release into the changelog file.
     * insert-at: Only for addTop formatter: Number of lines to skip from the
