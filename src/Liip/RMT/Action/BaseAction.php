@@ -25,7 +25,7 @@ abstract class BaseAction
     public function getTitle()
     {
         $nsAndclass = explode('\\', get_class($this));
-        return preg_replace('/(?!^)[[:upper:]][[:lower:]]/', ' $0', preg_replace('/(?!^)[[:upper:]]+/', ' $0', end($nsAndclass)));
+        return preg_replace('/(?!^)[[:upper:]][[:lower:]]/', ' $0', preg_replace('/(?!^)[[:upper:]]+/', '$0', end($nsAndclass)));
     }
 
     /**
