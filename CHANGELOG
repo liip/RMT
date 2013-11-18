@@ -3,6 +3,9 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      18/11/2013 06:24  0.9.14  Add a new TestCheck prerequisite
+         98ae014 Add a test check prerequisite and use it for RMT fix #51
+         9f86275 Update README.md
       12/11/2013 07:49  0.9.13  Better init command + various refactoring
          e14203d Rename the rmt config file
          47b8c1e Method renaming in tests
