@@ -4,6 +4,8 @@ namespace Liip\RMT\Output;
 
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Liip\RMT\Information\InteractiveQuestion;
@@ -18,7 +20,9 @@ class Output extends ConsoleOutput
     protected $indentationSize = 4;
     protected $positionIsALineStart = true;
 
+    /** @var FormatterHelper */
     protected $formatterHelper = null;
+    /** @var DialogHelper */
     protected $dialogHelper = null;
 
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
@@ -117,6 +121,11 @@ class Output extends ConsoleOutput
             false,
             $question->getDefault()
         );
+    }
+
+    public function askConfirmation($text)
+    {
+        return $this->dialogHelper->askConfirmation($this, $text);
     }
 
 }

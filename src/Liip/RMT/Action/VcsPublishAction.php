@@ -10,6 +10,7 @@ use Liip\RMT\Context;
  */
 class VcsPublishAction extends BaseAction
 {
+    const AUTO_PUBLISH_OPTION = 'auto-publish';
 
     public function __construct($options = array())
     {
@@ -22,9 +23,20 @@ class VcsPublishAction extends BaseAction
 
     public function execute()
     {
-        if ($this->options['ask-confirmation'] && Context::get('information-collector')->getValueFor('confirm-publish') !== 'y'){
-            Context::get('output')->writeln('<error>requested to be ignored</error>');
-            return;
+        if ($this->options['ask-confirmation']) {
+
+            // Ask the question if there is no confirmation yet
+            $ic = Context::get('information-collector');
+            if (!$ic->hasValueFor(self::AUTO_PUBLISH_OPTION)) {
+                $answer = Context::get('output')->askConfirmation('Do you want to publish your release (default: <green>y</green>): ');
+                $ic->setValueFor(self::AUTO_PUBLISH_OPTION, $answer==true?'y':'n');
+            }
+
+            // Skip if the user didn't ask for publishing
+            if ($ic->getValueFor(self::AUTO_PUBLISH_OPTION) !== 'y'){
+                Context::get('output')->writeln('<error>requested to be ignored</error>');
+                return;
+            }
         }
 
         Context::get('vcs')->publishChanges($this->getRemote());
@@ -42,10 +54,10 @@ class VcsPublishAction extends BaseAction
     {
         $requests = array();
         if ($this->options['ask-confirmation']) {
-            $requests[] = new InformationRequest('confirm-publish', array(
+            $requests[] = new InformationRequest(self::AUTO_PUBLISH_OPTION, array(
                 'description' => 'Changes will be published automatically',
                 'type' => 'yes-no',
-                'default' => 'yes'
+                'interactive' => false
             ));
         }
         if ($this->options['ask-remote-name']) {
