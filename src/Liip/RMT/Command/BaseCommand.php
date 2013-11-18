@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Config\Handler;
 use Liip\RMT\Context;
-use Liip\RMT\Information\InteractiveQuestion;
 
 /**
  * Wrapper/helper around sf2 command
@@ -28,6 +27,10 @@ abstract class BaseCommand extends Command
         // Store the input and output for easier usage
         $this->input = $input;
         $this->output = $output;
+        $this->output->setDialogHelper($this->getHelperSet()->get('dialog'));
+        $this->output->setFormatterHelper($this->getHelperSet()->get('formatter'));
+        Context::getInstance()->setService('output', $this->output);
+
         parent::run($input, $output);
     }
 
@@ -82,59 +85,6 @@ abstract class BaseCommand extends Command
 
         // Provide the root dir as a context parameter
         Context::getInstance()->setParameter('project-root', $this->getApplication()->getProjectRootDir());
-    }
-
-    protected function writeTitle($title, $large = true)
-    {
-        $this->writeEmptyLine();
-        /** @var FormatterHelper $formatter */
-        $formatter = $this->getHelperSet()->get('formatter');
-        $this->getOutput()->writeln($formatter->formatBlock($title, 'title', $large));
-    }
-
-    protected function writeBigTitle($title)
-    {
-        $this->writeTitle($title, true);
-    }
-
-    protected function writeSmallTitle($title)
-    {
-        $this->writeTitle($title, false);
-        $this->writeEmptyLine();
-    }
-
-    protected function writeEmptyLine($repeat=1)
-    {
-        $this->getOutput()->writeln(array_fill(0,$repeat,''));
-    }
-
-
-    protected function write($text)
-    {
-        $this->getOutput()->write($text);
-    }
-
-    protected function askQuestion(InteractiveQuestion $question)
-    {
-        /** @var DialogHelper $dialog */
-        $dialog = $this->getHelperSet()->get('dialog');
-
-        if ($question->isHiddenAnswer()) {
-            return $dialog->askHiddenResponseAndValidate(
-                $this->getOutput(),
-                $question->getFormatedText(),
-                $question->getValidator(),
-                false
-            );
-        }
-
-        return $dialog->askAndValidate(
-            $this->getOutput(),
-            $question->getFormatedText(),
-            $question->getValidator(),
-            false,
-            $question->getDefault()
-        );
     }
 
     /**

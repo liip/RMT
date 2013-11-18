@@ -83,8 +83,8 @@ class InitCommand extends BaseCommand
         parent::initialize($input, $output);
 
         $this->informationCollector->handleCommandInput($input);
-        $this->writeBigTitle('Welcome to Release Management Tool initialization');
-        $this->writeEmptyLine();
+        $this->getOutput()->writeBigTitle('Welcome to Release Management Tool initialization');
+        $this->getOutput()->writeEmptyLine();
 
         // Security check for the config
         $configPath = $this->getApplication()->getConfigFilePath();
@@ -106,9 +106,9 @@ class InitCommand extends BaseCommand
         // Fill up questions
         if ($this->informationCollector->hasMissingInformation()){
             foreach($this->informationCollector->getInteractiveQuestions() as $name => $question) {
-                $answer = $this->askQuestion($question);
+                $answer = $this->getOutput()->askQuestion($question);
                 $this->informationCollector->setValueFor($name, $answer);
-                $this->writeEmptyLine();
+                $this->getOutput()->writeEmptyLine();
             }
         }
     }
@@ -148,8 +148,8 @@ class InitCommand extends BaseCommand
         file_put_contents($this->configPath, $config);
 
         // Confirmation
-        $this->writeBigTitle('Success, you can start using RMT by calling <info>RMT release</info>');
-        $this->writeEmptyLine();
+        $this->getOutput()->writeBigTitle('Success, you can start using RMT by calling <info>RMT release</info>');
+        $this->getOutput()->writeEmptyLine();
     }
 
     public function getConfigData()

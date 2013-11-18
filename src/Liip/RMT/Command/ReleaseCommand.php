@@ -78,10 +78,9 @@ class ReleaseCommand extends BaseCommand
     {
         parent::initialize($input, $output);
 
-        Context::getInstance()->setService('output', $this->output);
         Context::get('information-collector')->handleCommandInput($input);
 
-        $this->writeBigTitle('Welcome to Release Management Tool');
+        $this->getOutput()->writeBigTitle('Welcome to Release Management Tool');
 
         $this->executeActionListIfExist('prerequisites');
     }
@@ -97,12 +96,12 @@ class ReleaseCommand extends BaseCommand
 
         // Fill up questions
         if (Context::get('information-collector')->hasMissingInformation()){
-            $this->writeSmallTitle('Information collect');
+            $this->getOutput()->writeSmallTitle('Information collect');
             $this->getOutput()->indent();
             foreach(Context::get('information-collector')->getInteractiveQuestions() as $name => $question) {
-                $answer = $this->askQuestion($question);
+                $answer = $this->getOutput()->askQuestion($question);
                 Context::get('information-collector')->setValueFor($name, $answer);
-                $this->writeEmptyLine();
+                $this->getOutput()->writeEmptyLine();
             }
             $this->getOutput()->unIndent();
         }
@@ -135,7 +134,7 @@ class ReleaseCommand extends BaseCommand
 
         $this->executeActionListIfExist('pre-release-actions');
 
-        $this->writeSmallTitle('Release process');
+        $this->getOutput()->writeSmallTitle('Release process');
         $this->getOutput()->indent();
 
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
@@ -151,13 +150,13 @@ class ReleaseCommand extends BaseCommand
     {
         $actions = Context::getInstance()->getList($name);
         if (count($actions) > 0) {
-            $this->writeSmallTitle($title ?: ucfirst($name));
+            $this->getOutput()->writeSmallTitle($title ?: ucfirst($name));
             $this->getOutput()->indent();
             foreach ($actions as $num => $action){
-                $this->write($num++.") ".$action->getTitle().' : ');
+                $this->getOutput()->write($num++.") ".$action->getTitle().' : ');
                 $this->getOutput()->indent();
                 $action->execute();
-                $this->writeEmptyLine();
+                $this->getOutput()->writeEmptyLine();
                 $this->getOutput()->unIndent();
             }
             $this->getOutput()->unIndent();
