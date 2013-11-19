@@ -96,10 +96,12 @@ class ReleaseCommand extends BaseCommand
 
         // Fill up questions
         if (Context::get('information-collector')->hasMissingInformation()){
-            $this->getOutput()->writeSmallTitle('Information collect');
+            $questions = Context::get('information-collector')->getInteractiveQuestions();
+            $this->getOutput()->writeSmallTitle('Information collect ('.count($questions).' questions)');
             $this->getOutput()->indent();
-            foreach(Context::get('information-collector')->getInteractiveQuestions() as $name => $question) {
-                $answer = $this->getOutput()->askQuestion($question);
+            $count = 1;
+            foreach($questions as $name => $question) {
+                $answer = $this->getOutput()->askQuestion($question, $count++);
                 Context::get('information-collector')->setValueFor($name, $answer);
                 $this->getOutput()->writeEmptyLine();
             }
@@ -153,7 +155,7 @@ class ReleaseCommand extends BaseCommand
             $this->getOutput()->writeSmallTitle($title ?: ucfirst($name));
             $this->getOutput()->indent();
             foreach ($actions as $num => $action){
-                $this->getOutput()->write($num++.") ".$action->getTitle().' : ');
+                $this->getOutput()->write(++$num.") ".$action->getTitle().' : ');
                 $this->getOutput()->indent();
                 $action->execute();
                 $this->getOutput()->writeEmptyLine();

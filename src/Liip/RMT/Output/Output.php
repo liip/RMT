@@ -103,24 +103,15 @@ class Output extends ConsoleOutput
         $this->writeln(array_fill(0,$repeat,''));
     }
 
-    public function askQuestion(InteractiveQuestion $question)
+    public function askQuestion(InteractiveQuestion $question, $position = null)
     {
+        $text = ($position!==null?$position.') ':null).$question->getFormatedText();
+
         if ($question->isHiddenAnswer()) {
-            return $this->dialogHelper->askHiddenResponseAndValidate(
-                $this,
-                $question->getFormatedText(),
-                $question->getValidator(),
-                false
-            );
+            return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);
         }
 
-        return $this->dialogHelper->askAndValidate(
-            $this,
-            $question->getFormatedText(),
-            $question->getValidator(),
-            false,
-            $question->getDefault()
-        );
+        return $this->dialogHelper->askAndValidate($this, $text, $question->getValidator(), false, $question->getDefault());
     }
 
     public function askConfirmation($text)
