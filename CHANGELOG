@@ -3,6 +3,11 @@ VERSION 0  FIRST BETA
 =====================
 
    Version 0.9 - Beta release
+      19/11/2013 16:05  0.9.15  Move the publish confirmation question right before publishing + fix #12
+         f2f4b2d Display the number of questions in the interactive session
+         e524ee6 Do not set a default value for input option when an interactive question is planned fix #12
+         89f56f4 Move the publish confirmation question right before publishing fix #47
+         1fe370d Move all the write* methods from the BaseCommand to the Output class
       18/11/2013 06:24  0.9.14  Add a new TestCheck prerequisite
          98ae014 Add a test check prerequisite and use it for RMT fix #51
          9f86275 Update README.md
