@@ -80,7 +80,7 @@ class InformationRequest
             $this->options['command_shortcut'],
             $this->options['type']=='boolean' || $this->options['type']=='confirmation' ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
             $this->options['description'],
-            $this->options['type']!=='confirmation' ? $this->options['default'] : null
+            (!$this->isAvailableForInteractive() && $this->getOption('type')!=='confirmation') ? $this->options['default'] : null
         );
     }
 

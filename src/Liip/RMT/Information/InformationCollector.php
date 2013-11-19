@@ -121,7 +121,7 @@ class InformationCollector
     public function handleCommandInput(InputInterface $input)
     {
         foreach ($input->getOptions() as $name => $value) {
-            if ($this->hasRequest($name) && $this->getRequest($name)->getOption('default') !== $value){
+            if ($this->hasRequest($name) && $value !== null){
                 $this->getRequest($name)->setValue($value);
             }
         }
