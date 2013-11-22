@@ -3,7 +3,7 @@
 // Search for an autoloader
 if (file_exists($file = __DIR__.'/../../autoload.php')) {
 
-    // Composer standarmt location
+    // Composer standard location
     $loader = require_once $file;
     $loader->add('Liip\RMT\Tests', __DIR__.'/test');
     $loader->add('Liip', __DIR__.'/src');
