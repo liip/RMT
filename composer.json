@@ -29,5 +29,6 @@
             "Liip": "src"
         }
     },
-    "minimum-stability": "beta"
+    "minimum-stability": "beta",
+    "bin": ["command.php"]
 }
