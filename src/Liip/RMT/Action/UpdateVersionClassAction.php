@@ -23,14 +23,12 @@ use Liip\RMT\Config\Exception as ConfigException;
  */
 class UpdateVersionClassAction extends BaseAction
 {
-    private $options;
-
     public function __construct($options)
     {
         if (!isset($options['class'])) {
             throw new ConfigException('You must specify the class to update');
         }
-        $this->options = $options;
+        parent::__construct($options);
     }
 
     public function execute()
