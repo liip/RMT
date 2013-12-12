@@ -46,15 +46,26 @@ class Handler
 
     protected function mergeConfig($branchName = null)
     {
-        $defaultConfig = $this->getDefaultConfig();
-        $config = array_merge($defaultConfig, $this->rawConfig);
-        if (isset($branchName) && isset($config['branch-specific'][$branchName])) {
-            $envSpecific = $config['branch-specific'][$branchName];
-            $config = array_replace_recursive($config, $envSpecific);
+        // Handling the two different config mode (with 'branch-specific' or with '_default' section)
+        // See https://github.com/liip/RMT/issues/56 for more info
+        if (array_key_exists('_default', $this->rawConfig)) {
+            $baseConfig = array_merge($this->getDefaultConfig(), $this->rawConfig['_default']);
+            unset($baseConfig['branch-specific']);
+            $branchesConfig = $this->rawConfig;
+            unset($branchesConfig['_default']);
         }
-        unset($config['branch-specific']);
+        else {
+            $baseConfig = array_merge($this->getDefaultConfig(), $this->rawConfig);
+            $branchesConfig = $baseConfig['branch-specific'];
+            unset($baseConfig['branch-specific']);
+        }
 
-        return $config;
+        // Return custom branch config
+        if (isset($branchName) && isset($branchesConfig[$branchName])) {
+            return array_replace_recursive($baseConfig, $branchesConfig[$branchName]);
+        }
+
+        return $baseConfig;
     }
 
     /**
