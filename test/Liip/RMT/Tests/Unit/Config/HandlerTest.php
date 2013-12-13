@@ -45,6 +45,79 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $configHandler->getBaseConfig();
     }
 
+    /**
+     * @dataProvider getDataForGetBaseConfig
+     */
+    public function testGetBaseConfig($rawConfig, $expectedGenerator)
+    {
+        $handler = new Handler($rawConfig);
+        $config = $handler->getBaseConfig();
+        $this->assertEquals($config['version-generator']['class'], $expectedGenerator);
+    }
+    public function getDataForGetBaseConfig(){
+        return array(
+            // Legacy format
+            array(
+                array(
+                    'version-persister'=>'foo',
+                    'version-generator'=>'foo'
+                ),
+                'Liip\RMT\Version\Generator\FooGenerator'
+            ),
+            // New format (see: https://github.com/liip/RMT/issues/56)
+            array(
+                array(
+                    '_default' => array(
+                        'version-persister'=>'foo',
+                        'version-generator'=>'foo'
+                    )
+                ),
+                'Liip\RMT\Version\Generator\FooGenerator'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getDataForGetBranchConfig
+     */
+    public function testGetBranchConfig($rawConfig, $branch, $expected)
+    {
+        $handler = new Handler($rawConfig);
+        $config = $handler->getConfigForBranch($branch);
+        $this->assertEquals($config['version-generator']['class'], $expected);
+    }
+    public function getDataForGetBranchConfig(){
+        return array(
+            // Legacy format
+            array(
+                array(
+                    'version-persister'=>'foo',
+                    'version-generator'=>'foo',
+                    'branch-specific'=>array(
+                        'dev'=>array('version-generator'=>'bar')
+                    )
+                ),
+                'dev',
+                'Liip\RMT\Version\Generator\BarGenerator'
+            ),
+            // New format (see: https://github.com/liip/RMT/issues/56)
+            array(
+                array(
+                    '_default' => array(
+                        'version-persister'=>'foo',
+                        'version-generator'=>'foo'
+                    ),
+                    'dev'=>array(
+                        'version-generator'=>'bar'
+                    )
+                ),
+                'dev',
+                'Liip\RMT\Version\Generator\BarGenerator'
+            )
+        );
+    }
+
+
     public function testMerge()
     {
         $configHandler = new Handler(array(
@@ -64,8 +137,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
-            'version-generator' => array(),
-            'version-persister' => array (),
             'post-release-actions' => array(),
             'version-generator' => 'bar',
             'version-persister' => 'foo',
@@ -74,8 +145,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
-            'version-generator' => array(),
-            'version-persister' => array (),
             'post-release-actions' => array(),
             'version-generator' => 'foobar',
             'version-persister' => 'foo',
@@ -101,8 +170,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
-            'version-generator' => array(),
-            'version-persister' => array (),
             'post-release-actions' => array(),
             'version-generator' => array('name'=>'bar', 'opt1'=>'val1'),
             'version-persister' => 'foo',
@@ -111,8 +178,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
-            'version-generator' => array(),
-            'version-persister' => array (),
             'post-release-actions' => array(),
             'version-generator' => array('name'=>'bar', 'opt1'=>'val2'),
             'version-persister' => 'foo',
@@ -137,6 +202,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $method->invokeArgs($configHandler, array($rawConfig, $configKey))
         );
     }
+
     public function getDataForTestingGetClassAndOptions()
     {
         return array(

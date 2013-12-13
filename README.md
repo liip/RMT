@@ -44,12 +44,13 @@ Using RMT is very straightforward, just run the command:
 
 RMT will then do the following tasks:
 
-* Execute the prerequisites checks
-* Ask the user to answers potentials questions
-* Generate a new version number
-* Execute the pre-release actions
-* Persist the new version number
-* Execute the post-release actions
+1. Execute the prerequisites checks
+2. Ask the user to answers potentials questions
+3. Execute the pre-release actions	
+4. Release
+	* Generate a new version number
+	* Persist the new version number
+5. Execute the post-release actions
 
 ### Additional commands
 
@@ -57,6 +58,7 @@ The `release` command is the main behavior of the tool, but some extra commands 
 
 * `current` will show your project current version number (alias version)
 * `init` create .rmt.yml config file
+* `changes` display the changes that will be incorporated in the next release
 
 Configuration
 -------------
@@ -69,16 +71,27 @@ All RMT configurations have to be done in the `.rmt.yml`. The file is divided in
 * `version-generator`: The generator to use to create a new version (mandatory)
 * `version-persister`: The persister to use to store the versions (mandatory)
 * `post-release-actions`: A list `[]` of actions that will be executed after the release
-* `branch-specific`: A list of config parameters that will be used to override the defaults from specific branches
 
-All the entry of this config (except the `branch-specific`) are all working the same. You have to specify the class you want to handle the action. There is two syntax available:
+All the entry of this config are working the same. You have to specify the class you want to handle the action. Example:
 
-* The short one, example: `"version-generator": "simple"` when you have no specific parameter to provide
-* The config array, example:  `"version-persister": {"name": "vcs-tag", "tag-prefix": "v_"}` when you have to provide parameters to the class.
+    version-generator: "simple"`
+    version-persister:
+       vcs-tag:
+           tag-prefix: "v_"
+           
+### Branch specific config
+
+Something you want to use a different release strategy according to the VCS branch, for example, you want to add a entry into a CHANGELOG only in the `master` branch. To do so, you have to place your default config into a root element named `_default`. Then you can override parts is this default config for the branch `master`. Example:
+
+    _default:
+        version-generator: "simple"
+        version-persister: "vcs-tag"
+	master:
+	    pre-release-actions: [changelog-update]
 
 ### Version generator
 
-Version number generation strategy
+Build-in version number generation strategy
 
 * simple: This generator is doing a simple increment (1,2,3...)
 * semantic: A generator which implements [Semantic versioning](http://semver.org)
@@ -161,28 +174,29 @@ Most of the time, it will be easier for you to pick up and example bellow and to
 
 ### Using semantic versioning on master and simple versioning on topic branches
 
-    vcs: git
-    prerequisites: [working-copy-check]
-    version-generator: simple
-    version-persister:
-        name: vcs-tag
-        tag-prefix: "{branch-name}_"
-    post-release-actions: [vcs-publish]
-    branch-specific:
-        # This entry allow to override some parameters for the master branch
-        master:
-            prerequisites: [working-copy-check, display-last-changes]
-            pre-release-actions:
-                changelog-update:
-                    format: semantic
-                    file: CHANGELOG.md
-                    dump-commits: true
-                update-version-class:
-                    class: Doctrine\ODM\PHPCR\Version
-                    pattern: const VERSION = '%version%';
-                vcs-commit: ~
-            version-generator: semantic
-            version-persister: vcs-tag
+    _default:
+    	vcs: git
+    	prerequisites: [working-copy-check]
+    	version-generator: simple
+    	version-persister:
+        	name: vcs-tag
+        	tag-prefix: "{branch-name}_"
+    	post-release-actions: [vcs-publish]
+
+    # This entry allow to override some parameters for the master branch
+    master:
+        prerequisites: [working-copy-check, display-last-changes]
+        pre-release-actions:
+            changelog-update:
+                format: semantic
+                file: CHANGELOG.md
+                dump-commits: true
+            update-version-class:
+                class: Doctrine\ODM\PHPCR\Version
+                pattern: const VERSION = '%version%';
+            vcs-commit: ~
+        version-generator: semantic
+        version-persister: vcs-tag
 
 Contributing
 ------------
