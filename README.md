@@ -44,10 +44,10 @@ RMT will then do the following tasks:
 
 1. Execute the prerequisites checks
 2. Ask the user to answers potentials questions
-3. Execute the pre-release actions	
+3. Execute the pre-release actions
 4. Release
-	* Generate a new version number
-	* Persist the new version number
+    * Generate a new version number
+    * Persist the new version number
 5. Execute the post-release actions
 
 Here is an output example:
@@ -92,8 +92,8 @@ Something you want to use a different release strategy according to the VCS bran
     _default:
         version-generator: "simple"
         version-persister: "vcs-tag"
-	master:
-	    pre-release-actions: [changelog-update]
+    master:
+        pre-release-actions: [changelog-update]
 
 ### Version generator
 
@@ -187,13 +187,13 @@ Most of the time, it will be easier for you to pick up and example bellow and to
 ### Using semantic versioning on master and simple versioning on topic branches
 
     _default:
-    	vcs: git
-    	prerequisites: [working-copy-check]
-    	version-generator: simple
-    	version-persister:
-        	name: vcs-tag
-        	tag-prefix: "{branch-name}_"
-    	post-release-actions: [vcs-publish]
+        vcs: git
+        prerequisites: [working-copy-check]
+        version-generator: simple
+        version-persister:
+            name: vcs-tag
+            tag-prefix: "{branch-name}_"
+        post-release-actions: [vcs-publish]
 
     # This entry allow to override some parameters for the master branch
     master:
@@ -225,6 +225,7 @@ Authors
 
 * Laurent Prodon Liip AG
 * David Jeanmonod Liip AG
+* and [others contributors](https://github.com/liip/RMT/graphs/contributors)
 
 License
 -------
