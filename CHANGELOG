@@ -1,4 +1,13 @@
 
+VERSION 1  FIRST STABLE VERSION
+===============================
+
+   Version 1.0 - First stable version
+      20/12/2013 07:56  1.0.0  initial release
+         0532960 Add the contributors link in the README
+         df1cfff Update the documentation related to the move on stable
+         12de609 Update composer config to tag it as stable
+
 VERSION 0  FIRST BETA
 =====================
 
