@@ -3,7 +3,7 @@ RMT - Release Management Tool
 
 [![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
 
-RMT is a simple tool to help releasing new version of your software. You can define the type
+RMT is a handy tool to help releasing new version of your software. You can define the type
 of version generator you want to use (example: semantic versioning), where you want to store
 the version (in a changelog file, as a VCS tag…) and a list of action that will be
 executed and before or after the release of a new version.
@@ -15,9 +15,7 @@ Installation
 In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
 installed as a dev-dependency. Just go to your project root directory and execute:
 
-    php composer.phar require --dev liip/rmt 0.9.*         # latest beta
-    # or
-    php composer.phar require --dev liip/rmt dev-master    # latest unstable
+    composer require --dev liip/rmt:1.0.*
 
 Then you must initialize RMT by running the following command:
 
@@ -52,13 +50,19 @@ RMT will then do the following tasks:
 	* Persist the new version number
 5. Execute the post-release actions
 
+Here is an output example:
+
+![screenshot](https://github.com/liip/RMT/raw/master/docs/output-example.png "First stable for RMT")
+
+
 ### Additional commands
 
 The `release` command is the main behavior of the tool, but some extra commands are available:
 
 * `current` will show your project current version number (alias version)
-* `init` create .rmt.yml config file
 * `changes` display the changes that will be incorporated in the next release
+* `init` create (or reset) the .rmt.yml config file
+
 
 Configuration
 -------------
@@ -79,6 +83,8 @@ All the entry of this config are working the same. You have to specify the class
        vcs-tag:
            tag-prefix: "v_"
            
+RMT also support JSON config, but we recommend you to use YML.
+           
 ### Branch specific config
 
 Something you want to use a different release strategy according to the VCS branch, for example, you want to add a entry into a CHANGELOG only in the `master` branch. To do so, you have to place your default config into a root element named `_default`. Then you can override parts is this default config for the branch `master`. Example:
@@ -98,37 +104,41 @@ Build-in version number generation strategy
 
 ### Version persister
 
-Class is charged of saving/retrieving the version number
+Class in charge of saving/retrieving the version number
 
 * vcs-tag: Save the version as a VCS tag
 * changelog: Save the version in the changelog file
 
 ### Prerequisite actions
 
-Prerequisite actions are executed before the interactive part.
+Prerequisite actions are executed before the interactive part
 
-* working-copy-check: Check that you don't have any VCS local changes before release
-* display-last-changes: display your last changes before release
+* `working-copy-check`: check that you don't have any VCS local changes
+* `display-last-changes`: display your last changes
+* `tests-check`: run the project test suite
+  * Option `command`: command to run (default: *phpunit*)
+  * Option `expected_exit_code`: expected return code (default: *0*)
 
 ### Actions
 
 Actions can be used for pre or post release parts.
 
-* changelog-update: Update a changelog file. This action is further configured
+* `changelog-update`: Update a changelog file. This action is further configured
   to use a specific formatter.
-    * format: *simple*|semantic|addTop
-    * file: path from .rmt.yml to changelog file, default 'CHANGELOG'
-    * dump-commits: *false*|true - whether to write all commit messages since
-      the last release into the changelog file.
-    * insert-at: Only for addTop formatter: Number of lines to skip from the
-      top of the changelog file before adding the release number.
-* vcs-commit: Process a VCS commit
-* vcs-tag: Tag the last commit
-* vcs-publish: Publish the changes (commit and tags)
-* composer-update: Update the version number in a composer file
-* update-version-class: Update the version constant in a class file.
-    * **class**: fully qualified class name of the class containing the version constant
-    * **pattern**: optional, use to specify the string replacement pattern in your
+    * Option `format`: *simple*, *semantic* or *addTop*  (default: *simple*)
+    * Option `file`: path from .rmt.yml to changelog file (default: *CHANGELOG*)
+    * Option `dump-commits`: write all commit messages since the last release into the
+      changelog file (default: *false*)
+    * Option `insert-at`: only for addTop formatter: Number of lines to skip from the
+      top of the changelog file before adding the release number (default: *0*)
+* `vcs-commit`: commit all files of the working copy (only use it with the
+  `working-copy-check` prerequisite)
+* `vcs-tag`: Tag the last commit
+* `vcs-publish`: Publish the changes (commits and tags)
+* `composer-update`: Update the version number in a composer file
+* `update-version-class`: Update the version constant in a class file.
+    * Option `class`: fully qualified class name of the class containing the version constant
+    * Option `pattern`: optional, use to specify the string replacement pattern in your
       version class. %version% will be replaced by the current / next version strings.
       For example you could use `const VERSION = '%version%';`. If you do not specify
       this option, every occurrence of the version string in the file will be replaced.
@@ -136,7 +146,7 @@ Actions can be used for pre or post release parts.
 Extend it
 ---------
 
-RMT is providing a large bunch of existing actions, generator and persister. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
+RMT is providing some existing actions, generators and persisters. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
 
     version-generator: "bin/myOwnGenerator.php"
 
@@ -145,6 +155,8 @@ or with parameters:
     version-persister:
         name: "bin/myOwnGenerator.php"
         parameter1: value1
+
+As an example, you can look at the script [/bin/UpdateApplicationVersionCurrentVersion.php](https://github.com/liip/RMT/blob/master/bin/UpdateApplicationVersionCurrentVersion.php) configured [here](https://github.com/liip/RMT/blob/master/.rmt.yml#L9).
 
 
 Configuration examples
