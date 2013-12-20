@@ -1,8 +1,8 @@
 {
     "name": "liip/rmt",
     "version": "0.9.16",
-    "description": "Release Managment Tool",
-    "keywords": ["release", "version", "semantic versioning", "vcs tag"],
+    "description": "Release Managment Tool: a handy tool to help releasing new version of your software",
+    "keywords": ["release", "version", "semantic versioning", "vcs tag", "pre-release", "post-release"],
     "homepage": "http://github.com/liip/RMT",
     "license": "MIT",
     "authors": [
@@ -18,6 +18,9 @@
         }
 
     ],
+    "support": {
+        "issues": "http://github.com/liip/RMT/issues"
+    },
     "require": {
         "php": ">=5.3.3",
         "symfony/console": "~2.0",
@@ -28,6 +31,5 @@
         "psr-0": {
             "Liip": "src"
         }
-    },
-    "minimum-stability": "beta"
+    }
 }
