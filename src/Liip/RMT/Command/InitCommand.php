@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InformationCollector;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Create config settings file and rmt executable
