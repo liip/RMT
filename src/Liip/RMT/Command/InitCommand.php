@@ -135,7 +135,7 @@ class InitCommand extends BaseCommand
             "define('RMT_ROOT_DIR', __DIR__);\n".
             "require '{$this->commandPath}';\n"
         );
-        exec('chmod +x RMT');
+        chmod('RMT', 0755);
 
         // Create the config file from a template
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
