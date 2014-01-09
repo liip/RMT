@@ -3,6 +3,8 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.0 - First stable version
+      09/01/2014 07:41  1.0.1  Bug fix #56 (Unix chmod usage)
+         e959871 Replace a unix chmod by a php chmod, fix #61
       20/12/2013 07:56  1.0.0  initial release
          0532960 Add the contributors link in the README
          df1cfff Update the documentation related to the move on stable
