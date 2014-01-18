@@ -1,0 +1,22 @@
+{
+    "alias": "RMT.phar",
+    "chmod": "0755",
+    "directories": ["src"],
+    "files": [
+	"autoload.php",
+	"command.php",
+        "LICENSE",
+	"RMT"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["Tests"],
+            "in": ["vendor", "src"]
+        }
+    ],
+    "git-version": "package_version",
+    "main": "RMT",
+    "output": "RMT.phar",
+    "stub": true
+}

@@ -110,6 +110,11 @@ class InitCommand extends BaseCommand
 
         // Guessing elements path
         $this->buildPaths($configPath);
+
+        // disable the creation of the conveniance script when within a phar
+        if (extension_loaded('phar') && \Phar::running()) {
+            $this->informationCollector->setValueFor('configonly', 'y');
+        }
     }
 
     /**
