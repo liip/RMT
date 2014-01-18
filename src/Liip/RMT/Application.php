@@ -16,7 +16,6 @@ use Liip\RMT\Command\ChangesCommand;
 use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\InitCommand;
-use Liip\RMT\Output\Output;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -20,7 +20,7 @@ class InitCommandTest extends RMTFunctionalTestBase
         $configFile = '.rmt.yml';
         unlink($configFile);
         $this->assertFileNotExists($configFile);
-        exec('./RMT init --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
+        exec('./RMT init --configonly=n --vcs=git --generator=semantic-versioning --persister=vcs-tag -n');
 
 //        $this->manualDebug();
 

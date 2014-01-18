@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InformationCollector;
-use Symfony\Component\Yaml\Yaml;
+
 
 /**
  * Create config settings file and rmt executable
@@ -57,6 +57,13 @@ class InitCommand extends BaseCommand
         // Create an information collector and configure the different information request
         $this->informationCollector = new InformationCollector();
         $this->informationCollector->registerRequests(array(
+            new InformationRequest('configonly', array(
+                'description' => "if you want to skip creation of the RMT convenience script",
+                'type' => 'yes-no',
+                'command_argument' => true,
+                'interactive' => true,
+                'default' => 'n'
+            )),
             new InformationRequest('vcs', array(
                 'description' => 'The VCS system to use',
                 'type' => 'choice',
@@ -103,6 +110,11 @@ class InitCommand extends BaseCommand
 
         // Guessing elements path
         $this->buildPaths($configPath);
+
+        // disable the creation of the conveniance script when within a phar
+        if (extension_loaded('phar') && \Phar::running()) {
+            $this->informationCollector->setValueFor('configonly', 'y');
+        }
     }
 
     /**
@@ -127,15 +139,18 @@ class InitCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Create the executable task inside the project home
-        $this->getOutput()->writeln("Creation of the new executable <info>{$this->executablePath}</info>");
-        file_put_contents($this->executablePath,
-            "#!/usr/bin/env php\n".
-            "<?php\n".
-            "define('RMT_ROOT_DIR', __DIR__);\n".
-            "require '{$this->commandPath}';\n"
-        );
-        chmod('RMT', 0755);
+
+        if ($this->informationCollector->getValueFor('configonly') == 'n') {
+            // Create the executable task inside the project home
+            $this->getOutput()->writeln("Creation of the new executable <info>{$this->executablePath}</info>");
+            file_put_contents($this->executablePath,
+                "#!/usr/bin/env php\n".
+                "<?php\n".
+                "define('RMT_ROOT_DIR', __DIR__);\n".
+                "require '{$this->commandPath}';\n"
+            );
+            chmod('RMT', 0755);
+        }
 
         // Create the config file from a template
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
