@@ -8,8 +8,14 @@
  * file that was distributed with this source code.
  */
 
+
 // Search for an autoloader
-if (file_exists($file = __DIR__.'/../../autoload.php')) {
+
+// in phar environment
+if (extension_loaded('phar') && file_exists($file = Phar::running() .'/vendor/autoload.php')) {
+    $loader = require_once $file;
+}
+elseif (file_exists($file = __DIR__.'/../../autoload.php')) {
 
     // Composer standard location
     $loader = require_once $file;

@@ -1,4 +1,6 @@
 #!/usr/bin/env php
 <?php
-define('RMT_ROOT_DIR', __DIR__);
+// Warning, this file will be symlinked by composer, so this is why it doesn't use the
+//  standard __DIR__ localisation. See https://github.com/liip/RMT/pull/60 for more info
+define('RMT_ROOT_DIR', getcwd());
 require 'command.php';

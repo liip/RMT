@@ -28,7 +28,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 
         // Create the executable task inside
         $rmtDir = realpath(__DIR__.'/../../../../../');
-        exec("php $rmtDir/command.php init --generator=basic-increment --persister=vcs-tag --vcs=git");
+        exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
     protected function createConfig($generator, $persister, $otherConfig=array()) {
