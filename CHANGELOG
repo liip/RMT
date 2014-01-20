@@ -3,6 +3,17 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.0 - First stable version
+      20/01/2014 06:36  1.0.2  New init option to skip creation of the RMT script
+         1c39f8e Merge https://github.com/liip/RMT/pull/60
+         12039d1 Cleanup PR60
+         98070aa adding support for creating phar-RMT through http://box-project.org/
+         011b988 added phpstorms .idea metadata to gitignore
+         30f18cb Merge branch 'master' of https://github.com/liip/RMT
+         5df1b27 added configonly option to init command
+         844efba removed unused use
+         90b4640 adding RMT to vendor/bin/RMT
+         e93f85e removed unused use
+         9bad5ef use PHP function rather than doing exec
       09/01/2014 07:41  1.0.1  Bug fix #56 (Unix chmod usage)
          e959871 Replace a unix chmod by a php chmod, fix #61
       20/12/2013 07:56  1.0.0  initial release
