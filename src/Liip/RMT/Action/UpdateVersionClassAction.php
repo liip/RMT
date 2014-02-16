@@ -34,26 +34,42 @@ class UpdateVersionClassAction extends BaseAction
 {
     public function __construct($options)
     {
-        if (!isset($options['class'])) {
-            throw new ConfigException('You must specify the class to update');
-        }
         parent::__construct($options);
     }
 
     public function execute()
     {
+        if (!isset($this->options['class'])) {
+            throw new ConfigException('You must specify the class to update');
+        }
+
+        $versionClass = new \ReflectionClass($this->options['class']);
+        $this->updateFile($versionClass->getFileName());
+        $this->confirmSuccess();
+    }
+
+    /**
+     * will update a given filename with the current version
+     * @param string $filename
+     * @throws \Liip\RMT\Exception
+     */
+    protected function updateFile($filename)
+    {
         $current = Context::getParam('current-version');
         $next = Context::getParam('new-version');
-        $versionClass = new \ReflectionClass($this->options['class']);
-        $content = file_get_contents($versionClass->getFileName());
+
+        $content = file_get_contents($filename);
         if (false === strpos($content, $current)) {
-            throw new Exception('The version class ' . $versionClass->getFileName() . " does not contain the current version $current");
+            throw new Exception('The version class ' . $filename . " does not contain the current version $current");
         }
         if (isset($this->options['pattern'])) {
             $current = str_replace('%version%', $current, $this->options['pattern']);
             $next = str_replace('%version%', $next, $this->options['pattern']);
         }
         $content = str_replace($current, $next, $content);
-        file_put_contents($versionClass->getFileName(), $content);
+        if (false === strpos($content, $next)) {
+            throw new Exception('The version class ' . $filename . " could not be updated with version $next");
+        }
+        file_put_contents($filename, $content);
     }
 }
