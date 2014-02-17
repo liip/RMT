@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.0 - First stable version
+      17/02/2014 11:45  1.0.3  UpdateVersionClass accept file path now (thanks ppetermann)
+         d213ef7 Merge pull request #65 from ppetermann/master
+         2d755da moved changes to single file, edited readme
+         f8b7cf9 added UpdateVersionClassFileAction
       20/01/2014 06:36  1.0.2  New init option to skip creation of the RMT script
          1c39f8e Merge https://github.com/liip/RMT/pull/60
          12039d1 Cleanup PR60
