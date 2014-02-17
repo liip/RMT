@@ -40,11 +40,17 @@ class UpdateVersionClassAction extends BaseAction
     public function execute()
     {
         if (!isset($this->options['class'])) {
-            throw new ConfigException('You must specify the class to update');
+            throw new ConfigException('You must specify the class or file to update');
         }
 
-        $versionClass = new \ReflectionClass($this->options['class']);
-        $this->updateFile($versionClass->getFileName());
+        if (file_exists($this->options['class'])) {
+            $filename = $this->options['class'];
+        } else {
+            $versionClass = new \ReflectionClass($this->options['class']);
+            $filename = $versionClass->getFileName();
+        }
+
+        $this->updateFile($filename);
         $this->confirmSuccess();
     }
 
