@@ -137,7 +137,7 @@ Actions can be used for pre or post release parts.
 * `vcs-publish`: Publish the changes (commits and tags)
 * `composer-update`: Update the version number in a composer file
 * `update-version-class`: Update the version constant in a class file.
-    * Option `class`: fully qualified class name of the class containing the version constant
+    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
     * Option `pattern`: optional, use to specify the string replacement pattern in your
       version class. %version% will be replaced by the current / next version strings.
       For example you could use `const VERSION = '%version%';`. If you do not specify
