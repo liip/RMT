@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.0 - First stable version
+      03/04/2014 22:45  1.0.4  Add a new command RMT config
+         5c2990b Add a new command RMT config
+         f158e6e Better error handling when parsing the config
       17/02/2014 11:45  1.0.3  UpdateVersionClass accept file path now (thanks ppetermann)
          d213ef7 Merge pull request #65 from ppetermann/master
          2d755da moved changes to single file, edited readme
