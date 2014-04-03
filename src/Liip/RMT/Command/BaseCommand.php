@@ -70,10 +70,12 @@ abstract class BaseCommand extends Command
             $vcs = Context::get('vcs');
             try {
                 $branch = $vcs->getCurrentBranch();
-                $config = $configHandler->getConfigForBranch($branch);
             }
             catch (\Exception $e) {
-                echo "Impossible to read the branch name\n";
+                echo "\033[31mImpossible to read the branch name\033[37m";
+            }
+            if (isset($branch)){
+                $config = $configHandler->getConfigForBranch($branch);
             }
         }
 
