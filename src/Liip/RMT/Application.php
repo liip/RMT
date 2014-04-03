@@ -15,6 +15,7 @@ define('RMT_VERSION', '1.0.3');
 use Liip\RMT\Command\ChangesCommand;
 use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
+use Liip\RMT\Command\ConfigCommand;
 use Liip\RMT\Command\InitCommand;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,6 +52,7 @@ class Application extends BaseApplication
                 $this->add(new ReleaseCommand());
                 $this->add(new CurrentCommand());
                 $this->add(new ChangesCommand());
+                $this->add(new ConfigCommand());
             }
         }
         catch (\Exception $e) {

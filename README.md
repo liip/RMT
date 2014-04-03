@@ -61,6 +61,7 @@ The `release` command is the main behavior of the tool, but some extra commands 
 
 * `current` will show your project current version number (alias version)
 * `changes` display the changes that will be incorporated in the next release
+* `config` display the current config (already merged)
 * `init` create (or reset) the .rmt.yml config file
 
 
@@ -94,6 +95,8 @@ Something you want to use a different release strategy according to the VCS bran
         version-persister: "vcs-tag"
     master:
         pre-release-actions: [changelog-update]
+
+You can use the command ```RMT config``` To see the merge result between _default and your current branch
 
 ### Version generator
 
