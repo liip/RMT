@@ -18,6 +18,17 @@ use Liip\RMT\VCS\VCSInterface;
  */
 class VcsCommitAction extends BaseAction
 {
+    public function __construct($options = array())
+    {
+        $this->options = array_merge(
+            array(
+                'commit-message' => 'Release of new version %version%'
+            ),
+            $options
+        );
+    }
+
+
     public function execute()
     {
         /** @var VCSInterface $vcs */
@@ -26,7 +37,9 @@ class VcsCommitAction extends BaseAction
             Context::get('output')->writeln("<error>No modification found, aborting commit</error>");
             return;
         }
-        $vcs->saveWorkingCopy('Release of new version '.Context::getParam('new-version'));
+        $vcs->saveWorkingCopy(
+            str_replace('%version%', Context::getParam('new-version'), $this->options['commit-message'])
+        );
         $this->confirmSuccess();
     }
 }
