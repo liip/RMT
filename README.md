@@ -136,6 +136,7 @@ Actions can be used for pre or post release parts.
       top of the changelog file before adding the release number (default: *0*)
 * `vcs-commit`: commit all files of the working copy (only use it with the
   `working-copy-check` prerequisite)
+    * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
 * `composer-update`: Update the version number in a composer file
