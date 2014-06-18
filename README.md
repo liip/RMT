@@ -11,7 +11,7 @@ executed and before or after the release of a new version.
 
 Installation
 ------------
-
+### Option 1: as a dependency to your project
 In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
 installed as a dev-dependency. Just go to your project root directory and execute:
 
@@ -33,6 +33,23 @@ If you are using a versioning tool, we recommend to add both composer files (`co
 and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
 to it. The `vendor` directory should be ignored since it is populated simply by running
 `composer install`
+
+### Option 2: as a phar file
+RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) for that. phar-composer is a useful tool that allows you to create runable phar files from composer packages.
+
+if you have phar-composer installed, you can run: 
+
+    sudo phar-composer install liip/RMT
+
+and have phar-composer build and install the phar file to your $PATH, which then allows you to run it simply as `rmt` from command line or you can run
+
+    phar-composer build liip/RMT 
+    
+and copy the resulting phar manually where you need it (either set the phar as executable `chmod +x rmt.phar` and execute it directly `./rmt.phar` or  run it by invoking it through PHP `php rmt.phar`.
+
+For the usage substitute RMT with what ever variant you have decided to use.
+
+
 
 Usage
 -----
