@@ -69,11 +69,9 @@ class SemanticGenerator implements GeneratorInterface
                     // if label is new clear version
                     if ($label !== $oldLabel) {
                         $labelVersion = false;
-                    } else {
+                    } elseif (array_key_exists(4, $matches)) {
                         // if version exists increment it
-                        if (array_key_exists(4, $matches)) {
-                            $labelVersion = intval($matches[4])+1;
-                        }
+                        $labelVersion = intval($matches[4])+1;
                     }
                 }
 
