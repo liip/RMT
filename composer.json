@@ -25,7 +25,8 @@
         "php": ">=5.3.3",
         "symfony/console": "~2.0",
         "symfony/yaml": "~2.0",
-        "symfony/process": "~2.0"
+        "symfony/process": "~2.0",
+        "vierbergenlars/php-semver": "3.0.0-rc2"
     },
     "autoload": {
         "psr-0": {

@@ -28,6 +28,13 @@ class InformationCollector
             'choices' => array('major', 'minor', 'patch'),
             'choices_shortcuts' => array('m'=>'major', 'i'=>'minor', 'p'=>'patch'),
             'default' => 'patch'
+        ),
+        'label' => array(
+            'description' => 'Release label, can be rc, beta, alpha or none',
+            'type' => 'choice',
+            'choices' => array('rc', 'beta', 'alpha', 'none'),
+            'choices_shortcuts' => array('rc'=>'rc', 'b'=>'beta', 'a'=>'alpha', 'n'=>'none'),
+            'default' => 'none'
         )
     );
 

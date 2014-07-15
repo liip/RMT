@@ -11,6 +11,7 @@
 namespace Liip\RMT\Version\Generator;
 
 use Liip\RMT\Context;
+use vierbergenlars\SemVer\version;
 
 /**
  * Generator based on the Semantic Versioning defined by Tom Preston-Werner
@@ -30,35 +31,75 @@ class SemanticGenerator implements GeneratorInterface
     {
         if (isset($options['type'])) {
             $type = $options['type'];
-        }
-        else {
+        } else {
             $type = Context::get('information-collector')->getValueFor('type');
+        }
+
+        if (isset($options['label'])) {
+            $label = $options['label'];
+        } else {
+            $label = Context::get('information-collector')->getValueFor('label');
         }
 
         // Type validation
         $validTypes = array('patch', 'minor', 'major');
-        if (!in_array($type, $validTypes)){
+        if (!in_array($type, $validTypes)) {
             throw new \InvalidArgumentException(
                 "The option [type] must be one of: {".implode($validTypes, ', ')."}, \"$type\" given"
             );
         }
 
-        if (!preg_match('#^'.$this->getValidationRegex().'$#', $currentVersion) ){
+        if (!preg_match('#^'.$this->getValidationRegex().'$#', $currentVersion)) {
             throw new \Exception('Current version format is invalid (' . $currentVersion . '). It should be major.minor.patch');
         }
 
-        // Increment
+        $matches = null;
+        $returnValue = preg_match('$(?:(\d+\.\d+\.\d+)(?:(-)([a-zA-Z]+)(\d+)?)?)$', $currentVersion, $matches);
+        // if last version is with label
+        if (count($matches) > 3) {
+            list($major, $minor, $patch) = explode('.', $currentVersion);
+            $patch = substr($patch, 0, strpos($patch, "-"));
+
+            if ($label != 'none') {
+                // increment label
+                if (array_key_exists(3, $matches)) {
+                    $oldLabel = $matches[3];
+                    $labelVersion = 2;
+
+                    // if label is new clear version
+                    if ($label !== $oldLabel) {
+                        $labelVersion = false;
+                    } elseif (array_key_exists(4, $matches)) {
+                        // if version exists increment it
+                        $labelVersion = intval($matches[4])+1;
+                    }
+                }
+
+                return implode(array($major, $minor, $patch), '.').'-'.$label.$labelVersion;
+            }
+
+            return implode(array($major, $minor, $patch), '.');
+        }
+
         list($major, $minor, $patch) = explode('.', $currentVersion);
-        if ($type === 'major') {
-            $major += 1;
-            $patch = $minor = 0;
+        // Increment
+        switch ($type) {
+            case 'major':
+                $major += 1;
+                $patch = $minor = 0;
+                break;
+            case 'minor':
+                $minor += 1;
+                $patch = 0;
+                break;
+            default:
+                $patch += 1;
+                break;
         }
-        else if ($type === 'minor') {
-            $minor += 1;
-            $patch = 0;
-        }
-        else {
-            $patch += 1;
+
+        // new label
+        if ($label != 'none') {
+            return implode(array($major, $minor, $patch), '.').'-'.$label;
         }
 
         return implode(array($major, $minor, $patch), '.');
@@ -66,12 +107,12 @@ class SemanticGenerator implements GeneratorInterface
 
     public function getInformationRequests()
     {
-        return array('type');
+        return array('type', 'label');
     }
 
     public function getValidationRegex()
     {
-        return '\d+\.\d+\.\d+';
+        return '(?:(\d+\.\d+\.\d+)(?:(-)([a-zA-Z]+)(\d+)?)?)';
     }
 
     public function getInitialVersion()
@@ -81,15 +122,6 @@ class SemanticGenerator implements GeneratorInterface
 
     public function compareTwoVersions($a, $b)
     {
-        $a = explode('.', $a);
-        $b = explode('.', $b);
-        $length = count($a);
-        for($i = 0; $i < $length; ++$i) {
-            if ($a[$i] !== $b[$i]) {
-                return $a[$i] < $b[$i] ? -1 : 1;
-            }
-        }
-        return 0;
+        return version::compare($a, $b);
     }
 }
-
