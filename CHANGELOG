@@ -2,6 +2,18 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      28/07/2014 10:56  1.1.0  initial release
+         6aa7120 Following the PR #73, I just add the option to activate (or not) the label management. Most of the users were currently not using the label system, so forced them to always answer 'none' could be painful. To activate it on your project (or a dedicated branch) just add 'allow-label' in your config
+         0ce023d Add the composer.lock to git
+         202a8a0 Merge pull request #73 from ahilles107/beta_releases
+         c3d27ca simplify if/else, use rc php-semver release
+         fa3d07e provide a way to add label for release
+         7771fd5 Merge pull request #70 from ppetermann/patch-1
+         5589eea added information on phar-composer, see #69
+         a478fa9 Merge pull request #66 from skck/master
+         c790587 Add option to specify a custom commit message
+
    Version 1.0 - First stable version
       03/04/2014 22:45  1.0.4  Add a new command RMT config
          5c2990b Add a new command RMT config
