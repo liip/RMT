@@ -19,26 +19,33 @@ use vierbergenlars\SemVer\version;
  */
 class SemanticGenerator implements GeneratorInterface
 {
+    protected $options;
+
     public function __construct($options = array())
     {
+        if (isset($options['label'])){
+            $options['allow-label'] = true;
+        }
+        $this->options = $options;
     }
 
     /**
      * {@inheritDoc}
      * @throws \InvalidArgumentException
      */
-    public function generateNextVersion($currentVersion, $options = array())
+    public function generateNextVersion($currentVersion)
     {
-        if (isset($options['type'])) {
-            $type = $options['type'];
-        } else {
-            $type = Context::get('information-collector')->getValueFor('type');
-        }
+        $type = isset($this->options['type']) ?
+            $this->options['type'] :
+            Context::get('information-collector')->getValueFor('type')
+        ;
 
-        if (isset($options['label'])) {
-            $label = $options['label'];
-        } else {
-            $label = Context::get('information-collector')->getValueFor('label');
+        $label = 'none';
+        if (isset($this->options['allow-label']) && $this->options['allow-label']==true) {
+            $label = isset($this->options['label']) ?
+                $this->options['label'] :
+                Context::get('information-collector')->getValueFor('label')
+            ;
         }
 
         // Type validation
@@ -54,7 +61,7 @@ class SemanticGenerator implements GeneratorInterface
         }
 
         $matches = null;
-        $returnValue = preg_match('$(?:(\d+\.\d+\.\d+)(?:(-)([a-zA-Z]+)(\d+)?)?)$', $currentVersion, $matches);
+        preg_match('$(?:(\d+\.\d+\.\d+)(?:(-)([a-zA-Z]+)(\d+)?)?)$', $currentVersion, $matches);
         // if last version is with label
         if (count($matches) > 3) {
             list($major, $minor, $patch) = explode('.', $currentVersion);
@@ -107,7 +114,19 @@ class SemanticGenerator implements GeneratorInterface
 
     public function getInformationRequests()
     {
-        return array('type', 'label');
+        $ir = array();
+
+        // Ask the type if it's not forced
+        if (!isset($this->options['type'])){
+            $ir[] = 'type';
+        }
+
+        // Ask the label if it's allow and not forced
+        if (isset($this->options['allow-label']) && $this->options['allow-label']==true && !isset($this->options['label'])){
+            $ir[] = 'label';
+        }
+
+        return $ir;
     }
 
     public function getValidationRegex()

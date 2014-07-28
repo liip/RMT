@@ -10,8 +10,6 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
-use Liip\RMT\Context;
-
 class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,17 +17,13 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrement($current, $type, $label, $result)
     {
-        $options = array();
-        if ($type){
-            $options['type'] = $type;
-        }
+        $options = array(
+            'type' => $type,
+            'label' => $label
+        );
 
-        if ($label) {
-            $options['label'] = $label;
-        }
-
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator();
-        $this->assertEquals($result, $generator->generateNextVersion($current, $options));
+        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator($options);
+        $this->assertEquals($result, $generator->generateNextVersion($current));
     }
 
     public function getVersionValues()
@@ -56,8 +50,8 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementWithInvalidType()
     {
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator();
-        $generator->generateNextVersion('1.0.0', array('type'=>'full', 'label'=>'none'));
+        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator(array('type'=>'full', 'label'=>'none'));
+        $generator->generateNextVersion('1.0.0');
     }
 
     public function testCompare()

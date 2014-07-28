@@ -121,6 +121,12 @@ Build-in version number generation strategy
 
 * simple: This generator is doing a simple increment (1,2,3...)
 * semantic: A generator which implements [Semantic versioning](http://semver.org)
+    * Option `allow-label` (boolean): To allow adding a label on a version (such as -beta, -rcXX)  (default: *false*)
+    * Option `type`: to force the version type
+    * Option `label`: to force the label
+
+    The two forced option could be very useful if you decide that a given branch is dedicated to the next beta of a
+    given version. So just force the label to beta and all release are going to be beta increments
 
 ### Version persister
 

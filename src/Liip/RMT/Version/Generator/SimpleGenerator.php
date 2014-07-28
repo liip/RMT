@@ -16,7 +16,7 @@ class SimpleGenerator implements GeneratorInterface
     {
     }
 
-    public function generateNextVersion($currentVersion, $options = array())
+    public function generateNextVersion($currentVersion)
     {
         return ++$currentVersion;
     }
