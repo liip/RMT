@@ -20,7 +20,7 @@ use Liip\RMT\Context;
  */
 class ChangesCommand extends BaseCommand
 {
-   protected function configure()
+    protected function configure()
     {
         $this->setName('changes');
         $this->setDescription('Shows the list of changes since last release');
