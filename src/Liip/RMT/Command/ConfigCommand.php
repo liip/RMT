@@ -22,7 +22,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ConfigCommand extends BaseCommand
 {
-   protected function configure()
+    protected function configure()
     {
         $this->setName('config');
         $this->setDescription('Show the current parsed config (according to your branch)');

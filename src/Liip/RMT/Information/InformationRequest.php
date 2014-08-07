@@ -113,7 +113,8 @@ class InformationRequest
         $this->hasValue = true;
     }
 
-    private function validateValue($parameters, $callback, $message) {
+    private function validateValue($parameters, $callback, $message)
+    {
         if(! is_array($parameters)) {
             $parameters = array($parameters);
         }
