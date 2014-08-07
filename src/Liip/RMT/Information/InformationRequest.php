@@ -113,24 +113,40 @@ class InformationRequest
         $this->hasValue = true;
     }
 
+    private function validateValue($parameters, $callback, $message) {
+        if(! is_array($parameters)) {
+            $parameters = array($parameters);
+        }
+
+        if(! call_user_func_array($callback, $parameters)) {
+            throw new \InvalidArgumentException($message);
+        }
+    }
+
     public function validate($value)
     {
-        if ($this->options['type'] == 'boolean' && !is_bool($value)) {
-            throw new \InvalidArgumentException('Must be a boolean');
+        switch($this->options['type']) {
+            case 'boolean':
+                $this->validateValue($value, 'is_bool', 'Must be a boolean');
+                break;
+            case 'choice':
+                $this->validateValue(array($value, $this->options['choices']), function ($v, $choices) {
+                    return in_array($v, $choices);
+                }, 'Must be one of '.json_encode($this->options['choices']));
+                break;
+            case 'text':
+                $this->validateValue($value, function ($v) {
+                    return is_string($v) && strlen($v) > 0;
+                }, 'Test must be provided');
+                break;
+            case 'yes-no':
+                $value = lcfirst($value[0]);
+                $this->validateValue($value, function ($v) {
+                    return $v === 'y' || $v === 'n';
+                }, "Must be 'y' or 'n'");
+                break;
         }
-        if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
-            throw new \InvalidArgumentException('Must be on of '.json_encode($this->options['choices']));
-        }
-        if ($this->options['type'] == 'text' && (!is_string($value) || strlen($value) < 1)) {
-            throw new \InvalidArgumentException('Text must be provided');
-        }
-        if ($this->options['type'] == 'yes-no') {
-            // take only the first character
-            $value = lcfirst($value[0]);
-            if ($value !== 'y' && $value !== 'n' ){
-                throw new \InvalidArgumentException('Value should be [y] or [n]');
-            }
-        }
+
         return $value;
     }
 
