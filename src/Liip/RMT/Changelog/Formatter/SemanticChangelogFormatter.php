@@ -47,7 +47,7 @@ class SemanticChangelogFormatter
 {
     public function updateExistingLines($lines, $version, $comment, $options)
     {
-        if (!isset($options['type'])){
+        if (!isset($options['type'])) {
             throw new \InvalidArgumentException("Option [type] in mandatory");
         }
         $type = $options['type'];
@@ -56,7 +56,7 @@ class SemanticChangelogFormatter
         }
 
         // Specific case for new Changelog file. We always have to write down a major
-        if (count($lines) == 0){
+        if (count($lines) == 0) {
             $type = 'major';
         }
 
@@ -65,27 +65,30 @@ class SemanticChangelogFormatter
 
         // Insert extra lines (like commits details)
         if (isset($options['extra-lines'])) {
-            foreach($options['extra-lines'] as $pos => $line) {
+            foreach ($options['extra-lines'] as $pos => $line) {
                 $options['extra-lines'][$pos] = '         '.$line;
             }
             array_splice($lines, $this->findPositionToInsert($lines, 'patch')+1, 0, $options['extra-lines']);
         }
+
         return $lines;
     }
 
     /**
      * Return the new formatted lines for the given variables
      *
-     * @param $type string     The version type, could be major, minor, patch
-     * @param $version string  The new version number
-     * @param $comment string  The user comment
-     * @return array           An array of new lines
+     * @param string $type    The version type, could be major, minor, patch
+     * @param string $version The new version number
+     * @param string $comment The user comment
+     *
+     * @return array An array of new lines
      */
     protected function getNewLines($type, $version, $comment)
     {
         list($major, $minor, $patch) = explode('.', $version);
         if ($type=='major') {
             $title = "version $major  $comment";
+
             return array_merge(
                 array(
                     '',
@@ -94,8 +97,7 @@ class SemanticChangelogFormatter
                 ),
                 $this->getNewLines('minor', $version, $comment)
             );
-        }
-        elseif ($type=='minor') {
+        } elseif ($type=='minor') {
             return array_merge(
                 array(
                     '',
@@ -103,9 +105,9 @@ class SemanticChangelogFormatter
                 ),
                 $this->getNewLines('patch', $version, 'initial release')
             );
-        }
-        else { //patch
+        } else { //patch
             $date = $this->getFormattedDate();
+
             return array(
                 "      $date  $version  $comment"
             );
@@ -115,9 +117,10 @@ class SemanticChangelogFormatter
     /**
      * Return the position where to insert new lines according to the type of insertion
      *
-     * @param $lines  array     Existing lines
-     * @param $type   string    Release type
-     * @return int              The position where to insert
+     * @param array  $lines Existing lines
+     * @param string $type  Release type
+     *
+     * @return int The position where to insert
      */
     protected function findPositionToInsert($lines, $type)
     {
@@ -128,8 +131,8 @@ class SemanticChangelogFormatter
 
         // Minor must be inserted one line above the first major section
         if ($type=='minor') {
-            foreach ($lines as $pos => $line){
-                if (preg_match('/^=======/', $line)){
+            foreach ($lines as $pos => $line) {
+                if (preg_match('/^=======/', $line)) {
                     return $pos+1;
                 }
             }
@@ -137,8 +140,8 @@ class SemanticChangelogFormatter
 
         // Patch should go directly after the first minor
         if ($type=='patch') {
-            foreach ($lines as $pos => $line){
-                if (preg_match('/Version\s\d+\.\d+\s\-/', $line)){
+            foreach ($lines as $pos => $line) {
+                if (preg_match('/Version\s\d+\.\d+\s\-/', $line)) {
                     return $pos+1;
                 }
             }
@@ -157,4 +160,3 @@ class SemanticChangelogFormatter
         return '#\s+\d+/\d+/\d+\s\d+:\d+\s+([^\s]+)#';
     }
 }
-

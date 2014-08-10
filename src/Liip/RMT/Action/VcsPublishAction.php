@@ -41,8 +41,9 @@ class VcsPublishAction extends BaseAction
             }
 
             // Skip if the user didn't ask for publishing
-            if ($ic->getValueFor(self::AUTO_PUBLISH_OPTION) !== 'y'){
+            if ($ic->getValueFor(self::AUTO_PUBLISH_OPTION) !== 'y') {
                 Context::get('output')->writeln('<error>requested to be ignored</error>');
+
                 return;
             }
         }
@@ -96,4 +97,3 @@ class VcsPublishAction extends BaseAction
         return null;
     }
 }
-

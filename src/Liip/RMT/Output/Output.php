@@ -18,7 +18,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Liip\RMT\Information\InteractiveQuestion;
 
-
 /**
  * Specific console output to allow indentation
  */
@@ -77,7 +76,6 @@ class Output extends ConsoleOutput
     {
         return str_pad("", $this->indentationLevel * $this->indentationSize);
     }
-
 
     public function setDialogHelper($dh)
     {

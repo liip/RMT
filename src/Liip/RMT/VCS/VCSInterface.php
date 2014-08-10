@@ -17,7 +17,6 @@ interface VCSInterface
      */
     public function getCurrentBranch();
 
-
     /**
      * Return all tags of the project
      * @return array
@@ -32,15 +31,16 @@ interface VCSInterface
 
     /**
      * Publish a new created tag
-     * @param string $tagName
+     * @param string      $tagName
      * @param string|null $remote
      */
     public function publishTag($tagName, $remote = null);
 
     /**
      * Return the list of all modifications from the given tag until now
-     * @param $tag
-     * @param bool $color
+     * @param string $tag
+     * @param bool   $color
+     *
      * @return array
      */
     public function getAllModificationsSince($tag, $color = true);
@@ -50,6 +50,7 @@ interface VCSInterface
      * The result is an array with the filename as key and the status as value.
      * Status is one of the following : M (modified), A (added), R (removed)
      * @param $tag
+     *
      * @return array
      */
     public function getModifiedFilesSince($tag);
@@ -63,6 +64,7 @@ interface VCSInterface
     /**
      * Save the local modifications (commit)
      * @param $commitMsg
+     * 
      * @return mixed
      */
     public function saveWorkingCopy($commitMsg = '');
@@ -72,4 +74,3 @@ interface VCSInterface
      */
     public function publishChanges($remote = null);
 }
-

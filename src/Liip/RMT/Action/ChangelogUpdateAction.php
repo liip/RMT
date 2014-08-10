@@ -39,8 +39,7 @@ class ChangelogUpdateAction extends BaseAction
                     false
                 );
                 $this->options['extra-lines'] = $extraLines;
-            }
-            catch (NoReleaseFoundException $e) {
+            } catch (NoReleaseFoundException $e) {
                 Context::get('output')->writeln("<error>No commits dumped as this is the first release</error>");
             }
             unset($this->options['dump-commits']);
@@ -63,4 +62,3 @@ class ChangelogUpdateAction extends BaseAction
         return array('comment');
     }
 }
-

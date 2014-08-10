@@ -29,10 +29,8 @@ class DisplayLastChanges extends BaseAction
                     Context::get('version-persister')->getCurrentVersionTag()
                 )
             );
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             Context::get('output')->writeln('<error>No modification found: '.$e->getMessage().'</error>');
         }
     }
 }
-

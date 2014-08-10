@@ -17,4 +17,3 @@ class Exception extends \Exception
         parent::__construct('Config error: '.$message);
     }
 }
-

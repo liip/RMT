@@ -15,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Context;
 use Symfony\Component\Yaml\Yaml;
 
-
-
 /**
  * Display the last changes.
  */

@@ -27,7 +27,7 @@ class Application extends BaseApplication
 {
     // This ugly hack is mandatory to allow command to access application at configure() time
     // See Liip\Command\BaseCommand::getApplication()
-    static $instance;
+    public static $instance;
 
     /**
      * @SuppressWarnings(PHPMD.ExitExpression)
@@ -48,14 +48,13 @@ class Application extends BaseApplication
             // Add the default command
             $this->add(new InitCommand());
             // Add command that require the config file
-            if (file_exists($this->getConfigFilePath())){
+            if (file_exists($this->getConfigFilePath())) {
                 $this->add(new ReleaseCommand());
                 $this->add(new CurrentCommand());
                 $this->add(new ChangesCommand());
                 $this->add(new ConfigCommand());
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $output = new \Liip\RMT\Output\Output();
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
             $this->renderException($e, $output);
@@ -73,10 +72,9 @@ class Application extends BaseApplication
 
     public function getProjectRootDir()
     {
-        if (defined('RMT_ROOT_DIR')){
+        if (defined('RMT_ROOT_DIR')) {
             return RMT_ROOT_DIR;
-        }
-        else {
+        } else {
             return getcwd();
         }
     }
@@ -84,18 +82,19 @@ class Application extends BaseApplication
     public function getConfigFilePath()
     {
         $validConfigFileName = array('.rmt.yml', '.rmt.json', 'rmt.yml', 'rmt.json');
-        foreach($validConfigFileName as $filename){
-            if (file_exists($path = $this->getProjectRootDir().DIRECTORY_SEPARATOR.$filename)){
+        foreach ($validConfigFileName as $filename) {
+            if (file_exists($path = $this->getProjectRootDir().DIRECTORY_SEPARATOR.$filename)) {
                 return $path;
             }
         }
+
         return null;
     }
 
     public function getConfig()
     {
         $configFile = $this->getConfigFilePath();
-        if (!is_file($configFile)){
+        if (!is_file($configFile)) {
             throw new \Exception("Impossible to locate the config file rmt.xxx at $configFile. If it's the first time you
                 are using this tool, you setup your project using the [RMT init] command"
             );
@@ -103,22 +102,19 @@ class Application extends BaseApplication
 
         if (pathinfo($configFile, PATHINFO_EXTENSION) == 'json') {
             $config = json_decode(file_get_contents($configFile), true);
-            if (!is_array($config)){
+            if (!is_array($config)) {
                 throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the JSON syntax");
             }
-        }
-        else {
+        } else {
             try {
                 $config = Yaml::parse(file_get_contents($configFile), true);
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the YML syntax: ".$e->getMessage());
             }
         }
 
         return $config;
     }
-
 
     /**
      * @inheritdoc
@@ -148,7 +144,7 @@ class Application extends BaseApplication
         }
         $width += 2;
         foreach ($commands as $name => $command) {
-            if (in_array($name, array('list', 'help'))){
+            if (in_array($name, array('list', 'help'))) {
                 continue;
             }
             $messages[] = sprintf("  <info>%-${width}s</info> %s", $name, $command->getDescription());
@@ -158,7 +154,7 @@ class Application extends BaseApplication
         // Options
         $messages[] = '<comment>Common options:</comment>';
         foreach ($this->getDefinition()->getOptions() as $option) {
-            if (in_array($option->getName(), array('help', 'ansi', 'no-ansi', 'no-interaction', 'version'))){
+            if (in_array($option->getName(), array('help', 'ansi', 'no-ansi', 'no-interaction', 'version'))) {
                 continue;
             }
             $messages[] = sprintf('  %-29s %s %s',

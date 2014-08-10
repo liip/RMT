@@ -44,11 +44,11 @@ class InformationCollector
     public function registerRequest($request)
     {
         $name = $request->getName();
-        if (in_array($name, static::$standardRequests)){
+        if (in_array($name, static::$standardRequests)) {
             throw new \Exception("Request [$name] is reserved as a standard request name, choose an other name please");
         }
 
-        if ($this->hasRequest($name)){
+        if ($this->hasRequest($name)) {
             throw new \Exception("Request [$name] already registered");
         }
 
@@ -57,14 +57,12 @@ class InformationCollector
 
     public function registerRequests($list)
     {
-        foreach($list as $request) {
-            if (is_string($request)){
+        foreach ($list as $request) {
+            if (is_string($request)) {
                 $this->registerStandardRequest($request);
-            }
-            else if ($request instanceof InformationRequest){
+            } elseif ($request instanceof InformationRequest) {
                 $this->registerRequest($request);
-            }
-            else {
+            } else {
                 throw new \Exception("Invalid request, must a Request class or a string for standard requests");
             }
         }
@@ -72,7 +70,7 @@ class InformationCollector
 
     public function registerStandardRequest($name)
     {
-        if (!in_array($name, array_keys(static::$standardRequests))){
+        if (!in_array($name, array_keys(static::$standardRequests))) {
             throw new \Exception("There is no standard request named [$name]");
         }
         if (!isset($this->requests[$name])) {
@@ -85,9 +83,10 @@ class InformationCollector
      */
     public function getRequest($name)
     {
-        if (!$this->hasRequest($name)){
+        if (!$this->hasRequest($name)) {
             throw new \InvalidArgumentException("There is no information request named [$name]");
         }
+
         return $this->requests[$name];
     }
 
@@ -104,39 +103,42 @@ class InformationCollector
     public function getCommandOptions()
     {
         $consoleOptions = array();
-        foreach($this->requests as $name => $request){
-            if ($request->isAvailableAsCommandOption()){
+        foreach ($this->requests as $name => $request) {
+            if ($request->isAvailableAsCommandOption()) {
                 $consoleOptions[$name] = $request->convertToCommandOption();
             }
         }
+
         return $consoleOptions;
     }
 
     public function hasMissingInformation()
     {
-        foreach ($this->requests as $request){
+        foreach ($this->requests as $request) {
             if (!$request->hasValue()) {
                 return true;
             }
         }
+
         return false;
     }
 
     public function getInteractiveQuestions()
     {
         $questions = array();
-        foreach($this->requests as $name => $request){
-            if ($request->isAvailableForInteractive() && !$request->hasValue()){
+        foreach ($this->requests as $name => $request) {
+            if ($request->isAvailableForInteractive() && !$request->hasValue()) {
                 $questions[$name] = $request->convertToInteractiveQuestion();
             }
         }
+
         return $questions;
     }
 
     public function handleCommandInput(InputInterface $input)
     {
         foreach ($input->getOptions() as $name => $value) {
-            if ($this->hasRequest($name) && ($value !== null && $value !== false)){
+            if ($this->hasRequest($name) && ($value !== null && $value !== false)) {
                 $this->getRequest($name)->setValue($value);
             }
         }
@@ -154,15 +156,13 @@ class InformationCollector
 
     public function getValueFor($requestName, $default = null)
     {
-        if ($this->hasRequest($requestName)){
+        if ($this->hasRequest($requestName)) {
             return $this->getRequest($requestName)->getValue();
-        }
-        else {
-            if (func_num_args() == 2){
+        } else {
+            if (func_num_args() == 2) {
                 return $default;
             }
             throw new \Exception("No request named $requestName");
         }
     }
 }
-
