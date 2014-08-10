@@ -28,13 +28,13 @@ class VcsCommitAction extends BaseAction
         );
     }
 
-
     public function execute()
     {
         /** @var VCSInterface $vcs */
         $vcs = Context::get('vcs');
         if (count($vcs->getLocalModifications()) == 0) {
             Context::get('output')->writeln("<error>No modification found, aborting commit</error>");
+
             return;
         }
         $vcs->saveWorkingCopy(
@@ -43,4 +43,3 @@ class VcsCommitAction extends BaseAction
         $this->confirmSuccess();
     }
 }
-

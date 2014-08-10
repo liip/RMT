@@ -23,7 +23,7 @@ class SemanticGenerator implements GeneratorInterface
 
     public function __construct($options = array())
     {
-        if (isset($options['label'])){
+        if (isset($options['label'])) {
             $options['allow-label'] = true;
         }
         $this->options = $options;
@@ -117,12 +117,12 @@ class SemanticGenerator implements GeneratorInterface
         $ir = array();
 
         // Ask the type if it's not forced
-        if (!isset($this->options['type'])){
+        if (!isset($this->options['type'])) {
             $ir[] = 'type';
         }
 
         // Ask the label if it's allow and not forced
-        if (isset($this->options['allow-label']) && $this->options['allow-label']==true && !isset($this->options['label'])){
+        if (isset($this->options['allow-label']) && $this->options['allow-label']==true && !isset($this->options['label'])) {
             $ir[] = 'label';
         }
 

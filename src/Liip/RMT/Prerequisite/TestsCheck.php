@@ -10,13 +10,8 @@
 
 namespace Liip\RMT\Prerequisite;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-
 use Symfony\Component\Process\Process;
 
-use Liip\RMT\VCS\VCSInterface;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -36,12 +31,12 @@ class TestsCheck extends BaseAction
         ), $options);
     }
 
-
     public function execute()
     {
         // Handle the skip option
         if (Context::get('information-collector')->getValueFor(self::SKIP_OPTION)) {
             Context::get('output')->writeln('<error>tests skipped</error>');
+
             return;
         }
 
@@ -59,7 +54,6 @@ class TestsCheck extends BaseAction
         }
     }
 
-
     public function getInformationRequests()
     {
         return array(
@@ -71,4 +65,3 @@ class TestsCheck extends BaseAction
         );
     }
 }
-

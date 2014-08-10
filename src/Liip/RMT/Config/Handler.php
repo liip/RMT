@@ -61,8 +61,7 @@ class Handler
             unset($baseConfig['branch-specific']);
             $branchesConfig = $this->rawConfig;
             unset($branchesConfig['_default']);
-        }
-        else {
+        } else {
             $baseConfig = array_merge($this->getDefaultConfig(), $this->rawConfig);
             $branchesConfig = $baseConfig['branch-specific'];
             unset($baseConfig['branch-specific']);
@@ -85,9 +84,9 @@ class Handler
         $this->validateRootElements($config);
 
         // For single value elements, normalize all class name and options, remove null entry
-        foreach (array("vcs", "version-generator", "version-persister") as $configKey){
+        foreach (array("vcs", "version-generator", "version-persister") as $configKey) {
             $value = $config[$configKey];
-            if ($value == null){
+            if ($value == null) {
                 unset($config[$configKey]);
                 continue;
             }
@@ -95,11 +94,11 @@ class Handler
         }
 
         // Same process but for list value elements
-        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $configKey){
-            foreach($config[$configKey] as $key => $item) {
+        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $configKey) {
+            foreach ($config[$configKey] as $key => $item) {
 
                 // Accept the element to be define by key or by value
-                if (!is_numeric($key)){
+                if (!is_numeric($key)) {
                     if ($item == null) {
                         $item = array();
                     }
@@ -117,12 +116,12 @@ class Handler
     {
         // Check for extra keys
         $extraKeys = array_diff(array_keys($config),array_keys($this->getDefaultConfig()));
-        if (count($extraKeys) > 0){
+        if (count($extraKeys) > 0) {
             throw new Exception('key(s) ['.implode(', ',$extraKeys).'] are invalid, must be ['.implode(', ',array_keys($this->getDefaultConfig())).']');
         }
 
         // Check for missing keys
-        foreach(array("version-generator", "version-persister") as $mandatoryParam){
+        foreach (array("version-generator", "version-persister") as $mandatoryParam) {
             if ($config[$mandatoryParam] == null) {
                 throw new Exception("[$mandatoryParam] should be defined");
             }
@@ -134,11 +133,10 @@ class Handler
      */
     protected function getClassAndOptions($rawConfig, $sectionName)
     {
-        if ( is_string($rawConfig)){
+        if (is_string($rawConfig)) {
             $class = $this->findClass($rawConfig, $sectionName);
             $options = array();
-        }
-        else if ( is_array($rawConfig)){
+        } elseif (is_array($rawConfig)) {
 
             // Handling Yml corner case (see https://github.com/liip/RMT/issues/54)
             if (count($rawConfig)==1 && key($rawConfig) !== 'name') {
@@ -147,7 +145,7 @@ class Handler
                 $rawConfig['name'] = $name;
             }
 
-            if (!isset($rawConfig['name'])){
+            if (!isset($rawConfig['name'])) {
                 throw new Exception("Missing information for [$sectionName], you must provide a [name] value");
             }
 
@@ -155,8 +153,7 @@ class Handler
             unset($rawConfig['name']);
 
             $options = $rawConfig;
-        }
-        else {
+        } else {
             throw new Exception("Invalid configuration for [$sectionName] should be a object name or an array with name and options");
         }
 
@@ -169,17 +166,18 @@ class Handler
     protected function findClass($name, $sectionName)
     {
         $file = $this->projectRoot.DIRECTORY_SEPARATOR.$name;
-        if (strpos($file, '.php') > 0){
+        if (strpos($file, '.php') > 0) {
             if (file_exists($file)) {
                 require_once $file;
                 $parts = explode(DIRECTORY_SEPARATOR, $file);
                 $lastPart = array_pop($parts);
+
                 return str_replace('.php', '', $lastPart);
-            }
-            else {
+            } else {
                 throw new \Liip\RMT\Exception("Impossible to open [$file] please review your config");
             }
         }
+
         return $this->findInternalClass($name, $sectionName);
     }
 
@@ -190,7 +188,7 @@ class Handler
     {
         // Remove list id like xxx_3
         $classType = $sectionName;
-        if (strpos($classType, '_') !== false){
+        if (strpos($classType, '_') !== false) {
             $classType = substr($classType, 0, strpos($classType, '_'));
         }
 
@@ -221,4 +219,3 @@ class Handler
         return $nameSpace.'\\'.$className;
     }
 }
-

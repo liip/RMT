@@ -10,11 +10,6 @@
 
 namespace Liip\RMT\Prerequisite;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-
-use Liip\RMT\VCS\VCSInterface;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -22,15 +17,15 @@ use Liip\RMT\Action\BaseAction;
 /**
  * Ensure VCS working copy is clean
  */
-class WorkingCopyCheck extends BaseAction {
-
+class WorkingCopyCheck extends BaseAction
+{
     /**
      * Exception code when working copy is not clean.
-     * 
+     *
      * @var int
      */
     const EXCEPTION_CODE = 412;
-    
+
     public $ignoreCheckOptionName = 'ignore-check';
 
     public function getTitle()
@@ -42,6 +37,7 @@ class WorkingCopyCheck extends BaseAction {
     {
         if (Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
             Context::get('output')->writeln('<error>requested to be ignored</error>');
+
             return;
         }
 
@@ -53,7 +49,7 @@ class WorkingCopyCheck extends BaseAction {
                 self::EXCEPTION_CODE
             );
         }
-        
+
         $this->confirmSuccess();
     }
 
@@ -68,4 +64,3 @@ class WorkingCopyCheck extends BaseAction {
         );
     }
 }
-

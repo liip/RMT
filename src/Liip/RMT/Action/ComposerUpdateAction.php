@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Action;
 
-use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Context;
 
 /**
@@ -31,4 +30,3 @@ class ComposerUpdateAction extends \Liip\RMT\Action\BaseAction
         $this->confirmSuccess();
     }
 }
-

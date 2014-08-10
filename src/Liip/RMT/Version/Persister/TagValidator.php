@@ -26,9 +26,10 @@ class TagValidator
      */
     public function isValid($tag)
     {
-        if (strlen($this->tagPrefix) > 0 && strpos($tag,$this->tagPrefix) !== 0){
+        if (strlen($this->tagPrefix) > 0 && strpos($tag,$this->tagPrefix) !== 0) {
             return false;
         }
+
         return preg_match('/^'.$this->regex.'$/', substr($tag,strlen($this->tagPrefix))) == 1;
     }
 
@@ -38,11 +39,12 @@ class TagValidator
     public function filtrateList($tags)
     {
         $validTags = array();
-        foreach ($tags as $tag){
-            if ($this->isValid($tag)){
+        foreach ($tags as $tag) {
+            if ($this->isValid($tag)) {
                 $validTags[] = $tag;
             }
         }
+
         return $validTags;
     }
 }

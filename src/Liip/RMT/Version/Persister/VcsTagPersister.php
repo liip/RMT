@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Version\Persister;
 
-use Liip\RMT\VCS\VCSInterface;
 use Liip\RMT\Context;
 
 class VcsTagPersister implements PersisterInterface
@@ -35,7 +34,7 @@ class VcsTagPersister implements PersisterInterface
     public function getCurrentVersion()
     {
         $tags = $this->getValidVersionTags($this->versionRegex);
-        if (count($tags)===0){
+        if (count($tags) === 0) {
             throw new \Liip\RMT\Exception\NoReleaseFoundException(
                 'No VCS tag matching the regex ['.$this->getTagPrefix().$this->versionRegex.']');
         }
@@ -84,9 +83,9 @@ class VcsTagPersister implements PersisterInterface
         foreach ($tags as $tag) {
             $versions[] = $this->getVersionFromTag($tag);
         }
+
         return $versions;
     }
-
 
     public function getCurrentVersionTag()
     {
@@ -100,26 +99,25 @@ class VcsTagPersister implements PersisterInterface
     public function getValidVersionTags($versionRegex)
     {
         $validator = new TagValidator($versionRegex, $this->getTagPrefix());
+
         return $validator->filtrateList($this->vcs->getTags());
     }
 
     protected function generatePrefix($userTag)
     {
         preg_match_all('/\{([^\}]*)\}/', $userTag, $placeHolders);
-        foreach ($placeHolders[1] as $pos => $placeHolder){
-            if ($placeHolder == 'branch-name'){
+        foreach ($placeHolders[1] as $pos => $placeHolder) {
+            if ($placeHolder == 'branch-name') {
                 $replacement = $this->vcs->getCurrentBranch();
-            }
-            else if ($placeHolder == 'date'){
+            } elseif ($placeHolder == 'date') {
                 $replacement = date('Y-m-d');
-            }
-            else {
+            } else {
                 throw new \Liip\RMT\Exception("There is no rules to process the prefix placeholder [$placeHolder]");
             }
             $userTag = str_replace($placeHolders[0][$pos], $replacement, $userTag);
         }
+
         return $userTag;
     }
-
 
 }

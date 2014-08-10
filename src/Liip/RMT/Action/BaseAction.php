@@ -28,11 +28,13 @@ abstract class BaseAction
 
     /**
      * Return the name of the action as it will be display to the user
+     *
      * @return string
      */
     public function getTitle()
     {
         $nsAndclass = explode('\\', get_class($this));
+
         return preg_replace('/(?!^)[[:upper:]][[:lower:]]/', ' $0', preg_replace('/(?!^)[[:upper:]]+/', '$0', end($nsAndclass)));
     }
 
@@ -56,4 +58,3 @@ abstract class BaseAction
         Context::get('output')->writeln('<info>OK</info>');
     }
 }
-

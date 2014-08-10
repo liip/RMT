@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Version\Persister;
 
-use Liip\RMT\Version\Persister\PersisterInterface;
 use Liip\RMT\Context;
 use Liip\RMT\Changelog\ChangelogManager;
 
@@ -59,4 +58,3 @@ class ChangelogPersister implements PersisterInterface
         // TODO: Implement init() method.
     }
 }
-

@@ -16,8 +16,9 @@ interface GeneratorInterface
 
     /**
      * Return the next version number, according to the current one and optional options
-     * @param $currentVersion
-     * @param array $options
+     * @param string $currentVersion
+     * @param array  $options
+     *
      * @return string
      */
     public function generateNextVersion($currentVersion);
@@ -27,8 +28,9 @@ interface GeneratorInterface
      *  * -1 if $a is older than $b
      *  * 0 if $a and $b are the same
      *  * 1 if $a is more recent than $b
-     * @param $a
-     * @param $b
+     * @param string $a
+     * @param string $b
+     *
      * @return integer
      */
     public function compareTwoVersions($a, $b);
@@ -39,4 +41,3 @@ interface GeneratorInterface
 
     public function getInitialVersion();
 }
-

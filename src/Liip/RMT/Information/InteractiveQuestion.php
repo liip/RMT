@@ -26,8 +26,7 @@ class InteractiveQuestion
     {
         if ($this->informationRequest->getOption('type') == 'confirmation') {
             $text = 'Please confirm that ';
-        }
-        else {
+        } else {
             $text = 'Please provide ';
         }
 
@@ -43,7 +42,7 @@ class InteractiveQuestion
         // print the default if exist
         if ($this->hasDefault()) {
             $defaultVal = $this->getDefault();
-            if ( is_bool($defaultVal) ) {
+            if (is_bool($defaultVal)) {
                 $defaultVal = $defaultVal===true ? 'true' : 'false';
             }
             $text .= ' (default: <info>'.$defaultVal.'</info>)';
@@ -54,16 +53,17 @@ class InteractiveQuestion
 
     public function formatChoices($choices, $shortcuts)
     {
-        if (count($shortcuts) > 0){
+        if (count($shortcuts) > 0) {
             $shortcuts = array_flip($shortcuts);
-            foreach ($shortcuts as $choice => $shortcut){
+            foreach ($shortcuts as $choice => $shortcut) {
                 $shortcuts[$choice] = '<info>'.$shortcut.'</info>';
             }
-            foreach ($choices as $pos => $choice){
+            foreach ($choices as $pos => $choice) {
                 $choices[$pos] = '['.$shortcuts[$choice].'] '. $choice ;
             }
         }
         $text = '    '.implode(PHP_EOL.'    ', $choices);
+
         return $text."\nYour choice";
     }
 
@@ -77,11 +77,12 @@ class InteractiveQuestion
         $default = $this->informationRequest->getOption('default');
         if (count($shortcuts = $this->informationRequest->getOption('choices_shortcuts')) > 0) {
             foreach ($shortcuts as $shortcut => $value) {
-                if ($default == $value){
+                if ($default == $value) {
                     return $shortcut;
                 }
             }
         }
+
         return $default;
     }
 
@@ -99,10 +100,9 @@ class InteractiveQuestion
     {
         // Replace potential shortcuts
         if (count($shortcuts = $this->informationRequest->getOption('choices_shortcuts')) > 0) {
-            if (in_array($value, array_keys($shortcuts))){
+            if (in_array($value, array_keys($shortcuts))) {
                 $value = $shortcuts[$value];
-            }
-            else {
+            } else {
                 throw new \Exception("Please select a value in ".json_encode(array_keys($shortcuts)));
             }
         }
@@ -111,4 +111,3 @@ class InteractiveQuestion
         return $this->informationRequest->validate($value);
     }
 }
-
