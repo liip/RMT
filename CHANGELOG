@@ -3,6 +3,18 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      18/08/2014 08:50  1.1.1  Various small fixes
+         8c87b90 Merge pull request #79 from acrobat/phpcs-fixes
+         99efb63 phpcs fixes
+         3835237 Merge pull request #78 from liip/cleanup_travis_setup
+         2d65fb6 Updated .travis.yml setup to include latest symfony and php versions, no longer do an update since we need to do a require later
+         ef1859a code style
+         990de63 Remove phpdox from ant build script
+         61e3e61 Try to make InformationRequest simpler
+         5bb2e83 fix coding style
+         a5b087a Merge pull request #76 from acrobat/semver-version-fix
+         8e64bdb Updated semver to stable release, fixes #74
+         d9b2aec notify slack
       28/07/2014 10:56  1.1.0  initial release
          6aa7120 Following the PR #73, I just add the option to activate (or not) the label management. Most of the users were currently not using the label system, so forced them to always answer 'none' could be painful. To activate it on your project (or a dedicated branch) just add 'allow-label' in your config
          0ce023d Add the composer.lock to git
