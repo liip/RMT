@@ -37,14 +37,14 @@ to it. The `vendor` directory should be ignored since it is populated simply by 
 ### Option 2: as a phar file
 RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) for that. phar-composer is a useful tool that allows you to create runable phar files from composer packages.
 
-if you have phar-composer installed, you can run: 
+if you have phar-composer installed, you can run:
 
     sudo phar-composer install liip/RMT
 
 and have phar-composer build and install the phar file to your $PATH, which then allows you to run it simply as `rmt` from command line or you can run
 
-    phar-composer build liip/RMT 
-    
+    phar-composer build liip/RMT
+
 and copy the resulting phar manually where you need it (either set the phar as executable `chmod +x rmt.phar` and execute it directly `./rmt.phar` or  run it by invoking it through PHP `php rmt.phar`.
 
 For the usage substitute RMT with what ever variant you have decided to use.
@@ -100,9 +100,9 @@ All the entry of this config are working the same. You have to specify the class
     version-persister:
        vcs-tag:
            tag-prefix: "v_"
-           
+
 RMT also support JSON config, but we recommend you to use YML.
-           
+
 ### Branch specific config
 
 Something you want to use a different release strategy according to the VCS branch, for example, you want to add a entry into a CHANGELOG only in the `master` branch. To do so, you have to place your default config into a root element named `_default`. Then you can override parts is this default config for the branch `master`. Example:
@@ -208,7 +208,7 @@ Most of the time, it will be easier for you to pick up and example bellow and to
     version-generator: semantic
     version-persister:
         name: vcs-tag
-        prefix : "v_"
+        tag-prefix : "v_"
     post-release-actions: [vcs-publish]
 
 ### Using semantic versioning on master and simple versioning on topic branches
