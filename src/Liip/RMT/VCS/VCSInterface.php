@@ -40,10 +40,11 @@ interface VCSInterface
      * Return the list of all modifications from the given tag until now
      * @param string $tag
      * @param bool   $color
+     * @param bool   $noMergeCommits
      *
      * @return array
      */
-    public function getAllModificationsSince($tag, $color = true);
+    public function getAllModificationsSince($tag, $color = true, $noMergeCommits = false);
 
     /**
      * Return the list of all modified files from the given tag until now
@@ -64,7 +65,7 @@ interface VCSInterface
     /**
      * Save the local modifications (commit)
      * @param $commitMsg
-     * 
+     *
      * @return mixed
      */
     public function saveWorkingCopy($commitMsg = '');

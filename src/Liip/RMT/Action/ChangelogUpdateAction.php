@@ -24,6 +24,7 @@ class ChangelogUpdateAction extends BaseAction
     {
         $this->options = array_merge(array(
             'dump-commits' => false,
+            'exclude-merge-commits' => false,
             'format' => 'simple',
             'file' => 'CHANGELOG'
         ), $options);
@@ -36,7 +37,8 @@ class ChangelogUpdateAction extends BaseAction
             try {
                 $extraLines = Context::get('vcs')->getAllModificationsSince(
                     Context::get('version-persister')->getCurrentVersionTag(),
-                    false
+                    false,
+                    $this->options['exclude-merge-commits']
                 );
                 $this->options['extra-lines'] = $extraLines;
             } catch (NoReleaseFoundException $e) {

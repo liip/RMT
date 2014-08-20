@@ -34,9 +34,9 @@ class Git extends BaseVCS
     */
     protected $dryRun = false;
 
-    public function getAllModificationsSince($tag, $color=true)
+    public function getAllModificationsSince($tag, $color = true, $noMergeCommits = false)
     {
-        return $this->executeGitCommand("log --oneline $tag..HEAD ".($color?'--color=always':''));
+        return $this->executeGitCommand("log --oneline $tag..HEAD " . ($color?'--color=always':'') . ($noMergeCommits ? '--no-merges' : ''));
     }
 
     public function getModifiedFilesSince($tag)

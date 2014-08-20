@@ -157,6 +157,7 @@ Actions can be used for pre or post release parts.
       changelog file (default: *false*)
     * Option `insert-at`: only for addTop formatter: Number of lines to skip from the
       top of the changelog file before adding the release number (default: *0*)
+    * Option `exclude-merge-commits`: Exclude merge commits from the changelog (default: *false*)
 * `vcs-commit`: commit all files of the working copy (only use it with the
   `working-copy-check` prerequisite)
     * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
