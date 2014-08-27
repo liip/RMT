@@ -144,6 +144,8 @@ Prerequisite actions are executed before the interactive part
 * `tests-check`: run the project test suite
   * Option `command`: command to run (default: *phpunit*)
   * Option `expected_exit_code`: expected return code (default: *0*)
+* `composer-json-check`: run a validate on the composer.json
+  * Option `composer`: how to run composer (default: *php composer.phar*)
 
 ### Actions
 
