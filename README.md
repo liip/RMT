@@ -146,6 +146,8 @@ Prerequisite actions are executed before the interactive part
   * Option `expected_exit_code`: expected return code (default: *0*)
 * `composer-json-check`: run a validate on the composer.json
   * Option `composer`: how to run composer (default: *php composer.phar*)
+* `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
+  * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
 
 ### Actions
 
