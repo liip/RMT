@@ -26,7 +26,7 @@ class ComposerJsonCheck extends BaseAction
     public function __construct($options)
     {
         $this->options = array_merge(array(
-            'comoposer' => 'php composer.phar validate'
+            'composer' => 'php composer.phar'
         ), $options);
     }
 
@@ -40,7 +40,7 @@ class ComposerJsonCheck extends BaseAction
         }
 
         // Run the validation and live output with the standard output class
-        $command = $this->options['command'];
+        $command = $this->options['composer'] . '  validate';
         Context::get('output')->write("<comment>$command</comment>\n\n");
         $process = new Process($command);
         $process->run(function ($type, $buffer) {
