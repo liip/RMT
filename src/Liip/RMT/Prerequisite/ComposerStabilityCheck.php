@@ -10,11 +10,10 @@
 
 namespace Liip\RMT\Prerequisite;
 
-use Symfony\Component\Process\Process;
-
+use Liip\RMT\Action\BaseAction;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
-use Liip\RMT\Action\BaseAction;
+use Symfony\Component\Process\Process;
 
 /**
  * Run a test suite and interrupt the process if the return code is not good
@@ -25,9 +24,12 @@ class ComposerStabilityCheck extends BaseAction
 
     public function __construct($options)
     {
-        $this->options = array_merge(array(
-            'stability' => 'stable'
-        ), $options);
+        $this->options = array_merge(
+            array(
+                'stability' => 'stable'
+            ),
+            $options
+        );
     }
 
     public function execute()
@@ -42,12 +44,16 @@ class ComposerStabilityCheck extends BaseAction
         // file exists?
         if (!file_exists('composer.json')) {
             Context::get('output')->writeln('<error>composer.json does not exist, skipping check</error>');
+
             return;
         }
 
         // if file is not readable, we can't perform our check
         if (!is_readable('composer.json')) {
-            throw new \Exception('composer.json can not be read (permissions?), (you can force a release with option --'.self::SKIP_OPTION.')');
+            throw new \Exception(
+                'composer.json can not be read (permissions?), (you can force a release with option --'
+                . self::SKIP_OPTION.')'
+            );
         }
 
         $contents = json_decode(file_get_contents('composer.json'), true);
@@ -55,14 +61,20 @@ class ComposerStabilityCheck extends BaseAction
         // fail if the composer config falls back to default, and this check has something else but default set
         if (!isset($contents['minimum-stability']) && $this->options['stability'] != 'stable') {
             throw new \Exception(
-                'minimum-stability is not set, but RMT config requires: ' . $this->options['stability'] . ' (you can force a release with option --'.self::SKIP_OPTION.')'
+                'minimum-stability is not set, but RMT config requires: '
+                . $this->options['stability'].' (you can force a release with option --'
+                . self::SKIP_OPTION.')'
             );
         }
 
         // fail if stability is set and not the one expected
         if (isset($contents['minimum-stability']) && $contents['minimum-stability'] != $this->options['stability']) {
             throw new \Exception(
-                'minimum-stability is set to: ' . $contents['minimum-stability'] .', but RMT config requires: ' . $this->options['stability'] . ' (you can force a release with option --'.self::SKIP_OPTION.')'
+                'minimum-stability is set to: '
+                . $contents['minimum-stability']
+                . ', but RMT config requires: '
+                . $this->options['stability']
+                . ' (you can force a release with option --'.self::SKIP_OPTION.')'
             );
         }
 
@@ -72,11 +84,14 @@ class ComposerStabilityCheck extends BaseAction
     public function getInformationRequests()
     {
         return array(
-            new InformationRequest(self::SKIP_OPTION, array(
-                'description' => 'Do not check composer.json for minimum-stability before the release',
-                'type' => 'confirmation',
-                'interactive' => false
-            ))
+            new InformationRequest(
+                self::SKIP_OPTION,
+                array(
+                    'description' => 'Do not check composer.json for minimum-stability before the release',
+                    'type' => 'confirmation',
+                    'interactive' => false
+                )
+            )
         );
     }
 }
