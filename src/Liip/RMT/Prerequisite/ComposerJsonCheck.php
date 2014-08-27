@@ -51,6 +51,8 @@ class ComposerJsonCheck extends BaseAction
         if ($process->getExitCode() !== 0) {
             throw new \Exception('composer.json invalid (you can force a release with option --'.self::SKIP_OPTION.')');
         }
+
+        $this->confirmSuccess();
     }
 
     public function getInformationRequests()
