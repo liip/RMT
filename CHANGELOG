@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      28/08/2014 17:54  1.1.2  new option "exclude-merge-commits" (thanks Jeroen Thora)
+         e2badf6 Configure RMT itself to use the new option "exclude-merge-commits"
+         02a4e97 Added exclude merge commits option
+         9207c5f Fixed minor config option typo
       18/08/2014 08:50  1.1.1  Various small fixes
          8c87b90 Merge pull request #79 from acrobat/phpcs-fixes
          99efb63 phpcs fixes
