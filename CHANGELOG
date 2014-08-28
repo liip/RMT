@@ -3,6 +3,12 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      28/08/2014 18:00  1.1.3  Two new prerequistes check related to Composer validation (Thanks Peter Petermann)
+         f7ac129 PSR-2 fixes
+         3f06571 adding check that allows to test for composers minimum-stability setting
+         ed329e3 confirmSuccess
+         2177921 typo, also option should work as in docs
+         bc6a12a adding an option to run a composer validate within the prerequisites
       28/08/2014 17:54  1.1.2  new option "exclude-merge-commits" (thanks Jeroen Thora)
          e2badf6 Configure RMT itself to use the new option "exclude-merge-commits"
          02a4e97 Added exclude merge commits option
