@@ -5,8 +5,8 @@ RMT - Release Management Tool
 
 RMT is a handy tool to help releasing new version of your software. You can define the type
 of version generator you want to use (example: semantic versioning), where you want to store
-the version (in a changelog file, as a VCS tag…) and a list of action that will be
-executed and before or after the release of a new version.
+the version (in a changelog file, as a VCS tag…) and a list of action that can be
+executed before or after the release of a new version.
 
 
 Installation
