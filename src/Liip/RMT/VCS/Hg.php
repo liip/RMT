@@ -14,10 +14,11 @@ class Hg extends BaseVCS
 {
     protected $dryRun = false;
 
-    public function getAllModificationsSince($tag, $color=true)
+    public function getAllModificationsSince($tag, $color=true, $noMergeCommits = false)
     {
-        $modifications = $this->executeHgCommand("log --template '{node|short} {desc}\n' -r tip:$tag");
+        $modifications = $this->executeHgCommand("log --template '{node|short} {desc}\n' -r tip:$tag" . ($noMergeCommits ? '--no-merges' : ''));
         array_pop($modifications); // remove the last commit since it is the one described by the tag
+
         return $modifications;
     }
 
@@ -25,10 +26,11 @@ class Hg extends BaseVCS
     {
         $data = $this->executeHgCommand("status --rev $tag:tip");
         $files = array();
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $parts = explode(" ", $d);
             $files[$parts[1]] = $parts[0];
         }
+
         return $files;
     }
 
@@ -40,10 +42,12 @@ class Hg extends BaseVCS
     public function getTags()
     {
         $tags = $this->executeHgCommand("tags");
-        $tags = array_map(function($t) {
+        $tags = array_map(function ($t) {
             $parts = explode(' ', $t);
+
             return $parts[0];
         }, $tags);
+
         return $tags;
     }
 
@@ -72,12 +76,13 @@ class Hg extends BaseVCS
     public function getCurrentBranch()
     {
         $data = $this->executeHgCommand('branch');
+
         return $data[0];
     }
 
     protected function executeHgCommand($cmd)
     {
-        if ($this->dryRun){
+        if ($this->dryRun) {
             $binary = 'hg --dry-run ';
         } else {
             $binary = 'hg ';
@@ -87,10 +92,10 @@ class Hg extends BaseVCS
         $cmd = $binary.$cmd;
         exec($cmd, $result, $exitCode);
 
-        if ($exitCode !== 0){
+        if ($exitCode !== 0) {
             throw new \Liip\RMT\Exception('Error while executing hg command: '.$cmd);
         }
+
         return $result;
     }
 }
-

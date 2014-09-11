@@ -43,12 +43,12 @@ class InformationRequest
 
         // Check for invalid option
         $invalidOptions = array_diff(array_keys($options),array_keys(self::$defaults));
-        if (count($invalidOptions) > 0){
+        if (count($invalidOptions) > 0) {
             throw new \Exception('Invalid config option(s) ['.implode(', ',$invalidOptions).']');
         }
 
         // Set a default false for confirmation
-        if (isset($options['type']) && $options['type'] == 'confirmation'){
+        if (isset($options['type']) && $options['type'] == 'confirmation') {
             $options['default'] = false;
         }
 
@@ -56,7 +56,7 @@ class InformationRequest
         $this->options = array_merge(self::$defaults, $options);
 
         // Type validation
-        if (!in_array($this->options['type'], self::$validTypes)){
+        if (!in_array($this->options['type'], self::$validTypes)) {
             throw new \Exception('Invalid option type ['.$this->options['type'].']');
         }
     }
@@ -95,9 +95,10 @@ class InformationRequest
     public function convertToInteractiveQuestion()
     {
         $questionOptions = array();
-        foreach (array('choices', 'choices_shortcuts', 'interactive_help', 'interactive_help_shortcut') as $optionName){
+        foreach (array('choices', 'choices_shortcuts', 'interactive_help', 'interactive_help_shortcut') as $optionName) {
             $questionOptions[$optionName] = $this->options[$optionName];
         }
+
         return new \Liip\RMT\Information\InteractiveQuestion($this);
     }
 
@@ -105,38 +106,54 @@ class InformationRequest
     {
         try {
             $value = $this->validate($value);
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \InvalidArgumentException("Validation error for [".$this->getName()."]: ".$e->getMessage());
         }
         $this->value = $value;
         $this->hasValue = true;
     }
 
+    private function validateValue($parameters, $callback, $message)
+    {
+        if (! is_array($parameters)) {
+            $parameters = array($parameters);
+        }
+
+        if (! call_user_func_array($callback, $parameters)) {
+            throw new \InvalidArgumentException($message);
+        }
+    }
+
     public function validate($value)
     {
-        if ($this->options['type'] == 'boolean' && !is_bool($value)) {
-            throw new \InvalidArgumentException('Must be a boolean');
+        switch ($this->options['type']) {
+            case 'boolean':
+                $this->validateValue($value, 'is_bool', 'Must be a boolean');
+                break;
+            case 'choice':
+                $this->validateValue(array($value, $this->options['choices']), function ($v, $choices) {
+                    return in_array($v, $choices);
+                }, 'Must be one of '.json_encode($this->options['choices']));
+                break;
+            case 'text':
+                $this->validateValue($value, function ($v) {
+                    return is_string($v) && strlen($v) > 0;
+                }, 'Test must be provided');
+                break;
+            case 'yes-no':
+                $value = lcfirst($value[0]);
+                $this->validateValue($value, function ($v) {
+                    return $v === 'y' || $v === 'n';
+                }, "Must be 'y' or 'n'");
+                break;
         }
-        if ($this->options['type'] == 'choice' && !in_array($value, $this->options['choices'])) {
-            throw new \InvalidArgumentException('Must be on of '.json_encode($this->options['choices']));
-        }
-        if ($this->options['type'] == 'text' && (!is_string($value) || strlen($value) < 1)) {
-            throw new \InvalidArgumentException('Text must be provided');
-        }
-        if ($this->options['type'] == 'yes-no') {
-            // take only the first character
-            $value = lcfirst($value[0]);
-            if ($value !== 'y' && $value !== 'n' ){
-                throw new \InvalidArgumentException('Value should be [y] or [n]');
-            }
-        }
+
         return $value;
     }
 
     public function getValue()
     {
-        if ( !$this->hasValue() && $this->options['default'] === null ){
+        if (!$this->hasValue() && $this->options['default'] === null) {
             throw new \Liip\RMT\Exception("No value [{$this->name}] available");
         }
 
@@ -148,4 +165,3 @@ class InformationRequest
         return $this->hasValue;
     }
 }
-

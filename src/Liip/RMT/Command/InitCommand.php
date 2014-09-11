@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InformationCollector;
 
-
 /**
  * Create config settings file and rmt executable
  */
@@ -125,8 +124,8 @@ class InitCommand extends BaseCommand
         parent::interact($input, $output);
 
         // Fill up questions
-        if ($this->informationCollector->hasMissingInformation()){
-            foreach($this->informationCollector->getInteractiveQuestions() as $name => $question) {
+        if ($this->informationCollector->hasMissingInformation()) {
+            foreach ($this->informationCollector->getInteractiveQuestions() as $name => $question) {
                 $answer = $this->getOutput()->askQuestion($question);
                 $this->informationCollector->setValueFor($name, $answer);
                 $this->getOutput()->writeEmptyLine();
@@ -181,7 +180,7 @@ class InitCommand extends BaseCommand
         $config = array();
 
         $vcs = $this->informationCollector->getValueFor('vcs');
-        if ($vcs !== 'none'){
+        if ($vcs !== 'none') {
             $config['vcs'] = $vcs;
         }
 
@@ -192,4 +191,3 @@ class InitCommand extends BaseCommand
         return $config;
     }
 }
-

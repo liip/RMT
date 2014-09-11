@@ -13,8 +13,8 @@ namespace Liip\RMT\Changelog;
 /**
  * Class to read/write the changelog file
  */
-class ChangelogManager {
-    
+class ChangelogManager
+{
     protected $filePath;
     protected $formatter;
 
@@ -29,11 +29,10 @@ class ChangelogManager {
         }
         $this->filePath = $filePath;
 
-
         // Store the formatter
         $this->format = $format;
         $formatterClass = 'Liip\\RMT\\Changelog\\Formatter\\'.ucfirst($format).'ChangelogFormatter';
-        if (!class_exists($formatterClass)){
+        if (!class_exists($formatterClass)) {
             throw new \Exception("There is no formatter for [$format]");
         }
         $this->formatter = new $formatterClass();
@@ -50,7 +49,7 @@ class ChangelogManager {
     {
         $changelog = file_get_contents($this->filePath);
         $result = preg_match($this->formatter->getLastVersionRegex(), $changelog, $match);
-        if ($result === 1){
+        if ($result === 1) {
             return $match[1];
         }
         throw new \Liip\RMT\Exception\NoReleaseFoundException (
@@ -58,4 +57,3 @@ class ChangelogManager {
         );
     }
 }
-

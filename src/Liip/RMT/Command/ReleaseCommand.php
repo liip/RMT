@@ -12,11 +12,8 @@ namespace Liip\RMT\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Liip\RMT\Changelog\ChangelogManager;
 use Liip\RMT\Information\InformationCollector;
-use Liip\RMT\Information\InteractiveQuestion;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Context;
 
@@ -50,16 +47,14 @@ class ReleaseCommand extends BaseCommand
         // Add a specific option if it's the first release
         try {
             Context::get('version-persister')->getCurrentVersion();
-        }
-        catch (\Liip\RMT\Exception\NoReleaseFoundException $e){
+        } catch (\Liip\RMT\Exception\NoReleaseFoundException $e) {
             $ic->registerRequest(
                 new InformationRequest('confirm-first', array(
                     'description' => 'This is the first release for the current branch',
                     'type' => 'confirmation'
                 ))
             );
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             echo "Error while trying to read the current version";
         }
 
@@ -69,8 +64,8 @@ class ReleaseCommand extends BaseCommand
         $ic->registerRequests(Context::get('version-persister')->getInformationRequests());
 
         // Register options of all lists (prerequistes and actions)
-        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName){
-            foreach (Context::getInstance()->getList($listName) as $listItem){
+        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName) {
+            foreach (Context::getInstance()->getList($listName) as $listItem) {
                 $ic->registerRequests($listItem->getInformationRequests());
             }
         }
@@ -104,12 +99,12 @@ class ReleaseCommand extends BaseCommand
         parent::interact($input, $output);
 
         // Fill up questions
-        if (Context::get('information-collector')->hasMissingInformation()){
+        if (Context::get('information-collector')->hasMissingInformation()) {
             $questions = Context::get('information-collector')->getInteractiveQuestions();
             $this->getOutput()->writeSmallTitle('Information collect ('.count($questions).' questions)');
             $this->getOutput()->indent();
             $count = 1;
-            foreach($questions as $name => $question) {
+            foreach ($questions as $name => $question) {
                 $answer = $this->getOutput()->askQuestion($question, $count++);
                 Context::get('information-collector')->setValueFor($name, $answer);
                 $this->getOutput()->writeEmptyLine();
@@ -128,9 +123,8 @@ class ReleaseCommand extends BaseCommand
         // Get the current version or generate a new one if the user has confirm that this is required
         try {
             $currentVersion = Context::get('version-persister')->getCurrentVersion();
-        }
-        catch (\Liip\RMT\Exception\NoReleaseFoundException $e){
-            if (Context::get('information-collector')->getValueFor('confirm-first') == false){
+        } catch (\Liip\RMT\Exception\NoReleaseFoundException $e) {
+            if (Context::get('information-collector')->getValueFor('confirm-first') == false) {
                 throw $e;
             }
             $currentVersion = Context::get('version-generator')->getInitialVersion();
@@ -163,7 +157,7 @@ class ReleaseCommand extends BaseCommand
         if (count($actions) > 0) {
             $this->getOutput()->writeSmallTitle($title ?: ucfirst($name));
             $this->getOutput()->indent();
-            foreach ($actions as $num => $action){
+            foreach ($actions as $num => $action) {
                 $this->getOutput()->write(++$num.") ".$action->getTitle().' : ');
                 $this->getOutput()->indent();
                 $action->execute();
@@ -174,4 +168,3 @@ class ReleaseCommand extends BaseCommand
         }
     }
 }
-

@@ -27,4 +27,3 @@ class VcsTagAction extends BaseAction
         $this->confirmSuccess();
     }
 }
-

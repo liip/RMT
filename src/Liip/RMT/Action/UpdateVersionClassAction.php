@@ -11,7 +11,6 @@
 namespace Liip\RMT\Action;
 
 use Liip\RMT\Context;
-use Liip\RMT\Action\BaseAction;
 use Liip\RMT\Exception;
 use Liip\RMT\Config\Exception as ConfigException;
 
@@ -56,7 +55,9 @@ class UpdateVersionClassAction extends BaseAction
 
     /**
      * will update a given filename with the current version
+     * 
      * @param string $filename
+     *
      * @throws \Liip\RMT\Exception
      */
     protected function updateFile($filename)

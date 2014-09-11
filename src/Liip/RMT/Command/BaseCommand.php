@@ -12,8 +12,6 @@ namespace Liip\RMT\Command;
 
 use Liip\RMT\VCS\VCSInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Config\Handler;
@@ -70,10 +68,11 @@ abstract class BaseCommand extends Command
             $vcs = Context::get('vcs');
             try {
                 $branch = $vcs->getCurrentBranch();
-                $config = $configHandler->getConfigForBranch($branch);
+            } catch (\Exception $e) {
+                echo "\033[31mImpossible to read the branch name\033[37m";
             }
-            catch (\Exception $e) {
-                echo "Impossible to read the branch name\n";
+            if (isset($branch)) {
+                $config = $configHandler->getConfigForBranch($branch);
             }
         }
 
@@ -81,12 +80,12 @@ abstract class BaseCommand extends Command
         Context::getInstance()->setParameter('config', $config);
 
         // Populate the context
-        foreach (array("version-generator", "version-persister") as $service){
+        foreach (array("version-generator", "version-persister") as $service) {
             Context::getInstance()->setService($service, $config[$service]['class'], $config[$service]['options']);
         }
-        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName){
+        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName) {
             Context::getInstance()->createEmptyList($listName);
-            foreach ($config[$listName] as $service){
+            foreach ($config[$listName] as $service) {
                 Context::getInstance()->addToList($listName, $service['class'], $service['options']);
             }
         }
@@ -103,4 +102,3 @@ abstract class BaseCommand extends Command
         return \Liip\RMT\Application::$instance;
     }
 }
-

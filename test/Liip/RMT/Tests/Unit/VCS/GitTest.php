@@ -98,6 +98,36 @@ class GitTest extends \PHPUnit_Framework_TestCase
         $vcs->getCurrentBranch();
     }
 
+    public function testChangeNoMergeCommits()
+    {
+        $vcs = new Git();
+        exec("git checkout -b merge-branch --quiet");
+        exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
+        exec('git checkout master --quiet');
+        exec('git merge --no-ff merge-branch');
+
+        $modifs = $vcs->getAllModificationsSince('1.1.0', false, true);
+
+        $this->assertContains("First commit", $modifs[0]);
+        $this->assertContains("Add a third file", $modifs[1]);
+        $this->assertContains("Modification of the first file", $modifs[2]);
+    }
+
+    public function testChangeWithMergeCommits()
+    {
+        $vcs = new Git();
+        exec("git checkout -b merge-branch --quiet");
+        exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
+        exec('git checkout master --quiet');
+        exec('git merge --no-ff merge-branch');
+
+        $modifs = $vcs->getAllModificationsSince('1.1.0');
+
+        $this->assertContains("Merge branch 'merge-branch'", $modifs[0]);
+        $this->assertContains("First commit", $modifs[1]);
+        $this->assertContains("Add a third file", $modifs[2]);
+        $this->assertContains("Modification of the first file", $modifs[3]);
+    }
 
     protected function tearDown()
     {

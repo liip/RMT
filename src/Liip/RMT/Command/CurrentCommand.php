@@ -13,15 +13,13 @@ namespace Liip\RMT\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Liip\RMT\Changelog\ChangelogManager;
-use Liip\RMT\Config\Handler;
 use Liip\RMT\Context;
 
 /**
  * Outputs current version
  */
-class CurrentCommand extends BaseCommand {
-
+class CurrentCommand extends BaseCommand
+{
     protected function configure()
     {
         $this->setName('current');
@@ -40,8 +38,7 @@ class CurrentCommand extends BaseCommand {
         }
         if ($input->getOption('raw')==true) {
             $output->writeln($input->getOption('vcs-tag') ? $vcsTag : $version);
-        }
-        else {
+        } else {
             $msg = "Current release is: <green>$version</green>";
             if ($input->getOption('vcs-tag')) {
                 $msg .= " (VCS tag: <green>$vcsTag</green>)";
@@ -50,4 +47,3 @@ class CurrentCommand extends BaseCommand {
         }
     }
 }
-

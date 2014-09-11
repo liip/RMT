@@ -1,0 +1,228 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "e4ad19096c3c5afe24a5b6b7d23a9edb",
+    "packages": [
+        {
+            "name": "symfony/console",
+            "version": "v2.5.3",
+            "target-dir": "Symfony/Component/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Console.git",
+                "reference": "cd2d1e4bac2206b337326b0140ff475fe9ad5f63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/cd2d1e4bac2206b337326b0140ff475fe9ad5f63",
+                "reference": "cd2d1e4bac2206b337326b0140ff475fe9ad5f63",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-08-05 09:00:40"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.5.3",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/e0997d2a9a1a763484b34b989900b61322a9b056",
+                "reference": "e0997d2a9a1a763484b34b989900b61322a9b056",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-08-05 09:00:40"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.5.3",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+                "reference": "5a75366ae9ca8b4792cd0083e4ca4dff9fe96f1f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-08-05 09:00:40"
+        },
+        {
+            "name": "vierbergenlars/php-semver",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vierbergenlars/php-semver.git",
+                "reference": "4dc35f3804f3b127ad557b8b2255c03204dec951"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vierbergenlars/php-semver/zipball/4dc35f3804f3b127ad557b8b2255c03204dec951",
+                "reference": "4dc35f3804f3b127ad557b8b2255c03204dec951",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "1.1.*"
+            },
+            "bin": [
+                "bin/semver",
+                "bin/update-versions"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "vierbergenlars\\SemVer\\": "src/",
+                    "vierbergenlars\\LibJs\\": "src/"
+                },
+                "classmap": [
+                    "src/vierbergenlars/SemVer/internal.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Vierbergen",
+                    "email": "vierbergenlars@gmail.com"
+                }
+            ],
+            "description": "The Semantic Versioner for PHP",
+            "keywords": [
+                "semantic",
+                "semver",
+                "versioning"
+            ],
+            "time": "2013-12-21 17:10:13"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "prefer-stable": false,
+    "platform": {
+        "php": ">=5.3.3"
+    },
+    "platform-dev": [
+
+    ]
+}

@@ -11,6 +11,7 @@ pre-release-actions:
     changelog-update:
         format: semantic
         dump-commits: true
+        exclude-merge-commits: true
     vcs-commit: ~
 
 version-generator: semantic

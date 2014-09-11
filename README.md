@@ -11,7 +11,7 @@ executed and before or after the release of a new version.
 
 Installation
 ------------
-
+### Option 1: as a dependency to your project
 In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
 installed as a dev-dependency. Just go to your project root directory and execute:
 
@@ -33,6 +33,23 @@ If you are using a versioning tool, we recommend to add both composer files (`co
 and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
 to it. The `vendor` directory should be ignored since it is populated simply by running
 `composer install`
+
+### Option 2: as a phar file
+RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) for that. phar-composer is a useful tool that allows you to create runable phar files from composer packages.
+
+if you have phar-composer installed, you can run:
+
+    sudo phar-composer install liip/RMT
+
+and have phar-composer build and install the phar file to your $PATH, which then allows you to run it simply as `rmt` from command line or you can run
+
+    phar-composer build liip/RMT
+
+and copy the resulting phar manually where you need it (either set the phar as executable `chmod +x rmt.phar` and execute it directly `./rmt.phar` or  run it by invoking it through PHP `php rmt.phar`.
+
+For the usage substitute RMT with what ever variant you have decided to use.
+
+
 
 Usage
 -----
@@ -61,6 +78,7 @@ The `release` command is the main behavior of the tool, but some extra commands 
 
 * `current` will show your project current version number (alias version)
 * `changes` display the changes that will be incorporated in the next release
+* `config` display the current config (already merged)
 * `init` create (or reset) the .rmt.yml config file
 
 
@@ -82,9 +100,9 @@ All the entry of this config are working the same. You have to specify the class
     version-persister:
        vcs-tag:
            tag-prefix: "v_"
-           
+
 RMT also support JSON config, but we recommend you to use YML.
-           
+
 ### Branch specific config
 
 Something you want to use a different release strategy according to the VCS branch, for example, you want to add a entry into a CHANGELOG only in the `master` branch. To do so, you have to place your default config into a root element named `_default`. Then you can override parts is this default config for the branch `master`. Example:
@@ -95,12 +113,20 @@ Something you want to use a different release strategy according to the VCS bran
     master:
         pre-release-actions: [changelog-update]
 
+You can use the command ```RMT config``` To see the merge result between _default and your current branch
+
 ### Version generator
 
 Build-in version number generation strategy
 
 * simple: This generator is doing a simple increment (1,2,3...)
 * semantic: A generator which implements [Semantic versioning](http://semver.org)
+    * Option `allow-label` (boolean): To allow adding a label on a version (such as -beta, -rcXX)  (default: *false*)
+    * Option `type`: to force the version type
+    * Option `label`: to force the label
+
+    The two forced option could be very useful if you decide that a given branch is dedicated to the next beta of a
+    given version. So just force the label to beta and all release are going to be beta increments
 
 ### Version persister
 
@@ -118,6 +144,10 @@ Prerequisite actions are executed before the interactive part
 * `tests-check`: run the project test suite
   * Option `command`: command to run (default: *phpunit*)
   * Option `expected_exit_code`: expected return code (default: *0*)
+* `composer-json-check`: run a validate on the composer.json
+  * Option `composer`: how to run composer (default: *php composer.phar*)
+* `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
+  * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
 
 ### Actions
 
@@ -131,8 +161,10 @@ Actions can be used for pre or post release parts.
       changelog file (default: *false*)
     * Option `insert-at`: only for addTop formatter: Number of lines to skip from the
       top of the changelog file before adding the release number (default: *0*)
+    * Option `exclude-merge-commits`: Exclude merge commits from the changelog (default: *false*)
 * `vcs-commit`: commit all files of the working copy (only use it with the
   `working-copy-check` prerequisite)
+    * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
 * `composer-update`: Update the version number in a composer file
@@ -181,7 +213,7 @@ Most of the time, it will be easier for you to pick up and example bellow and to
     version-generator: semantic
     version-persister:
         name: vcs-tag
-        prefix : "v_"
+        tag-prefix : "v_"
     post-release-actions: [vcs-publish]
 
 ### Using semantic versioning on master and simple versioning on topic branches

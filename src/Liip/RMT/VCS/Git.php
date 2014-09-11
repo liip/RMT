@@ -13,10 +13,11 @@ namespace Liip\RMT\VCS;
 class Git extends BaseVCS
 {
     /*
-    public function checkStatus(){
+    public function checkStatus()
+    {
         $this->gitExec('fetch origin');
         $statLines = $this->gitExec('status', true);
-        if ($statLines[0] !== '# On branch master'){
+        if ($statLines[0] !== '# On branch master') {
             throw new \Exception('Sorry, but you must be on the master branch to generate a new version');
         }
         if (strpos($statLines[1], 'Your branch is behind') !== false ) {
@@ -33,20 +34,20 @@ class Git extends BaseVCS
     */
     protected $dryRun = false;
 
-
-    public function getAllModificationsSince($tag, $color=true)
+    public function getAllModificationsSince($tag, $color = true, $noMergeCommits = false)
     {
-        return $this->executeGitCommand("log --oneline $tag..HEAD ".($color?'--color=always':''));
+        return $this->executeGitCommand("log --oneline $tag..HEAD " . ($color?'--color=always':'') . ($noMergeCommits ? '--no-merges' : ''));
     }
 
     public function getModifiedFilesSince($tag)
     {
         $data = $this->executeGitCommand("diff --name-status $tag..HEAD");
         $files = array();
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $parts = explode("\t", $d);
             $files[$parts[1]] = $parts[0];
         }
+
         return $files;
     }
 
@@ -54,7 +55,6 @@ class Git extends BaseVCS
     {
         return $this->executeGitCommand('status -s');
     }
-
 
     public function getTags()
     {
@@ -87,8 +87,8 @@ class Git extends BaseVCS
     public function getCurrentBranch()
     {
         $branches = $this->executeGitCommand('branch');
-        foreach ($branches as $branch){
-            if (strpos($branch, '* ') === 0 && !preg_match('/^\*\s\(.*\)$/', $branch)){
+        foreach ($branches as $branch) {
+            if (strpos($branch, '* ') === 0 && !preg_match('/^\*\s\(.*\)$/', $branch)) {
                 return substr($branch,2);
             }
         }
@@ -98,10 +98,10 @@ class Git extends BaseVCS
     protected function executeGitCommand($cmd)
     {
         // Avoid using some commands in dry mode
-        if ($this->dryRun){
-            if ($cmd !== 'tag'){
+        if ($this->dryRun) {
+            if ($cmd !== 'tag') {
                 $cmdWords = explode(' ',$cmd);
-                if (in_array($cmdWords[0], array('tag', 'push', 'add', 'commit'))){
+                if (in_array($cmdWords[0], array('tag', 'push', 'add', 'commit'))) {
                     return;
                 }
             }
@@ -110,9 +110,10 @@ class Git extends BaseVCS
         // Execute
         $cmd = 'git '.$cmd;
         exec($cmd, $result, $exitCode);
-        if ($exitCode !== 0){
+        if ($exitCode !== 0) {
             throw new \Liip\RMT\Exception('Error while executing git command: '.$cmd . "\n" . implode("\n", $result));
         }
+
         return $result;
     }
 }

@@ -16,7 +16,7 @@ class SimpleGenerator implements GeneratorInterface
     {
     }
 
-    public function generateNextVersion($currentVersion, $options = array())
+    public function generateNextVersion($currentVersion)
     {
         return ++$currentVersion;
     }
@@ -41,7 +41,7 @@ class SimpleGenerator implements GeneratorInterface
         if ($a == $b) {
             return 0;
         }
+
         return $a < $b ? -1 : 1 ;
     }
 }
-

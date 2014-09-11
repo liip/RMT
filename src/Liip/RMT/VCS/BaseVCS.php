@@ -19,4 +19,3 @@ abstract class BaseVCS implements \Liip\RMT\VCS\VCSInterface
         $this->options = $options;
     }
 }
-
