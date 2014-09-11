@@ -39,6 +39,17 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         file_put_contents('.rmt.yml', Yaml::dump($allConfig));
     }
 
+    protected function createChangelog($format)
+    {
+        $file = $this->tempDir.'/CHANGELOG';
+        $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
+        $manager->update(
+            $format=='semantic' ? '0.0.1' : '1',
+            'First release',
+            $format=='semantic' ? array('type'=>'patch') : null
+        );
+    }
+
     protected function tearDown()
     {
         exec('rm -rf '.$this->tempDir);
