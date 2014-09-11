@@ -2,8 +2,8 @@ vcs: git
 
 prerequisites:
   - working-copy-check
-  - tests-check
   - display-last-changes
+  - tests-check
 
 pre-release-actions:
     bin/UpdateApplicationVersionCurrentVersion.php: ~
