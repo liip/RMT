@@ -31,7 +31,7 @@ class CommandAction extends BaseAction
         ), $options);
 
         if ($this->options['cmd']==null){
-            throw new \RuntimeException('Missing [command] option');
+            throw new \RuntimeException('Missing [cmd] option');
         }
     }
 

@@ -32,17 +32,6 @@ class ChangelogTest extends RMTFunctionalTestBase
         $this->executeTest('minor', 'test_minor', '2.1.0');
     }
 
-    protected function createChangelog($format)
-    {
-        $file = $this->tempDir.'/CHANGELOG';
-        $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
-        $manager->update(
-            $format=='semantic' ? '0.0.1' : '1',
-            'First release',
-            $format=='semantic' ? array('type'=>'patch') : null
-        );
-    }
-
     /**
      * Execute changelog test
      * @param String [major/minor/patch]
