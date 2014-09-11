@@ -3,6 +3,11 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      11/09/2014 16:05  1.1.4  New action Command to allow to execute a cmd/script
+         cf58130 RMT config, display the changes first
+         e4bfed0 Finalization of the CommandAction fix #50
+         29c8af6 Fix typo in the README
+         78c1454 Prototype of a new generic command #50
       28/08/2014 18:00  1.1.3  Two new prerequistes check related to Composer validation (Thanks Peter Petermann)
          f7ac129 PSR-2 fixes
          3f06571 adding check that allows to test for composers minimum-stability setting
