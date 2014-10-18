@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-
 class CommandActionTest extends RMTFunctionalTestBase
 {
     public function testCommand()

@@ -25,7 +25,7 @@ class GitTest extends \PHPUnit_Framework_TestCase
         }
         mkdir($tempDir);
         chdir($tempDir);
-        exec('unzip '.__DIR__.'/gitRepo.zip');
+        exec('unzip ' . __DIR__ . '/gitRepo.zip');
         exec('git checkout .');
         $this->testDir = $tempDir;
     }
@@ -56,14 +56,14 @@ class GitTest extends \PHPUnit_Framework_TestCase
     public function testGetTags()
     {
         $vcs = new Git();
-        $this->assertEquals(array("1.0.0","1.1.0"), $vcs->getTags());
+        $this->assertEquals(array("1.0.0", "1.1.0"), $vcs->getTags());
     }
 
     public function testCreateTag()
     {
         $vcs = new Git();
         $vcs->createTag('2.0.0');
-        $this->assertEquals(array("1.0.0","1.1.0","2.0.0"), $vcs->getTags());
+        $this->assertEquals(array("1.0.0", "1.1.0", "2.0.0"), $vcs->getTags());
     }
 
     public function testSaveWorkingCopy()
@@ -132,7 +132,7 @@ class GitTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         // Remove the test folder
-        exec('rm -rf '.$this->testDir);
+        exec('rm -rf ' . $this->testDir);
         chdir(__DIR__);
     }
 }

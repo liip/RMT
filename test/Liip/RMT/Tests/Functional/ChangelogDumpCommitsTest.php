@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-
 class ChangelogDumpCommitsTest extends RMTFunctionalTestBase
 {
     public function testDump()
@@ -36,7 +35,7 @@ class ChangelogDumpCommitsTest extends RMTFunctionalTestBase
         exec('echo "text" > new-file && git add -A && git commit -m "Second commit"');
         exec('echo "text2" >> new-file && git commit -am "Third commit"');
         exec('./RMT release -n --comment="Second release"', $output);
-        $changelog = file_get_contents($this->tempDir.'/CHANGELOG');
+        $changelog = file_get_contents($this->tempDir . '/CHANGELOG');
         $this->assertContains('Second commit', $changelog);
         $this->assertContains('Third commit', $changelog);
     }

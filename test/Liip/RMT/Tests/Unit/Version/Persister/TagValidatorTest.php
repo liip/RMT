@@ -28,6 +28,7 @@ class TagValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $simpleRegEx = '\d+';
         $semanticRegEx = '\d+\.\d+\.\d+';
+
         return array(
             array('1', true, $simpleRegEx),
             array('23', true, $simpleRegEx),
@@ -47,7 +48,7 @@ class TagValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new TagValidator('\d');
         $this->assertEquals(
-            array('1','3'),
+            array('1', '3'),
             $validator->filtrateList(array('a', '1', '3s', '3'))
         );
     }

@@ -49,7 +49,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         $this->assertGreaterThan(0, $exitCode);
         $this->assertContains("local modification", implode("\n", $consoleOutput));
     }
-    
+
     public function testWorkingCopyWithIgnoreCheck()
     {
         $this->createConfig('simple', 'vcs-tag', array(
@@ -63,9 +63,9 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         exec('./RMT release -n --ignore-check', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode);
         exec('git tag', $tags);
-        $this->assertEquals(array('1','2'), $tags);
+        $this->assertEquals(array('1', '2'), $tags);
     }
-    
+
     public function testWorkingCopy()
     {
         $this->createConfig('simple', 'vcs-tag', array(
@@ -81,6 +81,6 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         exec('./RMT release -n', $consoleOutput, $exitCode);
         $this->assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
         exec('git tag', $tags2);
-        $this->assertEquals(array('1','2'), $tags2);
+        $this->assertEquals(array('1', '2'), $tags2);
     }
 }

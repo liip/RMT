@@ -55,7 +55,7 @@ class UpdateVersionClassAction extends BaseAction
 
     /**
      * will update a given filename with the current version
-     * 
+     *
      * @param string $filename
      *
      * @throws \Liip\RMT\Exception

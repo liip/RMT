@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-
 class ExternalTaskTest extends RMTFunctionalTestBase
 {
     public function testInvalidScript()
@@ -33,6 +32,6 @@ class ExternalTaskTest extends RMTFunctionalTestBase
         ));
         exec('./RMT release -n');
         exec('ls', $files);
-        $this->assertTrue(in_array('file1', $files), 'file1 in present in ['.implode(', ', $files).']');
+        $this->assertTrue(in_array('file1', $files), 'file1 in present in [' . implode(', ', $files) . ']');
     }
 }

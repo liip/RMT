@@ -29,13 +29,13 @@ class ChangelogManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionWhenNotAbleToCreate()
     {
-        $this->dir = sys_get_temp_dir().'/'.md5(time());
+        $this->dir = sys_get_temp_dir() . '/' . md5(time());
         mkdir($this->dir);
         new ChangelogManager($this->dir, 'semantic');
     }
 
     protected function tearDown()
     {
-        exec('rm -rf '.$this->dir);
+        exec('rm -rf ' . $this->dir);
     }
 }

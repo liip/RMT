@@ -12,8 +12,6 @@ namespace Liip\RMT\Tests\Unit;
 
 use Liip\RMT\Context;
 
-use Liip\RMT\Tests\Unit\ServiceClass;
-
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -39,7 +37,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetServiceWithOptions()
     {
         $context = Context::getInstance();
-        $options = array('pi'=>3.14);
+        $options = array('pi' => 3.14);
         $context->setService('foo', '\Liip\RMT\Tests\Unit\ServiceClass', $options);
         $this->assertEquals($options, $context->getService('foo')->getOptions());
     }
@@ -72,8 +70,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $context->setService('foo', 12);
     }
 
-
-
     // PARAM TESTS
 
     public function testSetAndGetParam()
@@ -93,7 +89,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $context->getParameter('abc');
     }
 
-
     // LIST TESTS
 
     public function testAddToList()
@@ -110,7 +105,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testAddToListWithOptions()
     {
         $context = Context::getInstance();
-        $options = array('pi'=>3.14);
+        $options = array('pi' => 3.14);
         $context->addToList('foo', '\Liip\RMT\Tests\Unit\ServiceClass', $options);
         $objects = $context->getList('foo');
         $this->assertEquals($options, $objects[0]->getOptions());
@@ -135,7 +130,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $context = Context::getInstance();
         $context->addToList('foo', 'Bar');
     }
-
 
     public function testEmptyList()
     {

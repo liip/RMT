@@ -50,7 +50,7 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementWithInvalidType()
     {
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator(array('type'=>'full', 'label'=>'none'));
+        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator(array('type' => 'full', 'label' => 'none'));
         $generator->generateNextVersion('1.0.0');
     }
 
