@@ -81,7 +81,7 @@ class HgTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('default', $vcs->getCurrentBranch());
         system("hg branch -q foo");
         $this->assertEquals('foo', $vcs->getCurrentBranch());
-        exec("hg update -q default");
+        exec("hg branch -q default");
         $this->assertEquals('default', $vcs->getCurrentBranch());
     }
 
