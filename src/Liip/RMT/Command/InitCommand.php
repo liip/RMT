@@ -171,7 +171,7 @@ class InitCommand extends BaseCommand
         file_put_contents($this->configPath, $config);
 
         // Confirmation
-        $this->getOutput()->writeBigTitle('Success, you can start using RMT by calling <info>RMT release</info>');
+        $this->getOutput()->writeBigTitle('Success, you can start using RMT by calling "RMT release"');
         $this->getOutput()->writeEmptyLine();
     }
 
