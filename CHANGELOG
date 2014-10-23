@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      23/10/2014 19:12  1.1.5  Only export needed file into package
+         25c128a fix hg branch test
+         91a8956 Only export needed files
       11/09/2014 16:05  1.1.4  New action Command to allow to execute a cmd/script
          cf58130 RMT config, display the changes first
          e4bfed0 Finalization of the CommandAction fix #50
