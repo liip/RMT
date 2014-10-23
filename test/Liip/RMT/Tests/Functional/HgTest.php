@@ -13,14 +13,16 @@ namespace Liip\RMT\Tests\Functional;
 
 class HgTest extends RMTFunctionalTestBase
 {
-    public static function cleanTags($tags) {
+    public static function cleanTags($tags)
+    {
         return array_map(function ($t) {
             $parts = explode(' ', $t);
             return $parts[0];
         }, $tags);
     }
 
-    public function testInitialVersion(){
+    public function testInitialVersion()
+    {
         $this->initHg();
         $this->createConfig('simple', 'vcs-tag', array('vcs'=>'hg'));
         exec('./RMT release -n --confirm-first');
@@ -28,7 +30,8 @@ class HgTest extends RMTFunctionalTestBase
         $this->assertEquals(array('tip', '1'), static::cleanTags($tags));
     }
 
-    public function testInitialVersionSemantic(){
+    public function testInitialVersionSemantic()
+    {
         $this->initHg();
         $this->createConfig('semantic', 'vcs-tag', array('vcs'=>'hg'));
         exec('./RMT release -n  --type=patch --confirm-first');
@@ -37,7 +40,8 @@ class HgTest extends RMTFunctionalTestBase
     }
 
 
-    public function testSimple(){
+    public function testSimple()
+    {
         $this->initHg();
         exec('hg tag 1');
         exec('hg tag 3');
@@ -58,7 +62,8 @@ class HgTest extends RMTFunctionalTestBase
         $this->assertEquals(array('tip', '2.2.0', '2.1.19'), static::cleanTags($tags));
     }
 
-    public function testTagPrefix(){
+    public function testTagPrefix()
+    {
         $this->initHg();
         exec('hg tag 2');
         exec('hg tag v_1');
@@ -68,7 +73,8 @@ class HgTest extends RMTFunctionalTestBase
         $this->assertEquals(array('tip', 'v_2','v_1', '2'), static::cleanTags($tags));
     }
 
-    public function testTagPrefixWithBranchNamePlaceHolder(){
+    public function testTagPrefixWithBranchNamePlaceHolder()
+    {
         $this->initHg();
         $this->createConfig('simple', array('name'=>'vcs-tag', 'tag-prefix'=>'_{branch-name}_'), array('vcs'=>'hg'));
         exec('./RMT release -n --confirm-first');
@@ -84,5 +90,4 @@ class HgTest extends RMTFunctionalTestBase
         exec('hg add *');
         exec('hg commit -m "First commit"');
     }
-
 }

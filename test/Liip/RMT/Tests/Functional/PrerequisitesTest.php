@@ -83,5 +83,4 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         exec('git tag', $tags2);
         $this->assertEquals(array('1','2'), $tags2);
     }
-
 }

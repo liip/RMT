@@ -14,22 +14,19 @@
 // in phar environment
 if (extension_loaded('phar') && file_exists($file = Phar::running() .'/vendor/autoload.php')) {
     $loader = require_once $file;
-}
-elseif (file_exists($file = __DIR__.'/../../autoload.php')) {
+} elseif (file_exists($file = __DIR__.'/../../autoload.php')) {
 
     // Composer standard location
     $loader = require_once $file;
     $loader->add('Liip\RMT\Tests', __DIR__.'/test');
     $loader->add('Liip', __DIR__.'/src');
-}
-elseif ( file_exists($file = __DIR__.'/vendor/autoload.php')) {
+} elseif (file_exists($file = __DIR__.'/vendor/autoload.php')) {
 
     // Composer when on RMT standalone install (used in travis.ci)
     $loader = require_once $file;
     $loader->add('Liip\RMT\Tests', __DIR__.'/test');
     $loader->add('Liip', __DIR__.'/src');
-}
-elseif ( file_exists( $file = __DIR__.'/../symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php')) {
+} elseif (file_exists($file = __DIR__.'/../symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php')) {
 
     // Symfony 2.0
     require_once $file;
@@ -39,8 +36,6 @@ elseif ( file_exists( $file = __DIR__.'/../symfony/src/Symfony/Component/ClassLo
         'Symfony' => __DIR__.'/../symfony/src',
     ));
     $loader->register();
-}
-else {
-
+} else {
     throw new \Exception("Unable to find the an autoloader");
 }

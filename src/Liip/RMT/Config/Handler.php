@@ -115,9 +115,11 @@ class Handler
     protected function validateRootElements($config)
     {
         // Check for extra keys
-        $extraKeys = array_diff(array_keys($config),array_keys($this->getDefaultConfig()));
+        $extraKeys = array_diff(array_keys($config), array_keys($this->getDefaultConfig()));
         if (count($extraKeys) > 0) {
-            throw new Exception('key(s) ['.implode(', ',$extraKeys).'] are invalid, must be ['.implode(', ',array_keys($this->getDefaultConfig())).']');
+            $extraKeys = implode(', ', $extraKeys);
+            $validKeys = implode(', ', array_keys($this->getDefaultConfig()));
+            throw new Exception('key(s) ['.$extraKeys.'] are invalid, must be ['.$validKeys.']');
         }
 
         // Check for missing keys

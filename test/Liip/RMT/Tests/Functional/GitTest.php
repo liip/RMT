@@ -14,7 +14,8 @@ namespace Liip\RMT\Tests\Functional;
 class GitTest extends RMTFunctionalTestBase
 {
 
-    public function testInitialVersion(){
+    public function testInitialVersion()
+    {
         $this->initGit();
         $this->createConfig('simple', 'vcs-tag', array('vcs'=>'git'));
         exec('./RMT release -n --confirm-first');
@@ -23,7 +24,8 @@ class GitTest extends RMTFunctionalTestBase
         $this->assertEquals(array('1'), $tags);
     }
 
-    public function testInitialVersionSemantic(){
+    public function testInitialVersionSemantic()
+    {
         $this->initGit();
         $this->createConfig('semantic', 'vcs-tag', array('vcs'=>'git'));
         exec('./RMT release -n  --type=patch --confirm-first');
@@ -33,7 +35,8 @@ class GitTest extends RMTFunctionalTestBase
     }
 
 
-    public function testSimple(){
+    public function testSimple()
+    {
         $this->initGit();
         exec('git tag 1');
         exec('git tag 3');
@@ -56,7 +59,8 @@ class GitTest extends RMTFunctionalTestBase
         $this->assertEquals(array('2.1.19', '2.2.0'), $tags);
     }
 
-    public function testTagPrefix(){
+    public function testTagPrefix()
+    {
         $this->initGit();
         exec('git tag 2');
         exec('git tag v_1');
@@ -67,7 +71,8 @@ class GitTest extends RMTFunctionalTestBase
         $this->assertEquals(array('2','v_1', 'v_2'), $tags);
     }
 
-    public function testTagPrefixWithBranchNamePlaceHolder(){
+    public function testTagPrefixWithBranchNamePlaceHolder()
+    {
         $this->initGit();
         $this->createConfig('simple', array('name'=>'vcs-tag', 'tag-prefix'=>'_{branch-name}_'), array('vcs'=>'git'));
         exec('./RMT release -n --confirm-first');
@@ -75,5 +80,4 @@ class GitTest extends RMTFunctionalTestBase
 //        $this->manualDebug();
         $this->assertEquals(array('_master_1'), $tags);
     }
-
 }

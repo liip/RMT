@@ -40,6 +40,4 @@ class ChangelogDumpCommitsTest extends RMTFunctionalTestBase
         $this->assertContains('Second commit', $changelog);
         $this->assertContains('Third commit', $changelog);
     }
-
 }
-

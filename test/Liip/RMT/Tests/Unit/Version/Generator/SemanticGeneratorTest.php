@@ -67,5 +67,4 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $generator->compareTwoVersions('1.0.11-rc', '1.0.1-beta'));
         $this->assertEquals(1, $generator->compareTwoVersions('1.0.2', '1.0.1-rc'));
     }
-
 }

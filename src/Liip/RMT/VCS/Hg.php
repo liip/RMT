@@ -14,9 +14,10 @@ class Hg extends BaseVCS
 {
     protected $dryRun = false;
 
-    public function getAllModificationsSince($tag, $color=true, $noMergeCommits = false)
+    public function getAllModificationsSince($tag, $color = true, $noMergeCommits = false)
     {
-        $modifications = $this->executeHgCommand("log --template '{node|short} {desc}\n' -r tip:$tag" . ($noMergeCommits ? '--no-merges' : ''));
+        $noMergeCommits = $noMergeCommits ? '--no-merges' : '';
+        $modifications = $this->executeHgCommand("log --template '{node|short} {desc}\n' -r tip:$tag $noMergeCommits");
         array_pop($modifications); // remove the last commit since it is the one described by the tag
 
         return $modifications;
@@ -67,7 +68,7 @@ class Hg extends BaseVCS
         $this->executeHgCommand("push $remote");
     }
 
-    public function saveWorkingCopy($commitMsg='')
+    public function saveWorkingCopy($commitMsg = '')
     {
         $this->executeHgCommand("addremove");
         $this->executeHgCommand("commit -m \"$commitMsg\"");

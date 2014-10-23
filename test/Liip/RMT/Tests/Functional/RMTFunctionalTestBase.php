@@ -16,10 +16,10 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 {
     protected $tempDir;
 
-    protected function setUp() {
-
+    protected function setUp()
+    {
         // Create a temp folder
-        $this->tempDir = tempnam(sys_get_temp_dir(),'');
+        $this->tempDir = tempnam(sys_get_temp_dir(), '');
         if (file_exists($this->tempDir)) {
             unlink($this->tempDir);
         }
@@ -31,7 +31,8 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
-    protected function createConfig($generator, $persister, $otherConfig=array()) {
+    protected function createConfig($generator, $persister, $otherConfig = array())
+    {
         $allConfig = array_merge($otherConfig, array(
             'version-persister'=>$persister,
             'version-generator'=>$generator
@@ -62,9 +63,9 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         exec('git commit -m "First commit"');
     }
 
-    protected function  manualDebug()
+    protected function manualDebug()
     {
-        echo "\n\nMANUAL DEBUG Go to:\n > cd ".$this->tempDir."\n\n"; exit();
+        echo "\n\nMANUAL DEBUG Go to:\n > cd ".$this->tempDir."\n\n";
+        exit();
     }
-
 }

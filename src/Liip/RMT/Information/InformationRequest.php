@@ -17,8 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class InformationRequest
 {
-    static $validTypes = array('text', 'yes-no', 'choice', 'confirmation');
-    static $defaults = array(
+    protected static $validTypes = array('text', 'yes-no', 'choice', 'confirmation');
+    protected static $defaults = array(
         'description' => '',
         'type' => 'text',
         'choices' => array(),
@@ -42,9 +42,9 @@ class InformationRequest
         $this->name = $name;
 
         // Check for invalid option
-        $invalidOptions = array_diff(array_keys($options),array_keys(self::$defaults));
+        $invalidOptions = array_diff(array_keys($options), array_keys(self::$defaults));
         if (count($invalidOptions) > 0) {
-            throw new \Exception('Invalid config option(s) ['.implode(', ',$invalidOptions).']');
+            throw new \Exception('Invalid config option(s) ['.implode(', ', $invalidOptions).']');
         }
 
         // Set a default false for confirmation
@@ -83,10 +83,14 @@ class InformationRequest
 
     public function convertToCommandOption()
     {
+        $mode = $this->options['type']=='boolean' || $this->options['type']=='confirmation' ?
+            InputOption::VALUE_NONE :
+            InputOption::VALUE_REQUIRED
+        ;
         return new InputOption(
             $this->name,
             $this->options['command_shortcut'],
-            $this->options['type']=='boolean' || $this->options['type']=='confirmation' ? InputOption::VALUE_NONE : InputOption::VALUE_REQUIRED,
+            $mode,
             $this->options['description'],
             (!$this->isAvailableForInteractive() && $this->getOption('type')!=='confirmation') ? $this->options['default'] : null
         );

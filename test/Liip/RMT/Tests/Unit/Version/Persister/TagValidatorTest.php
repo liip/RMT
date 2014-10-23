@@ -18,7 +18,7 @@ class TagValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTagData
      */
-    public function testIsValid($tag, $result, $regex, $tagPrefix='')
+    public function testIsValid($tag, $result, $regex, $tagPrefix = '')
     {
         $validator = new TagValidator($regex, $tagPrefix);
         $this->assertEquals($result, $validator->isValid($tag));
@@ -48,7 +48,7 @@ class TagValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = new TagValidator('\d');
         $this->assertEquals(
             array('1','3'),
-            $validator->filtrateList(array('a', '1', '3s', '3')
-        ));
+            $validator->filtrateList(array('a', '1', '3s', '3'))
+        );
     }
 }

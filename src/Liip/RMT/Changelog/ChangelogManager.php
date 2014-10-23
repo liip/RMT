@@ -52,7 +52,7 @@ class ChangelogManager
         if ($result === 1) {
             return $match[1];
         }
-        throw new \Liip\RMT\Exception\NoReleaseFoundException (
+        throw new \Liip\RMT\Exception\NoReleaseFoundException(
             "There is a format error in the CHANGELOG file, impossible to read the last version number"
         );
     }

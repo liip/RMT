@@ -12,31 +12,13 @@ namespace Liip\RMT\VCS;
 
 class Git extends BaseVCS
 {
-    /*
-    public function checkStatus()
-    {
-        $this->gitExec('fetch origin');
-        $statLines = $this->gitExec('status', true);
-        if ($statLines[0] !== '# On branch master') {
-            throw new \Exception('Sorry, but you must be on the master branch to generate a new version');
-        }
-        if (strpos($statLines[1], 'Your branch is behind') !== false ) {
-            throw new \Exception("Your master branch is not up to date, please rebase your work\n (".$statLines[1].')');
-        }
-        if (strpos($statLines[1], 'Your branch is ahead') !== false ) {
-            throw new \Exception("Please push your change before tagging \n (".$statLines[1].')');
-        }
-        if ($statLines[1] !== 'nothing to commit (working directory clean)') {
-            $this->gitExec('status');
-            throw new \Exception('Your working directory must be clean to generate a new version. Please commit or stash your change and push everything to origin');
-        }
-    }
-    */
     protected $dryRun = false;
 
     public function getAllModificationsSince($tag, $color = true, $noMergeCommits = false)
     {
-        return $this->executeGitCommand("log --oneline $tag..HEAD " . ($color?'--color=always':'') . ($noMergeCommits ? '--no-merges' : ''));
+        $color = $color ? '--color=always' : '';
+        $noMergeCommits = $noMergeCommits ? '--no-merges' : '';
+        return $this->executeGitCommand("log --oneline $tag..HEAD $color $noMergeCommits");
     }
 
     public function getModifiedFilesSince($tag)
@@ -78,7 +60,7 @@ class Git extends BaseVCS
         $this->executeGitCommand("push $remote ".$this->getCurrentBranch());
     }
 
-    public function saveWorkingCopy($commitMsg='')
+    public function saveWorkingCopy($commitMsg = '')
     {
         $this->executeGitCommand("add --all");
         $this->executeGitCommand("commit -m \"$commitMsg\"");
@@ -89,7 +71,7 @@ class Git extends BaseVCS
         $branches = $this->executeGitCommand('branch');
         foreach ($branches as $branch) {
             if (strpos($branch, '* ') === 0 && !preg_match('/^\*\s\(.*\)$/', $branch)) {
-                return substr($branch,2);
+                return substr($branch, 2);
             }
         }
         throw new \Liip\RMT\Exception("Not currently on any branch");
@@ -100,7 +82,7 @@ class Git extends BaseVCS
         // Avoid using some commands in dry mode
         if ($this->dryRun) {
             if ($cmd !== 'tag') {
-                $cmdWords = explode(' ',$cmd);
+                $cmdWords = explode(' ', $cmd);
                 if (in_array($cmdWords[0], array('tag', 'push', 'add', 'commit'))) {
                     return;
                 }

@@ -30,7 +30,7 @@ class CommandAction extends BaseAction
             'stop_on_error' => true
         ), $options);
 
-        if ($this->options['cmd']==null){
+        if ($this->options['cmd']==null) {
             throw new \RuntimeException('Missing [cmd] option');
         }
     }
@@ -43,10 +43,10 @@ class CommandAction extends BaseAction
 
         // Prepare a callback for live output
         $callback = null;
-        if ($this->options['live_output'] == true){
+        if ($this->options['live_output'] == true) {
             $callback = function ($type, $buffer) {
                 $decorator = array('','');
-                if ($type==Process::ERR){
+                if ($type==Process::ERR) {
                     $decorator = array('<error>','</error>');
                 }
                 Context::get('output')->write($decorator[0].$buffer.$decorator[1]);
@@ -62,6 +62,4 @@ class CommandAction extends BaseAction
             throw new \RuntimeException("Command [$command] exit with code ".$process->getExitCode());
         }
     }
-
 }
-

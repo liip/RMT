@@ -104,9 +104,9 @@ class Output extends ConsoleOutput
         $this->writeEmptyLine();
     }
 
-    public function writeEmptyLine($repeat=1)
+    public function writeEmptyLine($repeat = 1)
     {
-        $this->writeln(array_fill(0,$repeat,''));
+        $this->writeln(array_fill(0, $repeat, ''));
     }
 
     public function askQuestion(InteractiveQuestion $question, $position = null)
@@ -124,5 +124,4 @@ class Output extends ConsoleOutput
     {
         return $this->dialogHelper->askConfirmation($this, $text);
     }
-
 }

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class InformationCollector
 {
-    static $standardRequests = array(
+    protected static $standardRequests = array(
         'comment' => array(
             'description' => 'Comment associated with the release',
             'type' => 'text'

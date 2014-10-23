@@ -36,7 +36,8 @@ class VcsTagPersister implements PersisterInterface
         $tags = $this->getValidVersionTags($this->versionRegex);
         if (count($tags) === 0) {
             throw new \Liip\RMT\Exception\NoReleaseFoundException(
-                'No VCS tag matching the regex ['.$this->getTagPrefix().$this->versionRegex.']');
+                'No VCS tag matching the regex ['.$this->getTagPrefix().$this->versionRegex.']'
+            );
         }
 
         // Extract versions from tags and sort them
@@ -119,5 +120,4 @@ class VcsTagPersister implements PersisterInterface
 
         return $userTag;
     }
-
 }

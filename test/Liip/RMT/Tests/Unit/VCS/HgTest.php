@@ -19,7 +19,7 @@ class HgTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Create a temp folder and extract inside the Hg test folder
-        $tempDir = tempnam(sys_get_temp_dir(),'');
+        $tempDir = tempnam(sys_get_temp_dir(), '');
         if (file_exists($tempDir)) {
             unlink($tempDir);
         }
@@ -38,7 +38,8 @@ class HgTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("Modification of the first file", $modifs[1]);
     }
 
-    public function testGetModifiedFilesSince() {
+    public function testGetModifiedFilesSince()
+    {
         $vcs = new Hg();
         $files = $vcs->getModifiedFilesSince('1.1.0');
         $this->assertEquals(array("file1" => "M", "file3" => "A", ".hgtags" => "M"), $files);
@@ -72,7 +73,7 @@ class HgTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $vcs->getAllModificationsSince('2.0.0'));
         exec('rm file2');
         $vcs->saveWorkingCopy('Remove the second file');
-        $this->assertCount(2,$vcs->getAllModificationsSince('2.0.0'));
+        $this->assertCount(2, $vcs->getAllModificationsSince('2.0.0'));
     }
 
     public function testGetCurrentBranch()
@@ -91,6 +92,4 @@ class HgTest extends \PHPUnit_Framework_TestCase
         // exec('rm -rf '.$this->testDir);
         chdir(__DIR__);
     }
-
-
 }

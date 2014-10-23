@@ -14,6 +14,14 @@ namespace Liip\RMT\Tests\Unit;
 class ServiceClass
 {
     private $options;
-    public function __construct($options = null){ $this->options = $options; }
-    public function getOptions(){ return $this->options; }
+
+    public function __construct($options = null)
+    {
+        $this->options = $options;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
 }

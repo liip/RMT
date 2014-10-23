@@ -95,8 +95,9 @@ class Application extends BaseApplication
     {
         $configFile = $this->getConfigFilePath();
         if (!is_file($configFile)) {
-            throw new \Exception("Impossible to locate the config file rmt.xxx at $configFile. If it's the first time you
-                are using this tool, you setup your project using the [RMT init] command"
+            throw new \Exception(
+                "Impossible to locate the config file rmt.xxx at $configFile. If it's the first time you ".
+                "are using this tool, you setup your project using the [RMT init] command"
             );
         }
 
@@ -109,7 +110,10 @@ class Application extends BaseApplication
             try {
                 $config = Yaml::parse(file_get_contents($configFile), true);
             } catch (\Exception $e) {
-                throw new \Exception("Impossible to parse your config file ($configFile), you probably have an error in the YML syntax: ".$e->getMessage());
+                throw new \Exception(
+                    "Impossible to parse your config file ($configFile), ".
+                    "you probably have an error in the YML syntax: ".$e->getMessage()
+                );
             }
         }
 
@@ -157,7 +161,8 @@ class Application extends BaseApplication
             if (in_array($option->getName(), array('help', 'ansi', 'no-ansi', 'no-interaction', 'version'))) {
                 continue;
             }
-            $messages[] = sprintf('  %-29s %s %s',
+            $messages[] = sprintf(
+                '  %-29s %s %s',
                 '<info>--'.$option->getName().'</info>',
                 $option->getShortcut() ? '<info>-'.$option->getShortcut().'</info>' : '  ',
                 $option->getDescription()
@@ -168,10 +173,9 @@ class Application extends BaseApplication
         // Help
         $messages[] = '<comment>Help:</comment>';
         $messages[] = '   To get more information about a given command, you can use the help option:';
-        $messages[] = sprintf('     %-26s %s %s','<info>--help</info>', '<info>-h</info>', 'Provide help for the given command');
+        $messages[] = sprintf('     %-26s %s %s', '<info>--help</info>', '<info>-h</info>', 'Provide help for the given command');
         $messages[] = '';
 
         return implode(PHP_EOL, $messages);
     }
-
 }

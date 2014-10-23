@@ -47,6 +47,4 @@ class CurrentCommandTest extends RMTFunctionalTestBase
         exec('git tag 1.3.1');
         $this->assertEquals("1.3.11", exec('./RMT current --raw'));
     }
-
 }
-

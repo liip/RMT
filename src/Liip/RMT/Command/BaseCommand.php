@@ -58,7 +58,7 @@ abstract class BaseCommand extends Command
 
     public function loadContext()
     {
-        $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir() );
+        $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir());
         $config = $configHandler->getBaseConfig();
 
         // Select a branch specific config if a VCS is in use

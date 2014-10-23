@@ -26,5 +26,4 @@ class CommandActionTest extends RMTFunctionalTestBase
 //        $this->manualDebug();
         $this->assertContains('Command Action : echo "hello world"', $output);
     }
-
 }

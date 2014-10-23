@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Information\InformationCollector;
@@ -151,7 +150,7 @@ class ReleaseCommand extends BaseCommand
         $this->executeActionListIfExist('post-release-actions');
     }
 
-    protected function executeActionListIfExist($name, $title=null)
+    protected function executeActionListIfExist($name, $title = null)
     {
         $actions = Context::getInstance()->getList($name);
         if (count($actions) > 0) {

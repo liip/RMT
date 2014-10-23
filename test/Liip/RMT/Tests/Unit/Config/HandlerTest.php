@@ -12,12 +12,11 @@ namespace Liip\RMT\Tests\Unit\Config;
 
 use Liip\RMT\Config\Handler;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class HandlerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @expectedException \Liip\RMT\Config\Exception
-     * @expectedExceptionMessage Config error: key(s) [toto] are invalid, must be [vcs, prerequisites, pre-release-actions, version-generator, version-persister, post-release-actions, branch-specific]
+     * @expectedExceptionMessage Config error: key(s) [toto] are invalid
      */
     public function testValidationWithExtraKeys()
     {
@@ -27,7 +26,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Liip\RMT\Config\Exception
-     * @expectedExceptionMessage Config error: key(s) [toto] are invalid, must be [vcs, prerequisites, pre-release-actions, version-generator, version-persister, post-release-actions, branch-specific]
+     * @expectedExceptionMessage Config error: key(s) [toto] are invalid
      */
     public function testValidationWithExtraKeysInBranchSpecific()
     {
@@ -54,7 +53,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = $handler->getBaseConfig();
         $this->assertEquals($config['version-generator']['class'], $expectedGenerator);
     }
-    public function getDataForGetBaseConfig(){
+
+    public function getDataForGetBaseConfig()
+    {
         return array(
             // Legacy format
             array(
@@ -86,7 +87,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = $handler->getConfigForBranch($branch);
         $this->assertEquals($config['version-generator']['class'], $expected);
     }
-    public function getDataForGetBranchConfig(){
+
+    public function getDataForGetBranchConfig()
+    {
         return array(
             // Legacy format
             array(
@@ -117,7 +120,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testMerge()
     {
         $configHandler = new Handler(array(
@@ -129,10 +131,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $method = new \ReflectionMethod(
-            'Liip\RMT\Config\Handler', 'mergeConfig'
-        );
-        $method->setAccessible(TRUE);
+
+        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
+        $method->setAccessible(true);
+
         $this->assertEquals($method->invokeArgs($configHandler, array()), array(
             'vcs' => null,
             'prerequisites' => array(),
@@ -162,10 +164,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 )
             )
         ));
-        $method = new \ReflectionMethod(
-            'Liip\RMT\Config\Handler', 'mergeConfig'
-        );
-        $method->setAccessible(TRUE);
+
+        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
+        $method->setAccessible(true);
+
         $this->assertEquals($method->invokeArgs($configHandler, array()), array(
             'vcs' => null,
             'prerequisites' => array(),
@@ -193,10 +195,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'version-persister' => 'foo',
             'version-generator' => 'bar',
         ));
-        $method = new \ReflectionMethod(
-             'Liip\RMT\Config\Handler', 'getClassAndOptions'
-        );
-        $method->setAccessible(TRUE);
+
+        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'getClassAndOptions');
+        $method->setAccessible(true);
+
         $this->assertEquals(
             array('class'=>$expectedClass, 'options'=>$expectedOptions),
             $method->invokeArgs($configHandler, array($rawConfig, $configKey))

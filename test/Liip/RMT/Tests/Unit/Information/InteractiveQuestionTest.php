@@ -44,4 +44,3 @@ class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('apple', $iq->validate('a'));
     }
 }
-

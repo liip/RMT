@@ -18,7 +18,7 @@ class ChangelogManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAutoFileCreationWhenNoFound()
     {
-        $file = tempnam(sys_get_temp_dir(),'CHANGELOG');
+        $file = tempnam(sys_get_temp_dir(), 'CHANGELOG');
         new ChangelogManager($file, 'semantic');
         $this->assertFileExists($file);
         unlink($file);
@@ -38,5 +38,4 @@ class ChangelogManagerTest extends \PHPUnit_Framework_TestCase
     {
         exec('rm -rf '.$this->dir);
     }
-
 }

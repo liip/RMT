@@ -36,7 +36,8 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($results, $lines);
     }
 
-    public function getDataForFirstReleaseTest(){
+    public function getDataForFirstReleaseTest()
+    {
         return array(
             array('0.0.1', 'patch', array('', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.0 - foo bar', '      08/11/1980 12:34  0.0.1  initial release')),
             array('0.1.0', 'patch', array('', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.1 - foo bar', '      08/11/1980 12:34  0.1.0  initial release')),
@@ -85,7 +86,9 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release'
             ),
-            '1.0.1', 'foofoo', array('type'=>'patch')
+            '1.0.1',
+            'foofoo',
+            array('type'=>'patch')
         );
 
         $this->assertEquals(array(
@@ -111,7 +114,9 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release'
             ),
-            '1.1.0', 'foofoo', array('type'=>'minor')
+            '1.1.0',
+            'foofoo',
+            array('type'=>'minor')
         );
         $this->assertEquals(array(
             '',
@@ -140,7 +145,9 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release'
             ),
-            '2.0.0', 'foofoo', array('type'=>'major')
+            '2.0.0',
+            'foofoo',
+            array('type'=>'major')
         );
 
         $this->assertEquals(array(
@@ -158,5 +165,4 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '      08/11/1980 12:34  1.0.0  initial release'
         ), $lines);
     }
-
 }

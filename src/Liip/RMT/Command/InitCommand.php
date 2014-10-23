@@ -142,7 +142,8 @@ class InitCommand extends BaseCommand
         if ($this->informationCollector->getValueFor('configonly') == 'n') {
             // Create the executable task inside the project home
             $this->getOutput()->writeln("Creation of the new executable <info>{$this->executablePath}</info>");
-            file_put_contents($this->executablePath,
+            file_put_contents(
+                $this->executablePath,
                 "#!/usr/bin/env php\n".
                 "<?php\n".
                 "define('RMT_ROOT_DIR', __DIR__);\n".

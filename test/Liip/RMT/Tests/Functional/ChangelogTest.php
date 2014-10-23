@@ -47,9 +47,7 @@ class ChangelogTest extends RMTFunctionalTestBase
             exec('./RMT release -n --type='.$semanticType.' --comment="'.$comment.'"');
         }
         $changelog = file_get_contents($this->tempDir.'/CHANGELOG');
-        $this->assertRegExp('/'.$expectedVersion.'/',$changelog);
-        $this->assertRegExp('/'.$comment.'/',$changelog);
+        $this->assertRegExp('/'.$expectedVersion.'/', $changelog);
+        $this->assertRegExp('/'.$comment.'/', $changelog);
     }
-
 }
-

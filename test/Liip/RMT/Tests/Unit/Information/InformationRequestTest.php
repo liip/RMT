@@ -26,15 +26,16 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getDataForValidationSuccess
      */
-    public function testValidationSuccess($options, $value, $expected=null)
+    public function testValidationSuccess($options, $value, $expected = null)
     {
-        if (func_num_args()==2){
+        if (func_num_args()==2) {
             $expected = $value;
         }
         $ir = new InformationRequest('foo', $options);
         $ir->setValue($value);
         $this->assertEquals($expected, $ir->getValue());
     }
+
     public function getDataForValidationSuccess()
     {
         return array(
@@ -58,6 +59,7 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
         $ir = new InformationRequest('foo', $options);
         $ir->setValue($value);
     }
+
     public function getDataForValidationFail()
     {
         $choices = array('apple', 'banana', 'cherry');
@@ -69,5 +71,4 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
             array(array('type'=>'choice', 'choices' => $choices), 'mango')
         );
     }
-
 }

@@ -19,7 +19,7 @@ class GitTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Create a temp folder and extract inside the git test folder
-        $tempDir = tempnam(sys_get_temp_dir(),'');
+        $tempDir = tempnam(sys_get_temp_dir(), '');
         if (file_exists($tempDir)) {
             unlink($tempDir);
         }
@@ -73,7 +73,7 @@ class GitTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $vcs->getAllModificationsSince('2.0.0'));
         exec('rm file2');
         $vcs->saveWorkingCopy('Remove the second file');
-        $this->assertCount(1,$vcs->getAllModificationsSince('2.0.0'));
+        $this->assertCount(1, $vcs->getAllModificationsSince('2.0.0'));
     }
 
     public function testGetCurrentBranch()
@@ -135,6 +135,4 @@ class GitTest extends \PHPUnit_Framework_TestCase
         exec('rm -rf '.$this->testDir);
         chdir(__DIR__);
     }
-
-
 }

@@ -129,5 +129,4 @@ class Context
     {
         return self::getInstance()->getParameter($name);
     }
-
 }

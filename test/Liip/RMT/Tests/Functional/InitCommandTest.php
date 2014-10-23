@@ -39,4 +39,3 @@ class InitCommandTest extends RMTFunctionalTestBase
         $this->assertEquals(array("vcs-tag"=>array("tag-prefix"=>"")), $masterConfig['version-persister']);
     }
 }
-
