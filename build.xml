@@ -73,6 +73,8 @@
       <arg value="--ignore=*.css"/>
       <arg value="--standard=${basedir}/phpcs.xml"/>
       <arg path="${basedir}/src"/>
+      <arg path="${basedir}/test"/>
+      <arg path="${basedir}/autoload.php"/>
     </exec>
   </target>
   <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
