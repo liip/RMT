@@ -3,6 +3,11 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      23/10/2014 20:57  1.1.6  Fix info tag in title
+         8d6f95f PSR-2 compliant \o/
+         06c2680 Only warn about line with more than 200 chars
+         cf17ecf activate PSR-2 for PHPCS
+         55d2f82 Fixed info tag in title
       23/10/2014 19:12  1.1.5  Only export needed file into package
          25c128a fix hg branch test
          91a8956 Only export needed files
