@@ -3,4 +3,12 @@
   <description>My rule set for PHP_CodeSniffer</description>
 
   <rule ref="PSR2"/>
+
+  <!-- Lines can be N chars long (warnings), errors at M chars -->
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="200"/>
+      <property name="absoluteLineLimit" value="220"/>
+    </properties>
+  </rule>
 </ruleset>
