@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Context;
 
 /**
@@ -18,7 +17,8 @@ use Liip\RMT\Context;
  */
 class UpdateApplicationVersionCurrentVersion extends \Liip\RMT\Action\BaseAction
 {
-    public function getTitle() {
+    public function getTitle()
+    {
         return "Application version update";
     }
 
@@ -36,5 +36,4 @@ class UpdateApplicationVersionCurrentVersion extends \Liip\RMT\Action\BaseAction
 
         $this->confirmSuccess();
     }
-
 }
