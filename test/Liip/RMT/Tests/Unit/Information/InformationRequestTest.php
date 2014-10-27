@@ -16,7 +16,7 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetAndGetValue()
     {
-        $ir = new InformationRequest('foo', array('type'=>'text'));
+        $ir = new InformationRequest('foo', array('type' => 'text'));
         $this->assertFalse($ir->hasValue());
         $ir->setValue('bar');
         $this->assertTrue($ir->hasValue());
@@ -28,7 +28,7 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationSuccess($options, $value, $expected = null)
     {
-        if (func_num_args()==2) {
+        if (func_num_args() == 2) {
             $expected = $value;
         }
         $ir = new InformationRequest('foo', $options);
@@ -39,7 +39,7 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
     public function getDataForValidationSuccess()
     {
         return array(
-            array(array('type'=>'text'),  'string'),
+            array(array('type'=>'text'), 'string'),
             array(array('type'=>'yes-no'), 'y'),
             array(array('type'=>'yes-no'), 'n'),
             array(array('type'=>'yes-no'), 'yes', 'y'),
@@ -63,6 +63,7 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
     public function getDataForValidationFail()
     {
         $choices = array('apple', 'banana', 'cherry');
+
         return array(
             array(array('type'=>'text'), true),
             array(array('type'=>'text'), ''),

@@ -27,12 +27,11 @@ class InformationCollectorTest extends \PHPUnit_Framework_TestCase
     public function testRegisterRequests()
     {
         $ic = new InformationCollector();
-        $this->assertFalse($ic->hasRequest('foo')||$ic->hasRequest('type'));
+        $this->assertFalse($ic->hasRequest('foo') || $ic->hasRequest('type'));
         $ic->registerRequests(array(new InformationRequest('foo'), 'type'));
         $this->assertTrue($ic->hasRequest('foo'));
         $this->assertTrue($ic->hasRequest('type'));
     }
-
 
     public function testHasMissingInformation()
     {

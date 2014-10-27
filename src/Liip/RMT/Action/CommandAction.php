@@ -10,9 +10,6 @@
 
 namespace Liip\RMT\Action;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-
 use Symfony\Component\Process\Process;
 
 use Liip\RMT\Context;
@@ -30,11 +27,10 @@ class CommandAction extends BaseAction
             'stop_on_error' => true
         ), $options);
 
-        if ($this->options['cmd']==null) {
+        if ($this->options['cmd'] == null) {
             throw new \RuntimeException('Missing [cmd] option');
         }
     }
-
 
     public function execute()
     {
@@ -46,10 +42,10 @@ class CommandAction extends BaseAction
         if ($this->options['live_output'] == true) {
             $callback = function ($type, $buffer) {
                 $decorator = array('','');
-                if ($type==Process::ERR) {
+                if ($type == Process::ERR) {
                     $decorator = array('<error>','</error>');
                 }
-                Context::get('output')->write($decorator[0].$buffer.$decorator[1]);
+                Context::get('output')->write($decorator[0] . $buffer.$decorator[1]);
             };
         }
 
@@ -58,8 +54,8 @@ class CommandAction extends BaseAction
         $process->run($callback);
 
         // Break up if the result is not good
-        if ($this->options['stop_on_error'] && $process->getExitCode()!==0) {
-            throw new \RuntimeException("Command [$command] exit with code ".$process->getExitCode());
+        if ($this->options['stop_on_error'] && $process->getExitCode() !== 0) {
+            throw new \RuntimeException("Command [$command] exit with code " . $process->getExitCode());
         }
     }
 }

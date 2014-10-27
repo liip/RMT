@@ -27,7 +27,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         chdir($this->tempDir);
 
         // Create the executable task inside
-        $rmtDir = realpath(__DIR__.'/../../../../../');
+        $rmtDir = realpath(__DIR__ . '/../../../../../');
         exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
@@ -42,18 +42,18 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 
     protected function createChangelog($format)
     {
-        $file = $this->tempDir.'/CHANGELOG';
+        $file = $this->tempDir . '/CHANGELOG';
         $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
         $manager->update(
             $format=='semantic' ? '0.0.1' : '1',
             'First release',
-            $format=='semantic' ? array('type'=>'patch') : null
+            $format=='semantic' ? array('type' => 'patch') : null
         );
     }
 
     protected function tearDown()
     {
-        exec('rm -rf '.$this->tempDir);
+        exec('rm -rf ' . $this->tempDir);
     }
 
     protected function initGit()
@@ -65,7 +65,7 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
 
     protected function manualDebug()
     {
-        echo "\n\nMANUAL DEBUG Go to:\n > cd ".$this->tempDir."\n\n";
+        echo "\n\nMANUAL DEBUG Go to:\n > cd " . $this->tempDir . "\n\n";
         exit();
     }
 }

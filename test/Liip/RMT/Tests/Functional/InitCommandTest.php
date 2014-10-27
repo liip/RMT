@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-
 use Symfony\Component\Yaml\Yaml;
 
 class InitCommandTest extends RMTFunctionalTestBase
@@ -35,7 +34,7 @@ class InitCommandTest extends RMTFunctionalTestBase
         $this->assertEquals('simple', $defaultConfig['version-generator']);
         $this->assertEquals('semantic', $masterConfig['version-generator']);
 
-        $this->assertEquals(array("vcs-tag"=>array("tag-prefix"=>"{branch-name}_")), $defaultConfig['version-persister']);
-        $this->assertEquals(array("vcs-tag"=>array("tag-prefix"=>"")), $masterConfig['version-persister']);
+        $this->assertEquals(array("vcs-tag" => array("tag-prefix" => "{branch-name}_")), $defaultConfig['version-persister']);
+        $this->assertEquals(array("vcs-tag" => array("tag-prefix" => "")), $masterConfig['version-persister']);
     }
 }

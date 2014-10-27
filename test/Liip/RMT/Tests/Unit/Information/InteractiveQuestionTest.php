@@ -20,13 +20,13 @@ class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
         $iq = new InteractiveQuestion(new InformationRequest('foo'));
         $this->assertFalse($iq->hasDefault());
 
-        $iq = new InteractiveQuestion(new InformationRequest('foo', array('default'=>'bar')));
+        $iq = new InteractiveQuestion(new InformationRequest('foo', array('default' => 'bar')));
         $this->assertEquals('bar', $iq->getDefault());
 
         $iq = new InteractiveQuestion(new InformationRequest('fruit', array(
             'type'=>'choice',
             'choices' => array('apple', 'banana', 'cherry'),
-            'choices_shortcuts' => array('a' => 'apple', 'b'=>'banana', 'c'=>'cherry'),
+            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry'),
             'default' => 'banana'
         )));
         $this->assertEquals('b', $iq->getDefault());
@@ -37,7 +37,7 @@ class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
         $ir = new InformationRequest('fruit', array(
             'type'=>'choice',
             'choices' => array('apple', 'banana', 'cherry'),
-            'choices_shortcuts' => array('a' => 'apple', 'b'=>'banana', 'c'=>'cherry')
+            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry')
         ));
 
         $iq = new InteractiveQuestion($ir);

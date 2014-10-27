@@ -20,7 +20,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithExtraKeys()
     {
-        $handler = new Handler(array('toto'=>'tata'));
+        $handler = new Handler(array('toto' => 'tata'));
         $handler->getBaseConfig();
     }
 
@@ -30,7 +30,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithExtraKeysInBranchSpecific()
     {
-        $handler = new Handler(array('branch-specific'=>array('dev'=>array('toto'=>'tata'))));
+        $handler = new Handler(array('branch-specific' => array('dev' => array('toto' => 'tata'))));
         $handler->getConfigForBranch('dev');
     }
 
@@ -40,7 +40,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidationWithMissingElement()
     {
-        $configHandler = new Handler(array('version-persister'=>'foo'));
+        $configHandler = new Handler(array('version-persister' => 'foo'));
         $configHandler->getBaseConfig();
     }
 
@@ -53,15 +53,14 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $config = $handler->getBaseConfig();
         $this->assertEquals($config['version-generator']['class'], $expectedGenerator);
     }
-
     public function getDataForGetBaseConfig()
     {
         return array(
             // Legacy format
             array(
                 array(
-                    'version-persister'=>'foo',
-                    'version-generator'=>'foo'
+                    'version-persister' => 'foo',
+                    'version-generator' => 'foo'
                 ),
                 'Liip\RMT\Version\Generator\FooGenerator'
             ),
@@ -69,8 +68,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     '_default' => array(
-                        'version-persister'=>'foo',
-                        'version-generator'=>'foo'
+                        'version-persister' => 'foo',
+                        'version-generator' => 'foo'
                     )
                 ),
                 'Liip\RMT\Version\Generator\FooGenerator'
@@ -94,10 +93,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             // Legacy format
             array(
                 array(
-                    'version-persister'=>'foo',
-                    'version-generator'=>'foo',
-                    'branch-specific'=>array(
-                        'dev'=>array('version-generator'=>'bar')
+                    'version-persister' => 'foo',
+                    'version-generator' => 'foo',
+                    'branch-specific' => array(
+                        'dev' => array('version-generator' => 'bar')
                     )
                 ),
                 'dev',
@@ -107,11 +106,11 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     '_default' => array(
-                        'version-persister'=>'foo',
-                        'version-generator'=>'foo'
+                        'version-persister' => 'foo',
+                        'version-generator' => 'foo'
                     ),
-                    'dev'=>array(
-                        'version-generator'=>'bar'
+                    'dev' => array(
+                        'version-generator' => 'bar'
                     )
                 ),
                 'dev',
@@ -157,10 +156,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     {
         $configHandler = new Handler(array(
             'version-persister' => 'foo',
-            'version-generator' => array('name'=>'bar', 'opt1'=>'val1'),
+            'version-generator' => array('name' => 'bar', 'opt1' => 'val1'),
             'branch-specific' => array(
                 'dev' => array(
-                    'version-generator' => array('opt1'=>'val2')
+                    'version-generator' => array('opt1' => 'val2')
                 )
             )
         ));
@@ -173,7 +172,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'prerequisites' => array(),
             'pre-release-actions' => array(),
             'post-release-actions' => array(),
-            'version-generator' => array('name'=>'bar', 'opt1'=>'val1'),
+            'version-generator' => array('name' => 'bar', 'opt1' => 'val1'),
             'version-persister' => 'foo',
         ));
         $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
@@ -181,7 +180,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'prerequisites' => array(),
             'pre-release-actions' => array(),
             'post-release-actions' => array(),
-            'version-generator' => array('name'=>'bar', 'opt1'=>'val2'),
+            'version-generator' => array('name' => 'bar', 'opt1' => 'val2'),
             'version-persister' => 'foo',
         ));
     }
@@ -200,7 +199,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         $this->assertEquals(
-            array('class'=>$expectedClass, 'options'=>$expectedOptions),
+            array('class' => $expectedClass, 'options' => $expectedOptions),
             $method->invokeArgs($configHandler, array($rawConfig, $configKey))
         );
     }
@@ -213,15 +212,15 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array('vcs', 'git', 'Liip\RMT\VCS\Git', array()),
             // vcs:
             //   git: ~
-            array('vcs', array('git'=>null), 'Liip\RMT\VCS\Git', array()),
+            array('vcs', array('git' => null), 'Liip\RMT\VCS\Git', array()),
             // vcs:
             //   git:
             //     opt1: val1
-            array('vcs', array('git' => array('opt1'=>'val1')), 'Liip\RMT\VCS\Git', array('opt1'=>'val1')),
+            array('vcs', array('git' => array('opt1' => 'val1')), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
             // vcs: {name: git}
-            array('vcs', array('name'=>'git'), 'Liip\RMT\VCS\Git', array()),
+            array('vcs', array('name' => 'git'), 'Liip\RMT\VCS\Git', array()),
             // vcs: {name: git, opt1: val1}
-            array('vcs', array('name'=>'git', 'opt1'=>'val1'), 'Liip\RMT\VCS\Git', array('opt1'=>'val1')),
+            array('vcs', array('name' => 'git', 'opt1' => 'val1'), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
             array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array())
         );
     }

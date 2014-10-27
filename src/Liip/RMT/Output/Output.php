@@ -111,7 +111,7 @@ class Output extends ConsoleOutput
 
     public function askQuestion(InteractiveQuestion $question, $position = null)
     {
-        $text = ($position!==null?$position.') ':null).$question->getFormatedText();
+        $text = ($position !== null ? $position .') ' : null ) . $question->getFormatedText();
 
         if ($question->isHiddenAnswer()) {
             return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);

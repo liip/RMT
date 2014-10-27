@@ -30,7 +30,7 @@ class TagValidator
             return false;
         }
 
-        return preg_match('/^'.$this->regex.'$/', substr($tag, strlen($this->tagPrefix))) == 1;
+        return preg_match('/^' . $this->regex . '$/', substr($tag, strlen($this->tagPrefix))) == 1;
     }
 
     /**

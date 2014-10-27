@@ -25,7 +25,7 @@ class HgTest extends \PHPUnit_Framework_TestCase
         }
         mkdir($tempDir);
         chdir($tempDir);
-        exec('unzip '.__DIR__.'/HgRepo.zip');
+        exec('unzip ' . __DIR__ . '/HgRepo.zip');
         exec('hg update');
         $this->testDir = $tempDir;
     }
@@ -63,7 +63,7 @@ class HgTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Hg();
         $vcs->createTag('2.0.0');
-        $this->assertEquals(array("tip","2.0.0","1.1.0", "1.0.0"), $vcs->getTags());
+        $this->assertEquals(array("tip", "2.0.0", "1.1.0", "1.0.0"), $vcs->getTags());
     }
 
     public function testSaveWorkingCopy()

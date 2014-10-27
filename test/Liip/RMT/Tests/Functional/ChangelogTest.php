@@ -10,7 +10,6 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-
 class ChangelogTest extends RMTFunctionalTestBase
 {
     public function testSimple()
@@ -42,12 +41,12 @@ class ChangelogTest extends RMTFunctionalTestBase
     {
 //        $this->manualDebug();
         if (is_null($semanticType)) {
-            exec('./RMT release -n --comment="'.$comment.'"');
+            exec('./RMT release -n --comment="' . $comment . '"');
         } else {
-            exec('./RMT release -n --type='.$semanticType.' --comment="'.$comment.'"');
+            exec('./RMT release -n --type='.$semanticType . ' --comment="' . $comment . '"');
         }
-        $changelog = file_get_contents($this->tempDir.'/CHANGELOG');
-        $this->assertRegExp('/'.$expectedVersion.'/', $changelog);
-        $this->assertRegExp('/'.$comment.'/', $changelog);
+        $changelog = file_get_contents($this->tempDir . '/CHANGELOG');
+        $this->assertRegExp('/' . $expectedVersion . '/', $changelog);
+        $this->assertRegExp('/' . $comment . '/', $changelog);
     }
 }

@@ -10,8 +10,6 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
-use Liip\RMT\Context;
-
 class SimpleGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testIncrement()

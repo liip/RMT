@@ -23,6 +23,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             ->method('getFormattedDate')
             ->will($this->returnValue('08/11/1980 12:34'))
         ;
+
         return $formatter;
     }
 
@@ -32,7 +33,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFirstRelease($version, $type, $results)
     {
         $formatter = $this->getFormatter();
-        $lines = $formatter->updateExistingLines(array(), $version, 'foo bar', array('type'=>$type));
+        $lines = $formatter->updateExistingLines(array(), $version, 'foo bar', array('type' => $type));
         $this->assertEquals($results, $lines);
     }
 
@@ -56,7 +57,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.0  initial release'
 
-        ), '1.0.1', 'foo bar', array('type'=>'patch', 'extra-lines' => array(
+        ), '1.0.1', 'foo bar', array('type' => 'patch', 'extra-lines' => array(
             'ada96f3 Add new tests for command RMT init and RMT current ref #10',
             '2eb6fae Documentation review'
         )));
@@ -130,8 +131,6 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '      08/11/1980 12:34  1.0.0  initial release'
         ), $lines);
     }
-
-
 
     public function testUpdateExistingWithMajor()
     {
