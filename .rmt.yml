@@ -4,6 +4,7 @@ prerequisites:
   - working-copy-check
   - display-last-changes
   - tests-check
+  - composer-security-check
 
 pre-release-actions:
     bin/UpdateApplicationVersionCurrentVersion.php: ~
