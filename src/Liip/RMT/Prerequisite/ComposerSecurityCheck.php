@@ -32,34 +32,33 @@ class ComposerSecurityCheck extends BaseAction
         // Handle the skip option
         if (Context::get('information-collector')->getValueFor(self::SKIP_OPTION)) {
             Context::get('output')->writeln('<error>composer security check skipped</error>');
-
             return;
         }
 
-        // Run the validation and live output with the standard output class
-        Context::get('output')->write("<comment>running composer security check</comment>\n\n");
+        Context::get('output')->writeln("<comment>running composer security check</comment>");
 
+        // run the actual security check
         $checker = new SecurityChecker();
         $alerts = $checker->check('composer.lock');
 
+        // exit succesfull if everything is fine
         if (count($alerts) == 0) {
             $this->confirmSuccess();
-
             return;
         }
 
+        // print out the advisories if available
         foreach ($alerts as $package => $alert) {
-
             Context::get("output")->writeln("<options=bold>{$package}</options=bold> {$alert['version']}");
             foreach ($alert['advisories'] as $data) {
                 Context::get("output")->writeln("");
                 Context::get("output")->writeln($data['title']);
-                Context::get("output")->writeln("");
                 Context::get("output")->writeln($data['link']);
                 Context::get("output")->writeln("");
             }
         }
 
+        // throw exception to have check fail
         throw new \Exception(
             'composer.lock contains insecure packages (you can force a release with option --'.self::SKIP_OPTION.')'
         );
