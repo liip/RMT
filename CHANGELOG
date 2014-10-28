@@ -3,6 +3,11 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      28/10/2014 11:33  1.1.7  New prerequiste [composer security check] + some CS fixes
+         9a20d2c cleaning up a bit
+         166a799 added composer security check
+         cb6b6db phpcs fixes
+         4ef80de fix CS issues
       23/10/2014 20:57  1.1.6  Fix info tag in title
          8d6f95f PSR-2 compliant \o/
          06c2680 Only warn about line with more than 200 chars
