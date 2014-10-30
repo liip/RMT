@@ -27,7 +27,7 @@ class UpdateApplicationVersionCurrentVersion extends \Liip\RMT\Action\BaseAction
         // Output for devs
         $newVersion = Context::getParam('new-version');
         $appFile = realpath(__DIR__.'/../src/Liip/RMT/Application.php');
-        Context::get('output')->write("New version [<yellow>$newVersion</yellow>] udpated into $appFile: ");
+        Context::get('output')->write("New version [<yellow>$newVersion</yellow>] updated into $appFile: ");
 
         // Update the application file
         $fileContent = file_get_contents($appFile);
