@@ -2,6 +2,9 @@ RMT - Release Management Tool
 =============================
 
 [![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
+[![Latest Stable Version](https://poser.pugx.org/liip/RMT/version.png)](https://packagist.org/packages/liip/RMT)
+[![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
+[![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
 
 RMT is a handy tool to help releasing new version of your software. You can define the type
 of version generator you want to use (example: semantic versioning), where you want to store
