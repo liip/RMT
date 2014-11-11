@@ -12,7 +12,7 @@
 // Search for an autoloader
 
 // in phar environment
-if (extension_loaded('phar') && file_exists($file = Phar::running() . '/vendor/autoload.php')) {
+if (extension_loaded('phar') && method_exists('Phar', 'running') && file_exists($file = Phar::running() . '/vendor/autoload.php')) {
     $loader = require_once $file;
 } elseif (file_exists($file = __DIR__ . '/../../autoload.php')) {
 
