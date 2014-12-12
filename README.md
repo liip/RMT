@@ -37,7 +37,17 @@ and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` execu
 to it. The `vendor` directory should be ignored since it is populated simply by running
 `composer install`
 
-### Option 2: as a phar file
+### Option 2: composer global installation
+
+You can add liip/RMT to you global composer.json and have it available globally for all your projects
+
+Just run following command:
+
+`composer global require "liip/rmt"`
+
+Make sure you have ~/.composer/vendor/bin/ in your PATH.
+
+### Option 3: as a phar file
 RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) for that. phar-composer is a useful tool that allows you to create runable phar files from composer packages.
 
 if you have phar-composer installed, you can run:
