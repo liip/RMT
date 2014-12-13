@@ -39,9 +39,9 @@ to it. The `vendor` directory should be ignored since it is populated simply by 
 
 ### Option 2: composer global installation
 
-You can add liip/RMT to you global composer.json and have it available globally for all your projects
+You can add liip/RMT to your global composer.json and have it available globally for all your projects
 
-Just run following command:
+Just run the following command:
 
 `composer global require "liip/rmt"`
 
