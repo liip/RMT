@@ -25,7 +25,7 @@ interface VCSInterface
 
     /**
      * Create a new tag at the current position
-     * @param $tagName
+     * @param string $tagName
      */
     public function createTag($tagName);
 
@@ -50,7 +50,7 @@ interface VCSInterface
      * Return the list of all modified files from the given tag until now
      * The result is an array with the filename as key and the status as value.
      * Status is one of the following : M (modified), A (added), R (removed)
-     * @param $tag
+     * @param string $tag
      *
      * @return array
      */
@@ -64,7 +64,7 @@ interface VCSInterface
 
     /**
      * Save the local modifications (commit)
-     * @param $commitMsg
+     * @param string $commitMsg
      *
      * @return mixed
      */
@@ -72,6 +72,8 @@ interface VCSInterface
 
     /**
      * Publish local modification
+     *
+     * @param string|null $remote
      */
     public function publishChanges($remote = null);
 }

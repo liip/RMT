@@ -42,7 +42,7 @@ class InitCommand extends BaseCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -91,7 +91,7 @@ class InitCommand extends BaseCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -117,7 +117,7 @@ class InitCommand extends BaseCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -134,7 +134,7 @@ class InitCommand extends BaseCommand
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

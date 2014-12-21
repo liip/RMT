@@ -32,6 +32,7 @@ class ComposerSecurityCheck extends BaseAction
         // Handle the skip option
         if (Context::get('information-collector')->getValueFor(self::SKIP_OPTION)) {
             Context::get('output')->writeln('<error>composer security check skipped</error>');
+
             return;
         }
 
@@ -44,6 +45,7 @@ class ComposerSecurityCheck extends BaseAction
         // exit succesfull if everything is fine
         if (count($alerts) == 0) {
             $this->confirmSuccess();
+
             return;
         }
 

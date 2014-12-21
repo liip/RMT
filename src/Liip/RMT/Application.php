@@ -63,7 +63,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
@@ -121,7 +121,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function asText($namespace = null, $raw = false)
     {

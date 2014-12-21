@@ -116,7 +116,11 @@ class Context
 
     /**
      * Shortcut to retried a service
-     * */
+     *
+     * @param string $serviceName
+     *
+     * @return mixed
+     */
     public static function get($serviceName)
     {
         return self::getInstance()->getService($serviceName);
@@ -124,7 +128,11 @@ class Context
 
     /**
      * Shortcut to retried a parameter
-     * */
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     public static function getParam($name)
     {
         return self::getInstance()->getParameter($name);
