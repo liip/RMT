@@ -29,7 +29,7 @@ class VcsTagPersister implements PersisterInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCurrentVersion()
     {
@@ -93,7 +93,10 @@ class VcsTagPersister implements PersisterInterface
 
     /**
      * Return all tags matching the versionRegex and prefix
-     * @param $versionRegex
+     *
+     * @param string $versionRegex
+     *
+     * @return array
      */
     public function getValidVersionTags($versionRegex)
     {

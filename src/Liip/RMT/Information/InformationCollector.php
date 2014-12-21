@@ -79,6 +79,8 @@ class InformationCollector
     }
 
     /**
+     * @param string $name
+     *
      * @return InformationRequest
      */
     public function getRequest($name)

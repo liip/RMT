@@ -18,6 +18,7 @@ class Git extends BaseVCS
     {
         $color = $color ? '--color=always' : '';
         $noMergeCommits = $noMergeCommits ? '--no-merges' : '';
+
         return $this->executeGitCommand("log --oneline $tag..HEAD $color $noMergeCommits");
     }
 

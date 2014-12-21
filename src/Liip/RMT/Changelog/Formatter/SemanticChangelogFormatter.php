@@ -121,6 +121,7 @@ class SemanticChangelogFormatter
      * @param string $type  Release type
      *
      * @return int The position where to insert
+     * @throws \Liip\RMT\Exception
      */
     protected function findPositionToInsert($lines, $type)
     {

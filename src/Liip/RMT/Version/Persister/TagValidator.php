@@ -21,7 +21,9 @@ class TagValidator
 
     /**
      * Check if a tag is valid
-     * @param $tag
+     *
+     * @param string $tag
+     *
      * @return boolean
      */
     public function isValid($tag)
@@ -35,6 +37,10 @@ class TagValidator
 
     /**
      * Remove all invalid tags from a list
+     *
+     * @param array $tags
+     *
+     * @return array
      */
     public function filtrateList($tags)
     {

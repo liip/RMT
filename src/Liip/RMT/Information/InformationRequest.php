@@ -87,6 +87,7 @@ class InformationRequest
             InputOption::VALUE_NONE :
             InputOption::VALUE_REQUIRED
         ;
+
         return new InputOption(
             $this->name,
             $this->options['command_shortcut'],

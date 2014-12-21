@@ -22,7 +22,7 @@ use Liip\RMT\Context;
 class ReleaseCommand extends BaseCommand
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -75,7 +75,7 @@ class ReleaseCommand extends BaseCommand
     /**
      * Always executed
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -91,7 +91,7 @@ class ReleaseCommand extends BaseCommand
     /**
      * Executed only when we are in interactive mode
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -115,7 +115,7 @@ class ReleaseCommand extends BaseCommand
     /**
      * Always executed, but first initialize and interact have already been called
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

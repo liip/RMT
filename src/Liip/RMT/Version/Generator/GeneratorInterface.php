@@ -17,7 +17,6 @@ interface GeneratorInterface
     /**
      * Return the next version number, according to the current one and optional options
      * @param string $currentVersion
-     * @param array  $options
      *
      * @return string
      */
