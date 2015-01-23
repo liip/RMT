@@ -135,6 +135,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+            'bootstrap' => null,
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
@@ -143,6 +144,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'version-persister' => 'foo',
         ));
         $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+            'bootstrap' => null,
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
@@ -168,6 +170,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+            'bootstrap' => null,
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),
@@ -176,6 +179,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'version-persister' => 'foo',
         ));
         $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+            'bootstrap' => null,
             'vcs' => null,
             'prerequisites' => array(),
             'pre-release-actions' => array(),

@@ -24,6 +24,7 @@ class Handler
     public function getDefaultConfig()
     {
         return array(
+            "bootstrap" => null,
             "vcs" => null,
             "prerequisites" => array(),
             "pre-release-actions" => array(),
@@ -82,6 +83,11 @@ class Handler
     {
         // Validate the config entry
         $this->validateRootElements($config);
+
+        // Load the bootstrap file if present
+        if ($config['bootstrap'] !== null) {
+            require $this->projectRoot.DIRECTORY_SEPARATOR.$config['bootstrap'];
+        }
 
         // For single value elements, normalize all class name and options, remove null entry
         foreach (array("vcs", "version-generator", "version-persister") as $configKey) {
