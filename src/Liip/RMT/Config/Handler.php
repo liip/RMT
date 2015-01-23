@@ -179,6 +179,12 @@ class Handler
                 throw new \Liip\RMT\Exception("Impossible to open [$file] please review your config");
             }
         }
+        elseif (strpos($name, '\\') !== false ) {
+            // If the name contains a backslash, assume it's a full namespaced class and load it as-is
+            // If the class has no namespace, it can be prefixed with a backslash to trigger this behaviour
+
+            return $name;
+        }
 
         return $this->findInternalClass($name, $sectionName);
     }

@@ -221,7 +221,19 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array('vcs', array('name' => 'git'), 'Liip\RMT\VCS\Git', array()),
             // vcs: {name: git, opt1: val1}
             array('vcs', array('name' => 'git', 'opt1' => 'val1'), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
-            array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array())
+            array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array()),
+            // vcs: Foo\Bar
+            array('vcs', 'Foo\Bar', 'Foo\Bar', array()),
+            // vcs: Foo
+            array('vcs', 'Foo', 'Liip\RMT\VCS\Foo', array()),
+            // vcs: \Foo
+            array('vcs', '\Foo', '\Foo', array()),
+            // pre-release-actions: Foo\Bar
+            array('pre-release-actions', 'Foo\Bar', 'Foo\Bar', array()),
+            // pre-release-actions: Foo
+            array('pre-release-actions', 'Foo', 'Liip\RMT\Action\FooAction', array()),
+            // pre-release-actions: \Foo
+            array('pre-release-actions', '\Foo', '\Foo', array())
         );
     }
 }
