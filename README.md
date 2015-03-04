@@ -18,7 +18,7 @@ Installation
 In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
 installed as a dev-dependency. Just go to your project root directory and execute:
 
-    composer require --dev liip/rmt:1.0.*
+    composer require --dev liip/rmt:1.*
 
 Then you must initialize RMT by running the following command:
 
