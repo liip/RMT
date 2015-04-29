@@ -57,7 +57,12 @@ class BuildPharPackageAction extends BaseAction
      */
     protected function getFilename()
     {
-        $currentVersion = Context::get('version-persister')->getCurrentVersion();
+        try {
+            $currentVersion = Context::get('version-persister')->getCurrentVersion();
+        } catch (\Exception $e) {
+            $currentVersion = Context::get('version-generator')->getInitialVersion();
+        }
+
         $nextVersion = Context::get('version-generator')->generateNextVersion($currentVersion);
 
         return $this->options['package-name'] . '-' . $nextVersion . '.phar';
