@@ -12,6 +12,7 @@ namespace Liip\RMT\Action;
 
 use Phar;
 use FilesystemIterator;
+
 use Liip\RMT\Context;
 
 /**
@@ -24,7 +25,8 @@ class BuildPharPackageAction extends BaseAction
     {
         $this->options = array_merge(array(
             'package-name' => 'rmt-package',
-            'destination' => '/tmp/'
+            'destination' => '/tmp/',
+            'excluded-paths' => ''
         ), $options);
     }
 
@@ -42,7 +44,9 @@ class BuildPharPackageAction extends BaseAction
         $output = $this->getDestination() . '/' . $this->getFilename();
 
         $phar = new Phar($output, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
-        $phar->buildFromDirectory(Context::getParam('project-root'));
+
+        $phar->buildFromDirectory(Context::getParam('project-root'), $this->options['excluded-paths']);
+
         $phar->setStub($phar->createDefaultStub("index.php")); // TODO: improve stub
     }
 
