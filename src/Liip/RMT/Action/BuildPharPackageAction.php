@@ -32,8 +32,11 @@ class BuildPharPackageAction extends BaseAction
 
     public function execute()
     {
-        $this->create();
+        $packagePath = $this->create();
+
         $this->confirmSuccess();
+
+        Context::get('output')->writeln('The package has been successfully created in: ' . $packagePath);
     }
 
     /**
@@ -48,6 +51,8 @@ class BuildPharPackageAction extends BaseAction
         $phar->buildFromDirectory(Context::getParam('project-root'), $this->options['excluded-paths']);
 
         $phar->setStub($phar->createDefaultStub("index.php")); // TODO: improve stub
+
+        return $output;
     }
 
     /**
