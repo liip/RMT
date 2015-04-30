@@ -96,6 +96,9 @@ class BuildPharPackageAction extends BaseAction
         return $destination;
     }
 
+    /**
+     * Determine and set the next release version.
+     */
     protected function setReleaseVersion()
     {
         try {
