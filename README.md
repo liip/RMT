@@ -192,6 +192,7 @@ Actions can be used for pre or post release parts.
     * Option `package-name`: the name of the generate package
     * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.
     * Option `excluded-paths`: a regex of excluded paths, directly passed to the [Phar::buildFromDirectory](http://php.net/manual/en/phar.buildfromdirectory.php) method. Ex: `/^(?!.*cookbooks|.*\.vagrant|.*\.idea).*$/im`
+    * Option `metadata`: an array of metadata describing the package. Ex author, project. Note: the release version is added by default but can be overridden here. 
 
 Extend it
 ---------

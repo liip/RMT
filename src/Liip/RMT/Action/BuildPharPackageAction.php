@@ -21,12 +21,15 @@ use Liip\RMT\Context;
 class BuildPharPackageAction extends BaseAction
 {
 
+    protected $releaseVersion;
+
     public function __construct($options)
     {
         $this->options = array_merge(array(
             'package-name' => 'rmt-package',
             'destination' => '/tmp/',
-            'excluded-paths' => ''
+            'excluded-paths' => '',
+            'metadata' => []
         ), $options);
     }
 
@@ -44,12 +47,13 @@ class BuildPharPackageAction extends BaseAction
      */
     protected function create()
     {
+        $this->setReleaseVersion();
+
         $output = $this->getDestination() . '/' . $this->getFilename();
 
         $phar = new Phar($output, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
-
         $phar->buildFromDirectory(Context::getParam('project-root'), $this->options['excluded-paths']);
-
+        $phar->setMetadata(array_merge(['version' => $this->releaseVersion], $this->options['metadata']));
         $phar->setStub($phar->createDefaultStub("index.php")); // TODO: improve stub
 
         return $output;
@@ -62,15 +66,7 @@ class BuildPharPackageAction extends BaseAction
      */
     protected function getFilename()
     {
-        try {
-            $currentVersion = Context::get('version-persister')->getCurrentVersion();
-        } catch (\Exception $e) {
-            $currentVersion = Context::get('version-generator')->getInitialVersion();
-        }
-
-        $nextVersion = Context::get('version-generator')->generateNextVersion($currentVersion);
-
-        return $this->options['package-name'] . '-' . $nextVersion . '.phar';
+        return $this->options['package-name'] . '-' . $this->releaseVersion . '.phar';
     }
 
     /**
@@ -98,5 +94,16 @@ class BuildPharPackageAction extends BaseAction
         }
 
         return $destination;
+    }
+
+    protected function setReleaseVersion()
+    {
+        try {
+            $currentVersion = Context::get('version-persister')->getCurrentVersion();
+        } catch (\Exception $e) {
+            $currentVersion = Context::get('version-generator')->getInitialVersion();
+        }
+
+        $this->releaseVersion = Context::get('version-generator')->generateNextVersion($currentVersion);
     }
 }
