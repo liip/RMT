@@ -55,7 +55,7 @@ class BuildPharPackageAction extends BaseAction
 
         $phar = new Phar($output, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
         $phar->buildFromDirectory(Context::getParam('project-root'), $this->options['excluded-paths']);
-        $phar->setMetadata(array_merge(['version' => $this->releaseVersion], $this->options['metadata']));
+        $phar->setMetadata(array_merge(array('version' => $this->releaseVersion), $this->options['metadata']));
         $phar->setDefaultStub($this->options['default-stub-cli'], $this->options['default-stub-web']);
 
         return $output;
