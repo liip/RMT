@@ -29,7 +29,7 @@ class BuildPharPackageAction extends BaseAction
             'package-name' => 'rmt-package',
             'destination' => '/tmp/',
             'excluded-paths' => '',
-            'metadata' => [],
+            'metadata' => array(),
             'default-stub-cli' => '<?php __HALT_COMPILER(); ?>',
             'default-stub-web' => '<?php __HALT_COMPILER(); ?>',
         ), $options);
