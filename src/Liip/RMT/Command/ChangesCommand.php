@@ -26,6 +26,7 @@ class ChangesCommand extends BaseCommand
         $this->setDescription('Shows the list of changes since last release');
         $this->setHelp('The <comment>changes</comment> command is used to list the changes since last release.');
         $this->addOption('exclude-merge-commits', null, InputOption::VALUE_NONE, 'Exclude merge commits');
+        $this->addOption('files', null, InputOption::VALUE_NONE, 'Display the list of modified files');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,8 +34,16 @@ class ChangesCommand extends BaseCommand
         $lastVersion = Context::get('version-persister')->getCurrentVersionTag();
         $noMerges = $input->getOption('exclude-merge-commits');
 
+        if ($input->getOption('files')) {
+            $output->writeln("Here is the list of files changed since <green>$lastVersion</green>:");
+            $output->indent();
+            $output->writeln(array_keys(Context::get('vcs')->getModifiedFilesSince($lastVersion)));
+            return;
+        }
+
         $output->writeln("Here is the list of changes since <green>$lastVersion</green>:");
         $output->indent();
         $output->writeln(Context::get('vcs')->getAllModificationsSince($lastVersion, false, $noMerges));
+
     }
 }
