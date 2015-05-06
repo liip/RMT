@@ -3,6 +3,17 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      06/05/2015 22:11  1.1.9  New action build-phar-package
+         da8d1f2 Another php 5.3 compatibility fix
+         c26fc37 Use php 5.3 array notation
+         9208535 Add tests
+         bd2b6e3 Add support for separate CLI and web usage default stubs
+         2597dc3 Missing docblock
+         521019c Add support for package-level metadata
+         e0f8b10 Give feedback about the generated package location
+         7e85dd1 Do not fail on first release
+         69d6220 Added option to exclude specific paths from the package build
+         ee27a39 Initial release of the BuildPharPackage action
       06/05/2015 22:03  1.1.8  Various small fix and typo
          9b182b5 Update of the changes command to add option --files
          0baebc2 Fix the composer instruction for installing
