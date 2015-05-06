@@ -188,6 +188,13 @@ Actions can be used for pre or post release parts.
       version class. %version% will be replaced by the current / next version strings.
       For example you could use `const VERSION = '%version%';`. If you do not specify
       this option, every occurrence of the version string in the file will be replaced.
+* `build-phar-package`: Builds a Phar package of the current project whose filename depends on the 'package-name' option and the deployed version: [package-name]-[version].phar
+    * Option `package-name`: the name of the generate package
+    * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.
+    * Option `excluded-paths`: a regex of excluded paths, directly passed to the [Phar::buildFromDirectory](http://php.net/manual/en/phar.buildfromdirectory.php) method. Ex: `/^(?!.*cookbooks|.*\.vagrant|.*\.idea).*$/im`
+    * Option `metadata`: an array of metadata describing the package. Ex author, project. Note: the release version is added by default but can be overridden here. 
+    * Option `default-stub-cli`: the default stub for CLI usage of the package.
+    * Option `default-stub-web`: the default stub for web application usage of the package.
 
 Extend it
 ---------
