@@ -3,6 +3,16 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      06/05/2015 22:03  1.1.8  Various small fix and typo
+         9b182b5 Update of the changes command to add option --files
+         0baebc2 Fix the composer instruction for installing
+         048cae2 Minor phpcs fixes
+         fd21b0f Small typo fixes introduced in #91
+         040811a Added composer global isntallation instructions
+         4e7d910 the running method does not exists on Phar in HHVM
+         e6ff85b Add some badges to the README
+         fd25b81 run tests on HHVM too
+         7d70c8a Fix typo
       28/10/2014 11:33  1.1.7  New prerequiste [composer security check] + some CS fixes
          9a20d2c cleaning up a bit
          166a799 added composer security check
