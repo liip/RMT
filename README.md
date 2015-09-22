@@ -211,6 +211,8 @@ or with parameters:
 
 As an example, you can look at the script [/bin/UpdateApplicationVersionCurrentVersion.php](https://github.com/liip/RMT/blob/master/bin/UpdateApplicationVersionCurrentVersion.php) configured [here](https://github.com/liip/RMT/blob/master/.rmt.yml#L9).
 
+*WARNING* As the key `name` is used to define the name of the object, you cannot have a parameter named `name`.
+
 
 Configuration examples
 ----------------------
