@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -12,7 +13,6 @@ namespace Liip\RMT\Action;
 
 use Phar;
 use FilesystemIterator;
-
 use Liip\RMT\Context;
 
 /**
@@ -20,7 +20,6 @@ use Liip\RMT\Context;
  */
 class BuildPharPackageAction extends BaseAction
 {
-
     protected $releaseVersion;
 
     public function __construct($options)
@@ -75,6 +74,7 @@ class BuildPharPackageAction extends BaseAction
      * Checks if the path is relative.
      *
      * @param $path string The path to check
+     *
      * @return bool
      */
     protected function isRelativePath($path)

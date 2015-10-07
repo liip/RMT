@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -28,7 +29,7 @@ class Context
     public static function getInstance()
     {
         if (self::$instance == null) {
-            self::$instance = new Context();
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -42,7 +43,7 @@ class Context
             $this->validateClass($classOrObject);
             $this->services[$id] = array($classOrObject, $options);
         } else {
-            throw new \InvalidArgumentException("setService() only accept an object or a valid class name");
+            throw new \InvalidArgumentException('setService() only accept an object or a valid class name');
         }
     }
 

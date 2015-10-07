@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -14,15 +15,15 @@ class ChangelogDumpCommitsTest extends RMTFunctionalTestBase
 {
     public function testDump()
     {
-        $this->createConfig("semantic", "vcs-tag", array(
-            "vcs" => "git",
-            "pre-release-actions" => array(
-                "changelog-update" => array(
-                    "format" => "semantic",
-                    "dump-commits" => true
+        $this->createConfig('semantic', 'vcs-tag', array(
+            'vcs' => 'git',
+            'pre-release-actions' => array(
+                'changelog-update' => array(
+                    'format' => 'semantic',
+                    'dump-commits' => true,
                 ),
-                "vcs-commit" => null
-            )
+                'vcs-commit' => null,
+            ),
         ));
         $this->initGit();
 

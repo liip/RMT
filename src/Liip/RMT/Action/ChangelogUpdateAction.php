@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -19,14 +20,13 @@ use Liip\RMT\Exception\NoReleaseFoundException;
  */
 class ChangelogUpdateAction extends BaseAction
 {
-
     public function __construct($options)
     {
         $this->options = array_merge(array(
             'dump-commits' => false,
             'exclude-merge-commits' => false,
             'format' => 'simple',
-            'file' => 'CHANGELOG'
+            'file' => 'CHANGELOG',
         ), $options);
     }
 
@@ -42,7 +42,7 @@ class ChangelogUpdateAction extends BaseAction
                 );
                 $this->options['extra-lines'] = $extraLines;
             } catch (NoReleaseFoundException $e) {
-                Context::get('output')->writeln("<error>No commits dumped as this is the first release</error>");
+                Context::get('output')->writeln('<error>No commits dumped as this is the first release</error>');
             }
             unset($this->options['dump-commits']);
         }

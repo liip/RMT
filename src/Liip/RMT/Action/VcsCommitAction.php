@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -22,7 +23,7 @@ class VcsCommitAction extends BaseAction
     {
         $this->options = array_merge(
             array(
-                'commit-message' => 'Release of new version %version%'
+                'commit-message' => 'Release of new version %version%',
             ),
             $options
         );
@@ -33,7 +34,7 @@ class VcsCommitAction extends BaseAction
         /** @var VCSInterface $vcs */
         $vcs = Context::get('vcs');
         if (count($vcs->getLocalModifications()) == 0) {
-            Context::get('output')->writeln("<error>No modification found, aborting commit</error>");
+            Context::get('output')->writeln('<error>No modification found, aborting commit</error>');
 
             return;
         }

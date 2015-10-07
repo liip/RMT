@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -55,11 +56,11 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '==================',
             '',
             '   Version 1.0 - foo bar',
-            '      08/11/1980 12:34  1.0.0  initial release'
+            '      08/11/1980 12:34  1.0.0  initial release',
 
         ), '1.0.1', 'foo bar', array('type' => 'patch', 'extra-lines' => array(
             'ada96f3 Add new tests for command RMT init and RMT current ref #10',
-            '2eb6fae Documentation review'
+            '2eb6fae Documentation review',
         )));
 
         $this->assertEquals(array(
@@ -71,7 +72,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '      08/11/1980 12:34  1.0.1  foo bar',
             '         ada96f3 Add new tests for command RMT init and RMT current ref #10',
             '         2eb6fae Documentation review',
-            '      08/11/1980 12:34  1.0.0  initial release'
+            '      08/11/1980 12:34  1.0.0  initial release',
         ), $lines);
     }
 
@@ -85,11 +86,11 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
-                '      08/11/1980 12:34  1.0.0  initial release'
+                '      08/11/1980 12:34  1.0.0  initial release',
             ),
             '1.0.1',
             'foofoo',
-            array('type'=>'patch')
+            array('type' => 'patch')
         );
 
         $this->assertEquals(array(
@@ -99,7 +100,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '',
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.1  foofoo',
-            '      08/11/1980 12:34  1.0.0  initial release'
+            '      08/11/1980 12:34  1.0.0  initial release',
         ), $lines);
     }
 
@@ -113,11 +114,11 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
-                '      08/11/1980 12:34  1.0.0  initial release'
+                '      08/11/1980 12:34  1.0.0  initial release',
             ),
             '1.1.0',
             'foofoo',
-            array('type'=>'minor')
+            array('type' => 'minor')
         );
         $this->assertEquals(array(
             '',
@@ -128,7 +129,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '      08/11/1980 12:34  1.1.0  initial release',
             '',
             '   Version 1.0 - foo bar',
-            '      08/11/1980 12:34  1.0.0  initial release'
+            '      08/11/1980 12:34  1.0.0  initial release',
         ), $lines);
     }
 
@@ -142,11 +143,11 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
-                '      08/11/1980 12:34  1.0.0  initial release'
+                '      08/11/1980 12:34  1.0.0  initial release',
             ),
             '2.0.0',
             'foofoo',
-            array('type'=>'major')
+            array('type' => 'major')
         );
 
         $this->assertEquals(array(
@@ -161,7 +162,7 @@ class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
             '==================',
             '',
             '   Version 1.0 - foo bar',
-            '      08/11/1980 12:34  1.0.0  initial release'
+            '      08/11/1980 12:34  1.0.0  initial release',
         ), $lines);
     }
 }

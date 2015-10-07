@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -14,5 +15,4 @@ use Liip\RMT\Exception as BaseException;
 
 class NoReleaseFoundException extends BaseException
 {
-
 }

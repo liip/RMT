@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -50,13 +51,12 @@ class ReleaseCommand extends BaseCommand
             $ic->registerRequest(
                 new InformationRequest('confirm-first', array(
                     'description' => 'This is the first release for the current branch',
-                    'type' => 'confirmation'
+                    'type' => 'confirmation',
                 ))
             );
         } catch (\Exception $e) {
-            echo "Error while trying to read the current version";
+            echo 'Error while trying to read the current version';
         }
-
 
             // Register options of the release tasks
         $ic->registerRequests(Context::get('version-generator')->getInformationRequests());
@@ -143,7 +143,7 @@ class ReleaseCommand extends BaseCommand
 
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
         Context::get('version-persister')->save($newVersion);
-        $this->getOutput()->writeln("Release: <green>Success</green>");
+        $this->getOutput()->writeln('Release: <green>Success</green>');
 
         $this->getOutput()->unIndent();
 
@@ -157,7 +157,7 @@ class ReleaseCommand extends BaseCommand
             $this->getOutput()->writeSmallTitle($title ?: ucfirst($name));
             $this->getOutput()->indent();
             foreach ($actions as $num => $action) {
-                $this->getOutput()->write(++$num.") ".$action->getTitle().' : ');
+                $this->getOutput()->write(++$num.') '.$action->getTitle().' : ');
                 $this->getOutput()->indent();
                 $action->execute();
                 $this->getOutput()->writeEmptyLine();

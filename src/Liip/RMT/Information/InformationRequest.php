@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -83,7 +84,7 @@ class InformationRequest
 
     public function convertToCommandOption()
     {
-        $mode = $this->options['type']=='boolean' || $this->options['type']=='confirmation' ?
+        $mode = $this->options['type'] == 'boolean' || $this->options['type'] == 'confirmation' ?
             InputOption::VALUE_NONE :
             InputOption::VALUE_REQUIRED
         ;
@@ -93,7 +94,7 @@ class InformationRequest
             $this->options['command_shortcut'],
             $mode,
             $this->options['description'],
-            (!$this->isAvailableForInteractive() && $this->getOption('type')!=='confirmation') ? $this->options['default'] : null
+            (!$this->isAvailableForInteractive() && $this->getOption('type') !== 'confirmation') ? $this->options['default'] : null
         );
     }
 
@@ -112,7 +113,7 @@ class InformationRequest
         try {
             $value = $this->validate($value);
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException("Validation error for [".$this->getName()."]: ".$e->getMessage());
+            throw new \InvalidArgumentException('Validation error for ['.$this->getName().']: '.$e->getMessage());
         }
         $this->value = $value;
         $this->hasValue = true;
@@ -120,11 +121,11 @@ class InformationRequest
 
     private function validateValue($parameters, $callback, $message)
     {
-        if (! is_array($parameters)) {
+        if (!is_array($parameters)) {
             $parameters = array($parameters);
         }
 
-        if (! call_user_func_array($callback, $parameters)) {
+        if (!call_user_func_array($callback, $parameters)) {
             throw new \InvalidArgumentException($message);
         }
     }

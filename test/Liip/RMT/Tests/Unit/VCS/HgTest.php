@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -34,15 +35,15 @@ class HgTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Hg();
         $modifs = $vcs->getAllModificationsSince('1.1.0');
-        $this->assertContains("Add a third file", $modifs[0]);
-        $this->assertContains("Modification of the first file", $modifs[1]);
+        $this->assertContains('Add a third file', $modifs[0]);
+        $this->assertContains('Modification of the first file', $modifs[1]);
     }
 
     public function testGetModifiedFilesSince()
     {
         $vcs = new Hg();
         $files = $vcs->getModifiedFilesSince('1.1.0');
-        $this->assertEquals(array("file1" => "M", "file3" => "A", ".hgtags" => "M"), $files);
+        $this->assertEquals(array('file1' => 'M', 'file3' => 'A', '.hgtags' => 'M'), $files);
     }
 
     public function testGetLocalModifications()
@@ -56,14 +57,14 @@ class HgTest extends \PHPUnit_Framework_TestCase
     public function testGetTags()
     {
         $vcs = new Hg();
-        $this->assertEquals(array("tip", "1.1.0","1.0.0"), $vcs->getTags());
+        $this->assertEquals(array('tip', '1.1.0', '1.0.0'), $vcs->getTags());
     }
 
     public function testCreateTag()
     {
         $vcs = new Hg();
         $vcs->createTag('2.0.0');
-        $this->assertEquals(array("tip", "2.0.0", "1.1.0", "1.0.0"), $vcs->getTags());
+        $this->assertEquals(array('tip', '2.0.0', '1.1.0', '1.0.0'), $vcs->getTags());
     }
 
     public function testSaveWorkingCopy()
@@ -80,9 +81,9 @@ class HgTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Hg();
         $this->assertEquals('default', $vcs->getCurrentBranch());
-        system("hg branch -q foo");
+        system('hg branch -q foo');
         $this->assertEquals('foo', $vcs->getCurrentBranch());
-        exec("hg branch -q default");
+        exec('hg branch -q default');
         $this->assertEquals('default', $vcs->getCurrentBranch());
     }
 

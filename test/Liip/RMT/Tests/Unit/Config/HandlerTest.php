@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -60,19 +61,19 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'version-persister' => 'foo',
-                    'version-generator' => 'foo'
+                    'version-generator' => 'foo',
                 ),
-                'Liip\RMT\Version\Generator\FooGenerator'
+                'Liip\RMT\Version\Generator\FooGenerator',
             ),
             // New format (see: https://github.com/liip/RMT/issues/56)
             array(
                 array(
                     '_default' => array(
                         'version-persister' => 'foo',
-                        'version-generator' => 'foo'
-                    )
+                        'version-generator' => 'foo',
+                    ),
                 ),
-                'Liip\RMT\Version\Generator\FooGenerator'
+                'Liip\RMT\Version\Generator\FooGenerator',
             ),
         );
     }
@@ -96,26 +97,26 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
                     'version-persister' => 'foo',
                     'version-generator' => 'foo',
                     'branch-specific' => array(
-                        'dev' => array('version-generator' => 'bar')
-                    )
+                        'dev' => array('version-generator' => 'bar'),
+                    ),
                 ),
                 'dev',
-                'Liip\RMT\Version\Generator\BarGenerator'
+                'Liip\RMT\Version\Generator\BarGenerator',
             ),
             // New format (see: https://github.com/liip/RMT/issues/56)
             array(
                 array(
                     '_default' => array(
                         'version-persister' => 'foo',
-                        'version-generator' => 'foo'
+                        'version-generator' => 'foo',
                     ),
                     'dev' => array(
-                        'version-generator' => 'bar'
-                    )
+                        'version-generator' => 'bar',
+                    ),
                 ),
                 'dev',
-                'Liip\RMT\Version\Generator\BarGenerator'
-            )
+                'Liip\RMT\Version\Generator\BarGenerator',
+            ),
         );
     }
 
@@ -127,8 +128,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'branch-specific' => array(
                 'dev' => array(
                     'version-generator' => 'foobar',
-                )
-            )
+                ),
+            ),
         ));
 
         $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
@@ -159,9 +160,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             'version-generator' => array('name' => 'bar', 'opt1' => 'val1'),
             'branch-specific' => array(
                 'dev' => array(
-                    'version-generator' => array('opt1' => 'val2')
-                )
-            )
+                    'version-generator' => array('opt1' => 'val2'),
+                ),
+            ),
         ));
 
         $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
@@ -221,7 +222,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             array('vcs', array('name' => 'git'), 'Liip\RMT\VCS\Git', array()),
             // vcs: {name: git, opt1: val1}
             array('vcs', array('name' => 'git', 'opt1' => 'val1'), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
-            array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array())
+            array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array()),
         );
     }
 }

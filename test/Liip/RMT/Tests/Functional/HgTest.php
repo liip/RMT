@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -69,7 +70,7 @@ class HgTest extends RMTFunctionalTestBase
         $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => 'v_'), array('vcs' => 'hg'));
         exec('./RMT release -n');
         exec('hg tags', $tags);
-        $this->assertEquals(array('tip', 'v_2','v_1', '2'), static::cleanTags($tags));
+        $this->assertEquals(array('tip', 'v_2', 'v_1', '2'), static::cleanTags($tags));
     }
 
     public function testTagPrefixWithBranchNamePlaceHolder()

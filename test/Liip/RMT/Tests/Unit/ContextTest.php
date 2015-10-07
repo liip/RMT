@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -14,7 +15,6 @@ use Liip\RMT\Context;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
-
     // SERVICE TESTS
 
     public function testSetAndGetService()

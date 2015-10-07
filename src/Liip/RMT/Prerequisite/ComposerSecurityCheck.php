@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -36,7 +37,7 @@ class ComposerSecurityCheck extends BaseAction
             return;
         }
 
-        Context::get('output')->writeln("<comment>running composer security check</comment>");
+        Context::get('output')->writeln('<comment>running composer security check</comment>');
 
         // run the actual security check
         $checker = new SecurityChecker();
@@ -51,12 +52,12 @@ class ComposerSecurityCheck extends BaseAction
 
         // print out the advisories if available
         foreach ($alerts as $package => $alert) {
-            Context::get("output")->writeln("<options=bold>{$package}</options=bold> {$alert['version']}");
+            Context::get('output')->writeln("<options=bold>{$package}</options=bold> {$alert['version']}");
             foreach ($alert['advisories'] as $data) {
-                Context::get("output")->writeln("");
-                Context::get("output")->writeln($data['title']);
-                Context::get("output")->writeln($data['link']);
-                Context::get("output")->writeln("");
+                Context::get('output')->writeln('');
+                Context::get('output')->writeln($data['title']);
+                Context::get('output')->writeln($data['link']);
+                Context::get('output')->writeln('');
             }
         }
 
@@ -74,9 +75,9 @@ class ComposerSecurityCheck extends BaseAction
                 array(
                     'description' => 'Do not run composer security check before the release',
                     'type' => 'confirmation',
-                    'interactive' => false
+                    'interactive' => false,
                 )
-            )
+            ),
         );
     }
 }

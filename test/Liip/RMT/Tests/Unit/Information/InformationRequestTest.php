@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -39,14 +40,14 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
     public function getDataForValidationSuccess()
     {
         return array(
-            array(array('type'=>'text'), 'string'),
-            array(array('type'=>'yes-no'), 'y'),
-            array(array('type'=>'yes-no'), 'n'),
-            array(array('type'=>'yes-no'), 'yes', 'y'),
-            array(array('type'=>'yes-no'), 'no' , 'n'),
-            array(array('type'=>'choice', 'choices' => array('apple', 'banana', 'cherry')), 'apple'),
-            array(array('type'=>'confirmation'), true),
-            array(array('type'=>'confirmation'), false)
+            array(array('type' => 'text'), 'string'),
+            array(array('type' => 'yes-no'), 'y'),
+            array(array('type' => 'yes-no'), 'n'),
+            array(array('type' => 'yes-no'), 'yes', 'y'),
+            array(array('type' => 'yes-no'), 'no' , 'n'),
+            array(array('type' => 'choice', 'choices' => array('apple', 'banana', 'cherry')), 'apple'),
+            array(array('type' => 'confirmation'), true),
+            array(array('type' => 'confirmation'), false),
         );
     }
 
@@ -65,11 +66,11 @@ class InformationRequestTest extends \PHPUnit_Framework_TestCase
         $choices = array('apple', 'banana', 'cherry');
 
         return array(
-            array(array('type'=>'text'), true),
-            array(array('type'=>'text'), ''),
-            array(array('type'=>'yes-no'), 'foo'),
-            array(array('type'=>'yes-no'), 19),
-            array(array('type'=>'choice', 'choices' => $choices), 'mango')
+            array(array('type' => 'text'), true),
+            array(array('type' => 'text'), ''),
+            array(array('type' => 'yes-no'), 'foo'),
+            array(array('type' => 'yes-no'), 19),
+            array(array('type' => 'choice', 'choices' => $choices), 'mango'),
         );
     }
 }

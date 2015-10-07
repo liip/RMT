@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -16,6 +17,7 @@ interface GeneratorInterface
 
     /**
      * Return the next version number, according to the current one and optional options
+     *
      * @param string $currentVersion
      *
      * @return string
@@ -27,10 +29,11 @@ interface GeneratorInterface
      *  * -1 if $a is older than $b
      *  * 0 if $a and $b are the same
      *  * 1 if $a is more recent than $b
+     *
      * @param string $a
      * @param string $b
      *
-     * @return integer
+     * @return int
      */
     public function compareTwoVersions($a, $b);
 

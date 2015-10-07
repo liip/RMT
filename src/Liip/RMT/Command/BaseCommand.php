@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -80,10 +81,10 @@ abstract class BaseCommand extends Command
         Context::getInstance()->setParameter('config', $config);
 
         // Populate the context
-        foreach (array("version-generator", "version-persister") as $service) {
+        foreach (array('version-generator', 'version-persister') as $service) {
             Context::getInstance()->setService($service, $config[$service]['class'], $config[$service]['options']);
         }
-        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $listName) {
+        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName) {
             Context::getInstance()->createEmptyList($listName);
             foreach ($config[$listName] as $service) {
                 Context::getInstance()->addToList($listName, $service['class'], $service['options']);

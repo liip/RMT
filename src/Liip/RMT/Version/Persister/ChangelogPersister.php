@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -45,7 +46,7 @@ class ChangelogPersister implements PersisterInterface
     {
         $comment = Context::get('information-collector')->getValueFor('comment');
         $type = Context::get('information-collector')->getValueFor('type', null);
-        $this->changelogManager->update($versionNumber, $comment, array('type'=>$type));
+        $this->changelogManager->update($versionNumber, $comment, array('type' => $type));
     }
 
     public function getInformationRequests()

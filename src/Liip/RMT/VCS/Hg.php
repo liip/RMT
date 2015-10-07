@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -28,7 +29,7 @@ class Hg extends BaseVCS
         $data = $this->executeHgCommand("status --rev $tag:tip");
         $files = array();
         foreach ($data as $d) {
-            $parts = explode(" ", $d);
+            $parts = explode(' ', $d);
             $files[$parts[1]] = $parts[0];
         }
 
@@ -42,7 +43,7 @@ class Hg extends BaseVCS
 
     public function getTags()
     {
-        $tags = $this->executeHgCommand("tags");
+        $tags = $this->executeHgCommand('tags');
         $tags = array_map(function ($t) {
             $parts = explode(' ', $t);
 
@@ -64,13 +65,13 @@ class Hg extends BaseVCS
 
     public function publishChanges($remote = null)
     {
-        $remote = $remote===null ? 'default' : $remote;
+        $remote = $remote === null ? 'default' : $remote;
         $this->executeHgCommand("push $remote");
     }
 
     public function saveWorkingCopy($commitMsg = '')
     {
-        $this->executeHgCommand("addremove");
+        $this->executeHgCommand('addremove');
         $this->executeHgCommand("commit -m \"$commitMsg\"");
     }
 

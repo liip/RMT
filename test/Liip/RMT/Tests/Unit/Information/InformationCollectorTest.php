@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -15,7 +16,6 @@ use Liip\RMT\Information\InformationRequest;
 
 class InformationCollectorTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRegisterRequest()
     {
         $ic = new InformationCollector();

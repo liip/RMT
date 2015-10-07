@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -25,7 +26,7 @@ class VcsPublishAction extends BaseAction
         $this->options = array_merge(array(
             'ask-confirmation' => true,
             'remote-name' => null,
-            'ask-remote-name' => false
+            'ask-remote-name' => false,
         ), $options);
     }
 
@@ -37,7 +38,7 @@ class VcsPublishAction extends BaseAction
             $ic = Context::get('information-collector');
             if (!$ic->hasValueFor(self::AUTO_PUBLISH_OPTION)) {
                 $answer = Context::get('output')->askConfirmation('Do you want to publish your release (default: <green>y</green>): ');
-                $ic->setValueFor(self::AUTO_PUBLISH_OPTION, $answer==true?'y':'n');
+                $ic->setValueFor(self::AUTO_PUBLISH_OPTION, $answer == true ? 'y' : 'n');
             }
 
             // Skip if the user didn't ask for publishing
@@ -66,14 +67,14 @@ class VcsPublishAction extends BaseAction
             $requests[] = new InformationRequest(self::AUTO_PUBLISH_OPTION, array(
                 'description' => 'Changes will be published automatically',
                 'type' => 'yes-no',
-                'interactive' => false
+                'interactive' => false,
             ));
         }
         if ($this->options['ask-remote-name']) {
             $requests[] = new InformationRequest('remote', array(
                 'description' => 'Remote to push changes',
                 'type' => 'text',
-                'default' => 'origin'
+                'default' => 'origin',
             ));
         }
 
@@ -94,6 +95,6 @@ class VcsPublishAction extends BaseAction
             return $this->options['remote-name'];
         }
 
-        return null;
+        return;
     }
 }

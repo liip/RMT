@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -17,7 +18,6 @@ use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\ConfigCommand;
 use Liip\RMT\Command\InitCommand;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -88,7 +88,7 @@ class Application extends BaseApplication
             }
         }
 
-        return null;
+        return;
     }
 
     public function getConfig()
@@ -97,7 +97,7 @@ class Application extends BaseApplication
         if (!is_file($configFile)) {
             throw new \Exception(
                 "Impossible to locate the config file rmt.xxx at $configFile. If it's the first time you ".
-                "are using this tool, you setup your project using the [RMT init] command"
+                'are using this tool, you setup your project using the [RMT init] command'
             );
         }
 
@@ -112,7 +112,7 @@ class Application extends BaseApplication
             } catch (\Exception $e) {
                 throw new \Exception(
                     "Impossible to parse your config file ($configFile), ".
-                    "you probably have an error in the YML syntax: ".$e->getMessage()
+                    'you probably have an error in the YML syntax: '.$e->getMessage()
                 );
             }
         }

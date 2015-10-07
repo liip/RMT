@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -20,22 +21,22 @@ class InformationCollector
     protected static $standardRequests = array(
         'comment' => array(
             'description' => 'Comment associated with the release',
-            'type' => 'text'
+            'type' => 'text',
         ),
         'type' => array(
             'description' => 'Release type, can be major, minor or patch',
             'type' => 'choice',
             'choices' => array('major', 'minor', 'patch'),
-            'choices_shortcuts' => array('m'=>'major', 'i'=>'minor', 'p'=>'patch'),
-            'default' => 'patch'
+            'choices_shortcuts' => array('m' => 'major', 'i' => 'minor', 'p' => 'patch'),
+            'default' => 'patch',
         ),
         'label' => array(
             'description' => 'Release label, can be rc, beta, alpha or none',
             'type' => 'choice',
             'choices' => array('rc', 'beta', 'alpha', 'none'),
-            'choices_shortcuts' => array('rc'=>'rc', 'b'=>'beta', 'a'=>'alpha', 'n'=>'none'),
-            'default' => 'none'
-        )
+            'choices_shortcuts' => array('rc' => 'rc', 'b' => 'beta', 'a' => 'alpha', 'n' => 'none'),
+            'default' => 'none',
+        ),
     );
 
     protected $requests = array();
@@ -63,7 +64,7 @@ class InformationCollector
             } elseif ($request instanceof InformationRequest) {
                 $this->registerRequest($request);
             } else {
-                throw new \Exception("Invalid request, must a Request class or a string for standard requests");
+                throw new \Exception('Invalid request, must a Request class or a string for standard requests');
             }
         }
     }

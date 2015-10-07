@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -26,7 +27,7 @@ class ComposerStabilityCheck extends BaseAction
     {
         $this->options = array_merge(
             array(
-                'stability' => 'stable'
+                'stability' => 'stable',
             ),
             $options
         );
@@ -89,9 +90,9 @@ class ComposerStabilityCheck extends BaseAction
                 array(
                     'description' => 'Do not check composer.json for minimum-stability before the release',
                     'type' => 'confirmation',
-                    'interactive' => false
+                    'interactive' => false,
                 )
-            )
+            ),
         );
     }
 }

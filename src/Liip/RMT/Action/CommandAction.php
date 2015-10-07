@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -11,7 +12,6 @@
 namespace Liip\RMT\Action;
 
 use Symfony\Component\Process\Process;
-
 use Liip\RMT\Context;
 
 /**
@@ -24,7 +24,7 @@ class CommandAction extends BaseAction
         $this->options = array_merge(array(
             'cmd' => null,
             'live_output' => true,
-            'stop_on_error' => true
+            'stop_on_error' => true,
         ), $options);
 
         if ($this->options['cmd'] == null) {
