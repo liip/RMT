@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -15,7 +16,7 @@ class ChangelogTest extends RMTFunctionalTestBase
     public function testSimple()
     {
         $this->createChangelog('simple');
-        $this->createConfig("simple", "changelog");
+        $this->createConfig('simple', 'changelog');
         $this->executeTest(null, 'comment1', '1');
         $this->executeTest(null, 'comment2', '2');
     }
@@ -23,7 +24,7 @@ class ChangelogTest extends RMTFunctionalTestBase
     public function testSemantic()
     {
         $this->createChangelog('semantic');
-        $this->createConfig("semantic", "changelog");
+        $this->createConfig('semantic', 'changelog');
         $this->executeTest('major', 'First major', '1.0.0');
         $this->executeTest('patch', 'First patch', '1.0.1');
         $this->executeTest('minor', 'First minor', '1.1.0');
@@ -33,13 +34,14 @@ class ChangelogTest extends RMTFunctionalTestBase
 
     /**
      * Execute changelog test
+     *
      * @param String [major/minor/patch]
      * @param String comment
      * @param String expected version number (ie 2.0.0)
      */
     protected function executeTest($semanticType, $comment, $expectedVersion)
     {
-//        $this->manualDebug();
+        //        $this->manualDebug();
         if (is_null($semanticType)) {
             exec('./RMT release -n --comment="' . $comment . '"');
         } else {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -17,7 +18,7 @@ class DisplayLastChanges extends BaseAction
 {
     public function getTitle()
     {
-        return "Here is the list of changes you are going to release";
+        return 'Here is the list of changes you are going to release';
     }
 
     public function execute()

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -11,7 +12,6 @@
 namespace Liip\RMT\Prerequisite;
 
 use Symfony\Component\Process\Process;
-
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -26,7 +26,7 @@ class ComposerJsonCheck extends BaseAction
     public function __construct($options)
     {
         $this->options = array_merge(array(
-            'composer' => 'php composer.phar'
+            'composer' => 'php composer.phar',
         ), $options);
     }
 
@@ -61,8 +61,8 @@ class ComposerJsonCheck extends BaseAction
             new InformationRequest(self::SKIP_OPTION, array(
                 'description' => 'Do not validate composer.json before the release',
                 'type' => 'confirmation',
-                'interactive' => false
-            ))
+                'interactive' => false,
+            )),
         );
     }
 }

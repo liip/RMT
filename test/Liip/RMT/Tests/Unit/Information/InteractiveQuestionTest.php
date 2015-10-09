@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -24,10 +25,10 @@ class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $iq->getDefault());
 
         $iq = new InteractiveQuestion(new InformationRequest('fruit', array(
-            'type'=>'choice',
+            'type' => 'choice',
             'choices' => array('apple', 'banana', 'cherry'),
             'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry'),
-            'default' => 'banana'
+            'default' => 'banana',
         )));
         $this->assertEquals('b', $iq->getDefault());
     }
@@ -35,9 +36,9 @@ class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
     public function testValidateChoicesWithShortcuts()
     {
         $ir = new InformationRequest('fruit', array(
-            'type'=>'choice',
+            'type' => 'choice',
             'choices' => array('apple', 'banana', 'cherry'),
-            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry')
+            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry'),
         ));
 
         $iq = new InteractiveQuestion($ir);

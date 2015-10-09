@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -53,7 +54,7 @@ class ChangelogManager
             return $match[1];
         }
         throw new \Liip\RMT\Exception\NoReleaseFoundException(
-            "There is a format error in the CHANGELOG file, impossible to read the last version number"
+            'There is a format error in the CHANGELOG file, impossible to read the last version number'
         );
     }
 }

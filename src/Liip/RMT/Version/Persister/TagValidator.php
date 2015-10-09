@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -12,7 +13,6 @@ namespace Liip\RMT\Version\Persister;
 
 class TagValidator
 {
-
     public function __construct($regex, $tagPrefix = '')
     {
         $this->regex = $regex;
@@ -24,7 +24,7 @@ class TagValidator
      *
      * @param string $tag
      *
-     * @return boolean
+     * @return bool
      */
     public function isValid($tag)
     {

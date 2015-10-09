@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -38,12 +39,12 @@ class ChangesCommand extends BaseCommand
             $output->writeln("Here is the list of files changed since <green>$lastVersion</green>:");
             $output->indent();
             $output->writeln(array_keys(Context::get('vcs')->getModifiedFilesSince($lastVersion)));
+
             return;
         }
 
         $output->writeln("Here is the list of changes since <green>$lastVersion</green>:");
         $output->indent();
         $output->writeln(Context::get('vcs')->getAllModificationsSince($lastVersion, false, $noMerges));
-
     }
 }

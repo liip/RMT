@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -38,8 +39,8 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
                     'metadata' => array('owner' => 'Paddington'),
                     'default-stub-cli' => self::STUB_FILE,
                     'default-stub-web' => self::STUB_FILE_WEB,
-                )
-            )
+                ),
+            ),
         ));
 
         $this->initGit();
@@ -53,7 +54,7 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
     {
         exec('./RMT release -n', $consoleOutput, $exitCode);
 
-        $this->assertContains("my-new-package-1.0.1.phar", implode("\n", $consoleOutput));
+        $this->assertContains('my-new-package-1.0.1.phar', implode("\n", $consoleOutput));
     }
 
     public function testPackageIsCreatedInTheConfiguredDirectory()
@@ -77,8 +78,8 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
 
         $output = implode("\n", $consoleOutput);
 
-        $this->assertNotContains("excluded-file", $output);
-        $this->assertNotContains(".git", $output);
+        $this->assertNotContains('excluded-file', $output);
+        $this->assertNotContains('.git', $output);
     }
 
     public function testPackageHasConfiguredMetadata()

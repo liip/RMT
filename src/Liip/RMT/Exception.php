@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -12,5 +13,4 @@ namespace Liip\RMT;
 
 class Exception extends \Exception
 {
-
 }

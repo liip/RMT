@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -34,8 +35,8 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
     protected function createConfig($generator, $persister, $otherConfig = array())
     {
         $allConfig = array_merge($otherConfig, array(
-            'version-persister'=>$persister,
-            'version-generator'=>$generator
+            'version-persister' => $persister,
+            'version-generator' => $generator,
         ));
         file_put_contents('.rmt.yml', Yaml::dump($allConfig));
     }
@@ -45,9 +46,9 @@ class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
         $file = $this->tempDir . '/CHANGELOG';
         $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
         $manager->update(
-            $format=='semantic' ? '0.0.1' : '1',
+            $format == 'semantic' ? '0.0.1' : '1',
             'First release',
-            $format=='semantic' ? array('type' => 'patch') : null
+            $format == 'semantic' ? array('type' => 'patch') : null
         );
     }
 

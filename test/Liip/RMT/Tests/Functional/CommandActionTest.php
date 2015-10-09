@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -15,10 +16,10 @@ class CommandActionTest extends RMTFunctionalTestBase
     public function testCommand()
     {
         $this->createChangelog('simple');
-        $this->createConfig("simple", "changelog", array(
-            "pre-release-actions" => array(
-                'command' => array('cmd' => 'echo "hello world"')
-            )
+        $this->createConfig('simple', 'changelog', array(
+            'pre-release-actions' => array(
+                'command' => array('cmd' => 'echo "hello world"'),
+            ),
         ));
         exec('./RMT release -n --no-ansi --comment="test"', $output);
         $output = implode("\n", $output);

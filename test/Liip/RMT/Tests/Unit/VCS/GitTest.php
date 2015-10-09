@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -34,15 +35,15 @@ class GitTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Git();
         $modifs = $vcs->getAllModificationsSince('1.1.0');
-        $this->assertContains("Add a third file", $modifs[0]);
-        $this->assertContains("Modification of the first file", $modifs[1]);
+        $this->assertContains('Add a third file', $modifs[0]);
+        $this->assertContains('Modification of the first file', $modifs[1]);
     }
 
     public function testGetModifiedFilesSince()
     {
         $vcs = new Git();
         $files = $vcs->getModifiedFilesSince('1.1.0');
-        $this->assertEquals(array("file1" => "M", "file3" => "A"), $files);
+        $this->assertEquals(array('file1' => 'M', 'file3' => 'A'), $files);
     }
 
     public function testGetLocalModifications()
@@ -56,14 +57,14 @@ class GitTest extends \PHPUnit_Framework_TestCase
     public function testGetTags()
     {
         $vcs = new Git();
-        $this->assertEquals(array("1.0.0", "1.1.0"), $vcs->getTags());
+        $this->assertEquals(array('1.0.0', '1.1.0'), $vcs->getTags());
     }
 
     public function testCreateTag()
     {
         $vcs = new Git();
         $vcs->createTag('2.0.0');
-        $this->assertEquals(array("1.0.0", "1.1.0", "2.0.0"), $vcs->getTags());
+        $this->assertEquals(array('1.0.0', '1.1.0', '2.0.0'), $vcs->getTags());
     }
 
     public function testSaveWorkingCopy()
@@ -80,9 +81,9 @@ class GitTest extends \PHPUnit_Framework_TestCase
     {
         $vcs = new Git();
         $this->assertEquals('master', $vcs->getCurrentBranch());
-        system("git checkout -b foo --quiet");
+        system('git checkout -b foo --quiet');
         $this->assertEquals('foo', $vcs->getCurrentBranch());
-        exec("git checkout master --quiet");
+        exec('git checkout master --quiet');
         $this->assertEquals('master', $vcs->getCurrentBranch());
     }
 
@@ -90,33 +91,32 @@ class GitTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Liip\RMT\Exception
      * @expectedExceptionMessage Not currently on any branch
      */
-
     public function testGetCurrentBranchWhenNotInBranch()
     {
         $vcs = new Git();
-        exec("git checkout 9aca70b --quiet");
+        exec('git checkout 9aca70b --quiet');
         $vcs->getCurrentBranch();
     }
 
     public function testChangeNoMergeCommits()
     {
         $vcs = new Git();
-        exec("git checkout -b merge-branch --quiet");
+        exec('git checkout -b merge-branch --quiet');
         exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
         exec('git checkout master --quiet');
         exec('git merge --no-ff merge-branch');
 
         $modifs = $vcs->getAllModificationsSince('1.1.0', false, true);
 
-        $this->assertContains("First commit", $modifs[0]);
-        $this->assertContains("Add a third file", $modifs[1]);
-        $this->assertContains("Modification of the first file", $modifs[2]);
+        $this->assertContains('First commit', $modifs[0]);
+        $this->assertContains('Add a third file', $modifs[1]);
+        $this->assertContains('Modification of the first file', $modifs[2]);
     }
 
     public function testChangeWithMergeCommits()
     {
         $vcs = new Git();
-        exec("git checkout -b merge-branch --quiet");
+        exec('git checkout -b merge-branch --quiet');
         exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
         exec('git checkout master --quiet');
         exec('git merge --no-ff merge-branch');
@@ -124,9 +124,9 @@ class GitTest extends \PHPUnit_Framework_TestCase
         $modifs = $vcs->getAllModificationsSince('1.1.0');
 
         $this->assertContains("Merge branch 'merge-branch'", $modifs[0]);
-        $this->assertContains("First commit", $modifs[1]);
-        $this->assertContains("Add a third file", $modifs[2]);
-        $this->assertContains("Modification of the first file", $modifs[3]);
+        $this->assertContains('First commit', $modifs[1]);
+        $this->assertContains('Add a third file', $modifs[2]);
+        $this->assertContains('Modification of the first file', $modifs[3]);
     }
 
     protected function tearDown()

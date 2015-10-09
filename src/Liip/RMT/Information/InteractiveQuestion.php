@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -43,12 +44,12 @@ class InteractiveQuestion
         if ($this->hasDefault()) {
             $defaultVal = $this->getDefault();
             if (is_bool($defaultVal)) {
-                $defaultVal = $defaultVal===true ? 'true' : 'false';
+                $defaultVal = $defaultVal === true ? 'true' : 'false';
             }
             $text .= ' (default: <info>'.$defaultVal.'</info>)';
         }
 
-        return $text . ": ";
+        return $text . ': ';
     }
 
     public function formatChoices($choices, $shortcuts)
@@ -59,7 +60,7 @@ class InteractiveQuestion
                 $shortcuts[$choice] = '<info>'.$shortcut.'</info>';
             }
             foreach ($choices as $pos => $choice) {
-                $choices[$pos] = '['.$shortcuts[$choice].'] '. $choice ;
+                $choices[$pos] = '['.$shortcuts[$choice].'] '. $choice;
             }
         }
         $text = '    '.implode(PHP_EOL.'    ', $choices);
@@ -103,7 +104,7 @@ class InteractiveQuestion
             if (in_array($value, array_keys($shortcuts))) {
                 $value = $shortcuts[$value];
             } else {
-                throw new \Exception("Please select a value in ".json_encode(array_keys($shortcuts)));
+                throw new \Exception('Please select a value in '.json_encode(array_keys($shortcuts)));
             }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -41,7 +42,7 @@ class Git extends BaseVCS
 
     public function getTags()
     {
-        return $this->executeGitCommand("tag");
+        return $this->executeGitCommand('tag');
     }
 
     public function createTag($tagName)
@@ -63,7 +64,7 @@ class Git extends BaseVCS
 
     public function saveWorkingCopy($commitMsg = '')
     {
-        $this->executeGitCommand("add --all");
+        $this->executeGitCommand('add --all');
         $this->executeGitCommand("commit -m \"$commitMsg\"");
     }
 
@@ -75,7 +76,7 @@ class Git extends BaseVCS
                 return substr($branch, 2);
             }
         }
-        throw new \Liip\RMT\Exception("Not currently on any branch");
+        throw new \Liip\RMT\Exception('Not currently on any branch');
     }
 
     protected function executeGitCommand($cmd)

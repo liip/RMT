@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -24,13 +25,13 @@ class Handler
     public function getDefaultConfig()
     {
         return array(
-            "vcs" => null,
-            "prerequisites" => array(),
-            "pre-release-actions" => array(),
-            "version-generator" => null,
-            "version-persister" => null,
-            "post-release-actions" => array(),
-            "branch-specific" => array()
+            'vcs' => null,
+            'prerequisites' => array(),
+            'pre-release-actions' => array(),
+            'version-generator' => null,
+            'version-persister' => null,
+            'post-release-actions' => array(),
+            'branch-specific' => array(),
         );
     }
 
@@ -84,7 +85,7 @@ class Handler
         $this->validateRootElements($config);
 
         // For single value elements, normalize all class name and options, remove null entry
-        foreach (array("vcs", "version-generator", "version-persister") as $configKey) {
+        foreach (array('vcs', 'version-generator', 'version-persister') as $configKey) {
             $value = $config[$configKey];
             if ($value == null) {
                 unset($config[$configKey]);
@@ -94,7 +95,7 @@ class Handler
         }
 
         // Same process but for list value elements
-        foreach (array("prerequisites", "pre-release-actions", "post-release-actions") as $configKey) {
+        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $configKey) {
             foreach ($config[$configKey] as $key => $item) {
 
                 // Accept the element to be define by key or by value
@@ -123,7 +124,7 @@ class Handler
         }
 
         // Check for missing keys
-        foreach (array("version-generator", "version-persister") as $mandatoryParam) {
+        foreach (array('version-generator', 'version-persister') as $mandatoryParam) {
             if ($config[$mandatoryParam] == null) {
                 throw new Exception("[$mandatoryParam] should be defined");
             }
@@ -141,7 +142,7 @@ class Handler
         } elseif (is_array($rawConfig)) {
 
             // Handling Yml corner case (see https://github.com/liip/RMT/issues/54)
-            if (count($rawConfig)==1 && key($rawConfig) !== 'name') {
+            if (count($rawConfig) == 1 && key($rawConfig) !== 'name') {
                 $name = key($rawConfig);
                 $rawConfig = is_array(reset($rawConfig)) ? reset($rawConfig) : array();
                 $rawConfig['name'] = $name;
@@ -159,7 +160,7 @@ class Handler
             throw new Exception("Invalid configuration for [$sectionName] should be a object name or an array with name and options");
         }
 
-        return array("class"=>$class, "options"=>$options);
+        return array('class' => $class, 'options' => $options);
     }
 
     /**
@@ -200,8 +201,8 @@ class Handler
             'prerequisites' => 'Liip\RMT\Prerequisite',
             'pre-release-actions' => 'Liip\RMT\Action',
             'post-release-actions' => 'Liip\RMT\Action',
-            "version-generator" => 'Liip\RMT\Version\Generator',
-            "version-persister" => 'Liip\RMT\Version\Persister'
+            'version-generator' => 'Liip\RMT\Version\Generator',
+            'version-persister' => 'Liip\RMT\Version\Persister',
         );
         $nameSpace = $namespacesByType[$classType];
 
@@ -212,8 +213,8 @@ class Handler
             'prerequisites' => '',
             'pre-release-actions' => 'Action',
             'post-release-actions' => 'Action',
-            "version-generator" => 'Generator',
-            "version-persister" => 'Persister'
+            'version-generator' => 'Generator',
+            'version-persister' => 'Persister',
         );
         $nameSpace = $namespacesByType[$classType];
         $className = str_replace(' ', '', ucwords(str_replace('-', ' ', $name))).$suffixByType[$classType];

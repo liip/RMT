@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -30,7 +31,8 @@ class SemanticGenerator implements GeneratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @throws \InvalidArgumentException
      */
     public function generateNextVersion($currentVersion)
@@ -41,7 +43,7 @@ class SemanticGenerator implements GeneratorInterface
         ;
 
         $label = 'none';
-        if (isset($this->options['allow-label']) && $this->options['allow-label']==true) {
+        if (isset($this->options['allow-label']) && $this->options['allow-label'] == true) {
             $label = isset($this->options['label']) ?
                 $this->options['label'] :
                 Context::get('information-collector')->getValueFor('label')
@@ -52,7 +54,7 @@ class SemanticGenerator implements GeneratorInterface
         $validTypes = array('patch', 'minor', 'major');
         if (!in_array($type, $validTypes)) {
             throw new \InvalidArgumentException(
-                "The option [type] must be one of: {".implode($validTypes, ', ')."}, \"$type\" given"
+                'The option [type] must be one of: {'.implode($validTypes, ', ')."}, \"$type\" given"
             );
         }
 
@@ -65,7 +67,7 @@ class SemanticGenerator implements GeneratorInterface
         // if last version is with label
         if (count($matches) > 3) {
             list($major, $minor, $patch) = explode('.', $currentVersion);
-            $patch = substr($patch, 0, strpos($patch, "-"));
+            $patch = substr($patch, 0, strpos($patch, '-'));
 
             if ($label != 'none') {
                 // increment label
@@ -78,7 +80,7 @@ class SemanticGenerator implements GeneratorInterface
                         $labelVersion = false;
                     } elseif (array_key_exists(4, $matches)) {
                         // if version exists increment it
-                        $labelVersion = intval($matches[4])+1;
+                        $labelVersion = intval($matches[4]) + 1;
                     }
                 }
 
@@ -122,7 +124,7 @@ class SemanticGenerator implements GeneratorInterface
         }
 
         // Ask the label if it's allow and not forced
-        if (isset($this->options['allow-label']) && $this->options['allow-label']==true && !isset($this->options['label'])) {
+        if (isset($this->options['allow-label']) && $this->options['allow-label'] == true && !isset($this->options['label'])) {
             $ir[] = 'label';
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -59,8 +60,8 @@ class WorkingCopyCheck extends BaseAction
             new InformationRequest($this->ignoreCheckOptionName, array(
                 'description' => 'Do not process the check for clean working copy',
                 'type' => 'confirmation',
-                'interactive' => false
-            ))
+                'interactive' => false,
+            )),
         );
     }
 }

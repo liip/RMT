@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -19,7 +20,7 @@ class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'type' => $type,
-            'label' => $label
+            'label' => $label,
         );
 
         $generator = new \Liip\RMT\Version\Generator\SemanticGenerator($options);

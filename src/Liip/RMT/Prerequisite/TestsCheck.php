@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -11,7 +12,6 @@
 namespace Liip\RMT\Prerequisite;
 
 use Symfony\Component\Process\Process;
-
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -27,7 +27,7 @@ class TestsCheck extends BaseAction
     {
         $this->options = array_merge(array(
             'command' => 'phpunit --stop-on-failure',
-            'expected_exit_code' => 0
+            'expected_exit_code' => 0,
         ), $options);
     }
 
@@ -60,8 +60,8 @@ class TestsCheck extends BaseAction
             new InformationRequest(self::SKIP_OPTION, array(
                 'description' => 'Do not run the tests before the release',
                 'type' => 'confirmation',
-                'interactive' => false
-            ))
+                'interactive' => false,
+            )),
         );
     }
 }

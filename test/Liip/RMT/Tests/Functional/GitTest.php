@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -12,7 +13,6 @@ namespace Liip\RMT\Tests\Functional;
 
 class GitTest extends RMTFunctionalTestBase
 {
-
     public function testInitialVersion()
     {
         $this->initGit();
@@ -43,7 +43,7 @@ class GitTest extends RMTFunctionalTestBase
         exec('./RMT release -n');
         exec('git tag', $tags);
 //        $this->manualDebug();
-        $this->assertEquals(array('1','3', '4', 'toto'), $tags);
+        $this->assertEquals(array('1', '3', '4', 'toto'), $tags);
     }
 
     public function testSemantic()
@@ -66,7 +66,7 @@ class GitTest extends RMTFunctionalTestBase
         exec('./RMT release -n');
         exec('git tag', $tags);
 //        $this->manualDebug();
-        $this->assertEquals(array('2','v_1', 'v_2'), $tags);
+        $this->assertEquals(array('2', 'v_1', 'v_2'), $tags);
     }
 
     public function testTagPrefixWithBranchNamePlaceHolder()

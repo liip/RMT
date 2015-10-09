@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the project RMT
  *
@@ -19,18 +20,21 @@ interface VCSInterface
 
     /**
      * Return all tags of the project
+     *
      * @return array
      */
     public function getTags();
 
     /**
      * Create a new tag at the current position
+     *
      * @param string $tagName
      */
     public function createTag($tagName);
 
     /**
      * Publish a new created tag
+     *
      * @param string      $tagName
      * @param string|null $remote
      */
@@ -38,6 +42,7 @@ interface VCSInterface
 
     /**
      * Return the list of all modifications from the given tag until now
+     *
      * @param string $tag
      * @param bool   $color
      * @param bool   $noMergeCommits
@@ -50,6 +55,7 @@ interface VCSInterface
      * Return the list of all modified files from the given tag until now
      * The result is an array with the filename as key and the status as value.
      * Status is one of the following : M (modified), A (added), R (removed)
+     *
      * @param string $tag
      *
      * @return array
@@ -58,12 +64,14 @@ interface VCSInterface
 
     /**
      * Return local modification
+     *
      * @return array of local modification
      */
     public function getLocalModifications();
 
     /**
      * Save the local modifications (commit)
+     *
      * @param string $commitMsg
      *
      * @return mixed
