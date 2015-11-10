@@ -22,12 +22,12 @@
         "issues": "http://github.com/liip/RMT/issues"
     },
     "require": {
-        "php": ">=5.3.3",
-        "symfony/console": "~2.0",
-        "symfony/yaml": "~2.0",
-        "symfony/process": "~2.0",
+        "php": ">=5.3.9",
+        "symfony/console": "~2.3|^3.0",
+        "symfony/yaml": "~2.3|^3.0",
+        "symfony/process": "~2.3|^3.0",
         "vierbergenlars/php-semver": "~3.0",
-        "sensiolabs/security-checker": "~2.0"
+        "sensiolabs/security-checker": "~2.0|^3.0"
     },
     "autoload": {
         "psr-0": {

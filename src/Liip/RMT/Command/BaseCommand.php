@@ -11,12 +11,13 @@
 
 namespace Liip\RMT\Command;
 
+use Liip\RMT\Application;
 use Liip\RMT\VCS\VCSInterface;
+use Liip\RMT\Config\Handler;
+use Liip\RMT\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Liip\RMT\Config\Handler;
-use Liip\RMT\Context;
 
 /**
  * Wrapper/helper around sf2 command
@@ -34,7 +35,11 @@ abstract class BaseCommand extends Command
         // Store the input and output for easier usage
         $this->input = $input;
         $this->output = $output;
-        $this->output->setDialogHelper($this->getHelperSet()->get('dialog'));
+        $dialogHelper = class_exists('Symfony\Component\Console\Helper\QuestionHelper')
+            ? $this->getHelperSet()->get('question')
+            : $this->getHelperSet()->get('dialog')
+        ;
+        $this->output->setDialogHelper($dialogHelper);
         $this->output->setFormatterHelper($this->getHelperSet()->get('formatter'));
         Context::getInstance()->setService('output', $this->output);
 
@@ -100,6 +105,6 @@ abstract class BaseCommand extends Command
      */
     public function getApplication()
     {
-        return \Liip\RMT\Application::$instance;
+        return Application::$instance;
     }
 }
