@@ -28,6 +28,14 @@ abstract class BaseAction
     abstract public function execute();
 
     /**
+     * Rollback the effect of this action
+     */
+    public function rollback()
+    {
+        // assume there is nothing to do by default
+    }
+
+    /**
      * Return the name of the action as it will be display to the user
      *
      * @return string

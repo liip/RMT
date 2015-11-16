@@ -27,4 +27,12 @@ class VcsTagAction extends BaseAction
         );
         $this->confirmSuccess();
     }
+
+    public function rollback()
+    {
+        $tag = Context::get('version-persister')->getCurrentVersionTag();
+        Context::get('vcs')->deleteTag($tag);
+        $this->confirmSuccess();
+    }
+
 }

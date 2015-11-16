@@ -33,6 +33,13 @@ interface VCSInterface
     public function createTag($tagName);
 
     /**
+     * Delete a tag
+     *
+     * @param string $tagName
+     */
+    public function deleteTag($tagName);
+
+    /**
      * Publish a new created tag
      *
      * @param string      $tagName
@@ -77,6 +84,14 @@ interface VCSInterface
      * @return mixed
      */
     public function saveWorkingCopy($commitMsg = '');
+
+    /**
+     * Revert the last commit. If a message is given, only revert
+     * if the commit message matches.
+     *
+     * @param string|null $commitMsg
+     */
+    public function revertLastCommit($commitMsg = null);
 
     /**
      * Publish local modification
