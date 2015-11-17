@@ -11,6 +11,9 @@
 
 namespace Liip\RMT\VCS;
 
+use Liip\RMT\Exception\InvalidTagNameException;
+use Liip\RMT\Exception\TagAlreadyExistsException;
+
 class Hg extends BaseVCS
 {
     protected $dryRun = false;
@@ -51,6 +54,17 @@ class Hg extends BaseVCS
         }, $tags);
 
         return $tags;
+    }
+
+    public function validateTag($tagName)
+    {
+        if(preg_match("/[:\r\n]/", $tagName) > 0 || preg_match("/^[0-9]*$/", $tagName) > 0) {
+            throw new InvalidTagNameException("'$tagName' is an invalid tag name for mercurial.");
+        }
+
+        if(in_array($tagName, $this->getTags())) {
+            throw new TagAlreadyExistsException("'$tagName' already exists.");
+        }
     }
 
     public function createTag($tagName)

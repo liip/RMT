@@ -60,6 +60,47 @@ class HgTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('tip', '1.1.0', '1.0.0'), $vcs->getTags());
     }
 
+    /**
+     * @dataProvider invalidTagNames
+     * @expectedException \Liip\RMT\Exception\InvalidTagNameException
+     */
+    public function testInvalidateTag($tag)
+    {
+        $vcs = new Hg();
+        $vcs->validateTag($tag);
+    }
+
+    public function invalidTagNames()
+    {
+        return array(
+            array(2345),
+            array('test:test'),
+            array("test\ntest"),
+            array("test\rtest"),
+        );
+    }
+
+    /**
+     * @dataProvider validTagNames
+     */
+    public function testValidateTag($tag)
+    {
+        $vcs = new Hg();
+        $vcs->validateTag($tag);
+    }
+
+    public function validTagNames()
+    {
+        return array(
+            array('test/test'),
+            array('test'),
+            array('1.2'),
+            array('1.2.3'),
+            array('v1.2'),
+            array('v1.2.3'),
+        );
+    }
+
     public function testCreateTag()
     {
         $vcs = new Hg();

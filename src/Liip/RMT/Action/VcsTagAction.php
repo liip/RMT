@@ -20,11 +20,20 @@ class VcsTagAction extends BaseAction
 {
     public function execute()
     {
-        Context::get('vcs')->createTag(
-            Context::get('vcs')->getTagFromVersion(
-                Context::getParam('new-version')
-            )
-        );
+        Context::get('vcs')->createTag($this->getVersion());
         $this->confirmSuccess();
+    }
+
+    protected function getVersion()
+    {
+        return Context::get('vcs')->getTagFromVersion(
+            Context::getParam('new-version')
+        );
+    }
+
+    public function validateContext()
+    {
+        parent::validateContext();
+        Context::get('vcs')->validateTag($this->getVersion());
     }
 }

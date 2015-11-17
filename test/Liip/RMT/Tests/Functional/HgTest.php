@@ -22,6 +22,14 @@ class HgTest extends RMTFunctionalTestBase
         }, $tags);
     }
 
+    public function testNoSimpleGenerator()
+    {
+        $this->initHg();
+        $this->createConfig('simple', 'vcs-tag', array('vcs' => 'hg'));
+        exec('./RMT release -n --confirm-first 2> /dev/null', $result, $code);
+        $this->assertEquals($code, 1);
+    }
+
     public function testInitialVersion()
     {
         $this->initHg();

@@ -136,13 +136,20 @@ class ReleaseCommand extends BaseCommand
         );
         Context::getInstance()->setParameter('new-version', $newVersion);
 
+        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName) {
+            foreach(Context::getInstance()->getList($listName) as $action) {
+                $action->validateContext();
+            }
+        }
+        Context::get('version-persister')->validateContext();
+
         $this->executeActionListIfExist('pre-release-actions');
 
         $this->getOutput()->writeSmallTitle('Release process');
         $this->getOutput()->indent();
 
         $this->getOutput()->writeln("A new version named [<yellow>$newVersion</yellow>] is going to be released");
-        Context::get('version-persister')->save($newVersion);
+        Context::get('version-persister')->save();
         $this->getOutput()->writeln('Release: <green>Success</green>');
 
         $this->getOutput()->unIndent();

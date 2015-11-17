@@ -46,11 +46,21 @@ class VcsTagPersister implements PersisterInterface
         return array_pop($versions);
     }
 
-    public function save($versionNumber)
+    public function getNewVersion()
     {
-        $tagName = $this->getTagFromVersion($versionNumber);
+        return $this->getTagFromVersion(Context::getParam('new-version'));
+    }
+
+    public function save()
+    {
+        $tagName = $this->getNewVersion();
         Context::get('output')->writeln("Creation of a new VCS tag [<yellow>$tagName</yellow>]");
         $this->vcs->createTag($tagName);
+    }
+
+    public function validateContext()
+    {
+        Context::get('vcs')->validateTag($this->getNewVersion());
     }
 
     public function init()

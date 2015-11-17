@@ -11,6 +11,9 @@
 
 namespace Liip\RMT\VCS;
 
+use Liip\RMT\Exception\InvalidTagNameException;
+use Liip\RMT\Exception\TagAlreadyExistsException;
+
 interface VCSInterface
 {
     /**
@@ -24,6 +27,17 @@ interface VCSInterface
      * @return array
      */
     public function getTags();
+
+    /**
+     * Validate that a tag name is valid for the given VCS. If possible
+     * should also check if this tag already exists or if we can create
+     * it freely.
+     *
+     * @param $tagName
+     * @throws InvalidTagNameException in case the name is invalid
+     * @throws TagAlreadyExistsException in case the tag name already exists
+     */
+    public function validateTag($tagName);
 
     /**
      * Create a new tag at the current position
