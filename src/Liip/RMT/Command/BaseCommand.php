@@ -11,19 +11,28 @@
 
 namespace Liip\RMT\Command;
 
+use Liip\RMT\Application;
+use Liip\RMT\Output\Output;
 use Liip\RMT\VCS\VCSInterface;
+use Liip\RMT\Config\Handler;
+use Liip\RMT\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Liip\RMT\Config\Handler;
-use Liip\RMT\Context;
 
 /**
- * Wrapper/helper around sf2 command
+ * Wrapper/helper around Symfony command
  */
 abstract class BaseCommand extends Command
 {
+    /**
+     * @var InputInterface
+     */
     protected $input;
+
+    /**
+     * @var Output
+     */
     protected $output;
 
     /**
@@ -33,9 +42,17 @@ abstract class BaseCommand extends Command
     {
         // Store the input and output for easier usage
         $this->input = $input;
+        if (!$output instanceof Output) {
+            throw new \InvalidArgumentException('Not the expected output type');
+        }
         $this->output = $output;
-        $this->output->setDialogHelper($this->getHelperSet()->get('dialog'));
+        $dialogHelper = class_exists('Symfony\Component\Console\Helper\QuestionHelper')
+            ? $this->getHelperSet()->get('question')
+            : $this->getHelperSet()->get('dialog')
+        ;
+        $this->output->setDialogHelper($dialogHelper);
         $this->output->setFormatterHelper($this->getHelperSet()->get('formatter'));
+        Context::getInstance()->setService('input', $this->input);
         Context::getInstance()->setService('output', $this->output);
 
         parent::run($input, $output);
@@ -50,7 +67,7 @@ abstract class BaseCommand extends Command
     }
 
     /**
-     * @return OutputInterface
+     * @return Output
      */
     public function getOutput()
     {
@@ -100,6 +117,6 @@ abstract class BaseCommand extends Command
      */
     public function getApplication()
     {
-        return \Liip\RMT\Application::$instance;
+        return Application::$instance;
     }
 }

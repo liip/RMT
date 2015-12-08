@@ -11,6 +11,8 @@
 
 namespace Liip\RMT;
 
+use Symfony\Component\Console\Input\InputAwareInterface;
+
 class Context
 {
     protected $services = array();
@@ -67,7 +69,7 @@ class Context
     public function getParameter($id)
     {
         if (!isset($this->params[$id])) {
-            throw new \InvalidArgumentException("There is no param define with id [$id]");
+            throw new \InvalidArgumentException("There is no param defined with id [$id]");
         }
 
         return $this->params[$id];
@@ -90,7 +92,7 @@ class Context
     public function getList($id)
     {
         if (!isset($this->lists[$id])) {
-            throw new \InvalidArgumentException("There is no list define with id [$id]");
+            throw new \InvalidArgumentException("There is no list defined with id [$id]");
         }
         foreach ($this->lists[$id] as $pos => $object) {
             if (is_array($object)) {
@@ -104,8 +106,12 @@ class Context
     protected function instanciateObject($objectDefinition)
     {
         list($className, $options) = $objectDefinition;
+        $o = new $className($options);
+        if ($o instanceof InputAwareInterface) {
+            $o->setInput($this->getService('input'));
+        }
 
-        return new $className($options);
+        return $o;
     }
 
     protected function validateClass($className)
