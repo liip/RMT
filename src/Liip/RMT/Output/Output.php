@@ -132,11 +132,16 @@ class Output extends ConsoleOutput
             return $this->dialogHelper->ask($input, $this, $q);
         }
 
-        if ($question->isHiddenAnswer()) {
-            return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);
+        if ($this->dialogHelper instanceof DialogHelper) {
+
+            if ($question->isHiddenAnswer()) {
+                return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);
+            }
+
+            return $this->dialogHelper->askAndValidate($this, $text, $question->getValidator(), false, $question->getDefault());
         }
 
-        return $this->dialogHelper->askAndValidate($this, $text, $question->getValidator(), false, $question->getDefault());
+        throw new \RuntimeException("Invalid dialogHelper");
     }
 
     // when we drop symfony 2.3 support, we should switch to the QuestionHelper (since 2.5) and drop this method as it adds no value
@@ -149,6 +154,11 @@ class Output extends ConsoleOutput
             return $this->dialogHelper->ask($input, $this, new ConfirmationQuestion($text));
         }
 
-        return $this->dialogHelper->askConfirmation($this, $text);
+        if ($this->dialogHelper instanceof DialogHelper) {
+            return $this->dialogHelper->askConfirmation($this, $text);
+        }
+
+        throw new \RuntimeException("Invalid dialogHelper");
+
     }
 }

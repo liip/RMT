@@ -11,8 +11,6 @@
 
 namespace Liip\RMT;
 
-use Symfony\Component\Console\Input\InputAwareInterface;
-
 class Context
 {
     protected $services = array();
@@ -52,7 +50,7 @@ class Context
     public function getService($id)
     {
         if (!isset($this->services[$id])) {
-            throw new \InvalidArgumentException("There is no service define with id [$id]");
+            throw new \InvalidArgumentException("There is no service defined with id [$id]");
         }
         if (is_array($this->services[$id])) {
             $this->services[$id] = $this->instanciateObject($this->services[$id]);
@@ -106,12 +104,8 @@ class Context
     protected function instanciateObject($objectDefinition)
     {
         list($className, $options) = $objectDefinition;
-        $o = new $className($options);
-        if ($o instanceof InputAwareInterface) {
-            $o->setInput($this->getService('input'));
-        }
 
-        return $o;
+        return new $className($options);
     }
 
     protected function validateClass($className)

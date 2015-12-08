@@ -44,7 +44,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no service define with id [abc]
+     * @expectedExceptionMessage There is no service defined with id [abc]
      */
     public function testGetServiceWithoutSet()
     {
