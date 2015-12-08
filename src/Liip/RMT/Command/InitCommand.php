@@ -126,7 +126,7 @@ class InitCommand extends BaseCommand
         // Fill up questions
         if ($this->informationCollector->hasMissingInformation()) {
             foreach ($this->informationCollector->getInteractiveQuestions() as $name => $question) {
-                $answer = $this->getOutput()->askQuestion($question);
+                $answer = $this->getOutput()->askQuestion($question, null, $this->input);
                 $this->informationCollector->setValueFor($name, $answer);
                 $this->getOutput()->writeEmptyLine();
             }

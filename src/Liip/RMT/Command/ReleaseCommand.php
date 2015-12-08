@@ -104,7 +104,7 @@ class ReleaseCommand extends BaseCommand
             $this->getOutput()->indent();
             $count = 1;
             foreach ($questions as $name => $question) {
-                $answer = $this->getOutput()->askQuestion($question, $count++);
+                $answer = $this->getOutput()->askQuestion($question, $count++, $this->input);
                 Context::get('information-collector')->setValueFor($name, $answer);
                 $this->getOutput()->writeEmptyLine();
             }

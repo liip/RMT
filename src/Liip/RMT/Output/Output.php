@@ -15,8 +15,12 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Liip\RMT\Information\InteractiveQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Specific console output to allow indentation
@@ -29,7 +33,7 @@ class Output extends ConsoleOutput
 
     /** @var FormatterHelper */
     protected $formatterHelper = null;
-    /** @var DialogHelper */
+    /** @var DialogHelper|QuestionHelper */
     protected $dialogHelper = null;
 
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
@@ -109,9 +113,24 @@ class Output extends ConsoleOutput
         $this->writeln(array_fill(0, $repeat, ''));
     }
 
-    public function askQuestion(InteractiveQuestion $question, $position = null)
+    // when we drop symfony 2.3 support, we should switch to the new QuestionHelper (since 2.5) and see if we need these methods at all anymore
+    // QuestionHelper does about the same as we do here.
+    public function askQuestion(InteractiveQuestion $question, $position = null, InputInterface $input = null)
     {
         $text = ($position !== null ? $position .') ' : null) . $question->getFormatedText();
+
+        if ($this->dialogHelper instanceof QuestionHelper) {
+            if (!$input) {
+                throw new \InvalidArgumentException('With symfony 3, the input stream may not be null');
+            }
+            $q = new Question($text, $question->getDefault());
+            $q->setValidator($question->getValidator());
+            if ($question->isHiddenAnswer()) {
+                $q->setHidden(true);
+            }
+
+            return $this->dialogHelper->ask($input, $this, $q);
+        }
 
         if ($question->isHiddenAnswer()) {
             return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);
@@ -120,8 +139,16 @@ class Output extends ConsoleOutput
         return $this->dialogHelper->askAndValidate($this, $text, $question->getValidator(), false, $question->getDefault());
     }
 
-    public function askConfirmation($text)
+    // when we drop symfony 2.3 support, we should switch to the QuestionHelper (since 2.5) and drop this method as it adds no value
+    public function askConfirmation($text, InputInterface $input = null)
     {
+        if ($this->dialogHelper instanceof QuestionHelper) {
+            if (!$input) {
+                throw new \InvalidArgumentException('With symfony 3, the input stream may not be null');
+            }
+            return $this->dialogHelper->ask($input, $this, new ConfirmationQuestion($text));
+        }
+
         return $this->dialogHelper->askConfirmation($this, $text);
     }
 }

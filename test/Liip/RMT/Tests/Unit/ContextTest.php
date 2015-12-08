@@ -81,7 +81,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no param define with id [abc]
+     * @expectedExceptionMessage There is no param defined with id [abc]
      */
     public function testGetParamWithoutSet()
     {
@@ -113,7 +113,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no list define with id [abc]
+     * @expectedExceptionMessage There is no list defined with id [abc]
      */
     public function testGetListParamWithoutAdd()
     {

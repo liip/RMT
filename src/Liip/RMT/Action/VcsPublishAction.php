@@ -13,21 +13,33 @@ namespace Liip\RMT\Action;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Context;
+use Symfony\Component\Console\Input\InputAwareInterface;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Push current branch and tag to version control
  */
-class VcsPublishAction extends BaseAction
+class VcsPublishAction extends BaseAction implements InputAwareInterface
 {
     const AUTO_PUBLISH_OPTION = 'auto-publish';
 
+    /**
+     * @var InputInterface
+     */
+    private $input;
+
     public function __construct($options = array())
     {
-        $this->options = array_merge(array(
+        parent::__construct(array_merge(array(
             'ask-confirmation' => true,
             'remote-name' => null,
             'ask-remote-name' => false,
-        ), $options);
+        ), $options));
+    }
+
+    public function setInput(InputInterface $input)
+    {
+        $this->input = $input;
     }
 
     public function execute()
@@ -37,7 +49,7 @@ class VcsPublishAction extends BaseAction
             // Ask the question if there is no confirmation yet
             $ic = Context::get('information-collector');
             if (!$ic->hasValueFor(self::AUTO_PUBLISH_OPTION)) {
-                $answer = Context::get('output')->askConfirmation('Do you want to publish your release (default: <green>y</green>): ');
+                $answer = Context::get('output')->askConfirmation('Do you want to publish your release (default: <green>y</green>): ', $this->input);
                 $ic->setValueFor(self::AUTO_PUBLISH_OPTION, $answer == true ? 'y' : 'n');
             }
 
