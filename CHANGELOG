@@ -2,6 +2,15 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      08/12/2015 14:31  1.2.0  initial release
+         719adfa Partialy Revert "add BC layer to support both Symfony 3 and 2.3", to remove the early binding between an action and the input interface
+         c28add3 add BC layer to support both Symfony 3 and 2.3
+         9f7d377 make symfony deps explicit in the travis setup
+         0f4e3f7 bumped minimal requirement to PHP 5.3.9 and Symfony 2.3, allow Symfony 3.0
+         056f745 php codingstyle fixes
+         6c0a82b Add a small note about the specific name parameter
+
    Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
       06/05/2015 22:11  1.1.9  New action build-phar-package
          da8d1f2 Another php 5.3 compatibility fix
