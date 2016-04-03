@@ -16,68 +16,37 @@ use Liip\RMT\Exception;
 use Liip\RMT\Config\Exception as ConfigException;
 
 /**
- * An updater that updates the version information stored in a class.
+ * Legacy action used for Backward Compatibilty
+ * 
+ * TODO: Remove in 2.0
  *
- * Typically this would be a class defining a constant for client code to check
- * the version of the library they are using.
+ * UpdateVersionClass accepts either a generic file or PHP class
+ * (which is resolved to a file using Reflection API). The found
+ * file is then updated with the new version number.
  *
- * An example Version class might look like this:
- *
- * class Version
- * {
- *     const VERSION = '1.0.0-beta-4';
- * }
- *
- * @author David Buchmann <mail@davidbu.ch>
+ * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-class UpdateVersionClassAction extends BaseAction
+class UpdateVersionClassAction extends UpdateClassAction
 {
-    public function __construct($options)
-    {
-        parent::__construct($options);
-    }
-
     public function execute()
     {
-        if (!isset($this->options['class'])) {
-            throw new ConfigException('You must specify the class or file to update');
+        trigger_error(
+            'update-version-class action is deprecated and will be removed in 2.0. ' .
+            'Use either update-class or update-file actions instead.',
+            E_USER_DEPRECATED
+        );
+
+        if (! isset($this->options['class'])) {
+            throw new ConfigException('You must specify the class to update');
         }
 
-        if (file_exists($this->options['class'])) {
-            $filename = $this->options['class'];
-        } else {
-            $versionClass = new \ReflectionClass($this->options['class']);
-            $filename = $versionClass->getFileName();
+        $class = $this->options['class'];
+
+        if (file_exists($class)) {
+            $this->updateFile($class);
+            return;
         }
 
-        $this->updateFile($filename);
-        $this->confirmSuccess();
-    }
-
-    /**
-     * will update a given filename with the current version
-     *
-     * @param string $filename
-     *
-     * @throws \Liip\RMT\Exception
-     */
-    protected function updateFile($filename)
-    {
-        $current = Context::getParam('current-version');
-        $next = Context::getParam('new-version');
-
-        $content = file_get_contents($filename);
-        if (false === strpos($content, $current)) {
-            throw new Exception('The version class ' . $filename . " does not contain the current version $current");
-        }
-        if (isset($this->options['pattern'])) {
-            $current = str_replace('%version%', $current, $this->options['pattern']);
-            $next = str_replace('%version%', $next, $this->options['pattern']);
-        }
-        $content = str_replace($current, $next, $content);
-        if (false === strpos($content, $next)) {
-            throw new Exception('The version class ' . $filename . " could not be updated with version $next");
-        }
-        file_put_contents($filename, $content);
+        $this->updateClass($class);
     }
 }

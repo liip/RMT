@@ -181,13 +181,20 @@ Actions can be used for pre or post release parts.
     * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
-* `composer-update`: Update the version number in a composer file
-* `update-version-class`: Update the version constant in a class file.
-    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
+* `update-file`: Update the version number in a file
+    * Option `file`: path to be updated
+    * Option `pattern`: optional, use to specify the string replacement pattern in your
+      version file. %version% will be replaced by the current / next version strings.
+      For example you could use `const VERSION = '%version%';`. If you do not specify
+      this option, every occurrence of the version string in the file will be replaced.
+* `update-class`: Update a version number in the file of a given PHP class
+    * Option `class`: fully qualified class name of the class containing the version constant
     * Option `pattern`: optional, use to specify the string replacement pattern in your
       version class. %version% will be replaced by the current / next version strings.
       For example you could use `const VERSION = '%version%';`. If you do not specify
       this option, every occurrence of the version string in the file will be replaced.
+* `update-version-class`: Deprecated: use `update-class` or `update-file` instead.
+* `composer-update`: Update the version number in your project composer.json file
 * `build-phar-package`: Builds a Phar package of the current project whose filename depends on the 'package-name' option and the deployed version: [package-name]-[version].phar
     * Option `package-name`: the name of the generate package
     * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.

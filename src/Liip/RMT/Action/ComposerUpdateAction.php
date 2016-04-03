@@ -12,22 +12,26 @@
 namespace Liip\RMT\Action;
 
 use Liip\RMT\Context;
+use Liip\RMT\Exception;
 
 /**
- * Update the version in composer.json
+ * An updater that updates the version information stored in any kind of file.
+ *
+ * This file could be a configuration file (yml, json) or a package.json file
+ * for instance.
+ *
+ * @author Titouan Galopin <galopintitouan@gmail.com>
  */
-class ComposerUpdateAction extends \Liip\RMT\Action\BaseAction
+class ComposerUpdateAction extends UpdateFileAction
 {
     public function execute()
     {
-        $newVersion = Context::getParam('new-version');
         $composerFile = Context::getParam('project-root').'/composer.json';
-        if (!file_exists($composerFile)) {
-            throw new \Liip\RMT\Exception("Impossible to file the composer file ($composerFile)");
+
+        if (! file_exists($composerFile)) {
+            throw new Exception(sprintf('Composer file not found (searched at %s)', $composerFile));
         }
-        $fileContent = file_get_contents($composerFile);
-        $fileContent = preg_replace('/("version":[^,]*,)/', '"version": "'.$newVersion.'",', $fileContent);
-        file_put_contents($composerFile, $fileContent);
-        $this->confirmSuccess();
+
+        $this->updateFile($composerFile, '"version": "%version%"');
     }
 }
