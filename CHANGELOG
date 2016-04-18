@@ -3,6 +3,12 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      18/04/2016 15:03  1.2.1  Add support for commit and tag gpg-signing
+         de7a350 Add a little for documentation following https://github.com/liip/RMT/pull/107
+         a5937c9 Fix a copy/paste error for GPG sign commits
+         020a200 removed typo
+         7430de8 changed as requested
+         881badb add support for commit and tag gpg-signing
       08/12/2015 14:31  1.2.0  initial release
          719adfa Partialy Revert "add BC layer to support both Symfony 3 and 2.3", to remove the early binding between an action and the input interface
          c28add3 add BC layer to support both Symfony 3 and 2.3
