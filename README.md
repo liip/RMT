@@ -101,6 +101,7 @@ Configuration
 All RMT configurations have to be done in the `.rmt.yml`. The file is divided in 5 root elements:
 
 * `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
+    * For `git` VCS you can use the two following options `sign-tag` and `sign-commit` if you want to GPG sign your release
 * `prerequisites`: A list `[]` of prerequisites that must be matched before starting the release process
 * `pre-release-actions`: A list `[]` of actions that will be executed before the release process
 * `version-generator`: The generator to use to create a new version (mandatory)
@@ -291,6 +292,8 @@ Authors
 
 * Laurent Prodon Liip AG
 * David Jeanmonod Liip AG
+* Peter Petermann Gameforge 4D GmbH
+* Gilles Crettenand Liip AG
 * and [others contributors](https://github.com/liip/RMT/graphs/contributors)
 
 License
