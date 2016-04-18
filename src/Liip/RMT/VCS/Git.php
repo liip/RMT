@@ -49,6 +49,7 @@ class Git extends BaseVCS
     {
         // this requires git and gpg configured
         $signOption = (isset($this->options['sign-tag']) && $this->options['sign-tag']) ? '-s' : '';
+
         return $this->executeGitCommand("tag $signOption $tagName -m $tagName");
     }
 
@@ -68,9 +69,9 @@ class Git extends BaseVCS
     {
         $this->executeGitCommand('add --all');
 
-        $signOption = (isset($this->options['sign-tag']) && $this->options['sign-tag']) ? '-S' : '';
-
         // this requires git and gpg configured
+        $signOption = (isset($this->options['sign-commit']) && $this->options['sign-commit']) ? '-S' : '';
+
         $this->executeGitCommand("commit $signOption -m \"$commitMsg\"");
     }
 
