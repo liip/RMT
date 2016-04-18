@@ -218,7 +218,7 @@ Configuration examples
 ----------------------
 Most of the time, it will be easier for you to pick up and example bellow and to adapt it to your needs.
 
-### No VCS, changelog updater onlyls 
+### No VCS, changelog updater only
 
     version-generator: semantic
     version-persister: changelog
