@@ -47,7 +47,9 @@ class Git extends BaseVCS
 
     public function createTag($tagName)
     {
-        return $this->executeGitCommand("tag $tagName");
+        // this requires git and gpg configured
+        $signOption = (isset($this->options['sign-tag']) && $this->options['sign-tag']) ? '-s' : '';
+        return $this->executeGitCommand("tag $signOption $tagName -m $tagName");
     }
 
     public function publishTag($tagName, $remote = null)
@@ -65,7 +67,11 @@ class Git extends BaseVCS
     public function saveWorkingCopy($commitMsg = '')
     {
         $this->executeGitCommand('add --all');
-        $this->executeGitCommand("commit -m \"$commitMsg\"");
+
+        $signOption = (isset($this->options['sign-tag']) && $this->options['sign-tag']) ? '-S' : '';
+
+        // this requires git and gpg configured
+        $this->executeGitCommand("commit $signOption -m \"$commitMsg\"");
     }
 
     public function getCurrentBranch()

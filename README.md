@@ -229,6 +229,17 @@ Most of the time, it will be easier for you to pick up and example bellow and to
     version-generator: simple
     version-persister: vcs-tag
     prerequisites: [working-copy-check, display-last-changes]
+    
+### Using Git tags, simple versioning and prerequisites, and gpg sign commit and tags
+
+    vcs: 
+      name: git
+      sign-tag: true
+      sign-commit: true
+    version-generator: simple
+    version-persister: vcs-tag
+    prerequisites: [working-copy-check, display-last-changes]
+
 
 ### Using Git tags with prefix, semantic versioning and pushing automatically
 
