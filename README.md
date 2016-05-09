@@ -154,6 +154,7 @@ Class in charge of saving/retrieving the version number
 Prerequisite actions are executed before the interactive part
 
 * `working-copy-check`: check that you don't have any VCS local changes
+  * Option `allow-ignore`: allow the user to skip the check when doing a release with `--ignore-check`
 * `display-last-changes`: display your last changes
 * `tests-check`: run the project test suite
   * Option `command`: command to run (default: *phpunit*)

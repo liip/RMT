@@ -29,6 +29,11 @@ class WorkingCopyCheck extends BaseAction
 
     public $ignoreCheckOptionName = 'ignore-check';
 
+    public function __construct($options = [])
+    {
+        parent::__construct(array_merge(['allow-ignore' => false], $options));
+    }
+
     public function getTitle()
     {
         return 'Check that your working copy is clean';
@@ -36,9 +41,9 @@ class WorkingCopyCheck extends BaseAction
 
     public function execute()
     {
-        if (Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
+        // Allow to be skipped when explicitly activated from the config
+        if ($this->options['allow-ignore'] && Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
             Context::get('output')->writeln('<error>requested to be ignored</error>');
-
             return;
         }
 
@@ -56,12 +61,16 @@ class WorkingCopyCheck extends BaseAction
 
     public function getInformationRequests()
     {
-        return array(
-            new InformationRequest($this->ignoreCheckOptionName, array(
-                'description' => 'Do not process the check for clean working copy',
-                'type' => 'confirmation',
-                'interactive' => false,
-            )),
-        );
+        if ($this->options['allow-ignore']) {
+            return [
+                new InformationRequest($this->ignoreCheckOptionName, array(
+                    'description' => 'Do not process the check for clean VCS working copy',
+                    'type' => 'confirmation',
+                    'interactive' => false,
+                ))
+            ];
+        }
+
+        return [];
     }
 }
