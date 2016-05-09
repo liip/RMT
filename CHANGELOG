@@ -3,8 +3,8 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
-      09/05/2016 09:25  1.2.3  Restore PHP 5.3 compatibility (was broken by 1.2.3)
-         ee00acd Fix tests of version 1.2.3 and keep php 5.3 compatibility
+      09/05/2016 09:25  1.2.3  Restore PHP 5.3 compatibility (was broken by 1.2.2)
+         ee00acd Fix tests of version 1.2.2 and keep php 5.3 compatibility
       09/05/2016 08:15  1.2.2  --ignore-check option must be explicitly activated for the working-copy-check prerequisite
          823f40d Now --ignore-check option must be explicitly activated for the working-copy-check prerequisit
       18/04/2016 15:03  1.2.1  Add support for commit and tag gpg-signing
