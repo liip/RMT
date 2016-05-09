@@ -53,7 +53,7 @@ class PrerequisitesTest extends RMTFunctionalTestBase
     public function testWorkingCopyWithIgnoreCheck()
     {
         $this->createConfig('simple', 'vcs-tag', array(
-            'prerequisites' => array('working-copy-check'),
+            'prerequisites' => array('working-copy-check'=>array('allow-ignore'=>true)),
             'vcs' => 'git',
         ));
         $this->initGit();

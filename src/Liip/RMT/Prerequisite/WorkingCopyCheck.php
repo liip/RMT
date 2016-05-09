@@ -29,9 +29,9 @@ class WorkingCopyCheck extends BaseAction
 
     public $ignoreCheckOptionName = 'ignore-check';
 
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
-        parent::__construct(array_merge(['allow-ignore' => false], $options));
+        parent::__construct(array_merge(array('allow-ignore' => false), $options));
     }
 
     public function getTitle()
@@ -61,16 +61,16 @@ class WorkingCopyCheck extends BaseAction
 
     public function getInformationRequests()
     {
+        $informationRequests = array();
+
         if ($this->options['allow-ignore']) {
-            return [
-                new InformationRequest($this->ignoreCheckOptionName, array(
-                    'description' => 'Do not process the check for clean VCS working copy',
-                    'type' => 'confirmation',
-                    'interactive' => false,
-                ))
-            ];
+            $informationRequests[] = new InformationRequest($this->ignoreCheckOptionName, array(
+                'description' => 'Do not process the check for clean VCS working copy',
+                'type' => 'confirmation',
+                'interactive' => false,
+            ));
         }
 
-        return [];
+        return $informationRequests;
     }
 }
