@@ -12,6 +12,7 @@
 namespace Liip\RMT\Action;
 
 use Liip\RMT\Context;
+use Symfony\Component\Process\Process;
 
 abstract class BaseAction
 {
@@ -57,5 +58,19 @@ abstract class BaseAction
     public function confirmSuccess()
     {
         Context::get('output')->writeln('<info>OK</info>');
+    }
+
+    /**
+     * Execute a command and render the output through the classical indented output
+     * @param $cmd
+     * @return Process
+     */
+    public function executeCommandInProcess($cmd){
+        Context::get('output')->write("<comment>$cmd</comment>\n\n");
+        $process = new Process($cmd);
+        $process->run(function ($type, $buffer) {
+            Context::get('output')->write($buffer);
+        });
+        return $process;
     }
 }

@@ -11,7 +11,6 @@
 
 namespace Liip\RMT\Prerequisite;
 
-use Symfony\Component\Process\Process;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -41,12 +40,7 @@ class TestsCheck extends BaseAction
         }
 
         // Run the tests and live output with the standard output class
-        $command = $this->options['command'];
-        Context::get('output')->write("<comment>$command</comment>\n\n");
-        $process = new Process($command);
-        $process->run(function ($type, $buffer) {
-            Context::get('output')->write($buffer);
-        });
+        $process = $this->executeCommandInProcess($this->options['command']);
 
         // Break up if the result is not good
         if ($process->getExitCode() !== $this->options['expected_exit_code']) {

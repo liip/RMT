@@ -11,7 +11,6 @@
 
 namespace Liip\RMT\Prerequisite;
 
-use Symfony\Component\Process\Process;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Action\BaseAction;
@@ -40,12 +39,7 @@ class ComposerJsonCheck extends BaseAction
         }
 
         // Run the validation and live output with the standard output class
-        $command = $this->options['composer'] . '  validate';
-        Context::get('output')->write("<comment>$command</comment>\n\n");
-        $process = new Process($command);
-        $process->run(function ($type, $buffer) {
-            Context::get('output')->write($buffer);
-        });
+        $process = $this->executeCommandInProcess($this->options['composer'] . '  validate');
 
         // Break up if the result is not good
         if ($process->getExitCode() !== 0) {
