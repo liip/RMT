@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      08/06/2016 17:35  1.2.4  Better warning message when using --ignore-check
+         7ebbedf Warn the user local modifications may be included during commit action
+         54ded79 Small cleanup
+         5c46f70 Fix CHANGELOG
       09/05/2016 09:25  1.2.3  Restore PHP 5.3 compatibility (was broken by 1.2.2)
          ee00acd Fix tests of version 1.2.2 and keep php 5.3 compatibility
       09/05/2016 08:15  1.2.2  --ignore-check option must be explicitly activated for the working-copy-check prerequisite
