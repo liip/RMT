@@ -50,8 +50,10 @@ class WorkingCopyCheck extends BaseAction
         $modCount = count(Context::get('vcs')->getLocalModifications());
         if ($modCount > 0) {
             throw new \Exception(
-                'Your working directory contains ' . $modCount . ' local modifications, use --'
-                . $this->ignoreCheckOptionName.' option to bypass this check',
+                'Your working directory contains ' . $modCount . ' local modifications. Use the --' .
+                $this->ignoreCheckOptionName . " option to bypass this check.\n" .
+                'WARNING, if your release task include a commit action, the pending changes are going to be included ' .
+                'in the release',
                 self::EXCEPTION_CODE
             );
         }
