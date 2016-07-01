@@ -6,63 +6,60 @@ RMT - Release Management Tool
 [![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
 [![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
 
-RMT is a handy tool to help releasing new version of your software. You can define the type
-of version generator you want to use (example: semantic versioning), where you want to store
-the version (in a changelog file, as a VCS tag…) and a list of action that can be
+RMT is a handy tool to help releasing new versions of your software. You can define the type
+of version generator you want to use (e.g. semantic versioning), where you want to store
+the version (e.g. in a changelog file or as a VCS tag) and a list of actions that should be
 executed before or after the release of a new version.
-
 
 Installation
 ------------
-### Option 1: as a dependency to your project
-In order to use RMT your project should use [Composer](http://getcomposer.org/) as RMT will be
-installed as a dev-dependency. Just go to your project root directory and execute:
+### Option 1: As a development dependency of your project
+In order to use RMT in your project you should use [Composer](http://getcomposer.org/) to install it
+as a dev-dependency. Just go to your project's root directory and execute:
 
-    composer require --dev liip/rmt:1.*
+    composer require --dev liip/rmt
 
 Then you must initialize RMT by running the following command:
 
     php vendor/liip/rmt/command.php init
 
-This command will create a `.rmt.yml` config file and a `RMT` executable script in your
+This command will create a `.rmt.yml` config file and a `RMT` executable script in your project's
 root folder. You can now start using RMT by executing:
 
     ./RMT
 
-Once here, your best option is to pick one of the [configuration examples](#configuration-examples) below
-and to adapt it to your needs.
+Once there, your best option is to pick one of the [configuration examples](#configuration-examples) below
+and adapt it to your needs.
 
-If you are using a versioning tool, we recommend to add both composer files (`composer.json`
+If you are using a versioning tool, we recommend to add both Composer files (`composer.json`
 and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
-to it. The `vendor` directory should be ignored since it is populated simply by running
-`composer install`
+to it. The `vendor` directory should be ignored as it is populated when running
+`composer install`.
 
-### Option 2: composer global installation
+### Option 2: As a global Composer installation
 
-You can add liip/RMT to your global composer.json and have it available globally for all your projects
+You can add RMT to your global composer.json and have it available globally for all your projects. Therefor
+just run the following command:
 
-Just run the following command:
+    composer global require liip/rmt
 
-`composer global require "liip/rmt"`
+Make sure you have `~/.composer/vendor/bin/` in your $PATH.
 
-Make sure you have ~/.composer/vendor/bin/ in your PATH.
+### Option 3: As a Phar file
+RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) therefor. This useful tool allows you to create runnable Phar files from Composer packages.
 
-### Option 3: as a phar file
-RMT can be installed through [phar-composer](https://github.com/clue/phar-composer/), which needs to be [installed](https://github.com/clue/phar-composer/#install) for that. phar-composer is a useful tool that allows you to create runable phar files from composer packages.
-
-if you have phar-composer installed, you can run:
+If you have phar-composer installed, you can run:
 
     sudo phar-composer install liip/RMT
 
-and have phar-composer build and install the phar file to your $PATH, which then allows you to run it simply as `rmt` from command line or you can run
+and have phar-composer build and install the Phar file to your $PATH, which then allows you to run it simply as `rmt` from the command line or you can run
 
     phar-composer build liip/RMT
 
-and copy the resulting phar manually where you need it (either set the phar as executable `chmod +x rmt.phar` and execute it directly `./rmt.phar` or  run it by invoking it through PHP `php rmt.phar`.
+and copy the resulting Phar file manually to where you need it (either make the Phar file executable via `chmod +x rmt.phar` and execute it
+directly `./rmt.phar` or run it by invoking it through PHP via `php rmt.phar`.
 
-For the usage substitute RMT with what ever variant you have decided to use.
-
-
+For the usage substitute RMT with whatever variant you have decided to use.
 
 Usage
 -----
@@ -70,7 +67,7 @@ Using RMT is very straightforward, just run the command:
 
     ./RMT release
 
-RMT will then do the following tasks:
+RMT will then execute the following tasks:
 
 1. Execute the prerequisites checks
 2. Ask the user to answers potentials questions
@@ -80,14 +77,14 @@ RMT will then do the following tasks:
     * Persist the new version number
 5. Execute the post-release actions
 
-Here is an output example:
+Here is an example output:
 
 ![screenshot](https://github.com/liip/RMT/raw/master/docs/output-example.png "First stable for RMT")
 
 
 ### Additional commands
 
-The `release` command is the main behavior of the tool, but some extra commands are available:
+The `release` command provides the main behavior of the tool, additional some extra commands are available:
 
 * `current` will show your project current version number (alias version)
 * `changes` display the changes that will be incorporated in the next release
@@ -98,7 +95,7 @@ The `release` command is the main behavior of the tool, but some extra commands 
 Configuration
 -------------
 
-All RMT configurations have to be done in the `.rmt.yml`. The file is divided in 5 root elements:
+All RMT configurations have to be done in `.rmt.yml`. The file is divided in six root elements:
 
 * `vcs`: The type of VCS you are using, can be `git`, `svn` or `none`
     * For `git` VCS you can use the two following options `sign-tag` and `sign-commit` if you want to GPG sign your release
@@ -108,18 +105,19 @@ All RMT configurations have to be done in the `.rmt.yml`. The file is divided in
 * `version-persister`: The persister to use to store the versions (mandatory)
 * `post-release-actions`: A list `[]` of actions that will be executed after the release
 
-All the entry of this config are working the same. You have to specify the class you want to handle the action. Example:
+All entries of this config work the same. You have to specify the class you want to handle the action. Example:
 
     version-generator: "simple"`
     version-persister:
        vcs-tag:
            tag-prefix: "v_"
 
-RMT also support JSON config, but we recommend you to use YML.
+RMT also support JSON configs, but we recommend using YAML.
 
 ### Branch specific config
 
-Something you want to use a different release strategy according to the VCS branch, for example, you want to add a entry into a CHANGELOG only in the `master` branch. To do so, you have to place your default config into a root element named `_default`. Then you can override parts is this default config for the branch `master`. Example:
+Sometimes you want to use a different release strategy according to the VCS branch, e.g. you want to add CHANGELOG entries only in the `master` branch. To do so, you have to place your default config into a root element named `_default`, then you can override parts of this default config for the
+branch `master`. Example:
 
     _default:
         version-generator: "simple"
@@ -127,11 +125,11 @@ Something you want to use a different release strategy according to the VCS bran
     master:
         pre-release-actions: [changelog-update]
 
-You can use the command ```RMT config``` To see the merge result between _default and your current branch
+You can use the command `RMT config` to see the merge result between _default and your current branch.
 
 ### Version generator
 
-Build-in version number generation strategy
+Build-in version number generation strategies.
 
 * simple: This generator is doing a simple increment (1,2,3...)
 * semantic: A generator which implements [Semantic versioning](http://semver.org)
@@ -140,18 +138,18 @@ Build-in version number generation strategy
     * Option `label`: to force the label
 
     The two forced option could be very useful if you decide that a given branch is dedicated to the next beta of a
-    given version. So just force the label to beta and all release are going to be beta increments
+    given version. So just force the label to beta and all release are going to be beta increments.
 
 ### Version persister
 
-Class in charge of saving/retrieving the version number
+Class in charge of saving/retrieving the version number.
 
 * vcs-tag: Save the version as a VCS tag
 * changelog: Save the version in the changelog file
 
 ### Prerequisite actions
 
-Prerequisite actions are executed before the interactive part
+Prerequisite actions are executed before the interactive part.
 
 * `working-copy-check`: check that you don't have any VCS local changes
   * Option `allow-ignore`: allow the user to skip the check when doing a release with `--ignore-check`
@@ -201,11 +199,11 @@ Actions can be used for pre or post release parts.
 Extend it
 ---------
 
-RMT is providing some existing actions, generators and persisters. But if you need, you can create your own. Just create a PHP script in your project, and reference it in the configuration with it's relative path:
+RMT is providing some existing actions, generators, and persisters. If needed you can add your own by creating a PHP script in your project, and referencing it in the configuration via it's relative path:
 
     version-generator: "bin/myOwnGenerator.php"
 
-or with parameters:
+Example with injected parameters:
 
     version-persister:
         name: "bin/myOwnGenerator.php"
@@ -213,12 +211,12 @@ or with parameters:
 
 As an example, you can look at the script [/bin/UpdateApplicationVersionCurrentVersion.php](https://github.com/liip/RMT/blob/master/bin/UpdateApplicationVersionCurrentVersion.php) configured [here](https://github.com/liip/RMT/blob/master/.rmt.yml#L9).
 
-*WARNING* As the key `name` is used to define the name of the object, you cannot have a parameter named `name`.
+*WARNING:* As the key `name` is used to define the name of the object, you cannot have a parameter named `name`.
 
 
 Configuration examples
 ----------------------
-Most of the time, it will be easier for you to pick up and example bellow and to adapt it to your needs.
+Most of the time, it will be easier for you to pick up an example below and adapt it to your needs.
 
 ### No VCS, changelog updater only
 
@@ -280,7 +278,7 @@ Most of the time, it will be easier for you to pick up and example bellow and to
 
 Contributing
 ------------
-If you would like to help, to submit one of your action script or just to report a bug: just go on the project page: https://github.com/liip/RMT
+If you would like to help, by submitting one of your action scripts, generators, or persisters. Or just by reporting a bug just go to the project page [https://github.com/liip/RMT](https://github.com/liip/RMT).
 
 Requirements
 ------------
@@ -300,4 +298,4 @@ Authors
 License
 -------
 
-RMT is licensed under the MIT License - see the LICENSE file for details
+RMT is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
