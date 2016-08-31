@@ -40,7 +40,8 @@ class TestsCheck extends BaseAction
         }
 
         // Run the tests and live output with the standard output class
-        $process = $this->executeCommandInProcess($this->options['command']);
+        $timeout = isset($this->options['timeout']) ? $this->options['timeout'] : null;
+        $process = $this->executeCommandInProcess($this->options['command'], $timeout);
 
         // Break up if the result is not good
         if ($process->getExitCode() !== $this->options['expected_exit_code']) {

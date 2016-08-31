@@ -62,12 +62,18 @@ abstract class BaseAction
 
     /**
      * Execute a command and render the output through the classical indented output
-     * @param $cmd
+     * @param string $cmd
+     * @param float|null $timeout
      * @return Process
      */
-    public function executeCommandInProcess($cmd){
+    public function executeCommandInProcess($cmd, $timeout = null){
         Context::get('output')->write("<comment>$cmd</comment>\n\n");
         $process = new Process($cmd);
+
+        if ($timeout !== null) {
+            $process->setTimeout($timeout);
+        }
+
         $process->run(function ($type, $buffer) {
             Context::get('output')->write($buffer);
         });
