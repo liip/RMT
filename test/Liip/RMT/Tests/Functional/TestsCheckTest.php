@@ -38,7 +38,7 @@ class TestsCheckTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function fails_when_the_command_exceeds_the_timeout()
     {
-        $this->setExpectedException(Exception::class, 'exceeded the timeout');
+        $this->setExpectedException('Exception', 'exceeded the timeout');
 
         $check = new TestsCheck(['command' => 'sleep 1', 'timeout' => 0.100]);
         $check->execute();
