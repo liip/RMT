@@ -10,10 +10,10 @@ class TestsCheckTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $informationCollector = $this->createMock('Liip\RMT\Information\InformationCollector');
+        $informationCollector = $this->getMock('Liip\RMT\Information\InformationCollector');
         $informationCollector->method('getValueFor')->with(TestsCheck::SKIP_OPTION)->willReturn(false);
 
-        $output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
         $output->method('write');
 
         $context = Context::getInstance();
