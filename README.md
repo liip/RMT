@@ -156,6 +156,7 @@ Prerequisite actions are executed before the interactive part.
 * `display-last-changes`: display your last changes
 * `tests-check`: run the project test suite
   * Option `command`: command to run (default: *phpunit*)
+  * Option `timeout`: the number of seconds after which the command times out (default: *60.0*)
   * Option `expected_exit_code`: expected return code (default: *0*)
 * `composer-json-check`: run a validate on the composer.json
   * Option `composer`: how to run composer (default: *php composer.phar*)
