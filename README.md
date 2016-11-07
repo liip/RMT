@@ -196,6 +196,10 @@ Actions can be used for pre or post release parts.
     * Option `metadata`: an array of metadata describing the package. Ex author, project. Note: the release version is added by default but can be overridden here. 
     * Option `default-stub-cli`: the default stub for CLI usage of the package.
     * Option `default-stub-web`: the default stub for web application usage of the package.
+* `command`: Execute a system command
+    * Option `cmd` The command to execute
+    * Option `live_output` boolean, do we display the command output
+    * Option `stop_on_error` boolean, do we break the release process on error
 
 Extend it
 ---------
