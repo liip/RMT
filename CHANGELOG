@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      07/11/2016 06:33  1.2.6  Allow to run an external command into the pre-requisite list
+         bf179f3 Add the command action to pre-requisite doc
+         6cb272d Allow to run an external command into the pre-requisite list too
+         5d427bd Document the `command` action
       09/09/2016 15:48  1.2.5  Allow to configure a timeout option for the test task
          593452c Support Symfony Process 2.3 "process timed-out" exception message
          8e64bf9 Support Symfony Process 2.3 "process timed-out" exception message
