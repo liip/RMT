@@ -163,6 +163,10 @@ Prerequisite actions are executed before the interactive part.
 * `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
   * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
 * `composer-security-check`: run the composer.lock against https://security.sensiolabs.org/ to check for known vulnerabilities in the dependencies
+* `command`: Execute a system command
+    * Option `cmd` The command to execute
+    * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
 
 ### Actions
 
@@ -198,8 +202,8 @@ Actions can be used for pre or post release parts.
     * Option `default-stub-web`: the default stub for web application usage of the package.
 * `command`: Execute a system command
     * Option `cmd` The command to execute
-    * Option `live_output` boolean, do we display the command output
-    * Option `stop_on_error` boolean, do we break the release process on error
+    * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
 
 Extend it
 ---------
