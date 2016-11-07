@@ -1,10 +1,14 @@
 vcs: git
 
 prerequisites:
-  - working-copy-check
+  - working-copy-check:
+        allow-ignore: true
   - display-last-changes
   - tests-check
   - composer-security-check
+  - command:
+        cmd: git remote -v
+
 
 pre-release-actions:
     bin/UpdateApplicationVersionCurrentVersion.php: ~
