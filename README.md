@@ -145,7 +145,10 @@ Build-in version number generation strategies.
 Class in charge of saving/retrieving the version number.
 
 * vcs-tag: Save the version as a VCS tag
+    * Option `tag-pattern`: Allow to provide a regex that all tag must match. This allow for example to release a version 1.X.X in a specific branch and to release a 2.X.X in a separate branch
+    * Option `tag-prefix`: Allow to prefix all VCS tag with a string. You can have a numeric versionning but generation tags such as `v_2.3.4`
 * changelog: Save the version in the changelog file
+    * Option `location`: Changlog file name an location (default: *CHANGELOG*)
 
 ### Prerequisite actions
 
