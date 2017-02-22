@@ -149,7 +149,7 @@ Class in charge of saving/retrieving the version number.
     * Option `tag-prefix`: Allow to prefix all VCS tag with a string. You can have a numeric versionning but generation tags such as `v_2.3.4`. As a bonus you can use a specific placeholder: `{branch-name}` that will automatically inject the current branch name in the tag. So use, simple generation and `tag-prefix: "{branch-name}_"` and it will generate tag like `featureXY_1`, `featureXY_2`, etc...
 
 * changelog: Save the version in the changelog file
-    * Option `location`: Changlog file name an location (default: *CHANGELOG*)
+    * Option `location`: Changelog file name an location (default: *CHANGELOG*)
 
 ### Prerequisite actions
 
