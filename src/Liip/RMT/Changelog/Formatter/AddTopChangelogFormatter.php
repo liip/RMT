@@ -46,6 +46,7 @@ class AddTopChangelogFormatter
         if (!empty($comment)) {
             array_splice($lines, $pos, 0, array($comment, ''));
         }
+        
         if (isset($options['extra-lines'])) {
             array_splice($lines, $pos, 0, $options['extra-lines']);
         }
