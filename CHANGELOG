@@ -3,6 +3,12 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      09/05/2017 10:03  1.2.7  Last security checker version + Documentation updates
+         d1a89e9 Fixed typo
+         c36aaa9 Add the doc about the `{branch-name}` placeholder
+         a6f0e70 Document persister options
+         d7006d6 Small typo fix in the description of composer.json
+         375a61d Allow sensiolabs/security-checker in latest version (required by symfony 3.1.x)
       07/11/2016 06:33  1.2.6  Allow to run an external command into the pre-requisite list
          bf179f3 Add the command action to pre-requisite doc
          6cb272d Allow to run an external command into the pre-requisite list too
