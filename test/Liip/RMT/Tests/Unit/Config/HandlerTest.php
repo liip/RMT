@@ -229,9 +229,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getDataForTestingGetClassAndOptionsForClassConfigurationInVersionGenerator
+     * @dataProvider getDataForTestingGetClassForClassConfigurationInVersionGenerator
      */
-    public function testGetClassAndOptionsForClassConfigurationInVersionGenerator($configKey, $configClass, $expectedClass, $expectedOptions)
+    public function testGetClassForClassConfigurationInVersionGenerator($configKey, $configClass, $expectedClass)
     {
         $configHandler = new Handler(array(
             'version-persister' => $configClass,
@@ -241,23 +241,22 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'getClassAndOptions');
         $method->setAccessible(true);
 
-        $this->assertEquals(
-            array('class' => $expectedClass, 'options' => $expectedOptions),
-            $method->invokeArgs($configHandler, array($configClass, $configKey))
-        );
+        $classAndOptions = $method->invokeArgs($configHandler, array($configClass, $configKey));
+
+        $this->assertEquals($expectedClass, $classAndOptions['class']);
     }
 
-    public function getDataForTestingGetClassAndOptionsForClassConfigurationInVersionGenerator()
+    public function getDataForTestingGetClassForClassConfigurationInVersionGenerator()
     {
         return array(
             // version persister
-            array('version-persister', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
-            array('version-persister', 'CustomVersion', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
-            array('version-persister', 'CustomVersionPersister', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
+            array('version-persister', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister'),
+            array('version-persister', 'CustomVersion', 'Liip\RMT\Version\Persister\CustomVersionPersister'),
+            array('version-persister', 'CustomVersionPersister', 'Liip\RMT\Version\Persister\CustomVersionPersister'),
             // version generator
-            array('version-generator', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', array()),
-            array('version-generator', 'CustomVersion', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
-            array('version-generator', 'CustomVersionGenerator', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
+            array('version-generator', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator'),
+            array('version-generator', 'CustomVersion', 'Liip\RMT\Version\Generator\CustomVersionGenerator'),
+            array('version-generator', 'CustomVersionGenerator', 'Liip\RMT\Version\Generator\CustomVersionGenerator'),
         );
     }
 }
