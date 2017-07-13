@@ -18,5 +18,4 @@ use Liip\RMT\Action\CommandAction;
  */
 class Command extends CommandAction
 {
-
 }

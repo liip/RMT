@@ -66,7 +66,8 @@ abstract class BaseAction
      * @param float|null $timeout
      * @return Process
      */
-    public function executeCommandInProcess($cmd, $timeout = null){
+    public function executeCommandInProcess($cmd, $timeout = null)
+    {
         Context::get('output')->write("<comment>$cmd</comment>\n\n");
         $process = new Process($cmd);
 
