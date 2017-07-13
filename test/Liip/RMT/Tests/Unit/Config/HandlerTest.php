@@ -12,6 +12,8 @@
 namespace Liip\RMT\Tests\Unit\Config;
 
 use Liip\RMT\Config\Handler;
+use Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator;
+use Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister;
 
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -223,6 +225,41 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             // vcs: {name: git, opt1: val1}
             array('vcs', array('name' => 'git', 'opt1' => 'val1'), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
             array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array()),
+        );
+    }
+
+    /**
+     * @dataProvider getDataForTestingGetClassAndOptionsForClassConfigurationInVersionGenerator
+     */
+    public function testGetClassAndOptionsForClassConfigurationInVersionGenerator($configKey, $configClass, $expectedClass, $expectedOptions)
+    {
+        $configHandler = new Handler(array(
+            'version-persister' => $configClass,
+            'version-generator' => $configClass,
+        ));
+
+        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'getClassAndOptions');
+        $method->setAccessible(true);
+
+        $this->assertEquals(
+            array('class' => $expectedClass, 'options' => $expectedOptions),
+            $method->invokeArgs($configHandler, array($configClass, $configKey))
+        );
+    }
+
+    public function getDataForTestingGetClassAndOptionsForClassConfigurationInVersionGenerator()
+    {
+        return array(
+            // version persister
+            array('version-persister', CustomVersionPersister::class, CustomVersionPersister::class, array()),
+            array('version-persister', CustomVersionPersister::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister', array()),
+            array('version-persister', 'CustomVersion', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
+            array('version-persister', 'CustomVersionPersister', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
+            // version generator
+            array('version-generator', CustomVersionGenerator::class, CustomVersionGenerator::class, array()),
+            array('version-generator', CustomVersionGenerator::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', array()),
+            array('version-generator', 'CustomVersion', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
+            array('version-generator', 'CustomVersionGenerator', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
         );
     }
 }
