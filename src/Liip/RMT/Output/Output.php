@@ -133,7 +133,6 @@ class Output extends ConsoleOutput
         }
 
         if ($this->dialogHelper instanceof DialogHelper) {
-
             if ($question->isHiddenAnswer()) {
                 return $this->dialogHelper->askHiddenResponseAndValidate($this, $text, $question->getValidator(), false);
             }
@@ -159,6 +158,5 @@ class Output extends ConsoleOutput
         }
 
         throw new \RuntimeException("Invalid dialogHelper");
-
     }
 }
