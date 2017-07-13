@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "735f2e82e0e6ff545811a2b12e370700",
+    "hash": "deb3427f835567ee08b3b7b0ee6907d7",
+    "content-hash": "06c5291e8de679735a9547652ca4bbd9",
     "packages": [
         {
             "name": "psr/log",
@@ -51,7 +52,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -95,7 +96,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2016-09-23T18:09:57+00:00"
+            "time": "2016-09-23 18:09:57"
         },
         {
             "name": "symfony/console",
@@ -156,7 +157,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-15T23:02:12+00:00"
+            "time": "2016-11-15 23:02:12"
         },
         {
             "name": "symfony/debug",
@@ -213,7 +214,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-15T12:53:17+00:00"
+            "time": "2016-11-15 12:53:17"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -272,7 +273,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14T01:06:16+00:00"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/process",
@@ -321,7 +322,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-09-29T14:03:54+00:00"
+            "time": "2016-09-29 14:03:54"
         },
         {
             "name": "symfony/yaml",
@@ -370,7 +371,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-14T16:15:57+00:00"
+            "time": "2016-11-14 16:15:57"
         },
         {
             "name": "vierbergenlars/php-semver",
@@ -422,7 +423,7 @@
                 "semver",
                 "versioning"
             ],
-            "time": "2015-05-02T19:28:54+00:00"
+            "time": "2015-05-02 19:28:54"
         }
     ],
     "packages-dev": [],

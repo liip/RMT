@@ -168,6 +168,10 @@ class Handler
      */
     protected function findClass($name, $sectionName)
     {
+        if (class_exists($name)) {
+            return $name;
+        }
+
         $file = $this->projectRoot.DIRECTORY_SEPARATOR.$name;
         if (strpos($file, '.php') > 0) {
             if (file_exists($file)) {
@@ -217,8 +221,14 @@ class Handler
             'version-persister' => 'Persister',
         );
         $nameSpace = $namespacesByType[$classType];
-        $className = str_replace(' ', '', ucwords(str_replace('-', ' ', $name))).$suffixByType[$classType];
+        $classNameWithoutSuffix = str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+        $classNameSuffix = $suffixByType[$classType];
+        $className = $nameSpace.'\\'.$classNameWithoutSuffix;
 
-        return $nameSpace.'\\'.$className;
+        if (substr($classNameWithoutSuffix, -strlen($classNameSuffix)) != $classNameSuffix) {
+            $className .= $classNameSuffix;
+        }
+
+        return $className;
     }
 }

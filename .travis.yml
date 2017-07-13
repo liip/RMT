@@ -36,6 +36,7 @@ before_install:
   - git config --global user.name "John Doe"
   - composer self-update
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/console:${SYMFONY_VERSION}" "symfony/yaml:${SYMFONY_VERSION}" "symfony/process:${SYMFONY_VERSION}" --no-update; fi;
+  - composer require "phpunit/phpunit:<6" --no-update
 
 install: composer update --prefer-source $COMPOSER_FLAGS
 
