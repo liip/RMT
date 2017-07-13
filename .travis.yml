@@ -16,7 +16,6 @@ cache:
 
 env:
   - SYMFONY_VERSION=2.7.*
-  - PHPUNIT_VERSION=4.5.0
 
 matrix:
   allow_failures:
@@ -24,10 +23,8 @@ matrix:
   include:
     - php: 5.6
       env: SYMFONY_VERSION=2.3.*
-      env: PHPUNIT_VERSION=4.5.0
     - php: 5.6
       env: SYMFONY_VERSION=2.8.*@dev
-      env: PHPUNIT_VERSION=4.5.0
     - php: 5.6
       env: SYMFONY_VERSION=3.0.*@dev
     - php: 5.3
@@ -41,7 +38,7 @@ before_install:
   - git config --global user.name "John Doe"
   - composer self-update
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/console:${SYMFONY_VERSION}" "symfony/yaml:${SYMFONY_VERSION}" "symfony/process:${SYMFONY_VERSION}" --no-update; fi;
-  - if [ "$PHPUNIT_VERSION" != "" ]; then composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --no-update; fi;
+  - composer require "phpunit/phpunit:^4|^5.5" --dev --no-update
 
 install: composer update --prefer-source $COMPOSER_FLAGS
 
