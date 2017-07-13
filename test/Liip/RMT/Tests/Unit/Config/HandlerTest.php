@@ -249,17 +249,22 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     public function getDataForTestingGetClassAndOptionsForClassConfigurationInVersionGenerator()
     {
-        return array(
+        $testData = array(
             // version persister
-            array('version-persister', CustomVersionPersister::class, CustomVersionPersister::class, array()),
-            array('version-persister', CustomVersionPersister::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister', array()),
             array('version-persister', 'CustomVersion', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
             array('version-persister', 'CustomVersionPersister', 'Liip\RMT\Version\Persister\CustomVersionPersister', array()),
             // version generator
-            array('version-generator', CustomVersionGenerator::class, CustomVersionGenerator::class, array()),
-            array('version-generator', CustomVersionGenerator::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', array()),
             array('version-generator', 'CustomVersion', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
             array('version-generator', 'CustomVersionGenerator', 'Liip\RMT\Version\Generator\CustomVersionGenerator', array()),
         );
+
+        if (version_compare(phpversion(), '5.5', '>=')) {
+            $testData[] = array('version-persister', CustomVersionPersister::class, CustomVersionPersister::class, array());
+            $testData[] = array('version-persister', CustomVersionPersister::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionPersister', array());
+
+            $testData[] = array('version-generator', CustomVersionGenerator::class, CustomVersionGenerator::class, array());
+            $testData[] = array('version-generator', CustomVersionGenerator::class, 'Liip\RMT\Tests\Unit\Config\ExternalClasses\CustomVersionGenerator', array());
+        }
+
     }
 }
