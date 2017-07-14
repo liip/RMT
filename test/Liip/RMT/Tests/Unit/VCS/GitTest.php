@@ -19,6 +19,10 @@ class GitTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        if (SKIP_GIT_TESTS) {
+            $this->markTestSkipped('GIT is not installed');
+        }
+
         // Create a temp folder and extract inside the git test folder
         $tempDir = tempnam(sys_get_temp_dir(), '');
         if (file_exists($tempDir)) {

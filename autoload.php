@@ -39,3 +39,7 @@ if (extension_loaded('phar') && method_exists('Phar', 'running') && file_exists(
 } else {
     throw new \Exception("Unable to find the an autoloader");
 }
+
+if (file_exists('test' . DIRECTORY_SEPARATOR . 'bootstrap.php')) {
+    require_once 'test' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+}
