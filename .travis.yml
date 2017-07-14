@@ -10,7 +10,8 @@ sudo: false
 
 cache:
   directories:
-    - $HOME/.composer/cache/files
+    - $HOME/.composer/cache
+    - vendor
 
 env:
   - SYMFONY_VERSION=2.7.*
@@ -33,7 +34,7 @@ before_install:
   - composer self-update
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/console:${SYMFONY_VERSION}" "symfony/yaml:${SYMFONY_VERSION}" "symfony/process:${SYMFONY_VERSION}" --no-update; fi;
 
-install: composer update --prefer-source $COMPOSER_FLAGS
+install: composer update --prefer-dist $COMPOSER_FLAGS
 
 script: bin/phpunit --coverage-text
 
