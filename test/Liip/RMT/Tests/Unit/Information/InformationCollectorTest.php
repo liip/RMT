@@ -14,7 +14,7 @@ namespace Liip\RMT\Tests\Unit\Information;
 use Liip\RMT\Information\InformationCollector;
 use Liip\RMT\Information\InformationRequest;
 
-class InformationCollectorTest extends \PHPUnit_Framework_TestCase
+class InformationCollectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testRegisterRequest()
     {

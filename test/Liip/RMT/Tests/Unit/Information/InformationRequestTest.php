@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit\Information;
 
 use Liip\RMT\Information\InformationRequest;
 
-class InformationRequestTest extends \PHPUnit_Framework_TestCase
+class InformationRequestTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetAndGetValue()
     {

@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit;
 
 use Liip\RMT\Context;
 
-class ContextTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit\Framework\TestCase
 {
     // SERVICE TESTS
 

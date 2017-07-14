@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit\Changelog;
 
 use Liip\RMT\Changelog\ChangelogManager;
 
-class ChangelogManagerTest extends \PHPUnit_Framework_TestCase
+class ChangelogManagerTest extends \PHPUnit\Framework\TestCase
 {
     protected $dir;
 

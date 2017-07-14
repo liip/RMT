@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Functional;
 
 use Symfony\Component\Yaml\Yaml;
 
-class RMTFunctionalTestBase extends \PHPUnit_Framework_TestCase
+class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
 {
     protected $tempDir;
 

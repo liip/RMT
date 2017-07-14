@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit\Version;
 
 use Liip\RMT\VCS\Git;
 
-class GitTest extends \PHPUnit_Framework_TestCase
+class GitTest extends \PHPUnit\Framework\TestCase
 {
     protected $testDir;
 

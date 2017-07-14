@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Version\Persister;
 
 use Liip\RMT\Version\Persister\TagValidator;
 
-class TagValidatorTest extends \PHPUnit_Framework_TestCase
+class TagValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getTagData
