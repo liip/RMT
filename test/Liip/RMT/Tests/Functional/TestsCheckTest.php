@@ -6,14 +6,14 @@ use Exception;
 use Liip\RMT\Context;
 use Liip\RMT\Prerequisite\TestsCheck;
 
-class TestsCheckTest extends \PHPUnit_Framework_TestCase
+class TestsCheckTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
-        $informationCollector = $this->getMock('Liip\RMT\Information\InformationCollector');
+        $informationCollector = $this->createMock('Liip\RMT\Information\InformationCollector');
         $informationCollector->method('getValueFor')->with(TestsCheck::SKIP_OPTION)->willReturn(false);
 
-        $output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->createMock('Symfony\Component\Console\Output\OutputInterface');
         $output->method('write');
 
         $context = Context::getInstance();
@@ -35,11 +35,13 @@ class TestsCheckTest extends \PHPUnit_Framework_TestCase
         $check->execute();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Exception
+     * @expectedExceptionMessageRegExp ~process.*time.*out~
+     */
     public function fails_when_the_command_exceeds_the_timeout()
     {
-        $this->setExpectedExceptionRegExp('Exception', '~process.*time.*out~');
-
         $check = new TestsCheck(array('command' => 'sleep 1', 'timeout' => 0.100));
         $check->execute();
     }

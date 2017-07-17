@@ -14,7 +14,7 @@ namespace Liip\RMT\Tests\Unit\Information;
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InteractiveQuestion;
 
-class InteractiveQuestionTest extends \PHPUnit_Framework_TestCase
+class InteractiveQuestionTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetDefault()
     {

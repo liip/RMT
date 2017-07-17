@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit\Version;
 
 use Liip\RMT\VCS\Hg;
 
-class HgTest extends \PHPUnit_Framework_TestCase
+class HgTest extends \PHPUnit\Framework\TestCase
 {
     protected $testDir;
 

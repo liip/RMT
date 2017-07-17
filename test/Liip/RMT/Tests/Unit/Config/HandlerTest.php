@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Unit\Config;
 
 use Liip\RMT\Config\Handler;
 
-class HandlerTest extends \PHPUnit_Framework_TestCase
+class HandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \Liip\RMT\Config\Exception

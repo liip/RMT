@@ -11,7 +11,7 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
-class SemanticGeneratorTest extends \PHPUnit_Framework_TestCase
+class SemanticGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getVersionValues

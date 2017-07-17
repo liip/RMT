@@ -11,14 +11,18 @@
 
 namespace Liip\RMT\Tests\Unit\Changelog\Formatter;
 
-class SemanticChangelogFormatterTest extends \PHPUnit_Framework_TestCase
+class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @return Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter
      */
     protected function getFormatter()
     {
-        $formatter = $this->getMock('Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter', array('getFormattedDate'));
+        $formatter = $this
+            ->getMockBuilder('Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter')
+            ->setMethods(array('getFormattedDate'))
+            ->getMock()
+        ;
         $formatter
             ->expects($this->any())
             ->method('getFormattedDate')
