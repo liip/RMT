@@ -61,6 +61,12 @@ directly `./rmt.phar` or run it by invoking it through PHP via `php rmt.phar`.
 
 For the usage substitute RMT with whatever variant you have decided to use.
 
+### Option 4: As Drifter role
+If your are using https://github.com/liip/drifter for your project, you just need three step
+* Activate the `rmt` role
+* Re-run the provisionning `vagrant provision`
+* Init RMT for your project `php /home/vagrant/.config/composer/vendor/liip/rmt/RMT`
+
 Usage
 -----
 Using RMT is very straightforward, just run the command:
