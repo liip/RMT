@@ -11,6 +11,10 @@
 
 namespace Liip\RMT\VCS;
 
+use Liip\RMT\Exception;
+use Liip\RMT\Exception\InvalidTagNameException;
+use Liip\RMT\Exception\TagAlreadyExistsException;
+
 class Git extends BaseVCS
 {
     protected $dryRun = false;
@@ -43,6 +47,19 @@ class Git extends BaseVCS
     public function getTags()
     {
         return $this->executeGitCommand('tag');
+    }
+
+    public function validateTag($tagName)
+    {
+        try {
+            $this->executeGitCommand("check-ref-format --allow-onelevel $tagName");
+        } catch(Exception $e) {
+            throw new InvalidTagNameException("'$tagName' is an invalid tag name for git.");
+        }
+
+        if(in_array($tagName, $this->getTags())) {
+            throw new TagAlreadyExistsException("'$tagName' already exists.");
+        }
     }
 
     public function createTag($tagName)
@@ -86,6 +103,11 @@ class Git extends BaseVCS
         throw new \Liip\RMT\Exception('Not currently on any branch');
     }
 
+    /**
+     * @param $cmd
+     * @throws \Liip\RMT\Exception
+     * @return string[]
+     */
     protected function executeGitCommand($cmd)
     {
         // Avoid using some commands in dry mode
@@ -93,7 +115,7 @@ class Git extends BaseVCS
             if ($cmd !== 'tag') {
                 $cmdWords = explode(' ', $cmd);
                 if (in_array($cmdWords[0], array('tag', 'push', 'add', 'commit'))) {
-                    return;
+                    return [];
                 }
             }
         }
@@ -102,7 +124,7 @@ class Git extends BaseVCS
         $cmd = 'git ' . $cmd;
         exec($cmd, $result, $exitCode);
         if ($exitCode !== 0) {
-            throw new \Liip\RMT\Exception('Error while executing git command: ' . $cmd . "\n" . implode("\n", $result));
+            throw new Exception('Error while executing git command: ' . $cmd . "\n" . implode("\n", $result));
         }
 
         return $result;

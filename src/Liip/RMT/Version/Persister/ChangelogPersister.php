@@ -42,16 +42,21 @@ class ChangelogPersister implements PersisterInterface
         return $this->changelogManager->getCurrentVersion();
     }
 
-    public function save($versionNumber)
+    public function save()
     {
         $comment = Context::get('information-collector')->getValueFor('comment');
         $type = Context::get('information-collector')->getValueFor('type', null);
-        $this->changelogManager->update($versionNumber, $comment, array('type' => $type));
+        $this->changelogManager->update(Context::getParam('new-version'), $comment, array('type' => $type));
     }
 
     public function getInformationRequests()
     {
         return array('comment');
+    }
+
+    public function validateContext()
+    {
+
     }
 
     public function init()

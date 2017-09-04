@@ -60,6 +60,53 @@ class GitTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array('1.0.0', '1.1.0'), $vcs->getTags());
     }
 
+    /**
+     * @dataProvider invalidTagNames
+     * @expectedException \Liip\RMT\Exception\InvalidTagNameException
+     */
+    public function testInvalidateTag($tag)
+    {
+        $vcs = new Git();
+        $vcs->validateTag($tag);
+    }
+
+    public function invalidTagNames()
+    {
+        return array(
+            array("test..test"),
+            array("test*test"),
+            array('test[test'),
+            array("test?test"),
+            array("test\ntest"),
+            array("test\rtest"),
+            array("test."),
+            array("@"),
+            array("\\"),
+        );
+    }
+
+    /**
+     * @dataProvider validTagNames
+     */
+    public function testValidateTag($tag)
+    {
+        $vcs = new Git();
+        $vcs->validateTag($tag);
+    }
+
+    public function validTagNames()
+    {
+        return array(
+            array('test/test'),
+            array('test'),
+            array(2345),
+            array('1.2'),
+            array('1.2.3'),
+            array('v1.2'),
+            array('v1.2.3'),
+        );
+    }
+
     public function testCreateTag()
     {
         $vcs = new Git();

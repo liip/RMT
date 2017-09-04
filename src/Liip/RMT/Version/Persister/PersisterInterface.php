@@ -26,9 +26,11 @@ interface PersisterInterface
      */
     public function getCurrentVersion();
 
-    public function save($versionNumber);
+    public function save();
 
     public function getInformationRequests();
+
+    public function validateContext();
 
     // Use the very first time to init this persistence
     public function init();

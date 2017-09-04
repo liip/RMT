@@ -53,6 +53,20 @@ abstract class BaseAction
     }
 
     /**
+     * This method is called after all registered information collectors have
+     * been called to validate that the action has all necessary information
+     * if anything is missing an exception should be thrown.
+     * When called, the 'current-version' and 'new-version' parameters are
+     * already known, so a check can be made on those.
+     *
+     * @throws \Exception
+     */
+    public function validateContext()
+    {
+
+    }
+
+    /**
      * A common method to confirm success to the user
      */
     public function confirmSuccess()
