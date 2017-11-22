@@ -25,10 +25,10 @@ class HgTest extends RMTFunctionalTestBase
     public function testInitialVersion()
     {
         $this->initHg();
-        $this->createConfig('simple', 'vcs-tag', array('vcs' => 'hg'));
+        $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => 'v'), array('vcs' => 'hg'));
         exec('./RMT release -n --confirm-first');
         exec('hg tags', $tags);
-        $this->assertEquals(array('tip', '1'), static::cleanTags($tags));
+        $this->assertEquals(array('tip', 'v1'), static::cleanTags($tags));
     }
 
     public function testInitialVersionSemantic()
@@ -43,13 +43,13 @@ class HgTest extends RMTFunctionalTestBase
     public function testSimple()
     {
         $this->initHg();
-        exec('hg tag 1');
-        exec('hg tag 3');
+        exec('hg tag v1');
+        exec('hg tag v3');
         exec('hg tag toto');
-        $this->createConfig('simple', 'vcs-tag', array('vcs' => 'hg'));
+        $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => 'v'), array('vcs' => 'hg'));
         exec('./RMT release -n');
         exec('hg tags', $tags);
-        $this->assertEquals(array('tip', '4', 'toto', '3', '1'), static::cleanTags($tags));
+        $this->assertEquals(array('tip', 'v4', 'toto', 'v3', 'v1'), static::cleanTags($tags));
     }
 
     public function testSemantic()
@@ -65,12 +65,12 @@ class HgTest extends RMTFunctionalTestBase
     public function testTagPrefix()
     {
         $this->initHg();
-        exec('hg tag 2');
+        exec('hg tag v2');
         exec('hg tag v_1');
         $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => 'v_'), array('vcs' => 'hg'));
         exec('./RMT release -n');
         exec('hg tags', $tags);
-        $this->assertEquals(array('tip', 'v_2', 'v_1', '2'), static::cleanTags($tags));
+        $this->assertEquals(array('tip', 'v_2', 'v_1', 'v2'), static::cleanTags($tags));
     }
 
     public function testTagPrefixWithBranchNamePlaceHolder()
