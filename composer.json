@@ -40,5 +40,10 @@
     "bin": ["RMT"],
     "config" : {
         "bin-dir" : "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3-dev"
+        }
     }
 }
