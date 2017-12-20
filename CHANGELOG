@@ -2,6 +2,18 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.3 - 1.3.0
+      20/12/2017 14:37  1.3.0  initial release
+         cedd796 add branch-alias in composer.json
+         ef072a7 update the lock file
+         85d993a allow symfony 4.0 (#129)
+         96056bc build with recent symfony versions and php 7.2
+         8a7b8ee have hg tests work correctly with new versions of mercurial
+         cb13a4a Add a Drifter option in the install possibilities
+         110a47f Travis build tweaks
+         854cc5a Require supported version of phpunit and fix test with forward compatibility layer
+         cfdce17 Update php requirement to only allow supported php versions
+
    Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
       09/05/2017 10:03  1.2.7  Last security checker version + Documentation updates
          d1a89e9 Fixed typo

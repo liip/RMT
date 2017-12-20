@@ -1,6 +1,6 @@
 {
     "name": "liip/rmt",
-    "version": "1.2.7",
+    "version": "1.3.0",
     "description": "Release Management Tool: a handy tool to help releasing new version of your software",
     "keywords": ["release", "version", "semantic versioning", "vcs tag", "pre-release", "post-release"],
     "homepage": "http://github.com/liip/RMT",
