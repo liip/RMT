@@ -302,8 +302,8 @@ If you would like to help, by submitting one of your action scripts, generators,
 Requirements
 ------------
 
-PHP 5.3
-Composer
+- PHP >= 5.6
+- Composer
 
 Authors
 -------
