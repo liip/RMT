@@ -17,7 +17,7 @@ if (extension_loaded('phar') && method_exists('Phar', 'running') && file_exists(
 } elseif (file_exists($file = __DIR__ . '/../../autoload.php')) {
 
     // Composer standard location
-    $loader = require_once $file;
+    $loader = require $file;
     $loader->add('Liip\RMT\Tests', __DIR__ . '/test');
     $loader->add('Liip', __DIR__ . '/src');
 } elseif (file_exists($file = __DIR__ . '/vendor/autoload.php')) {
