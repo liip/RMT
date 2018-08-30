@@ -184,7 +184,7 @@ Actions can be used for pre or post release parts.
 
 * `changelog-update`: Update a changelog file. This action is further configured
   to use a specific formatter.
-    * Option `format`: *simple*, *semantic* or *addTop*  (default: *simple*)
+    * Option `format`: *simple*, *semantic*, *markdown* or *addTop*  (default: *simple*)
     * Option `file`: path from .rmt.yml to changelog file (default: *CHANGELOG*)
     * Option `dump-commits`: write all commit messages since the last release into the
       changelog file (default: *false*)
@@ -269,7 +269,7 @@ Most of the time, it will be easier for you to pick up an example below and adap
         tag-prefix : "v_"
     post-release-actions: [vcs-publish]
 
-### Using semantic versioning on master and simple versioning on topic branches
+### Using semantic versioning on master and simple versioning on topic branches, markdown formatting for changelog
 
     _default:
         vcs: git
@@ -285,7 +285,7 @@ Most of the time, it will be easier for you to pick up an example below and adap
         prerequisites: [working-copy-check, display-last-changes]
         pre-release-actions:
             changelog-update:
-                format: semantic
+                format: markdown
                 file: CHANGELOG.md
                 dump-commits: true
             update-version-class:
