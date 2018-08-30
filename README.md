@@ -310,7 +310,7 @@ Authors
 
 * Laurent Prodon Liip AG
 * David Jeanmonod Liip AG
-* Peter Petermann Gameforge 4D GmbH
+* Peter Petermann
 * Gilles Crettenand Liip AG
 * and [others contributors](https://github.com/liip/RMT/graphs/contributors)
 
