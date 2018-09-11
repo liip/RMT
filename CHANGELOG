@@ -2,7 +2,7 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
-   Version 1.3 - 1.3.0
+   Version 1.3 - Compatibility with Symfony 4.0 and PHP 7.2 + Document Drifter install
       20/12/2017 14:37  1.3.0  initial release
          cedd796 add branch-alias in composer.json
          ef072a7 update the lock file
