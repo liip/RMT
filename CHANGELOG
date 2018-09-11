@@ -2,6 +2,13 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.4 - Markdown support for CHANGELOG formating, thanks to @ppetermann
+      11/09/2018 04:11  1.4.0  initial release
+         8b011c7 Compatibility with PHPUnit 7.3.5
+         8dedf27 Fix the CHANGELOG
+         212a3c8 dropped name of company i haven't been working for in a while
+         1cea690 Added MarkdownChangelogFormatter (#138), based on the SemanticChangelogFormatter
+
    Version 1.3 - Compatibility with Symfony 4.0 and PHP 7.2 + Document Drifter install
       20/12/2017 14:37  1.3.0  initial release
          cedd796 add branch-alias in composer.json
