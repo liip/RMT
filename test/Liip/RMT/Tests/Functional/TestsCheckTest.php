@@ -21,14 +21,20 @@ class TestsCheckTest extends \PHPUnit\Framework\TestCase
         $context->setService('output', $output);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
     public function succeeds_when_command_finished_within_the_default_configured_timeout_of_60s()
     {
         $check = new TestsCheck(array('command' => 'echo OK'));
         $check->execute();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @doesNotPerformAssertions
+     */
     public function succeeds_when_command_finished_within_configured_timeout()
     {
         $check = new TestsCheck(array('command' => 'echo OK', 'timeout' => 0.100));
