@@ -16,6 +16,8 @@ namespace Liip\RMT\Config;
  */
 class Handler
 {
+    const ACTIONS_LIST = ['prerequisites', 'pre-release-actions', 'post-release-actions'];
+
     public function __construct($rawConfig = null, $projectRoot = null)
     {
         $this->rawConfig = $rawConfig;
@@ -70,10 +72,40 @@ class Handler
 
         // Return custom branch config
         if (isset($branchName) && isset($branchesConfig[$branchName])) {
-            return array_replace_recursive($baseConfig, $branchesConfig[$branchName]);
+            return $this->replaceArraysValuesWhileKeepingOrderOfActionsLists($baseConfig, $branchesConfig[$branchName]);
         }
 
         return $baseConfig;
+    }
+
+    protected function replaceArraysValuesWhileKeepingOrderOfActionsLists($baseConfig, $branchConfig)
+    {
+        // array_replace_recursive messes up the order of elements. Let's fix that.
+        $config = array_replace_recursive($baseConfig, $branchConfig);
+
+        // Loop over actions list, for which the order of elements is crucial
+        foreach (static::ACTIONS_LIST as $actionKey) {
+
+            // The config may not contain all actions lists configuration keys
+            if (!isset($config[$actionKey]) || !isset($branchConfig[$actionKey])) {
+                continue;
+            }
+
+            // Compare the keys of both arrays. If they are the same already, there's nothing to do.
+            $branchConfigActionKeys = array_keys($branchConfig[$actionKey]);
+            if ($branchConfigActionKeys === array_keys($config[$actionKey])) {
+                continue;
+            }
+
+            // Otherwise, loop over the branch config keys (as reference) and recreate an array with this order
+            $reorderedActionConfig = [];
+            foreach ($branchConfigActionKeys as $key) {
+                $reorderedActionConfig[$key] = $config[$actionKey][$key];
+            }
+            $config[$actionKey] = $reorderedActionConfig;
+        }
+
+        return $config;
     }
 
     /**
@@ -95,7 +127,7 @@ class Handler
         }
 
         // Same process but for list value elements
-        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $configKey) {
+        foreach (static::ACTIONS_LIST as $configKey) {
             foreach ($config[$configKey] as $key => $item) {
 
                 // Accept the element to be define by key or by value

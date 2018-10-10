@@ -11,6 +11,7 @@
 
 namespace Liip\RMT\Command;
 
+use Liip\RMT\Config\Handler;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Liip\RMT\Information\InformationCollector;
@@ -63,7 +64,7 @@ class ReleaseCommand extends BaseCommand
         $ic->registerRequests(Context::get('version-persister')->getInformationRequests());
 
         // Register options of all lists (prerequistes and actions)
-        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName) {
+        foreach (Handler::ACTIONS_LIST as $listName) {
             foreach (Context::getInstance()->getList($listName) as $listItem) {
                 $ic->registerRequests($listItem->getInformationRequests());
             }

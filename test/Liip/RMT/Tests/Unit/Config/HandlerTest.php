@@ -123,10 +123,41 @@ class HandlerTest extends \PHPUnit\Framework\TestCase
     public function testMerge()
     {
         $configHandler = new Handler(array(
+            'pre-release-actions' => [
+                'command' => [
+                    'class' => 'Liip\\RMT\\Action\\CommandAction',
+                    'options' => [
+                        'cmd' => 'echo "project_default_config";',
+                    ]
+                ],
+                'changelog-update' => [
+                    'class' => 'Liip\\RMT\\Action\\ChangelogUpdateAction',
+                    'options' => [
+                        'format' => 'semantic',
+                        'file' => 'CHANGELOG.md',
+                    ]
+                ],
+                'vcs-commit' => [
+                    'class' => 'Liip\\RMT\\Action\\VcsCommitAction',
+                    'options' => [],
+                ],
+            ],
             'version-persister' => 'foo',
             'version-generator' => 'bar',
             'branch-specific' => array(
                 'dev' => array(
+                    'pre-release-actions' => [
+                        'command' => [
+                            'class' => 'Liip\\RMT\\Action\\CommandAction',
+                            'options' => [
+                                'cmd' => 'echo "project_dev_config";',
+                            ]
+                        ],
+                        'vcs-commit' => [
+                            'class' => 'Liip\\RMT\\Action\\VcsCommitAction',
+                            'options' => [],
+                        ],
+                    ],
                     'version-generator' => 'foobar',
                 ),
             ),
@@ -135,21 +166,51 @@ class HandlerTest extends \PHPUnit\Framework\TestCase
         $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
         $method->setAccessible(true);
 
-        $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+        // "assertSame" is needed here to compare the array's ordering too (assertEquals doesn't)
+        $this->assertSame($method->invokeArgs($configHandler, array()), array(
             'vcs' => null,
             'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
+            'pre-release-actions' => [
+                'command' => [
+                    'class' => 'Liip\\RMT\\Action\\CommandAction',
+                    'options' => [
+                        'cmd' => 'echo "project_default_config";',
+                    ]
+                ],
+                'changelog-update' => [
+                    'class' => 'Liip\\RMT\\Action\\ChangelogUpdateAction',
+                    'options' => [
+                        'format' => 'semantic',
+                        'file' => 'CHANGELOG.md',
+                    ]
+                ],
+                'vcs-commit' => [
+                    'class' => 'Liip\\RMT\\Action\\VcsCommitAction',
+                    'options' => [],
+                ],
+            ],
             'version-generator' => 'bar',
             'version-persister' => 'foo',
+            'post-release-actions' => array(),
         ));
-        $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+        $this->assertSame($method->invokeArgs($configHandler, array('dev')), array(
             'vcs' => null,
             'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
+            'pre-release-actions' => [
+                'command' => [
+                    'class' => 'Liip\\RMT\\Action\\CommandAction',
+                    'options' => [
+                        'cmd' => 'echo "project_dev_config";',
+                    ]
+                ],
+                'vcs-commit' => [
+                    'class' => 'Liip\\RMT\\Action\\VcsCommitAction',
+                    'options' => [],
+                ],
+            ],
             'version-generator' => 'foobar',
             'version-persister' => 'foo',
+            'post-release-actions' => array(),
         ));
     }
 
