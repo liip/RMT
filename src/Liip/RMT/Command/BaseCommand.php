@@ -101,7 +101,7 @@ abstract class BaseCommand extends Command
         foreach (array('version-generator', 'version-persister') as $service) {
             Context::getInstance()->setService($service, $config[$service]['class'], $config[$service]['options']);
         }
-        foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $listName) {
+        foreach (Handler::ACTIONS_LIST as $listName) {
             Context::getInstance()->createEmptyList($listName);
             foreach ($config[$listName] as $service) {
                 Context::getInstance()->addToList($listName, $service['class'], $service['options']);
