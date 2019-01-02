@@ -25,6 +25,7 @@ class CommandAction extends BaseAction
             'cmd' => null,
             'live_output' => true,
             'stop_on_error' => true,
+            'timeout' => 600,
         ), $options);
 
         if ($this->options['cmd'] == null) {
@@ -51,6 +52,11 @@ class CommandAction extends BaseAction
 
         // Run the process
         $process = new Process($command);
+
+        if (null !== $timeout = $this->options['timeout']) {
+            $process->setTimeout($timeout);
+        }
+
         $process->run($callback);
 
         // Break up if the result is not good
