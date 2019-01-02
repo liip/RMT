@@ -176,6 +176,7 @@ Prerequisite actions are executed before the interactive part.
 * `command`: Execute a system command
     * Option `cmd` The command to execute
     * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
 
 ### Actions
@@ -213,6 +214,7 @@ Actions can be used for pre or post release parts.
 * `command`: Execute a system command
     * Option `cmd` The command to execute
     * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
 
 Extend it
