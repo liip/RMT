@@ -31,7 +31,8 @@ YML;
 stable-version: 5
 dynamic-version: 6
 INI;
-        $this->createConfig('simple', 'git', ['pre-release-actions' => [
+        $this->createChangelog('simple');
+        $this->createConfig('simple', 'changelog', ['pre-release-actions' => [
             'update-version-files' => [
                 ['config.yml'],
                 ['app.ini', "const VERSION = '%version%';"]
@@ -39,6 +40,7 @@ INI;
 
         file_put_contents('config.yml', $ymlBefore);
         file_put_contents('app.ini', $iniBefore);
+        $this->manualDebug();
         exec('./RMT release -n', $output);
         $this->assertEquals($ymlAfter, file_get_contents('config.yml'));
         $this->assertEquals($iniAfter, file_get_contents('app.ini'));
