@@ -39,22 +39,22 @@ class UpdateVersionClassAction extends BaseAction
 
     public function execute()
     {
+        $filelist = array();
         if (isset($this->options['class'])) {
-            $filename = $this->getFilename($this->options['class']);
-            $this->updateFile($filename);
-            $this->confirmSuccess();
+            $filelist[] = $this->getFilename($this->options['class']);
         } else if (!empty($this->options)) {
             foreach ($this->options as $key => $section) {
-                if (isset($this->options['class'])) {
+                if (!isset($section['class'])) {
                     throw new ConfigException('You must specify the class or file to update');
                 }
-                $filename = $this->getFilename($section['class']);
-                $this->updateFile($filename);
+                $filelist[] = $this->getFilename($section['class']);
             }
-            $this->confirmSuccess();
         } else {
             throw new ConfigException('You must specify the class or file to update');
         }
+
+        $this->updateFiles($filelist);
+        $this->confirmSuccess();
     }
 
     /**
@@ -71,6 +71,21 @@ class UpdateVersionClassAction extends BaseAction
         } else {
             $versionClass = new \ReflectionClass($class);
             return $versionClass->getFileName();
+        }
+    }
+
+    /**
+     * will update all given files with the current version
+     *
+     * @param array $filelist list of all files to update
+     *
+     * @throws \Liip\RMT\Exception
+     * @see #updateFile
+     */
+    protected function updateFiles($filelist)
+    {
+        foreach ($filelist as $key => $file) {
+            $this->updateFile($file);
         }
     }
 
