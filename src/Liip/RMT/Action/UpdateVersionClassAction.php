@@ -39,19 +39,39 @@ class UpdateVersionClassAction extends BaseAction
 
     public function execute()
     {
-        if (!isset($this->options['class'])) {
+        if (isset($this->options['class'])) {
+            $filename = $this->getFilename($this->options['class']);
+            $this->updateFile($filename);
+            $this->confirmSuccess();
+        } else if (!empty($this->options)) {
+            foreach ($this->options as $key => $section) {
+                if (isset($this->options['class'])) {
+                    throw new ConfigException('You must specify the class or file to update');
+                }
+                $filename = $this->getFilename($section['class']);
+                $this->updateFile($filename);
+            }
+            $this->confirmSuccess();
+        } else {
             throw new ConfigException('You must specify the class or file to update');
         }
+    }
 
-        if (file_exists($this->options['class'])) {
-            $filename = $this->options['class'];
+    /**
+     * converts a class name to a file path, but keeps file paths as is
+     *
+     * @param string $class the class name or file path
+     * @return string the file path
+     * @throws \ReflectionException
+     */
+    protected function getFilename($class)
+    {
+        if (file_exists($class)) {
+            return $class;
         } else {
-            $versionClass = new \ReflectionClass($this->options['class']);
-            $filename = $versionClass->getFileName();
+            $versionClass = new \ReflectionClass($class);
+            return $versionClass->getFileName();
         }
-
-        $this->updateFile($filename);
-        $this->confirmSuccess();
     }
 
     /**
