@@ -198,12 +198,10 @@ Actions can be used for pre or post release parts.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
 * `composer-update`: Update the version number in a composer file
-* `update-version-class`: Update the version constant in a class file.
-    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
-    * Option `pattern`: optional, use to specify the string replacement pattern in your
-      version class. %version% will be replaced by the current / next version strings.
-      For example you could use `const VERSION = '%version%';`. If you do not specify
-      this option, every occurrence of the version string in the file will be replaced.
+* `files-update`: Update the version in one or multiple files. For each file to update, please provide an array with 
+    * Option `file`: path to the file to update
+    * Option `pattern`: optional, use to specify the string replacement pattern in your file. For example: 
+    `const VERSION = '%version%';`
 * `build-phar-package`: Builds a Phar package of the current project whose filename depends on the 'package-name' option and the deployed version: [package-name]-[version].phar
     * Option `package-name`: the name of the generate package
     * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.
@@ -216,6 +214,13 @@ Actions can be used for pre or post release parts.
     * Option `live_output` boolean, do we display the command output? (default: *true*)
     * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
+* `update-version-class`: Update the version constant in a class file. DEPRECATED, use `update-files` instead
+    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
+    * Option `pattern`: optional, use to specify the string replacement pattern in your
+      version class. %version% will be replaced by the current / next version strings.
+      For example you could use `const VERSION = '%version%';`. If you do not specify
+      this option, every occurrence of the version string in the file will be replaced.
+
 
 Extend it
 ---------
