@@ -17,25 +17,25 @@ class UpdateVersionFilesTest extends RMTFunctionalTestBase
     {
         $ymlBefore = <<<YML
 my-project:
-   version: 5
+   version: 1
 YML;
         $iniBefore = <<<INI
-stable-version: 5
-dynamic-version: 5
+stable-version: 1
+dynamic-version: 1
 INI;
         $ymlAfter = <<<YML
 my-project:
-   version: 6
+   version: 2
 YML;
         $iniAfter = <<<INI
-stable-version: 5
-dynamic-version: 6
+stable-version: 1
+dynamic-version: 2
 INI;
         $this->createChangelog('simple');
         $this->createConfig('simple', 'changelog', ['pre-release-actions' => [
             'update-version-files' => [
                 ['config.yml'],
-                ['app.ini', "const VERSION = '%version%';"]
+                ['app.ini', "dynamic-version: %version%"]
         ]]]);
 
         file_put_contents('config.yml', $ymlBefore);
