@@ -214,7 +214,7 @@ Actions can be used for pre or post release parts.
     * Option `live_output` boolean, do we display the command output? (default: *true*)
     * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
-* `update-version-class`: Update the version constant in a class file. DEPRECATED, use `update-files` instead
+* `update-version-class`: Update the version constant in a class file. DEPRECATED, use `files-update` instead
     * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
     * Option `pattern`: optional, use to specify the string replacement pattern in your
       version class. %version% will be replaced by the current / next version strings.

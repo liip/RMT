@@ -11,7 +11,7 @@
 
 namespace Liip\RMT\Tests\Functional;
 
-class UpdateVersionFilesTest extends RMTFunctionalTestBase
+class FilesUpdateTest extends RMTFunctionalTestBase
 {
     public function testTwoUpdate()
     {
@@ -33,7 +33,7 @@ dynamic-version: 2
 INI;
         $this->createChangelog('simple');
         $this->createConfig('simple', 'changelog', ['pre-release-actions' => [
-            'update-version-files' => [
+            'files-update' => [
                 ['config.yml'],
                 ['app.ini', "dynamic-version: %version%"]
         ]]]);

@@ -16,7 +16,7 @@ use Liip\RMT\Context;
 use Liip\RMT\Exception;
 use ReflectionClass;
 
-class UpdateVersionFilesAction extends BaseAction
+class FilesUpdateAction extends BaseAction
 {
     public function __construct($options)
     {
