@@ -267,13 +267,17 @@ Most of the time, it will be easier for you to pick up an example below and adap
     prerequisites: [working-copy-check, display-last-changes]
 
 
-### Using Git tags with prefix, semantic versioning and pushing automatically
+### Using Git tags with prefix, semantic versioning, updating two files and pushing automatically
 
     vcs: git
     version-generator: semantic
     version-persister:
         name: vcs-tag
         tag-prefix : "v_"
+    pre-release-actions:
+        files-update:
+            - [config.yml]
+            - [app.ini, 'dynamic-version: %version%']
     post-release-actions: [vcs-publish]
 
 ### Using semantic versioning on master and simple versioning on topic branches, markdown formatting for changelog
@@ -301,14 +305,6 @@ Most of the time, it will be easier for you to pick up an example below and adap
             vcs-commit: ~
         version-generator: semantic
         version-persister: vcs-tag
-        
-### Using files-update to update multiple files version
-
-    master:
-        pre-release-actions:
-            files-update:
-                - [config.yml]
-                - [app.ini, 'dynamic-version: %version%']
 
 Contributing
 ------------
