@@ -18,11 +18,6 @@ use ReflectionClass;
 
 class FilesUpdateAction extends BaseAction
 {
-    public function __construct($options)
-    {
-        parent::__construct($options);
-    }
-
     /**
      * @throws ConfigException|Exception|\ReflectionException
      */

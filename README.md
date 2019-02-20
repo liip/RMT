@@ -301,6 +301,14 @@ Most of the time, it will be easier for you to pick up an example below and adap
             vcs-commit: ~
         version-generator: semantic
         version-persister: vcs-tag
+        
+### Using files-update to update multiple files version
+
+    master:
+        pre-release-actions:
+            files-update:
+                - [config.yml]
+                - [app.ini, 'dynamic-version: %version%']
 
 Contributing
 ------------

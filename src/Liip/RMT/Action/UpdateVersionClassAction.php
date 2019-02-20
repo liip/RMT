@@ -29,7 +29,7 @@ use Liip\RMT\Config\Exception as ConfigException;
  * }
  *
  * @author David Buchmann <mail@davidbu.ch>
- * @deprecated Please use UpdateVersionFilesAction instead
+ * @deprecated Please use FileUpdateAction instead
  */
 class UpdateVersionClassAction extends BaseAction
 {
