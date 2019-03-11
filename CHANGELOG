@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.5 - Allow multiple files to be updated at once
+      11/03/2019 08:29  1.5.1  Use latest security-checker
+         23d397f Update composer lock
+         5b0f716 Use latest security-checker
       20/02/2019 21:58  1.5.0  initial release
          f2a4ef2 Refactor Readme to have valid config
          da663f3 Clean up
