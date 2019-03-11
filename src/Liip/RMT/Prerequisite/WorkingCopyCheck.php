@@ -42,18 +42,25 @@ class WorkingCopyCheck extends BaseAction
     public function execute()
     {
         // Allow to be skipped when explicitly activated from the config
-        if ($this->options['allow-ignore'] && Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
-            Context::get('output')->writeln('<error>requested to be ignored</error>');
-            return;
+        if (Context::get('information-collector')->getValueFor($this->ignoreCheckOptionName)) {
+            if ($this->options['allow-ignore']) {
+                Context::get('output')->writeln('<error>requested to be ignored</error>');
+                return;
+            }
+
+            throw new \Exception(
+                'The option "' . $this->ignoreCheckOptionName . '" only works if the "allow-ignore" configuration ' .
+                'key is set to true.'
+            );
         }
 
         $modCount = count(Context::get('vcs')->getLocalModifications());
         if ($modCount > 0) {
             throw new \Exception(
-                'Your working directory contains ' . $modCount . ' local modifications. Use the --' .
-                $this->ignoreCheckOptionName . " option to bypass this check.\n" .
-                'WARNING, if your release task include a commit action, the pending changes are going to be included ' .
-                'in the release',
+                'Your working directory contains ' . $modCount . ' local modification' . ($modCount > 1 ? 's' : '') .
+                '. Use the --' . $this->ignoreCheckOptionName . ' option (along with the "allow-ignore" ' .
+                'configuration key set to true) to bypass this check.' . "\n" . 'WARNING, if your release task ' .
+                'include a commit action, the pending changes are going to be included in the release.',
                 self::EXCEPTION_CODE
             );
         }
@@ -63,16 +70,13 @@ class WorkingCopyCheck extends BaseAction
 
     public function getInformationRequests()
     {
-        $informationRequests = array();
-
-        if ($this->options['allow-ignore']) {
-            $informationRequests[] = new InformationRequest($this->ignoreCheckOptionName, array(
-                'description' => 'Do not process the check for clean VCS working copy',
+        return array(
+            new InformationRequest($this->ignoreCheckOptionName, array(
+                'description' => 'Do not process the check for a clean VCS working copy (if "allow-ignore" ' .
+                    'configuration key is set to true)',
                 'type' => 'confirmation',
                 'interactive' => false,
-            ));
-        }
-
-        return $informationRequests;
+            ))
+        );
     }
 }
