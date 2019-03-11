@@ -49,7 +49,7 @@ class WorkingCopyCheck extends BaseAction
             }
 
             throw new \Exception(
-                'The option "'.$this->ignoreCheckOptionName.'" functions only if the "allow-ignore" configuration ' .
+                'The option "' . $this->ignoreCheckOptionName . '" only works if the "allow-ignore" configuration ' .
                 'key is set to true.'
             );
         }
@@ -73,7 +73,7 @@ class WorkingCopyCheck extends BaseAction
         return array(
             new InformationRequest($this->ignoreCheckOptionName, array(
                 'description' => 'Do not process the check for a clean VCS working copy (if "allow-ignore" ' .
-                    'configuration key is set to true).',
+                    'configuration key is set to true)',
                 'type' => 'confirmation',
                 'interactive' => false,
             ))
