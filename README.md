@@ -176,6 +176,7 @@ Prerequisite actions are executed before the interactive part.
 * `command`: Execute a system command
     * Option `cmd` The command to execute
     * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
 
 ### Actions
@@ -197,12 +198,10 @@ Actions can be used for pre or post release parts.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
 * `composer-update`: Update the version number in a composer file
-* `update-version-class`: Update the version constant in a class file.
-    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
-    * Option `pattern`: optional, use to specify the string replacement pattern in your
-      version class. %version% will be replaced by the current / next version strings.
-      For example you could use `const VERSION = '%version%';`. If you do not specify
-      this option, every occurrence of the version string in the file will be replaced.
+* `files-update`: Update the version in one or multiple files. For each file to update, please provide an array with 
+    * Option `file`: path to the file to update
+    * Option `pattern`: optional, use to specify the string replacement pattern in your file. For example: 
+    `const VERSION = '%version%';`
 * `build-phar-package`: Builds a Phar package of the current project whose filename depends on the 'package-name' option and the deployed version: [package-name]-[version].phar
     * Option `package-name`: the name of the generate package
     * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.
@@ -213,7 +212,15 @@ Actions can be used for pre or post release parts.
 * `command`: Execute a system command
     * Option `cmd` The command to execute
     * Option `live_output` boolean, do we display the command output? (default: *true*)
+    * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
+* `update-version-class`: Update the version constant in a class file. DEPRECATED, use `files-update` instead
+    * Option `class`: path to class to be updated, or fully qualified class name of the class containing the version constant
+    * Option `pattern`: optional, use to specify the string replacement pattern in your
+      version class. %version% will be replaced by the current / next version strings.
+      For example you could use `const VERSION = '%version%';`. If you do not specify
+      this option, every occurrence of the version string in the file will be replaced.
+
 
 Extend it
 ---------
@@ -260,13 +267,17 @@ Most of the time, it will be easier for you to pick up an example below and adap
     prerequisites: [working-copy-check, display-last-changes]
 
 
-### Using Git tags with prefix, semantic versioning and pushing automatically
+### Using Git tags with prefix, semantic versioning, updating two files and pushing automatically
 
     vcs: git
     version-generator: semantic
     version-persister:
         name: vcs-tag
         tag-prefix : "v_"
+    pre-release-actions:
+        files-update:
+            - [config.yml]
+            - [app.ini, 'dynamic-version: %version%']
     post-release-actions: [vcs-publish]
 
 ### Using semantic versioning on master and simple versioning on topic branches, markdown formatting for changelog
