@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33a69d67c49d8f9e7521bb925b329759",
+    "content-hash": "bde5bd0409bf3b12829ad48b14f3cc1d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -114,20 +114,21 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.1.6",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30"
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/387b6a3b723ba35588b33d5f8d14e28ed608bd30",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/46be3f58adac13084497961e10eed9a7fb4d44d1",
+                "reference": "46be3f58adac13084497961e10eed9a7fb4d44d1",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.0",
+                "php": ">=5.5.9",
                 "symfony/console": "~2.7|~3.0|~4.0"
             },
             "bin": [
@@ -136,12 +137,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "SensioLabs\\Security": ""
+                "psr-4": {
+                    "SensioLabs\\Security\\": "SensioLabs/Security"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -155,7 +156,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-10-29T18:48:08+00:00"
+            "time": "2018-12-19T17:14:59+00:00"
         },
         {
             "name": "symfony/console",
@@ -1299,6 +1300,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-08-03T14:08:16+00:00"
         },
         {
