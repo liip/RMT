@@ -144,7 +144,7 @@ class InformationRequest
             case 'text':
                 $this->validateValue($value, function ($v) {
                     return is_string($v) && strlen($v) > 0;
-                }, 'Test must be provided');
+                }, 'Text must be provided');
                 break;
             case 'yes-no':
                 $value = lcfirst($value[0]);
