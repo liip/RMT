@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.5 - Allow multiple files to be updated at once
+      11/03/2019 21:48  1.5.2  Improve how the --ignore-check option is handled
+         e9fc618 Clean up
+         6f84449 Fix typo.
+         0434b6c Improve how the --ignore-check option is handled. Make better exceptions messages, referencing the allow-ignore configuration key.
       11/03/2019 08:29  1.5.1  Use latest security-checker
          23d397f Update composer lock
          5b0f716 Use latest security-checker
