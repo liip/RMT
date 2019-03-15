@@ -29,29 +29,30 @@ class ComposerDependencyStabilityCheck extends BaseAction
 
     public function __construct($options)
     {
-        $this->options = array_merge(
-            array(
-                'ignore-require-dev' => false,
-                'ignore-require' => false,
-                'whitelist' => array(),
-            ),
-            $options
-        );
+        parent::__construct($options);
 
         $this->whitelist = array();
+        $this->dependencyListWhitelists = array();
 
-        foreach ($options['whitelist'] as $listing) {
-            if (!isset($listing[1])) {
-                $this->whitelist[] = $listing[0];
-            } else {
-                $elementSize = sizeof($listing);
-                for ($index = 1 ; $index < $elementSize ; ++$index) {
-                    $element = $listing[$index];
-                    if (!isset($this->dependencyListWhitelists[$element])) {
-                        $this->dependencyListWhitelists[$element] = array();
-                    }
-                    $this->dependencyListWhitelists[$element][] = $listing[0];
+        if (isset($this->options['whitelist'])) {
+            $this->createWhitelists($this->options['whitelist']);
+        }
+    }
+
+    private function createWhitelists($whitelistConfig)
+    {
+        foreach ($whitelistConfig as $listing) {
+            if (isset($listing[1])) {
+                if (!in_array($listing[1], self::DEPENDENCY_LISTS)) {
+                    throw new \Exception("configuration error: "
+                    . $listing[1] . " is no valid composer dependency section");
                 }
+                if (!isset($this->dependencyListWhitelists[$listing[1]])) {
+                    $this->dependencyListWhitelists[$listing[1]] = array();
+                }
+                $this->dependencyListWhitelists[$listing[1]][] = $listing[0];
+            } else {
+                $this->whitelist[] = $listing[0];
             }
         }
     }
