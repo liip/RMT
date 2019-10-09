@@ -27,6 +27,10 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
     {
         parent::setUp();
 
+        if (ini_get("phar.readonly") === "1") {
+            $this->markTestSkipped('phar.readonly should be disabled.');
+            return;
+        }
         $destination = '/tmp/configured';
 
         $this->createConfig('semantic', 'vcs-tag', array(

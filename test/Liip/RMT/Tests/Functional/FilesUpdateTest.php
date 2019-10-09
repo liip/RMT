@@ -36,7 +36,7 @@ INI;
             'files-update' => [
                 ['config.yml'],
                 ['app.ini', "dynamic-version: %version%"]
-        ]]]);
+            ]]]);
 
         file_put_contents('config.yml', $ymlBefore);
         file_put_contents('app.ini', $iniBefore);
@@ -44,5 +44,4 @@ INI;
         $this->assertEquals($ymlAfter, file_get_contents('config.yml'));
         $this->assertEquals($iniAfter, file_get_contents('app.ini'));
     }
-
 }
