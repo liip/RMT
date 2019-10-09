@@ -117,6 +117,11 @@ class Output extends ConsoleOutput
     // QuestionHelper does about the same as we do here.
     public function askQuestion(InteractiveQuestion $question, $position = null, InputInterface $input = null)
     {
+        if(class_exists('Symfony\Component\Console\Helper\QuestionHelper')){
+            $helper = new \Symfony\Component\Console\Helper\QuestionHelper();
+            return $helper->ask($input,$this,$question->asSymfonyQuestion());
+        }
+
         $text = ($position !== null ? $position .') ' : null) . $question->getFormatedText();
 
         if ($this->dialogHelper instanceof QuestionHelper) {

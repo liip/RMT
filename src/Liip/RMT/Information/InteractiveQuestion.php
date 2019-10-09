@@ -111,4 +111,16 @@ class InteractiveQuestion
         // Validation
         return $this->informationRequest->validate($value);
     }
+    public function asSymfonyQuestion()
+    {
+        $type = $this->informationRequest->getOption('type');
+        $description = strtolower($this->informationRequest->getOption('description'));
+        switch ($type) {
+            case 'confirmation':
+                return new \Symfony\Component\Console\Question\ConfirmationQuestion($description, $this->getDefault());
+            case 'choice':
+                return new \Symfony\Component\Console\Question\ChoiceQuestion($description, $this->informationRequest->getOption('choices'), $this->getDefault());
+        }
+        return new \Symfony\Component\Console\Question\Question($description, $this->getDefault());
+    }
 }
