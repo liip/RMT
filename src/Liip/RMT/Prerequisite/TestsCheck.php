@@ -25,7 +25,7 @@ class TestsCheck extends BaseAction
     public function __construct($options)
     {
         $this->options = array_merge(array(
-            'command' => './bin/phpunit --stop-on-failure',
+            'command' => 'phpunit --stop-on-failure',
             'expected_exit_code' => 0,
         ), $options);
     }
