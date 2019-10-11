@@ -119,7 +119,22 @@ class InteractiveQuestion
             case 'confirmation':
                 return new \Symfony\Component\Console\Question\ConfirmationQuestion($description, $this->getDefault());
             case 'choice':
-                return new \Symfony\Component\Console\Question\ChoiceQuestion($description, $this->informationRequest->getOption('choices'), $this->getDefault());
+                $choices = $this->informationRequest->getOption('choices');
+                $shortcuts = $this->informationRequest->getOption('choices_shortcuts');
+                $result = [];
+
+                foreach($shortcuts as $key => $value){
+                    $result[$key] = $value;
+                }
+                foreach($choices as $key => $value){
+                    if(false === in_array($value,$shortcuts)){
+                        $result[$key]=$value;
+                    }
+                }
+
+                    $question =  new \Symfony\Component\Console\Question\ChoiceQuestion($description, $result, $this->getDefault());
+                $question->setValidator($this->getValidator());
+                return $question;
         }
         return new \Symfony\Component\Console\Question\Question($description, $this->getDefault());
     }
