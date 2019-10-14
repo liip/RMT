@@ -132,8 +132,13 @@ class InteractiveQuestion
                     }
                 }
 
-                    $question =  new \Symfony\Component\Console\Question\ChoiceQuestion($description, $result, $this->getDefault());
+                $question =  new \Symfony\Component\Console\Question\ChoiceQuestion($description, $result, $this->getDefault());
                 $question->setValidator($this->getValidator());
+
+                if ($this->isHiddenAnswer()) {
+                    $question->setHidden(true);
+                }
+
                 return $question;
         }
         return new \Symfony\Component\Console\Question\Question($description, $this->getDefault());

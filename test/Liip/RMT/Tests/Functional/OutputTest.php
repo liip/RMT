@@ -42,6 +42,15 @@ class OutputTest extends RMTFunctionalTestBase
         ]]];
     }
 
+    public function testAskQuestionYesNo(){
+        $question = new InteractiveQuestion(new InformationRequest('foo', array('type' => 'yes-no')));
+        $output = new Output();
+        foreach(["yes","no"] as $yesno) {
+            $response = $output->askQuestion($question, 2, $this->generateAnswer($yesno));
+            $this->assertSame($yesno, $response);
+        }
+    }
+
     /**
      * @dataProvider choicesShortcutProvider
      * @param array $shortcuts
@@ -55,7 +64,7 @@ class OutputTest extends RMTFunctionalTestBase
             'choices_shortcuts' => $shortcuts,
         )));
         $output = new Output();
-        foreach($shortcuts as $short => $value) {
+        foreach ($shortcuts as $short => $value) {
             $response = $output->askQuestion($question, 2, $this->generateAnswer($short));
             $this->assertEquals($value, $response);
         }
