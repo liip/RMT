@@ -42,6 +42,9 @@ class OutputTest extends RMTFunctionalTestBase
         ]]];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAskQuestionYesNo(){
         $question = new InteractiveQuestion(new InformationRequest('foo', array('type' => 'yes-no')));
         $output = new Output();
