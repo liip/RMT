@@ -148,9 +148,15 @@ class Output extends ConsoleOutput
         throw new \RuntimeException("Invalid dialogHelper");
     }
 
-    // when we drop symfony 2.3 support, we should switch to the QuestionHelper (since 2.5) and drop this method as it adds no value
+    /**
+     * @deprecated when we drop symfony 2.3 support, we should switch to the QuestionHelper (since 2.5) and drop this method as it adds no value
+     * @param string $text
+     * @param InputInterface|null $input
+     * @return mixed
+     */
     public function askConfirmation($text, InputInterface $input = null)
     {
+        @trigger_error(sprintf("The %s() method is deprecated. Use askQuestion instead.", __METHOD__), E_USER_DEPRECATED);
         if ($this->dialogHelper instanceof QuestionHelper) {
             if (!$input) {
                 throw new \InvalidArgumentException('With symfony 3, the input stream may not be null');
@@ -163,6 +169,5 @@ class Output extends ConsoleOutput
         }
 
         throw new \RuntimeException("Invalid dialogHelper");
-
     }
 }
