@@ -51,7 +51,7 @@ class CommandAction extends BaseAction
         }
 
         // Run the process
-        $process = new Process($command);
+        $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline($command) : new Process($command);
 
         if (null !== $timeout = $this->options['timeout']) {
             $process->setTimeout($timeout);

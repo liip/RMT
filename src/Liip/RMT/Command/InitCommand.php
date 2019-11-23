@@ -173,6 +173,8 @@ class InitCommand extends BaseCommand
         // Confirmation
         $this->getOutput()->writeBigTitle('Success, you can start using RMT by calling "RMT release"');
         $this->getOutput()->writeEmptyLine();
+
+        return 0;
     }
 
     public function getConfigData()

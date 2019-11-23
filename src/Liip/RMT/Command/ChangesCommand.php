@@ -40,11 +40,13 @@ class ChangesCommand extends BaseCommand
             $output->indent();
             $output->writeln(array_keys(Context::get('vcs')->getModifiedFilesSince($lastVersion)));
 
-            return;
+            return 0;
         }
 
         $output->writeln("Here is the list of changes since <green>$lastVersion</green>:");
         $output->indent();
         $output->writeln(Context::get('vcs')->getAllModificationsSince($lastVersion, false, $noMerges));
+
+        return 0;
     }
 }

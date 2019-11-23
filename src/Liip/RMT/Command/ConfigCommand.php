@@ -33,5 +33,7 @@ class ConfigCommand extends BaseCommand
         $this->loadContext();
         $output->writeln('<info>Current configuration is:</info>');
         $output->writeln(Yaml::dump(Context::getInstance()->getParam('config')));
+
+        return 0;
     }
 }
