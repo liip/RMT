@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.5 - Allow multiple files to be updated at once
+      13/12/2019 14:33  1.5.3  Add Symfony 5 support
+         31b0731 Fix security-checker compatibility and fix code usage for Symfony 5
+         7812528 Add TravisCI config for Symfony 5
+         d0fff3e Add Symfony 5 support
       11/03/2019 21:48  1.5.2  Improve how the --ignore-check option is handled
          e9fc618 Clean up
          6f84449 Fix typo.
