@@ -11,7 +11,7 @@
 
 namespace Liip\RMT;
 
-define('RMT_VERSION', '1.5.2');
+define('RMT_VERSION', '1.5.3');
 
 use Liip\RMT\Command\ChangesCommand;
 use Liip\RMT\Command\ReleaseCommand;
@@ -57,7 +57,13 @@ class Application extends BaseApplication
         } catch (\Exception $e) {
             $output = new \Liip\RMT\Output\Output();
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-            $this->renderException($e, $output);
+
+            if (method_exists($this, 'renderThrowable')) {
+                $this->renderThrowable($e, $output);
+            } else {
+                $this->renderException($e, $output);
+            }
+
             exit(1);
         }
     }

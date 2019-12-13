@@ -46,5 +46,7 @@ class CurrentCommand extends BaseCommand
             }
             $output->writeln($msg);
         }
+
+        return 0;
     }
 }

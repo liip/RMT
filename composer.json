@@ -1,6 +1,6 @@
 {
     "name": "liip/rmt",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "description": "Release Management Tool: a handy tool to help releasing new version of your software",
     "keywords": ["release", "version", "semantic versioning", "vcs tag", "pre-release", "post-release"],
     "homepage": "http://github.com/liip/RMT",
@@ -23,11 +23,11 @@
     },
     "require": {
         "php": "^5.6|^7.0",
-        "symfony/console": "~2.3|^3.0|^4.0",
-        "symfony/yaml": "~2.3|^3.0|^4.0",
-        "symfony/process": "~2.3|^3.0|^4.0",
+        "symfony/console": "~2.3|^3.0|^4.2|^5.0",
+        "symfony/yaml": "~2.3|^3.0|^4.2|^5.0",
+        "symfony/process": "~2.3|^3.0|^4.2|^5.0",
         "vierbergenlars/php-semver": "~3.0",
-        "sensiolabs/security-checker": "^5.0"
+        "sensiolabs/security-checker": "^6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6.8|^6.0"
