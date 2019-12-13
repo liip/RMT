@@ -57,7 +57,13 @@ class Application extends BaseApplication
         } catch (\Exception $e) {
             $output = new \Liip\RMT\Output\Output();
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
-            $this->renderException($e, $output);
+
+            if (method_exists($this, 'renderThrowable')) {
+                $this->renderThrowable($e, $output);
+            } else {
+                $this->renderException($e, $output);
+            }
+
             exit(1);
         }
     }

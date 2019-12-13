@@ -148,6 +148,8 @@ class ReleaseCommand extends BaseCommand
         $this->getOutput()->unIndent();
 
         $this->executeActionListIfExist('post-release-actions');
+
+        return 0;
     }
 
     protected function executeActionListIfExist($name, $title = null)
