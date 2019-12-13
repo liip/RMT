@@ -173,6 +173,9 @@ Prerequisite actions are executed before the interactive part.
 * `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
   * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
 * `composer-security-check`: run the composer.lock against https://security.sensiolabs.org/ to check for known vulnerabilities in the dependencies
+* `composer-dependency-stability-check`: test if only allowed dependencies are using development versions
+    * Option `ignore-require` and `ignore-require-dev`: don't check dependencies in `require` or `require-dev` section
+    * Option `whitelist`: allow specific dependencies to use development version
 * `command`: Execute a system command
     * Option `cmd` The command to execute
     * Option `live_output` boolean, do we display the command output? (default: *true*)
@@ -255,6 +258,20 @@ Most of the time, it will be easier for you to pick up an example below and adap
     version-generator: simple
     version-persister: vcs-tag
     prerequisites: [working-copy-check, display-last-changes]
+    
+### Using Git tags, simple versioning and composer-prerequisites
+
+    vcs: git
+    version-generator: simple
+    version-persister: vcs-tag
+    prerequisites:
+        - composer-json-check
+        - composer-stability-check:
+            stability: beta
+        - composer-dependency-stability-check:
+            whitelist:
+                - [symfony/console]
+                - [phpunit/phpunit, require-dev]
     
 ### Using Git tags, simple versioning and prerequisites, and gpg sign commit and tags
 
