@@ -26,4 +26,18 @@ class CommandActionTest extends RMTFunctionalTestBase
 //        $this->manualDebug();
         $this->assertContains('Command Action : echo "hello world"', $output);
     }
+
+    public function testVersionsOutputOnPostRelease()
+    {
+        $this->createChangelog('simple');
+        $this->createConfig('simple', 'changelog', array(
+            'post-release-actions' => array(
+                'command' => array('cmd' => 'echo %version% %new_version%'),
+            ),
+        ));
+
+        exec('./RMT release -n --no-ansi --comment="test"', $output);
+        $output = implode("\n", $output);
+        $this->assertContains('Command Action : echo 1 2', $output);
+    }
 }
