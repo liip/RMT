@@ -177,7 +177,7 @@ Prerequisite actions are executed before the interactive part.
     * Option `ignore-require` and `ignore-require-dev`: don't check dependencies in `require` or `require-dev` section
     * Option `whitelist`: allow specific dependencies to use development version
 * `command`: Execute a system command
-    * Option `cmd` The command to execute
+    * Option `cmd` The command to execute (variables `%version%` and `%new_version%` can be used)
     * Option `live_output` boolean, do we display the command output? (default: *true*)
     * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
@@ -213,7 +213,7 @@ Actions can be used for pre or post release parts.
     * Option `default-stub-cli`: the default stub for CLI usage of the package.
     * Option `default-stub-web`: the default stub for web application usage of the package.
 * `command`: Execute a system command
-    * Option `cmd` The command to execute
+    * Option `cmd` The command to execute (variables `%version%` and `%new_version%` can be used)
     * Option `live_output` boolean, do we display the command output? (default: *true*)
     * Option `timeout` integer, limits the time for the command. (default: *600*)
     * Option `stop_on_error` boolean, do we break the release process on error? (default: *true*)
