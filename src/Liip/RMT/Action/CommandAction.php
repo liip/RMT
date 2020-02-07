@@ -19,14 +19,12 @@ use Liip\RMT\Context;
  */
 class CommandAction extends BaseAction
 {
-    /**
-     * Saves the command vars.
-     * @var array
-     */
-    protected $commandVars = [];
+    protected $currentVersion;
 
     public function __construct($options)
     {
+        parent::__construct($options);
+
         $this->options = array_merge(array(
             'cmd' => null,
             'live_output' => true,
@@ -38,12 +36,12 @@ class CommandAction extends BaseAction
             throw new \RuntimeException('Missing [cmd] option');
         }
 
-        $this->commandVars['version'] = Context::get('version-persister')->getCurrentVersion();
+        $this->currentVersion = Context::get('version-persister')->getCurrentVersion();
     }
 
     public function execute()
     {
-        $command = $this->prepareCommand($this->options['cmd'], $this->commandVars);
+        $command = $this->prepareCommand($this->options['cmd']);
         Context::get('output')->write("<comment>$command</comment>\n\n");
 
         // Prepare a callback for live output
@@ -74,7 +72,8 @@ class CommandAction extends BaseAction
     }
 
     /**
-     * Prepares the command.
+     * Prepares the command
+     *
      * @param string $command
      * @return string
      */
@@ -84,15 +83,21 @@ class CommandAction extends BaseAction
             return $command;
         }
 
-        $this->commandVars['new_version'] = Context::getParam('new-version');
-        extract($this->commandVars);
-
         preg_match_all('@%([A-Za-z0-9_]*)%@', $command, $matches);
-        if (array_key_exists(1, $matches)) {
-            foreach ($matches[1] as $var) {
-                $command = str_replace('%' . $var . '%', $$var, $command);
-            }
 
+        if (! array_key_exists(1, $matches)) {
+            return $command;
+        }
+
+        $placeHolderValue = [
+            'version' => $this->currentVersion,
+            'new_version' => Context::getParam('new-version'),
+        ];
+
+        foreach ($matches[1] as $placeHolder) {
+            if (array_key_exists($placeHolder, $placeHolderValue)) {
+                $command = str_replace("%$placeHolder%", $placeHolderValue[$placeHolder], $command);
+            }
         }
 
         return $command;
