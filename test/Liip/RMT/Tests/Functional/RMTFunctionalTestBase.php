@@ -17,7 +17,7 @@ class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
 {
     protected $tempDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Create a temp folder
         $this->tempDir = tempnam(sys_get_temp_dir(), '');
@@ -52,7 +52,7 @@ class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         exec('rm -rf ' . $this->tempDir);
     }

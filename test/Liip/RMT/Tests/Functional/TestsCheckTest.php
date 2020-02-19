@@ -8,7 +8,7 @@ use Liip\RMT\Prerequisite\TestsCheck;
 
 class TestsCheckTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $informationCollector = $this->createMock('Liip\RMT\Information\InformationCollector');
         $informationCollector->method('getValueFor')->with(TestsCheck::SKIP_OPTION)->willReturn(false);

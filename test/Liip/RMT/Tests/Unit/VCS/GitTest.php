@@ -17,7 +17,7 @@ class GitTest extends \PHPUnit\Framework\TestCase
 {
     protected $testDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Create a temp folder and extract inside the git test folder
         $tempDir = tempnam(sys_get_temp_dir(), '');
@@ -129,7 +129,7 @@ class GitTest extends \PHPUnit\Framework\TestCase
         $this->assertContains('Modification of the first file', $modifs[3]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // Remove the test folder
         exec('rm -rf ' . $this->testDir);

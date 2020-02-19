@@ -17,7 +17,7 @@ class HgTest extends \PHPUnit\Framework\TestCase
 {
     protected $testDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Create a temp folder and extract inside the Hg test folder
         $tempDir = tempnam(sys_get_temp_dir(), '');
@@ -87,7 +87,7 @@ class HgTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('default', $vcs->getCurrentBranch());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // Remove the test folder
         // exec('rm -rf '.$this->testDir);
