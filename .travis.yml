@@ -9,6 +9,12 @@ cache:
 
 matrix:
   include:
+    - php: 7.4
+      env: SYMFONY_VERSION=5.0.*
+    - php: 7.4
+      env: SYMFONY_VERSION=4.4.*
+    - php: 7.4
+      env: SYMFONY_VERSION=4.3.*
     - php: 7.3
       env: SYMFONY_VERSION=5.0.*
     - php: 7.3
@@ -29,9 +35,15 @@ before_install:
   - composer self-update
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/console:${SYMFONY_VERSION}" "symfony/yaml:${SYMFONY_VERSION}" "symfony/process:${SYMFONY_VERSION}" --no-update; fi;
 
-install: composer update --prefer-dist $COMPOSER_FLAGS
+install:
+  - composer update --prefer-dist $COMPOSER_FLAGS
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.4" ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-8.phar; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.3" ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-8.phar; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-8.phar; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then wget -O ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit https://phar.phpunit.de/phpunit-7.phar; fi
+  - chmod 755 ~/.phpenv/versions/$(phpenv version-name)/bin/phpunit
 
-script: bin/phpunit --coverage-text
+script: phpunit --coverage-text
 
 notifications:
   slack: liip:3QOs1QKt3aCFxpJvRzpJCbVZ
