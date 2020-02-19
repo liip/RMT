@@ -54,7 +54,7 @@ class SemanticGenerator implements GeneratorInterface
         $validTypes = array('patch', 'minor', 'major');
         if (!in_array($type, $validTypes)) {
             throw new \InvalidArgumentException(
-                'The option [type] must be one of: {'.implode($validTypes, ', ')."}, \"$type\" given"
+                'The option [type] must be one of: {'.implode(', ', $validTypes)."}, \"$type\" given"
             );
         }
 
@@ -84,10 +84,10 @@ class SemanticGenerator implements GeneratorInterface
                     }
                 }
 
-                return implode(array($major, $minor, $patch), '.').'-'.$label.$labelVersion;
+                return implode('.', array($major, $minor, $patch)).'-'.$label.$labelVersion;
             }
 
-            return implode(array($major, $minor, $patch), '.');
+            return implode('.', array($major, $minor, $patch));
         }
 
         list($major, $minor, $patch) = explode('.', $currentVersion);
@@ -108,10 +108,10 @@ class SemanticGenerator implements GeneratorInterface
 
         // new label
         if ($label != 'none') {
-            return implode(array($major, $minor, $patch), '.').'-'.$label;
+            return implode('.', array($major, $minor, $patch)).'-'.$label;
         }
 
-        return implode(array($major, $minor, $patch), '.');
+        return implode('.', array($major, $minor, $patch));
     }
 
     public function getInformationRequests()
