@@ -23,7 +23,7 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
 
     const STUB_FILE_WEB = 'stub-file-web.php';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

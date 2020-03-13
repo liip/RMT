@@ -35,7 +35,7 @@ class ChangelogManagerTest extends \PHPUnit\Framework\TestCase
         new ChangelogManager($this->dir, 'semantic');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         exec('rm -rf ' . $this->dir);
     }
