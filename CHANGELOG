@@ -3,6 +3,10 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
+      17/03/2020 08:56  1.6.1  Add support to PHP 7.4
+         104856b Add PHP 7.4 to Travis CI
+         481b928 Fix tests
+         85d51bc Fix the order of implode() arguments
       13/12/2019 15:10  1.6.0  initial release
          dfc6641 Update documentation.
          e59ddbb Clean up constructor.
