@@ -19,6 +19,10 @@ class HgTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        if (SKIP_HG_TESTS) {
+            $this->markTestSkipped('HG is not installed');
+        }
+
         // Create a temp folder and extract inside the Hg test folder
         $tempDir = tempnam(sys_get_temp_dir(), '');
         if (file_exists($tempDir)) {

@@ -13,6 +13,16 @@ namespace Liip\RMT\Tests\Functional;
 
 class HgTest extends RMTFunctionalTestBase
 {
+    protected function setUp()
+    {
+        if (SKIP_HG_TESTS) {
+            $this->markTestSkipped('HG is not installed');
+        }
+
+        parent::setUp();
+    }
+
+
     public static function cleanTags($tags)
     {
         return array_map(function ($t) {
