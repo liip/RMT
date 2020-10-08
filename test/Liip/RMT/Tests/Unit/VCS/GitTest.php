@@ -87,12 +87,10 @@ class GitTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('master', $vcs->getCurrentBranch());
     }
 
-    /**
-     * @expectedException \Liip\RMT\Exception
-     * @expectedExceptionMessage Not currently on any branch
-     */
     public function testGetCurrentBranchWhenNotInBranch()
     {
+        $this->expectException('Liip\RMT\Exception');
+        $this->expectExceptionMessage('Not currently on any branch');
         $vcs = new Git();
         exec('git checkout 9aca70b --quiet');
         $vcs->getCurrentBranch();

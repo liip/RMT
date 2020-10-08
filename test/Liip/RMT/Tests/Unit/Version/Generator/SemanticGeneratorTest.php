@@ -45,12 +45,10 @@ class SemanticGeneratorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The option [type] must be one of: {patch, minor, major}, "full" given
-     */
     public function testIncrementWithInvalidType()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('The option [type] must be one of: {patch, minor, major}, "full" given');
         $generator = new \Liip\RMT\Version\Generator\SemanticGenerator(array('type' => 'full', 'label' => 'none'));
         $generator->generateNextVersion('1.0.0');
     }

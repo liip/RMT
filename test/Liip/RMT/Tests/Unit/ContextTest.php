@@ -42,30 +42,24 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($options, $context->getService('foo')->getOptions());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no service defined with id [abc]
-     */
     public function testGetServiceWithoutSet()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('There is no service defined with id [abc]');
         Context::getInstance()->getService('abc');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The class [Bar] does not exist
-     */
     public function testSetServiceWithInvalidClass()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('The class [Bar] does not exist');
         Context::getInstance()->setService('foo', 'Bar');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage setService() only accept an object or a valid class name
-     */
     public function testSetServiceWithInvalidObject()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('setService() only accept an object or a valid class name');
         $context = Context::getInstance();
         $context->setService('foo', 12);
     }
@@ -79,12 +73,10 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('11.11.11', $context->getParameter('date'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no param defined with id [abc]
-     */
     public function testGetParamWithoutSet()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('There is no param defined with id [abc]');
         $context = Context::getInstance();
         $context->getParameter('abc');
     }
@@ -111,22 +103,18 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($options, $objects[0]->getOptions());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no list defined with id [abc]
-     */
     public function testGetListParamWithoutAdd()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('There is no list defined with id [abc]');
         $context = Context::getInstance();
         $context->getList('abc');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The class [Bar] does not exist
-     */
     public function testAddToListWithInvalidClass()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('The class [Bar] does not exist');
         $context = Context::getInstance();
         $context->addToList('foo', 'Bar');
     }

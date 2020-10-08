@@ -25,11 +25,9 @@ class ChangelogManagerTest extends \PHPUnit\Framework\TestCase
         unlink($file);
     }
 
-    /**
-     * @expectedException \Liip\RMT\Exception
-     */
     public function testExceptionWhenNotAbleToCreate()
     {
+        $this->expectException('Liip\RMT\Exception');
         $this->dir = sys_get_temp_dir() . '/' . md5(time());
         mkdir($this->dir);
         new ChangelogManager($this->dir, 'semantic');

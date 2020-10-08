@@ -43,11 +43,11 @@ class TestsCheckTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp ~process.*time.*out~
      */
     public function fails_when_the_command_exceeds_the_timeout()
     {
+        $this->expectException('Exception');
+        $this->expectExceptionMessage('~process.*time.*out~');
         $check = new TestsCheck(array('command' => 'sleep 1', 'timeout' => 0.100));
         $check->execute();
     }

@@ -53,10 +53,10 @@ class InformationRequestTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getDataForValidationFail
-     * @expectedException \InvalidArgumentException
      */
     public function testValidationFail($options, $value)
     {
+        $this->expectException('InvalidArgumentException');
         $ir = new InformationRequest('foo', $options);
         $ir->setValue($value);
     }

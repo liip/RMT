@@ -15,32 +15,26 @@ use Liip\RMT\Config\Handler;
 
 class HandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Liip\RMT\Config\Exception
-     * @expectedExceptionMessage Config error: key(s) [toto] are invalid
-     */
     public function testValidationWithExtraKeys()
     {
+        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectExceptionMessage('Config error: key(s) [toto] are invalid');
         $handler = new Handler(array('toto' => 'tata'));
         $handler->getBaseConfig();
     }
 
-    /**
-     * @expectedException \Liip\RMT\Config\Exception
-     * @expectedExceptionMessage Config error: key(s) [toto] are invalid
-     */
     public function testValidationWithExtraKeysInBranchSpecific()
     {
+        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectExceptionMessage('Config error: key(s) [toto] are invalid');
         $handler = new Handler(array('branch-specific' => array('dev' => array('toto' => 'tata'))));
         $handler->getConfigForBranch('dev');
     }
 
-    /**
-     * @expectedException \Liip\RMT\Config\Exception
-     * @expectedExceptionMessage Config error: [version-generator] should be defined
-     */
     public function testValidationWithMissingElement()
     {
+        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectExceptionMessage('Config error: [version-generator] should be defined');
         $configHandler = new Handler(array('version-persister' => 'foo'));
         $configHandler->getBaseConfig();
     }
