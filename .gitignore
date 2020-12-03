@@ -4,3 +4,4 @@ cache.properties
 /builds
 bin
 !bin/UpdateApplicationVersionCurrentVersion.php
+.phpunit.result.cache

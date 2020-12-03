@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Functional;
 
 class CommandActionTest extends RMTFunctionalTestBase
 {
-    public function testCommand()
+    public function testCommand(): void
     {
         $this->createChangelog('simple');
         $this->createConfig('simple', 'changelog', array(
@@ -24,6 +24,6 @@ class CommandActionTest extends RMTFunctionalTestBase
         exec('./RMT release -n --no-ansi --comment="test"', $output);
         $output = implode("\n", $output);
 //        $this->manualDebug();
-        $this->assertContains('Command Action : echo "hello world"', $output);
+        self::assertStringContainsString('Command Action : echo "hello world"', $output);
     }
 }

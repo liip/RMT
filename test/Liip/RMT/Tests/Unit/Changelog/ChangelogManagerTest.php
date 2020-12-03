@@ -12,22 +12,25 @@
 namespace Liip\RMT\Tests\Unit\Changelog;
 
 use Liip\RMT\Changelog\ChangelogManager;
+use Liip\RMT\Exception;
+use PHPUnit\Framework\TestCase;
 
-class ChangelogManagerTest extends \PHPUnit\Framework\TestCase
+class ChangelogManagerTest extends TestCase
 {
     protected $dir;
 
-    public function testAutoFileCreationWhenNoFound()
+    public function testAutoFileCreationWhenNoFound(): void
     {
         $file = tempnam(sys_get_temp_dir(), 'CHANGELOG');
         new ChangelogManager($file, 'semantic');
-        $this->assertFileExists($file);
+        self::assertFileExists($file);
         unlink($file);
     }
 
-    public function testExceptionWhenNotAbleToCreate()
+    public function testExceptionWhenNotAbleToCreate(): void
     {
-        $this->expectException('Liip\RMT\Exception');
+        $this->expectException(Exception::class);
+
         $this->dir = sys_get_temp_dir() . '/' . md5(time());
         mkdir($this->dir);
         new ChangelogManager($this->dir, 'semantic');
