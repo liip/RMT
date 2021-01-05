@@ -13,18 +13,18 @@ namespace Liip\RMT\Tests\Functional;
 
 class ExternalTasksTest extends RMTFunctionalTestBase
 {
-    public function testInvalidScript()
+    public function testInvalidScript(): void
     {
         $scriptName = 'invalid-script-name.php';
         $this->createConfig('simple', 'git', array('pre-release-actions' => array($scriptName)));
         exec('./RMT release -n', $output);
         $output = implode("\n", $output);
 //        $this->manualDebug();
-        $this->assertContains('Impossible to open', $output);
-        $this->assertContains($scriptName, $output);
+        self::assertStringContainsString('Impossible to open', $output);
+        self::assertStringContainsString($scriptName, $output);
     }
 
-    public function testExternalTouch()
+    public function testExternalTouch(): void
     {
         $this->initGit();
         file_put_contents('touch-file1.php', '<?php touch("file1");');
@@ -33,6 +33,6 @@ class ExternalTasksTest extends RMTFunctionalTestBase
         ));
         exec('./RMT release -n');
         exec('ls', $files);
-        $this->assertTrue(in_array('file1', $files), 'file1 in present in [' . implode(', ', $files) . ']');
+        self::assertContains('file1', $files, 'file1 in present in ['.implode(', ', $files).']');
     }
 }

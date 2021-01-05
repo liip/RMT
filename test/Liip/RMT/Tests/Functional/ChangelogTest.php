@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Functional;
 
 class ChangelogTest extends RMTFunctionalTestBase
 {
-    public function testSimple()
+    public function testSimple(): void
     {
         $this->createChangelog('simple');
         $this->createConfig('simple', 'changelog');
@@ -21,7 +21,7 @@ class ChangelogTest extends RMTFunctionalTestBase
         $this->executeTest(null, 'comment2', '2');
     }
 
-    public function testSemantic()
+    public function testSemantic(): void
     {
         $this->createChangelog('semantic');
         $this->createConfig('semantic', 'changelog');
@@ -39,7 +39,7 @@ class ChangelogTest extends RMTFunctionalTestBase
      * @param String comment
      * @param String expected version number (ie 2.0.0)
      */
-    protected function executeTest($semanticType, $comment, $expectedVersion)
+    protected function executeTest($semanticType, $comment, $expectedVersion): void
     {
         //        $this->manualDebug();
         if (is_null($semanticType)) {
@@ -48,7 +48,7 @@ class ChangelogTest extends RMTFunctionalTestBase
             exec('./RMT release -n --type='.$semanticType . ' --comment="' . $comment . '"');
         }
         $changelog = file_get_contents($this->tempDir . '/CHANGELOG');
-        $this->assertRegExp('/' . $expectedVersion . '/', $changelog);
-        $this->assertRegExp('/' . $comment . '/', $changelog);
+        self::assertMatchesRegularExpression('/' . $expectedVersion . '/', $changelog);
+        self::assertMatchesRegularExpression('/' . $comment . '/', $changelog);
     }
 }

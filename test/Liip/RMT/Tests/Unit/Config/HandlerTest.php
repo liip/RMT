@@ -11,212 +11,223 @@
 
 namespace Liip\RMT\Tests\Unit\Config;
 
+use Liip\RMT\Config\Exception;
 use Liip\RMT\Config\Handler;
+use PHPUnit\Framework\TestCase;
+use Liip\RMT\Version\Persister\VcsTagPersister;
+use Liip\RMT\VCS\Git;
+use ReflectionMethod;
 
-class HandlerTest extends \PHPUnit\Framework\TestCase
+class HandlerTest extends TestCase
 {
-    public function testValidationWithExtraKeys()
+    public function testValidationWithExtraKeys(): void
     {
-        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Config error: key(s) [toto] are invalid');
-        $handler = new Handler(array('toto' => 'tata'));
+
+        $handler = new Handler(['toto' => 'tata']);
         $handler->getBaseConfig();
     }
 
-    public function testValidationWithExtraKeysInBranchSpecific()
+    public function testValidationWithExtraKeysInBranchSpecific(): void
     {
-        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Config error: key(s) [toto] are invalid');
-        $handler = new Handler(array('branch-specific' => array('dev' => array('toto' => 'tata'))));
+
+        $handler = new Handler(['branch-specific' => ['dev' => ['toto' => 'tata']]]);
         $handler->getConfigForBranch('dev');
     }
 
-    public function testValidationWithMissingElement()
+    public function testValidationWithMissingElement(): void
     {
-        $this->expectException('Liip\RMT\Config\Exception');
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Config error: [version-generator] should be defined');
-        $configHandler = new Handler(array('version-persister' => 'foo'));
+
+        $configHandler = new Handler(['version-persister' => 'foo']);
         $configHandler->getBaseConfig();
     }
 
     /**
      * @dataProvider getDataForGetBaseConfig
      */
-    public function testGetBaseConfig($rawConfig, $expectedGenerator)
+    public function testGetBaseConfig(array $rawConfig, string $expectedGenerator): void
     {
         $handler = new Handler($rawConfig);
         $config = $handler->getBaseConfig();
-        $this->assertEquals($config['version-generator']['class'], $expectedGenerator);
+
+        self::assertEquals($config['version-generator']['class'], $expectedGenerator);
     }
-    public function getDataForGetBaseConfig()
+    public function getDataForGetBaseConfig(): array
     {
-        return array(
+        return [
             // Legacy format
-            array(
-                array(
+            [
+                [
                     'version-persister' => 'foo',
                     'version-generator' => 'foo',
-                ),
+                ],
                 'Liip\RMT\Version\Generator\FooGenerator',
-            ),
+            ],
             // New format (see: https://github.com/liip/RMT/issues/56)
-            array(
-                array(
-                    '_default' => array(
+            [
+                [
+                    '_default' => [
                         'version-persister' => 'foo',
                         'version-generator' => 'foo',
-                    ),
-                ),
+                    ],
+                ],
                 'Liip\RMT\Version\Generator\FooGenerator',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
      * @dataProvider getDataForGetBranchConfig
      */
-    public function testGetBranchConfig($rawConfig, $branch, $expected)
+    public function testGetBranchConfig(array $rawConfig, string $branch, string $expected): void
     {
         $handler = new Handler($rawConfig);
         $config = $handler->getConfigForBranch($branch);
-        $this->assertEquals($config['version-generator']['class'], $expected);
+        self::assertEquals($config['version-generator']['class'], $expected);
     }
 
-    public function getDataForGetBranchConfig()
+    public function getDataForGetBranchConfig(): array
     {
-        return array(
+        return [
             // Legacy format
-            array(
-                array(
+            [
+                [
                     'version-persister' => 'foo',
                     'version-generator' => 'foo',
-                    'branch-specific' => array(
-                        'dev' => array('version-generator' => 'bar'),
-                    ),
-                ),
+                    'branch-specific' => [
+                        'dev' => ['version-generator' => 'bar'],
+                    ],
+                ],
                 'dev',
                 'Liip\RMT\Version\Generator\BarGenerator',
-            ),
+            ],
             // New format (see: https://github.com/liip/RMT/issues/56)
-            array(
-                array(
-                    '_default' => array(
+            [
+                [
+                    '_default' => [
                         'version-persister' => 'foo',
                         'version-generator' => 'foo',
-                    ),
-                    'dev' => array(
+                    ],
+                    'dev' => [
                         'version-generator' => 'bar',
-                    ),
-                ),
+                    ],
+                ],
                 'dev',
                 'Liip\RMT\Version\Generator\BarGenerator',
-            ),
-        );
+            ],
+        ];
     }
 
-    public function testMerge()
+    public function testMerge(): void
     {
-        $configHandler = new Handler(array(
+        $configHandler = new Handler([
             'version-persister' => 'foo',
             'version-generator' => 'bar',
-            'branch-specific' => array(
-                'dev' => array(
+            'branch-specific' => [
+                'dev' => [
                     'version-generator' => 'foobar',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
-        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
+        $method = new ReflectionMethod(Handler::class, 'mergeConfig');
         $method->setAccessible(true);
 
-        $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+        self::assertEquals([
             'vcs' => null,
-            'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
+            'prerequisites' => [],
+            'pre-release-actions' => [],
+            'post-release-actions' => [],
             'version-generator' => 'bar',
             'version-persister' => 'foo',
-        ));
-        $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+        ], $method->invokeArgs($configHandler, []));
+
+        self::assertEquals([
             'vcs' => null,
-            'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
+            'prerequisites' => [],
+            'pre-release-actions' => [],
+            'post-release-actions' => [],
             'version-generator' => 'foobar',
             'version-persister' => 'foo',
-        ));
+        ], $method->invokeArgs($configHandler, ['dev']));
     }
 
-    public function testMergeOptions()
+    public function testMergeOptions(): void
     {
-        $configHandler = new Handler(array(
+        $configHandler = new Handler([
             'version-persister' => 'foo',
-            'version-generator' => array('name' => 'bar', 'opt1' => 'val1'),
-            'branch-specific' => array(
-                'dev' => array(
-                    'version-generator' => array('opt1' => 'val2'),
-                ),
-            ),
-        ));
+            'version-generator' => ['name' => 'bar', 'opt1' => 'val1'],
+            'branch-specific' => [
+                'dev' => [
+                    'version-generator' => ['opt1' => 'val2'],
+                ],
+            ],
+        ]);
 
-        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'mergeConfig');
+        $method = new ReflectionMethod(Handler::class, 'mergeConfig');
         $method->setAccessible(true);
 
-        $this->assertEquals($method->invokeArgs($configHandler, array()), array(
+        self::assertEquals([
             'vcs' => null,
-            'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
-            'version-generator' => array('name' => 'bar', 'opt1' => 'val1'),
+            'prerequisites' => [],
+            'pre-release-actions' => [],
+            'post-release-actions' => [],
+            'version-generator' => ['name' => 'bar', 'opt1' => 'val1'],
             'version-persister' => 'foo',
-        ));
-        $this->assertEquals($method->invokeArgs($configHandler, array('dev')), array(
+        ], $method->invokeArgs($configHandler, []));
+
+        self::assertEquals([
             'vcs' => null,
-            'prerequisites' => array(),
-            'pre-release-actions' => array(),
-            'post-release-actions' => array(),
-            'version-generator' => array('name' => 'bar', 'opt1' => 'val2'),
+            'prerequisites' => [],
+            'pre-release-actions' => [],
+            'post-release-actions' => [],
+            'version-generator' => ['name' => 'bar', 'opt1' => 'val2'],
             'version-persister' => 'foo',
-        ));
+        ], $method->invokeArgs($configHandler, ['dev']));
     }
 
     /**
      * @dataProvider getDataForTestingGetClassAndOptions
      */
-    public function testGetClassAndOptions($configKey, $rawConfig, $expectedClass, $expectedOptions)
+    public function testGetClassAndOptions(string $configKey, $rawConfig, string $expectedClass, array $expectedOptions): void
     {
-        $configHandler = new Handler(array(
+        $configHandler = new Handler([
             'version-persister' => 'foo',
             'version-generator' => 'bar',
-        ));
+        ]);
 
-        $method = new \ReflectionMethod('Liip\RMT\Config\Handler', 'getClassAndOptions');
+        $method = new ReflectionMethod(Handler::class, 'getClassAndOptions');
         $method->setAccessible(true);
 
-        $this->assertEquals(
-            array('class' => $expectedClass, 'options' => $expectedOptions),
-            $method->invokeArgs($configHandler, array($rawConfig, $configKey))
+        self::assertEquals(
+            ['class' => $expectedClass, 'options' => $expectedOptions],
+            $method->invokeArgs($configHandler, [$rawConfig, $configKey])
         );
     }
 
-    public function getDataForTestingGetClassAndOptions()
+    public function getDataForTestingGetClassAndOptions(): array
     {
-        return array(
-            array('version-persister', 'vcs-tag', 'Liip\RMT\Version\Persister\VcsTagPersister', array()),
+        return [
+            ['version-persister', 'vcs-tag', VcsTagPersister::class, []],
             // vcs: git
-            array('vcs', 'git', 'Liip\RMT\VCS\Git', array()),
+            ['vcs', 'git', Git::class, []],
             // vcs:
             //   git: ~
-            array('vcs', array('git' => null), 'Liip\RMT\VCS\Git', array()),
+            ['vcs', ['git' => null], Git::class, []],
             // vcs:
             //   git:
             //     opt1: val1
-            array('vcs', array('git' => array('opt1' => 'val1')), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
+            ['vcs', ['git' => ['opt1' => 'val1']], Git::class, ['opt1' => 'val1']],
             // vcs: {name: git}
-            array('vcs', array('name' => 'git'), 'Liip\RMT\VCS\Git', array()),
+            ['vcs', ['name' => 'git'], Git::class, []],
             // vcs: {name: git, opt1: val1}
-            array('vcs', array('name' => 'git', 'opt1' => 'val1'), 'Liip\RMT\VCS\Git', array('opt1' => 'val1')),
-            array('prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', array()),
-        );
+            ['vcs', ['name' => 'git', 'opt1' => 'val1'], Git::class, ['opt1' => 'val1']],
+            ['prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', []],
+        ];
     }
 }

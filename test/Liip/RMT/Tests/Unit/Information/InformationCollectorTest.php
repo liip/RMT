@@ -13,46 +13,47 @@ namespace Liip\RMT\Tests\Unit\Information;
 
 use Liip\RMT\Information\InformationCollector;
 use Liip\RMT\Information\InformationRequest;
+use PHPUnit\Framework\TestCase;
 
-class InformationCollectorTest extends \PHPUnit\Framework\TestCase
+class InformationCollectorTest extends TestCase
 {
-    public function testRegisterRequest()
+    public function testRegisterRequest(): void
     {
         $ic = new InformationCollector();
-        $this->assertFalse($ic->hasRequest('foo'));
+        self::assertFalse($ic->hasRequest('foo'));
         $ic->registerRequest(new InformationRequest('foo'));
-        $this->assertTrue($ic->hasRequest('foo'));
+        self::assertTrue($ic->hasRequest('foo'));
     }
 
-    public function testRegisterRequests()
+    public function testRegisterRequests(): void
     {
         $ic = new InformationCollector();
-        $this->assertFalse($ic->hasRequest('foo') || $ic->hasRequest('type'));
+        self::assertFalse($ic->hasRequest('foo') || $ic->hasRequest('type'));
         $ic->registerRequests(array(new InformationRequest('foo'), 'type'));
-        $this->assertTrue($ic->hasRequest('foo'));
-        $this->assertTrue($ic->hasRequest('type'));
+        self::assertTrue($ic->hasRequest('foo'));
+        self::assertTrue($ic->hasRequest('type'));
     }
 
-    public function testHasMissingInformation()
+    public function testHasMissingInformation(): void
     {
         $ic = new InformationCollector();
         $ic->registerRequest(new InformationRequest('foo'));
-        $this->assertTrue($ic->hasMissingInformation());
+        self::assertTrue($ic->hasMissingInformation());
         $ic->setValueFor('foo', 'bar');
-        $this->assertFalse($ic->hasMissingInformation());
+        self::assertFalse($ic->hasMissingInformation());
     }
 
-    public function testSetAndGetValueFor()
+    public function testSetAndGetValueFor(): void
     {
         $ic = new InformationCollector();
         $ic->registerRequest(new InformationRequest('foo'));
         $ic->setValueFor('foo', 'bar');
-        $this->assertEquals('bar', $ic->getValueFor('foo'));
+        self::assertEquals('bar', $ic->getValueFor('foo'));
     }
 
-    public function testGetValueForWithDefault()
+    public function testGetValueForWithDefault(): void
     {
         $ic = new InformationCollector();
-        $this->assertEquals('bar', $ic->getValueFor('foo', 'bar'));
+        self::assertEquals('bar', $ic->getValueFor('foo', 'bar'));
     }
 }

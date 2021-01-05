@@ -13,35 +13,36 @@ namespace Liip\RMT\Tests\Unit\Information;
 
 use Liip\RMT\Information\InformationRequest;
 use Liip\RMT\Information\InteractiveQuestion;
+use PHPUnit\Framework\TestCase;
 
-class InteractiveQuestionTest extends \PHPUnit\Framework\TestCase
+class InteractiveQuestionTest extends TestCase
 {
-    public function testGetDefault()
+    public function testGetDefault(): void
     {
         $iq = new InteractiveQuestion(new InformationRequest('foo'));
-        $this->assertFalse($iq->hasDefault());
+        self::assertFalse($iq->hasDefault());
 
-        $iq = new InteractiveQuestion(new InformationRequest('foo', array('default' => 'bar')));
-        $this->assertEquals('bar', $iq->getDefault());
+        $iq = new InteractiveQuestion(new InformationRequest('foo', ['default' => 'bar']));
+        self::assertEquals('bar', $iq->getDefault());
 
-        $iq = new InteractiveQuestion(new InformationRequest('fruit', array(
+        $iq = new InteractiveQuestion(new InformationRequest('fruit', [
             'type' => 'choice',
-            'choices' => array('apple', 'banana', 'cherry'),
-            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry'),
+            'choices' => ['apple', 'banana', 'cherry'],
+            'choices_shortcuts' => ['a' => 'apple', 'b' => 'banana', 'c' => 'cherry'],
             'default' => 'banana',
-        )));
-        $this->assertEquals('b', $iq->getDefault());
+        ]));
+        self::assertEquals('b', $iq->getDefault());
     }
 
-    public function testValidateChoicesWithShortcuts()
+    public function testValidateChoicesWithShortcuts(): void
     {
-        $ir = new InformationRequest('fruit', array(
+        $ir = new InformationRequest('fruit', [
             'type' => 'choice',
-            'choices' => array('apple', 'banana', 'cherry'),
-            'choices_shortcuts' => array('a' => 'apple', 'b' => 'banana', 'c' => 'cherry'),
-        ));
+            'choices' => ['apple', 'banana', 'cherry'],
+            'choices_shortcuts' => ['a' => 'apple', 'b' => 'banana', 'c' => 'cherry'],
+        ]);
 
         $iq = new InteractiveQuestion($ir);
-        $this->assertEquals('apple', $iq->validate('a'));
+        self::assertEquals('apple', $iq->validate('a'));
     }
 }
