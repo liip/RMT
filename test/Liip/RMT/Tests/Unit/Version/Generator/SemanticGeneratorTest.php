@@ -11,61 +11,64 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
-class SemanticGeneratorTest extends \PHPUnit\Framework\TestCase
+use InvalidArgumentException;
+use Liip\RMT\Version\Generator\SemanticGenerator;
+use PHPUnit\Framework\TestCase;
+
+class SemanticGeneratorTest extends TestCase
 {
     /**
      * @dataProvider getVersionValues
      */
-    public function testIncrement($current, $type, $label, $result)
+    public function testIncrement(string $current, string $type, string $label, string $result): void
     {
-        $options = array(
+        $options = [
             'type' => $type,
             'label' => $label,
-        );
+        ];
 
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator($options);
-        $this->assertEquals($result, $generator->generateNextVersion($current));
+        $generator = new SemanticGenerator($options);
+        self::assertEquals($result, $generator->generateNextVersion($current));
     }
 
-    public function getVersionValues()
+    public function getVersionValues(): array
     {
-        return array(
-            array('1.0.0',  'patch', 'none', '1.0.1'),
-            array('1.23.0', 'minor', 'none', '1.24.0'),
-            array('1.1.19', 'minor', 'none', '1.2.0'),
-            array('1.0.0',  'major', 'none', '2.0.0'),
-            array('1.19.3', 'major', 'none', '2.0.0'),
-            array('3.3.3',  'major', 'none', '4.0.0'),
-            array('3.3.3',  'major', 'alpha', '4.0.0-alpha'),
-            array('4.0.0-aplha2',  'major', 'beta', '4.0.0-beta'),
-            array('3.3.3',  'minor', 'beta', '3.4.0-beta'),
-            array('4.0.0-beta',  'minor', 'beta', '4.0.0-beta2'),
-            array('4.0.0',  'minor', 'rc', '4.1.0-rc'),
-            array('4.0.0-rc',  'minor', 'none', '4.0.0'),
-        );
+        return [
+            ['1.0.0',  'patch', 'none', '1.0.1'],
+            ['1.23.0', 'minor', 'none', '1.24.0'],
+            ['1.1.19', 'minor', 'none', '1.2.0'],
+            ['1.0.0',  'major', 'none', '2.0.0'],
+            ['1.19.3', 'major', 'none', '2.0.0'],
+            ['3.3.3',  'major', 'none', '4.0.0'],
+            ['3.3.3',  'major', 'alpha', '4.0.0-alpha'],
+            ['4.0.0-aplha2',  'major', 'beta', '4.0.0-beta'],
+            ['3.3.3',  'minor', 'beta', '3.4.0-beta'],
+            ['4.0.0-beta',  'minor', 'beta', '4.0.0-beta2'],
+            ['4.0.0',  'minor', 'rc', '4.1.0-rc'],
+            ['4.0.0-rc',  'minor', 'none', '4.0.0'],
+        ];
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The option [type] must be one of: {patch, minor, major}, "full" given
-     */
-    public function testIncrementWithInvalidType()
+    public function testIncrementWithInvalidType(): void
     {
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator(array('type' => 'full', 'label' => 'none'));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The option [type] must be one of: {patch, minor, major}, "full" given');
+
+        $generator = new SemanticGenerator(array('type' => 'full', 'label' => 'none'));
         $generator->generateNextVersion('1.0.0');
     }
 
-    public function testCompare()
+    public function testCompare(): void
     {
-        $generator = new \Liip\RMT\Version\Generator\SemanticGenerator();
-        $this->assertEquals(-1, $generator->compareTwoVersions('1.0.0', '1.0.1'));
-        $this->assertEquals(-1, $generator->compareTwoVersions('1.0.0-beta', '1.0.0'));
-        $this->assertEquals(0, $generator->compareTwoVersions('1.0.0', '1.0.0'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.1', '1.0.0'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.11', '1.0.1'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.1', '1.0.1-alpha'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.1-beta', '1.0.1-alpha'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.11-rc', '1.0.1-beta'));
-        $this->assertEquals(1, $generator->compareTwoVersions('1.0.2', '1.0.1-rc'));
+        $generator = new SemanticGenerator();
+        self::assertEquals(-1, $generator->compareTwoVersions('1.0.0', '1.0.1'));
+        self::assertEquals(-1, $generator->compareTwoVersions('1.0.0-beta', '1.0.0'));
+        self::assertEquals(0, $generator->compareTwoVersions('1.0.0', '1.0.0'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.1', '1.0.0'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.11', '1.0.1'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.1', '1.0.1-alpha'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.1-beta', '1.0.1-alpha'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.11-rc', '1.0.1-beta'));
+        self::assertEquals(1, $generator->compareTwoVersions('1.0.2', '1.0.1-rc'));
     }
 }

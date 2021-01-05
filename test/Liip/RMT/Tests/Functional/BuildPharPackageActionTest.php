@@ -15,13 +15,13 @@ use Phar;
 
 class BuildPharPackageActionTest extends RMTFunctionalTestBase
 {
-    const START_VERSION = '1.0.0';
+    public const START_VERSION = '1.0.0';
 
-    const GENERATED_PACKAGE_PATH = '/tmp/configured/my-new-package-1.0.1.phar';
+    public const GENERATED_PACKAGE_PATH = '/tmp/configured/my-new-package-1.0.1.phar';
 
-    const STUB_FILE = 'stub-file.php';
+    public const STUB_FILE = 'stub-file.php';
 
-    const STUB_FILE_WEB = 'stub-file-web.php';
+    public const STUB_FILE_WEB = 'stub-file-web.php';
 
     protected function setUp(): void
     {
@@ -50,21 +50,21 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
         exec('git tag ' . self::START_VERSION);
     }
 
-    public function testPackageNameContainsPackageNameOptionAndVersion()
+    public function testPackageNameContainsPackageNameOptionAndVersion(): void
     {
         exec('./RMT release -n', $consoleOutput, $exitCode);
 
-        $this->assertContains('my-new-package-1.0.1.phar', implode("\n", $consoleOutput));
+        self::assertStringContainsString('my-new-package-1.0.1.phar', implode("\n", $consoleOutput));
     }
 
-    public function testPackageIsCreatedInTheConfiguredDirectory()
+    public function testPackageIsCreatedInTheConfiguredDirectory(): void
     {
         exec('./RMT release -n', $consoleOutput, $exitCode);
 
-        $this->assertContains(self::GENERATED_PACKAGE_PATH, implode("\n", $consoleOutput));
+        self::assertStringContainsString(self::GENERATED_PACKAGE_PATH, implode("\n", $consoleOutput));
     }
 
-    public function testPackageDoesNotContainsExcludedPaths()
+    public function testPackageDoesNotContainsExcludedPaths(): void
     {
         exec('touch excluded-file');
 
@@ -78,20 +78,19 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
 
         $output = implode("\n", $consoleOutput);
 
-        $this->assertNotContains('excluded-file', $output);
-        $this->assertNotContains('.git', $output);
+        self::assertStringNotContainsString('excluded-file', $output);
+        self::assertStringNotContainsString('.git', $output);
     }
 
-    public function testPackageHasConfiguredMetadata()
+    public function testPackageHasConfiguredMetadata(): void
     {
         exec('./RMT release -n');
 
         $phar = new Phar(self::GENERATED_PACKAGE_PATH);
-
-        $this->assertEquals($phar->getMetadata(), array('version' => '1.0.1', 'owner' => 'Paddington'));
+        self::assertEquals(['version' => '1.0.1', 'owner' => 'Paddington'], $phar->getMetadata());
     }
 
-    public function testPackageHasConfiguredStub()
+    public function testPackageHasConfiguredStub(): void
     {
         exec('touch ' . self::STUB_FILE);
         exec('touch ' . self::STUB_FILE_WEB);
@@ -100,11 +99,11 @@ class BuildPharPackageActionTest extends RMTFunctionalTestBase
 
         $phar = new Phar(self::GENERATED_PACKAGE_PATH);
 
-        $this->assertContains(self::STUB_FILE, $phar->getStub());
-        $this->assertContains(self::STUB_FILE_WEB, $phar->getStub());
+        self::assertStringContainsString(self::STUB_FILE, $phar->getStub());
+        self::assertStringContainsString(self::STUB_FILE_WEB, $phar->getStub());
     }
 
-    protected function extractPackage($source, $target)
+    protected function extractPackage($source, $target): void
     {
         $phar = new Phar($source);
         $phar->extractTo($target);

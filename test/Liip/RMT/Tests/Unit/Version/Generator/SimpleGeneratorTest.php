@@ -11,11 +11,14 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
-class SimpleGeneratorTest extends \PHPUnit\Framework\TestCase
+use Liip\RMT\Version\Generator\SimpleGenerator;
+use PHPUnit\Framework\TestCase;
+
+class SimpleGeneratorTest extends TestCase
 {
-    public function testIncrement()
+    public function testIncrement(): void
     {
-        $generator = new \Liip\RMT\Version\Generator\SimpleGenerator();
-        $this->assertEquals(4, $generator->generateNextVersion(3));
+        $generator = new SimpleGenerator();
+        self::assertEquals(4, $generator->generateNextVersion(3));
     }
 }

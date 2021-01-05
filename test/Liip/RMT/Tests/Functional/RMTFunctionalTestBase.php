@@ -11,9 +11,10 @@
 
 namespace Liip\RMT\Tests\Functional;
 
+use Liip\RMT\Changelog\ChangelogManager;
 use Symfony\Component\Yaml\Yaml;
 
-class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
+class RMTFunctionalTestBase extends ForwardCompatibilityTestCase
 {
     protected $tempDir;
 
@@ -32,7 +33,7 @@ class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
         exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git");
     }
 
-    protected function createConfig($generator, $persister, $otherConfig = array())
+    protected function createConfig($generator, $persister, $otherConfig = array()): void
     {
         $allConfig = array_merge($otherConfig, array(
             'version-persister' => $persister,
@@ -41,14 +42,14 @@ class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
         file_put_contents('.rmt.yml', Yaml::dump($allConfig));
     }
 
-    protected function createChangelog($format)
+    protected function createChangelog($format): void
     {
         $file = $this->tempDir . '/CHANGELOG';
-        $manager = new \Liip\RMT\Changelog\ChangelogManager($file, $format);
+        $manager = new ChangelogManager($file, $format);
         $manager->update(
-            $format == 'semantic' ? '0.0.1' : '1',
+            $format === 'semantic' ? '0.0.1' : '1',
             'First release',
-            $format == 'semantic' ? array('type' => 'patch') : null
+            $format === 'semantic' ? array('type' => 'patch') : null
         );
     }
 
@@ -57,14 +58,14 @@ class RMTFunctionalTestBase extends \PHPUnit\Framework\TestCase
         exec('rm -rf ' . $this->tempDir);
     }
 
-    protected function initGit()
+    protected function initGit(): void
     {
         exec('git init');
         exec('git add .');
         exec('git commit -m "First commit"');
     }
 
-    protected function manualDebug()
+    protected function manualDebug(): void
     {
         echo "\n\nMANUAL DEBUG Go to:\n > cd " . $this->tempDir . "\n\n";
         exit();

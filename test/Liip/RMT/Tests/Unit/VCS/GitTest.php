@@ -11,9 +11,11 @@
 
 namespace Liip\RMT\Tests\Unit\Version;
 
+use Liip\RMT\Exception;
 use Liip\RMT\VCS\Git;
+use PHPUnit\Framework\TestCase;
 
-class GitTest extends \PHPUnit\Framework\TestCase
+class GitTest extends TestCase
 {
     protected $testDir;
 
@@ -31,74 +33,73 @@ class GitTest extends \PHPUnit\Framework\TestCase
         $this->testDir = $tempDir;
     }
 
-    public function testGetAllModificationsSince()
+    public function testGetAllModificationsSince(): void
     {
         $vcs = new Git();
         $modifs = $vcs->getAllModificationsSince('1.1.0');
-        $this->assertContains('Add a third file', $modifs[0]);
-        $this->assertContains('Modification of the first file', $modifs[1]);
+        self::assertStringContainsString('Add a third file', $modifs[0]);
+        self::assertStringContainsString('Modification of the first file', $modifs[1]);
     }
 
-    public function testGetModifiedFilesSince()
+    public function testGetModifiedFilesSince(): void
     {
         $vcs = new Git();
         $files = $vcs->getModifiedFilesSince('1.1.0');
-        $this->assertEquals(array('file1' => 'M', 'file3' => 'A'), $files);
+        self::assertEquals(['file1' => 'M', 'file3' => 'A'], $files);
     }
 
-    public function testGetLocalModifications()
+    public function testGetLocalModifications(): void
     {
         $vcs = new Git();
         exec('touch foo');
         $modifs = $vcs->getLocalModifications();
-        $this->assertContains('foo', implode($modifs));
+        self::assertStringContainsString('foo', implode($modifs));
     }
 
-    public function testGetTags()
+    public function testGetTags(): void
     {
         $vcs = new Git();
-        $this->assertEquals(array('1.0.0', '1.1.0'), $vcs->getTags());
+        self::assertEquals(['1.0.0', '1.1.0'], $vcs->getTags());
     }
 
-    public function testCreateTag()
-    {
-        $vcs = new Git();
-        $vcs->createTag('2.0.0');
-        $this->assertEquals(array('1.0.0', '1.1.0', '2.0.0'), $vcs->getTags());
-    }
-
-    public function testSaveWorkingCopy()
+    public function testCreateTag(): void
     {
         $vcs = new Git();
         $vcs->createTag('2.0.0');
-        $this->assertEquals(array(), $vcs->getAllModificationsSince('2.0.0'));
+        self::assertEquals(['1.0.0', '1.1.0', '2.0.0'], $vcs->getTags());
+    }
+
+    public function testSaveWorkingCopy(): void
+    {
+        $vcs = new Git();
+        $vcs->createTag('2.0.0');
+        self::assertEquals([], $vcs->getAllModificationsSince('2.0.0'));
         exec('rm file2');
         $vcs->saveWorkingCopy('Remove the second file');
-        $this->assertCount(1, $vcs->getAllModificationsSince('2.0.0'));
+        self::assertCount(1, $vcs->getAllModificationsSince('2.0.0'));
     }
 
-    public function testGetCurrentBranch()
+    public function testGetCurrentBranch(): void
     {
         $vcs = new Git();
-        $this->assertEquals('master', $vcs->getCurrentBranch());
+        self::assertEquals('master', $vcs->getCurrentBranch());
         system('git checkout -b foo --quiet');
-        $this->assertEquals('foo', $vcs->getCurrentBranch());
+        self::assertEquals('foo', $vcs->getCurrentBranch());
         exec('git checkout master --quiet');
-        $this->assertEquals('master', $vcs->getCurrentBranch());
+        self::assertEquals('master', $vcs->getCurrentBranch());
     }
 
-    /**
-     * @expectedException \Liip\RMT\Exception
-     * @expectedExceptionMessage Not currently on any branch
-     */
-    public function testGetCurrentBranchWhenNotInBranch()
+    public function testGetCurrentBranchWhenNotInBranch(): void
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Not currently on any branch');
+
         $vcs = new Git();
         exec('git checkout 9aca70b --quiet');
         $vcs->getCurrentBranch();
     }
 
-    public function testChangeNoMergeCommits()
+    public function testChangeNoMergeCommits(): void
     {
         $vcs = new Git();
         exec('git checkout -b merge-branch --quiet');
@@ -108,12 +109,12 @@ class GitTest extends \PHPUnit\Framework\TestCase
 
         $modifs = $vcs->getAllModificationsSince('1.1.0', false, true);
 
-        $this->assertContains('First commit', $modifs[0]);
-        $this->assertContains('Add a third file', $modifs[1]);
-        $this->assertContains('Modification of the first file', $modifs[2]);
+        self::assertStringContainsString('First commit', $modifs[0]);
+        self::assertStringContainsString('Add a third file', $modifs[1]);
+        self::assertStringContainsString('Modification of the first file', $modifs[2]);
     }
 
-    public function testChangeWithMergeCommits()
+    public function testChangeWithMergeCommits(): void
     {
         $vcs = new Git();
         exec('git checkout -b merge-branch --quiet');
@@ -123,10 +124,10 @@ class GitTest extends \PHPUnit\Framework\TestCase
 
         $modifs = $vcs->getAllModificationsSince('1.1.0');
 
-        $this->assertContains("Merge branch 'merge-branch'", $modifs[0]);
-        $this->assertContains('First commit', $modifs[1]);
-        $this->assertContains('Add a third file', $modifs[2]);
-        $this->assertContains('Modification of the first file', $modifs[3]);
+        self::assertStringContainsString("Merge branch 'merge-branch'", $modifs[0]);
+        self::assertStringContainsString('First commit', $modifs[1]);
+        self::assertStringContainsString('Add a third file', $modifs[2]);
+        self::assertStringContainsString('Modification of the first file', $modifs[3]);
     }
 
     protected function tearDown(): void

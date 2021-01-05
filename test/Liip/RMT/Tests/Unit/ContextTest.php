@@ -11,130 +11,127 @@
 
 namespace Liip\RMT\Tests\Unit;
 
+use InvalidArgumentException;
 use Liip\RMT\Context;
+use PHPUnit\Framework\TestCase;
+use Liip\RMT\Tests\Unit\ServiceClass;
 
-class ContextTest extends \PHPUnit\Framework\TestCase
+class ContextTest extends TestCase
 {
     // SERVICE TESTS
 
-    public function testSetAndGetService()
+    public function testSetAndGetService(): void
     {
         $context = Context::getInstance();
-        $context->setService('foo', '\Liip\RMT\Tests\Unit\ServiceClass');
+        $context->setService('foo', ServiceClass::class);
         $objectFoo = $context->getService('foo');
-        $this->assertInstanceOf('\Liip\RMT\Tests\Unit\ServiceClass', $objectFoo);
-        $this->assertEquals($objectFoo, $context->getService('foo'), 'Two successive calls return the same object');
+        self::assertInstanceOf(ServiceClass::class, $objectFoo);
+        self::assertEquals($objectFoo, $context->getService('foo'), 'Two successive calls return the same object');
     }
 
-    public function testSetAndGetServiceWithObject()
+    public function testSetAndGetServiceWithObject(): void
     {
         $context = Context::getInstance();
         $object = new ServiceClass();
         $context->setService('foo', $object);
-        $this->assertEquals($object, $context->getService('foo'));
+        self::assertEquals($object, $context->getService('foo'));
     }
 
-    public function testSetAndGetServiceWithOptions()
+    public function testSetAndGetServiceWithOptions(): void
     {
         $context = Context::getInstance();
-        $options = array('pi' => 3.14);
-        $context->setService('foo', '\Liip\RMT\Tests\Unit\ServiceClass', $options);
-        $this->assertEquals($options, $context->getService('foo')->getOptions());
+        $options = ['pi' => 3.14];
+        $context->setService('foo', ServiceClass::class, $options);
+        self::assertEquals($options, $context->getService('foo')->getOptions());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no service defined with id [abc]
-     */
-    public function testGetServiceWithoutSet()
+    public function testGetServiceWithoutSet(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no service defined with id [abc]');
+
         Context::getInstance()->getService('abc');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The class [Bar] does not exist
-     */
-    public function testSetServiceWithInvalidClass()
+    public function testSetServiceWithInvalidClass(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The class [Bar] does not exist');
+
         Context::getInstance()->setService('foo', 'Bar');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage setService() only accept an object or a valid class name
-     */
-    public function testSetServiceWithInvalidObject()
+    public function testSetServiceWithInvalidObject(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('setService() only accept an object or a valid class name');
+
         $context = Context::getInstance();
         $context->setService('foo', 12);
     }
 
     // PARAM TESTS
 
-    public function testSetAndGetParam()
+    public function testSetAndGetParam(): void
     {
         $context = Context::getInstance();
         $context->setParameter('date', '11.11.11');
-        $this->assertEquals('11.11.11', $context->getParameter('date'));
+        self::assertEquals('11.11.11', $context->getParameter('date'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no param defined with id [abc]
-     */
-    public function testGetParamWithoutSet()
+    public function testGetParamWithoutSet(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no param defined with id [abc]');
+
         $context = Context::getInstance();
         $context->getParameter('abc');
     }
 
     // LIST TESTS
 
-    public function testAddToList()
+    public function testAddToList(): void
     {
         $context = Context::getInstance();
-        $context->addToList('prerequisites', '\Liip\RMT\Tests\Unit\ServiceClass');
-        $context->addToList('prerequisites', '\Liip\RMT\Context');
+        $context->addToList('prerequisites', ServiceClass::class);
+        $context->addToList('prerequisites', Context::class);
         $objects = $context->getList('prerequisites');
-        $this->assertCount(2, $objects);
-        $this->assertInstanceOf('\Liip\RMT\Tests\Unit\ServiceClass', $objects[0]);
-        $this->assertInstanceOf('\Liip\RMT\Context', $objects[1]);
+        self::assertCount(2, $objects);
+        self::assertInstanceOf(ServiceClass::class, $objects[0]);
+        self::assertInstanceOf(Context::class, $objects[1]);
     }
 
-    public function testAddToListWithOptions()
+    public function testAddToListWithOptions(): void
     {
         $context = Context::getInstance();
         $options = array('pi' => 3.14);
-        $context->addToList('foo', '\Liip\RMT\Tests\Unit\ServiceClass', $options);
+        $context->addToList('foo', ServiceClass::class, $options);
         $objects = $context->getList('foo');
-        $this->assertEquals($options, $objects[0]->getOptions());
+        self::assertEquals($options, $objects[0]->getOptions());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage There is no list defined with id [abc]
-     */
-    public function testGetListParamWithoutAdd()
+    public function testGetListParamWithoutAdd(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no list defined with id [abc]');
+
         $context = Context::getInstance();
         $context->getList('abc');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The class [Bar] does not exist
-     */
-    public function testAddToListWithInvalidClass()
+    public function testAddToListWithInvalidClass(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The class [Bar] does not exist');
+
         $context = Context::getInstance();
         $context->addToList('foo', 'Bar');
     }
 
-    public function testEmptyList()
+    public function testEmptyList(): void
     {
         $context = Context::getInstance();
         $context->createEmptyList('prerequisites');
-        $this->assertEquals(array(), $context->getList('prerequisites'));
+        self::assertEquals(array(), $context->getList('prerequisites'));
     }
 }

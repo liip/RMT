@@ -11,22 +11,23 @@
 
 namespace Liip\RMT\Tests\Unit\Changelog\Formatter;
 
-class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
+use Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter;
+use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\TestCase;
+
+class SemanticChangelogFormatterTest extends TestCase
 {
-    /**
-     * @return Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter
-     */
-    protected function getFormatter()
+    protected function getFormatter(): SemanticChangelogFormatter
     {
         $formatter = $this
-            ->getMockBuilder('Liip\RMT\Changelog\Formatter\SemanticChangelogFormatter')
-            ->setMethods(array('getFormattedDate'))
+            ->getMockBuilder(SemanticChangelogFormatter::class)
+            ->{method_exists(MockBuilder::class, 'onlyMethods') ? 'onlyMethods' : 'setMethods'}(['getFormattedDate'])
             ->getMock()
         ;
+
         $formatter
-            ->expects($this->any())
             ->method('getFormattedDate')
-            ->will($this->returnValue('08/11/1980 12:34'))
+            ->willReturn('08/11/1980 12:34')
         ;
 
         return $formatter;
@@ -35,26 +36,26 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getDataForFirstReleaseTest
      */
-    public function testFirstRelease($version, $type, $results)
+    public function testFirstRelease($version, $type, $results): void
     {
         $formatter = $this->getFormatter();
-        $lines = $formatter->updateExistingLines(array(), $version, 'foo bar', array('type' => $type));
-        $this->assertEquals($results, $lines);
+        $lines = $formatter->updateExistingLines([], $version, 'foo bar', ['type' => $type]);
+        self::assertEquals($results, $lines);
     }
 
-    public function getDataForFirstReleaseTest()
+    public function getDataForFirstReleaseTest(): array
     {
-        return array(
-            array('0.0.1', 'patch', array('', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.0 - foo bar', '      08/11/1980 12:34  0.0.1  initial release')),
-            array('0.1.0', 'patch', array('', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.1 - foo bar', '      08/11/1980 12:34  0.1.0  initial release')),
-            array('1.0.0', 'patch', array('', 'VERSION 1  FOO BAR', '==================', '', '   Version 1.0 - foo bar', '      08/11/1980 12:34  1.0.0  initial release')),
-        );
+        return [
+            ['0.0.1', 'patch', ['', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.0 - foo bar', '      08/11/1980 12:34  0.0.1  initial release']],
+            ['0.1.0', 'patch', ['', 'VERSION 0  FOO BAR', '==================', '', '   Version 0.1 - foo bar', '      08/11/1980 12:34  0.1.0  initial release']],
+            ['1.0.0', 'patch', ['', 'VERSION 1  FOO BAR', '==================', '', '   Version 1.0 - foo bar', '      08/11/1980 12:34  1.0.0  initial release']],
+        ];
     }
 
-    public function testExtraLines()
+    public function testExtraLines(): void
     {
         $formatter = $this->getFormatter();
-        $lines = $formatter->updateExistingLines(array(
+        $lines = $formatter->updateExistingLines([
             '',
             'VERSION 1  FOO BAR',
             '==================',
@@ -62,12 +63,12 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.0  initial release',
 
-        ), '1.0.1', 'foo bar', array('type' => 'patch', 'extra-lines' => array(
+        ], '1.0.1', 'foo bar', ['type' => 'patch', 'extra-lines' => [
             'ada96f3 Add new tests for command RMT init and RMT current ref #10',
             '2eb6fae Documentation review',
-        )));
+        ]]);
 
-        $this->assertEquals(array(
+        self::assertEquals([
             '',
             'VERSION 1  FOO BAR',
             '==================',
@@ -77,27 +78,27 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
             '         ada96f3 Add new tests for command RMT init and RMT current ref #10',
             '         2eb6fae Documentation review',
             '      08/11/1980 12:34  1.0.0  initial release',
-        ), $lines);
+        ], $lines);
     }
 
-    public function testUpdateExistingWithPatch()
+    public function testUpdateExistingWithPatch(): void
     {
         $formatter = $this->getFormatter();
         $lines = $formatter->updateExistingLines(
-            array(
+            [
                 '',
                 'VERSION 1  FOO BAR',
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release',
-            ),
+            ],
             '1.0.1',
             'foofoo',
-            array('type' => 'patch')
+            ['type' => 'patch']
         );
 
-        $this->assertEquals(array(
+        self::assertEquals([
             '',
             'VERSION 1  FOO BAR',
             '==================',
@@ -105,26 +106,26 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.1  foofoo',
             '      08/11/1980 12:34  1.0.0  initial release',
-        ), $lines);
+        ], $lines);
     }
 
-    public function testUpdateExistingWithMinor()
+    public function testUpdateExistingWithMinor(): void
     {
         $formatter = $this->getFormatter();
         $lines = $formatter->updateExistingLines(
-            array(
+            [
                 '',
                 'VERSION 1  FOO BAR',
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release',
-            ),
+            ],
             '1.1.0',
             'foofoo',
-            array('type' => 'minor')
+            ['type' => 'minor']
         );
-        $this->assertEquals(array(
+        self::assertEquals([
             '',
             'VERSION 1  FOO BAR',
             '==================',
@@ -134,27 +135,27 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
             '',
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.0  initial release',
-        ), $lines);
+        ], $lines);
     }
 
-    public function testUpdateExistingWithMajor()
+    public function testUpdateExistingWithMajor(): void
     {
         $formatter = $this->getFormatter();
         $lines = $formatter->updateExistingLines(
-            array(
+            [
                 '',
                 'VERSION 1  FOO BAR',
                 '==================',
                 '',
                 '   Version 1.0 - foo bar',
                 '      08/11/1980 12:34  1.0.0  initial release',
-            ),
+            ],
             '2.0.0',
             'foofoo',
-            array('type' => 'major')
+            ['type' => 'major']
         );
 
-        $this->assertEquals(array(
+        self::assertEquals([
             '',
             'VERSION 2  FOOFOO',
             '=================',
@@ -167,6 +168,6 @@ class SemanticChangelogFormatterTest extends \PHPUnit\Framework\TestCase
             '',
             '   Version 1.0 - foo bar',
             '      08/11/1980 12:34  1.0.0  initial release',
-        ), $lines);
+        ], $lines);
     }
 }

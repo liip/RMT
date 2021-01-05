@@ -11,66 +11,69 @@
 
 namespace Liip\RMT\Tests\Unit\Information;
 
+use InvalidArgumentException;
 use Liip\RMT\Information\InformationRequest;
+use PHPUnit\Framework\TestCase;
 
-class InformationRequestTest extends \PHPUnit\Framework\TestCase
+class InformationRequestTest extends TestCase
 {
-    public function testSetAndGetValue()
+    public function testSetAndGetValue(): void
     {
-        $ir = new InformationRequest('foo', array('type' => 'text'));
-        $this->assertFalse($ir->hasValue());
+        $ir = new InformationRequest('foo', ['type' => 'text']);
+        self::assertFalse($ir->hasValue());
         $ir->setValue('bar');
-        $this->assertTrue($ir->hasValue());
-        $this->assertEquals('bar', $ir->getValue());
+        self::assertTrue($ir->hasValue());
+        self::assertEquals('bar', $ir->getValue());
     }
 
     /**
      * @dataProvider getDataForValidationSuccess
      */
-    public function testValidationSuccess($options, $value, $expected = null)
+    public function testValidationSuccess(array $options, $value, ?string $expected = null): void
     {
-        if (func_num_args() == 2) {
+        if (func_num_args() === 2) {
             $expected = $value;
         }
         $ir = new InformationRequest('foo', $options);
         $ir->setValue($value);
-        $this->assertEquals($expected, $ir->getValue());
+        self::assertEquals($expected, $ir->getValue());
     }
 
-    public function getDataForValidationSuccess()
+    public function getDataForValidationSuccess(): array
     {
-        return array(
-            array(array('type' => 'text'), 'string'),
-            array(array('type' => 'yes-no'), 'y'),
-            array(array('type' => 'yes-no'), 'n'),
-            array(array('type' => 'yes-no'), 'yes', 'y'),
-            array(array('type' => 'yes-no'), 'no' , 'n'),
-            array(array('type' => 'choice', 'choices' => array('apple', 'banana', 'cherry')), 'apple'),
-            array(array('type' => 'confirmation'), true),
-            array(array('type' => 'confirmation'), false),
-        );
+        return [
+            [['type' => 'text'], 'string'],
+            [['type' => 'yes-no'], 'y'],
+            [['type' => 'yes-no'], 'n'],
+            [['type' => 'yes-no'], 'yes', 'y'],
+            [['type' => 'yes-no'], 'no' , 'n'],
+            [['type' => 'choice', 'choices' => ['apple', 'banana', 'cherry']], 'apple'],
+            [['type' => 'confirmation'], true],
+            [['type' => 'confirmation'], false],
+        ];
     }
 
     /**
      * @dataProvider getDataForValidationFail
-     * @expectedException \InvalidArgumentException
      */
-    public function testValidationFail($options, $value)
+    public function testValidationFail(array $options, $value): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $ir = new InformationRequest('foo', $options);
         $ir->setValue($value);
     }
 
-    public function getDataForValidationFail()
+    public function getDataForValidationFail(): array
     {
-        $choices = array('apple', 'banana', 'cherry');
+        $choices = ['apple', 'banana', 'cherry'];
 
-        return array(
-            array(array('type' => 'text'), true),
-            array(array('type' => 'text'), ''),
-            array(array('type' => 'yes-no'), 'foo'),
-            array(array('type' => 'yes-no'), 19),
-            array(array('type' => 'choice', 'choices' => $choices), 'mango'),
-        );
+        return [
+            [['type' => 'text'], true],
+            [['type' => 'text'], ''],
+            [['type' => 'yes-no'], 'foo'],
+            [['type' => 'yes-no'], 19],
+            [['type' => 'choice', 'choices' => $choices], 'mango'],
+        ];
     }
 }

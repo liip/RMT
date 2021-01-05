@@ -13,7 +13,7 @@ namespace Liip\RMT\Tests\Functional;
 
 class PrerequisitesTest extends RMTFunctionalTestBase
 {
-    public function testDisplayLastChange()
+    public function testDisplayLastChange(): void
     {
         $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('display-last-changes'),
@@ -29,12 +29,12 @@ class PrerequisitesTest extends RMTFunctionalTestBase
 
         exec('./RMT release -n', $consoleOutput, $exitCode);
         $consoleOutput = implode("\n", $consoleOutput);
-        $this->assertNotContains('First commit', $consoleOutput);
-        $this->assertContains('Add a simple file', $consoleOutput);
-        $this->assertContains('Rename foo to bar', $consoleOutput);
+        self::assertStringNotContainsString('First commit', $consoleOutput);
+        self::assertStringContainsString('Add a simple file', $consoleOutput);
+        self::assertStringContainsString('Rename foo to bar', $consoleOutput);
     }
 
-    public function testWorkingCopyCheckFailsWithLocalModifications()
+    public function testWorkingCopyCheckFailsWithLocalModifications(): void
     {
         $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
@@ -46,11 +46,11 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         // Release blocked by the check
         exec('touch toto');
         exec('./RMT release -n 2>&1', $consoleOutput, $exitCode);
-        $this->assertGreaterThan(0, $exitCode);
-        $this->assertContains('local modification', implode("\n", $consoleOutput));
+        self::assertGreaterThan(0, $exitCode);
+        self::assertStringContainsString('local modification', implode("\n", $consoleOutput));
     }
 
-    public function testWorkingCopyWithIgnoreCheck()
+    public function testWorkingCopyWithIgnoreCheck(): void
     {
         $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'=>array('allow-ignore'=>true)),
@@ -61,12 +61,12 @@ class PrerequisitesTest extends RMTFunctionalTestBase
 
         // Release working, check is ignore
         exec('./RMT release -n --ignore-check', $consoleOutput, $exitCode);
-        $this->assertEquals(0, $exitCode);
+        self::assertEquals(0, $exitCode);
         exec('git tag', $tags);
-        $this->assertEquals(array('1', '2'), $tags);
+        self::assertEquals(array('1', '2'), $tags);
     }
 
-    public function testWorkingCopy()
+    public function testWorkingCopy(): void
     {
         $this->createConfig('simple', 'vcs-tag', array(
             'prerequisites' => array('working-copy-check'),
@@ -79,8 +79,8 @@ class PrerequisitesTest extends RMTFunctionalTestBase
 
         // Normal case, check is passing
         exec('./RMT release -n', $consoleOutput, $exitCode);
-        $this->assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
+        self::assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
         exec('git tag', $tags2);
-        $this->assertEquals(array('1', '2'), $tags2);
+        self::assertEquals(array('1', '2'), $tags2);
     }
 }
