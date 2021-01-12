@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
+      12/01/2021 08:27  1.6.2  Adjust the test suite to support PHP 8
+         37aaf5a add php 8 support and drop php < 7.1
+         4e878d4 test with php 8
       17/03/2020 08:56  1.6.1  Add support to PHP 7.4
          104856b Add PHP 7.4 to Travis CI
          481b928 Fix tests
