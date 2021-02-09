@@ -3,6 +3,8 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
+      09/02/2021 09:31  1.6.3  Replace sensiolabs/security-checker by sensiolabs/security-checker
+         ad38f80 Update deprecated security checker
       12/01/2021 08:27  1.6.2  Adjust the test suite to support PHP 8
          37aaf5a add php 8 support and drop php < 7.1
          4e878d4 test with php 8
