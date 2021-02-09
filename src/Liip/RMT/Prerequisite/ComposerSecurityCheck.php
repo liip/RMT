@@ -14,10 +14,10 @@ namespace Liip\RMT\Prerequisite;
 use Liip\RMT\Action\BaseAction;
 use Liip\RMT\Context;
 use Liip\RMT\Information\InformationRequest;
-use SensioLabs\Security\SecurityChecker;
+use Symfony\Component\Process\Process;
 
 /**
- * uses https://security.sensiolabs.org/ to see if composer.lock contains insecure versions
+ * Uses https://github.com/fabpot/local-php-security-checker to see if composer.lock contains insecure versions
  */
 class ComposerSecurityCheck extends BaseAction
 {
@@ -39,14 +39,19 @@ class ComposerSecurityCheck extends BaseAction
 
         Context::get('output')->writeln('<comment>running composer security check</comment>');
 
-        // run the actual security check
-        $checker = new SecurityChecker();
-        $alerts = $checker->check('composer.lock');
+        // Run the actual security check
+        $process = new Process(['local-php-security-checker', '--format', 'json']);
+        $process->run();
 
-        // exit succesfull if everything is fine
-        if (count($alerts) == 0) {
+        $alerts = json_decode($process->getOutput(), true);
+        if (count($alerts) === 0) {
+            if (! $process->isSuccessful()) {
+                Context::get('output')->writeln('<error>Error while trying to execute `local-php-security-checker` command. Are you sure the binary is installed globally in your system?</error>');
+                return;
+            }
+
+            // Exit successfully if everything is fine
             $this->confirmSuccess();
-
             return;
         }
 
