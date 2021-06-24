@@ -58,6 +58,11 @@ class Hg extends BaseVCS
         return $this->executeHgCommand("tag $tagName");
     }
 
+    public function deleteTag($tagName)
+    {
+        return $this->executeHgCommand("tag --remove $tagName");
+    }
+
     public function publishTag($tagName, $remote = null)
     {
         // nothing to do, tags are published with other changes
@@ -74,6 +79,17 @@ class Hg extends BaseVCS
         $this->executeHgCommand('addremove');
         $this->executeHgCommand("commit -m \"$commitMsg\"");
     }
+
+    public function revertLastCommit($commitMsg = null)
+    {
+        if (! is_null($commitMsg)) {
+            $msg = $this->executeHgCommand('log -l 1 -T "{desc}"');
+            if (count($msg) != 1 || $msg[0] !== $commitMsg) {
+                return;
+            }
+        }
+
+        $this->executeHgCommand('reset --hard HEAD~1');    }
 
     public function getCurrentBranch()
     {

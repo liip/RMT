@@ -18,6 +18,7 @@ use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\ConfigCommand;
 use Liip\RMT\Command\InitCommand;
+use Liip\RMT\Command\RollbackCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -50,6 +51,7 @@ class Application extends BaseApplication
             // Add command that require the config file
             if (file_exists($this->getConfigFilePath())) {
                 $this->add(new ReleaseCommand());
+                $this->add(new RollbackCommand());
                 $this->add(new CurrentCommand());
                 $this->add(new ChangesCommand());
                 $this->add(new ConfigCommand());

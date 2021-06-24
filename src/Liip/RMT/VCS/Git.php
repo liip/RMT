@@ -53,6 +53,11 @@ class Git extends BaseVCS
         return $this->executeGitCommand("tag $signOption $tagName -m $tagName");
     }
 
+    public function deleteTag($tagName)
+    {
+        return $this->executeGitCommand("tag -d $tagName");
+    }
+
     public function publishTag($tagName, $remote = null)
     {
         $remote = $remote == null ? 'origin' : $remote;
@@ -73,6 +78,18 @@ class Git extends BaseVCS
         $signOption = (isset($this->options['sign-commit']) && $this->options['sign-commit']) ? '-S' : '';
 
         $this->executeGitCommand("commit $signOption -m \"$commitMsg\"");
+    }
+
+    public function revertLastCommit($commitMsg = null)
+    {
+        if (! is_null($commitMsg)) {
+            $msg = $this->executeGitCommand('log -1 --pretty=%B');
+            if (count($msg) != 1 || $msg[0] !== $commitMsg) {
+                return;
+            }
+        }
+
+        $this->executeGitCommand('reset --hard HEAD~1');
     }
 
     public function getCurrentBranch()

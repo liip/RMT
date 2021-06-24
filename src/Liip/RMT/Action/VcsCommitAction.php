@@ -38,9 +38,19 @@ class VcsCommitAction extends BaseAction
 
             return;
         }
-        $vcs->saveWorkingCopy(
-            str_replace('%version%', Context::getParam('new-version'), $this->options['commit-message'])
-        );
+        $vcs->saveWorkingCopy($this->getCommitMessage(Context::getParam('new-version')));
         $this->confirmSuccess();
+    }
+
+    public function rollback()
+    {
+        $version = Context::get('version-persister')->getCurrentVersion();
+        Context::get('vcs')->revertLastCommit($this->getCommitMessage($version));
+        $this->confirmSuccess();
+    }
+
+    protected function getCommitMessage($version)
+    {
+        return str_replace('%version%', $version, $this->options['commit-message']);
     }
 }
