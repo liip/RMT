@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
+      23/11/2021 07:59  1.6.4  Add support for Symfony 6
+         8bba876 Update composer.lock
+         6a0b56d Allow Symfony 6
       09/02/2021 09:31  1.6.3  Replace sensiolabs/security-checker by sensiolabs/security-checker
          ad38f80 Update deprecated security checker
       12/01/2021 08:27  1.6.2  Adjust the test suite to support PHP 8
