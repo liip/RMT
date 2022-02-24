@@ -71,7 +71,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null)
+    public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
         return parent::run($input, new \Liip\RMT\Output\Output());
     }
