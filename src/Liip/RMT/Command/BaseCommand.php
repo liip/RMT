@@ -38,7 +38,7 @@ abstract class BaseCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         // Store the input and output for easier usage
         $this->input = $input;
@@ -55,7 +55,7 @@ abstract class BaseCommand extends Command
         Context::getInstance()->setService('input', $this->input);
         Context::getInstance()->setService('output', $this->output);
 
-        parent::run($input, $output);
+        return parent::run($input, $output);
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class BaseCommand extends Command
     /**
      * @return \Liip\RMT\Application
      */
-    public function getApplication()
+    public function getApplication(): ?Application
     {
         return Application::$instance;
     }
