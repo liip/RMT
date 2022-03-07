@@ -53,5 +53,5 @@ script: phpunit --coverage-text
 notifications:
   slack: liip:3QOs1QKt3aCFxpJvRzpJCbVZ
   email:
+    - jonathan.macheret@liip.ch
     - david.jeanmonod@liip.ch
-    - laurent.prodon@liip.ch

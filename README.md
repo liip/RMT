@@ -325,21 +325,55 @@ Most of the time, it will be easier for you to pick up an example below and adap
 
 Contributing
 ------------
-If you would like to help, by submitting one of your action scripts, generators, or persisters. Or just by reporting a bug just go to the project page [https://github.com/liip/RMT](https://github.com/liip/RMT).
+If you would like to help, by submitting one of your action scripts, generators, or persisters. Or just by reporting a 
+bug just go to the project page [https://github.com/liip/RMT](https://github.com/liip/RMT).
 
-Requirements
-------------
+If you provide a PR, try to associate it some unit or functional tests. See next section
 
-PHP 5.3
-Composer
+Tests
+-----
+
+### Requirements
+
+To be able to run the tests locally, you need:
+* phpunit
+* git
+* mercurial
+
+You can install all of them with Brew:
+
+    > brew install phpunit git hg
+
+The tests are also testing the creation of the RMT phar. So you 
+have to allow this in your php.ini, by uncommenting this line:
+
+    phar.readonly = Off
+
+Finally, to run the tests, just launch PHPUnit
+
+    > phpunit
+
+### Functional tests
+
+The functional tests are fully functional temporary RMT setup. Each time you run functional test, it creates a temporary
+folder with a RMT project. Then the test suite is running RMT commands on it, and check the results. That's why you need
+to have Git and Mercurial installed. 
+
+#### Debug
+
+To debug RMT functional tests, the best is to go into this temporary folder and manually explore the project. To do so, 
+just add a small `$this->manualDebug();` into the test suite. This will break the test with the following output:
+
+    MANUAL DEBUG Go to:
+    > cd /private/var/folders/hl/gnj5dcj55gbc93pcgrjxbb0w0000gn/T/ceN2Mf
+
+Then you just have to go into the mentioned folder and start debugging
 
 Authors
 -------
 
-* Laurent Prodon Liip AG
-* David Jeanmonod Liip AG
-* Peter Petermann
-* Gilles Crettenand Liip AG
+* Jonathan Macheret, Liip SA
+* David Jeanmonod Liip SA
 * and [others contributors](https://github.com/liip/RMT/graphs/contributors)
 
 License
