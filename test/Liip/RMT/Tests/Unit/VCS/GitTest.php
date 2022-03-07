@@ -29,7 +29,7 @@ class GitTest extends TestCase
         mkdir($tempDir);
         chdir($tempDir);
         exec('unzip ' . __DIR__ . '/gitRepo.zip');
-        exec('git checkout .');
+        exec('git reset --hard');
         $this->testDir = $tempDir;
     }
 

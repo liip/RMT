@@ -40,7 +40,8 @@ INI;
 
         file_put_contents('config.yml', $ymlBefore);
         file_put_contents('app.ini', $iniBefore);
-        exec('./RMT release -n', $output);
+//        $this->manualDebug();
+        exec('./RMT release --comment=Test -n', $output);
         self::assertEquals($ymlAfter, file_get_contents('config.yml'));
         self::assertEquals($iniAfter, file_get_contents('app.ini'));
     }
