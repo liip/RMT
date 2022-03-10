@@ -12,7 +12,6 @@ prerequisites:
 
 pre-release-actions:
     bin/UpdateApplicationVersionCurrentVersion.php: ~
-    composer-update: ~
     changelog-update:
         format: semantic
         dump-commits: true
