@@ -1,7 +1,7 @@
 RMT - Release Management Tool
 =============================
 
-[![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
+[![Build Status](https://github.com/liip/rmt/actions/workflows/test.yml/badge.svg)](https://github.com/liip/rmt/actions/workflows/test.yml)
 [![Latest Stable Version](https://poser.pugx.org/liip/RMT/version.png)](https://packagist.org/packages/liip/RMT)
 [![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
 [![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
