@@ -19,6 +19,7 @@ use Liip\RMT\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 /**
  * Wrapper/helper around Symfony command
@@ -46,7 +47,7 @@ abstract class BaseCommand extends Command
             throw new \InvalidArgumentException('Not the expected output type');
         }
         $this->output = $output;
-        $dialogHelper = class_exists('Symfony\Component\Console\Helper\QuestionHelper')
+        $dialogHelper = class_exists(QuestionHelper::class)
             ? $this->getHelperSet()->get('question')
             : $this->getHelperSet()->get('dialog')
         ;
@@ -58,23 +59,17 @@ abstract class BaseCommand extends Command
         return parent::run($input, $output);
     }
 
-    /**
-     * @return InputInterface
-     */
-    public function getInput()
+    public function getInput(): InputInterface
     {
         return $this->input;
     }
 
-    /**
-     * @return Output
-     */
-    public function getOutput()
+    public function getOutput(): Output
     {
         return $this->output;
     }
 
-    public function loadContext()
+    public function loadContext(): void
     {
         $configHandler = new Handler($this->getApplication()->getConfig(), $this->getApplication()->getProjectRootDir());
         $config = $configHandler->getBaseConfig();
@@ -112,10 +107,7 @@ abstract class BaseCommand extends Command
         Context::getInstance()->setParameter('project-root', $this->getApplication()->getProjectRootDir());
     }
 
-    /**
-     * @return \Liip\RMT\Application
-     */
-    public function getApplication(): ?Application
+    public function getApplication(): Application
     {
         return Application::$instance;
     }

@@ -21,7 +21,7 @@ use Liip\RMT\Context;
  */
 class CurrentCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('current');
         $this->setDescription('Display information about the current release');
@@ -30,7 +30,7 @@ class CurrentCommand extends BaseCommand
         $this->addOption('vcs-tag', null, InputOption::VALUE_NONE, 'display the associated vcs-tag');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->loadContext();
         $version = Context::get('version-persister')->getCurrentVersion();

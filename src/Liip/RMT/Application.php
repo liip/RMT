@@ -18,6 +18,7 @@ use Liip\RMT\Command\ReleaseCommand;
 use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\ConfigCommand;
 use Liip\RMT\Command\InitCommand;
+use Liip\RMT\Output\Output;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -55,7 +56,7 @@ class Application extends BaseApplication
                 $this->add(new ConfigCommand());
             }
         } catch (\Exception $e) {
-            $output = new \Liip\RMT\Output\Output();
+            $output = new Output();
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
 
             if (method_exists($this, 'renderThrowable')) {
@@ -73,16 +74,16 @@ class Application extends BaseApplication
      */
     public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
-        return parent::run($input, new \Liip\RMT\Output\Output());
+        return parent::run($input, new Output());
     }
 
     public function getProjectRootDir()
     {
         if (defined('RMT_ROOT_DIR')) {
             return RMT_ROOT_DIR;
-        } else {
-            return getcwd();
         }
+
+        return getcwd();
     }
 
     public function getConfigFilePath()
@@ -93,8 +94,6 @@ class Application extends BaseApplication
                 return $path;
             }
         }
-
-        return;
     }
 
     public function getConfig()
