@@ -58,6 +58,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           tools: composer:v2, phpunit:${{ matrix.phpunit-version }}
+          ini-values: phar.readonly=off
       - name: Check PHP Version
         run: php -v
       - name: Stability
@@ -75,7 +76,10 @@ jobs:
         run: composer validate --strict --no-check-lock
         if: ${{ matrix.stability != 'dev' }}
       - name: Configure git
-        run: git config --global user.email "test@test.com" && git config --global user.name "John Doe"
+        run: |
+          git config --global user.email "test@test.com"
+          git config --global user.name "John Doe"
+          git config --global init.defaultBranch master # TODO: use main, need to adjust tests to match
 
       - name: Run tests
         run: phpunit --coverage-text
