@@ -2,6 +2,17 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.7 - Compatibility with Sf/Console v6 + cleanup the tests + switch to github actions
+      15/03/2022 07:32  1.7.0  initial release
+         9a1a4fb Fix the error message when the local-php-security-checker is missing
+         69649a0 fix lowest version build, drop tests with symfony 2
+         55d74d6 allow building phars and avoid git default branch name warning
+         3833c2f cleanup php method signatures
+         9e542ad switch to github actions
+         9b9eeac Fix errors on Symfony/Console v6.0+
+         6dbe73d Cleanup the tests output + migrate the XML config
+         db6a2be Add some doc about how to run the tests locally + replace laurent by jo
+
    Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
       23/11/2021 07:59  1.6.4  Add support for Symfony 6
          8bba876 Update composer.lock
