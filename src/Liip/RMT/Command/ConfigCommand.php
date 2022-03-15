@@ -21,14 +21,14 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ConfigCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('config');
         $this->setDescription('Show the current parsed config (according to your branch)');
         $this->setHelp('The <comment>config</comment> command can be used to see the current config.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->loadContext();
         $output->writeln('<info>Current configuration is:</info>');

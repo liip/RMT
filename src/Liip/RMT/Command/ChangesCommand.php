@@ -21,7 +21,7 @@ use Liip\RMT\Context;
  */
 class ChangesCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('changes');
         $this->setDescription('Shows the list of changes since last release');
@@ -30,7 +30,7 @@ class ChangesCommand extends BaseCommand
         $this->addOption('files', null, InputOption::VALUE_NONE, 'Display the list of modified files');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $lastVersion = Context::get('version-persister')->getCurrentVersionTag();
         $noMerges = $input->getOption('exclude-merge-commits');

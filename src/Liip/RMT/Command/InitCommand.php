@@ -28,7 +28,7 @@ class InitCommand extends BaseCommand
     protected $commandPath;
     protected $configPath;
 
-    protected function buildPaths($configPath = null)
+    protected function buildPaths($configPath = null): void
     {
         $projectDir = $this->getApplication()->getProjectRootDir();
         $this->executablePath = $projectDir.'/RMT';
@@ -44,7 +44,7 @@ class InitCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('init');
         $this->setDescription('Setup a new project configuration in the current directory');
@@ -93,7 +93,7 @@ class InitCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
 
@@ -119,7 +119,7 @@ class InitCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         parent::interact($input, $output);
 
@@ -136,7 +136,7 @@ class InitCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->informationCollector->getValueFor('configonly') == 'n') {
             // Create the executable task inside the project home
@@ -177,7 +177,7 @@ class InitCommand extends BaseCommand
         return 0;
     }
 
-    public function getConfigData()
+    public function getConfigData(): array
     {
         $config = array();
 

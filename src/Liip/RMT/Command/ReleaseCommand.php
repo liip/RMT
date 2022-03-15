@@ -25,7 +25,7 @@ class ReleaseCommand extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('release');
         $this->setDescription('Release a new version of the project');
@@ -40,7 +40,7 @@ class ReleaseCommand extends BaseCommand
         }
     }
 
-    protected function loadInformationCollector()
+    protected function loadInformationCollector(): void
     {
         $ic = new InformationCollector();
 
@@ -77,7 +77,7 @@ class ReleaseCommand extends BaseCommand
      *
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
 
@@ -93,7 +93,7 @@ class ReleaseCommand extends BaseCommand
      *
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         parent::interact($input, $output);
 
@@ -117,7 +117,7 @@ class ReleaseCommand extends BaseCommand
      *
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // Get the current version or generate a new one if the user has confirm that this is required
         try {
@@ -152,7 +152,7 @@ class ReleaseCommand extends BaseCommand
         return 0;
     }
 
-    protected function executeActionListIfExist($name, $title = null)
+    protected function executeActionListIfExist($name, $title = null): void
     {
         $actions = Context::getInstance()->getList($name);
         if (count($actions) > 0) {

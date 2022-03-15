@@ -1,7 +1,7 @@
 RMT - Release Management Tool
 =============================
 
-[![Build Status](https://secure.travis-ci.org/liip/RMT.png?branch=master)](https://travis-ci.org/liip/RMT)
+[![Build Status](https://github.com/liip/rmt/actions/workflows/ci.yml/badge.svg)](https://github.com/liip/rmt/actions/workflows/ci.yml)
 [![Latest Stable Version](https://poser.pugx.org/liip/RMT/version.png)](https://packagist.org/packages/liip/RMT)
 [![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
 [![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
@@ -200,7 +200,7 @@ Actions can be used for pre or post release parts.
     * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
-* `composer-update`: Update the version number in a composer file
+* `composer-update`: Update the version number in a composer file (note that when using packagist.org, it is recommended to not have a tag in composer.json as the version is handle by version control tags)
 * `files-update`: Update the version in one or multiple files. For each file to update, please provide an array with 
     * Option `file`: path to the file to update
     * Option `pattern`: optional, use to specify the string replacement pattern in your file. For example: 
