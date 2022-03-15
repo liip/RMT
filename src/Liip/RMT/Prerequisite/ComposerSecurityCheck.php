@@ -23,11 +23,6 @@ class ComposerSecurityCheck extends BaseAction
 {
     const SKIP_OPTION = 'skip-composer-security-check';
 
-    public function __construct($options)
-    {
-        $this->options = $options;
-    }
-
     public function execute()
     {
         // Handle the skip option
@@ -44,15 +39,14 @@ class ComposerSecurityCheck extends BaseAction
         $process->run();
 
         $alerts = json_decode($process->getOutput(), true);
-        if (count($alerts) === 0) {
-            if (! $process->isSuccessful()) {
-                Context::get('output')->writeln('<error>Error while trying to execute `local-php-security-checker` command. Are you sure the binary is installed globally in your system?</error>');
-                return;
-            }
 
-            // Exit successfully if everything is fine
+        if ($process->isSuccessful() && count($alerts) === 0) {
             $this->confirmSuccess();
             return;
+        }
+
+        if ($alerts === null) {
+            throw new \RuntimeException('Error while trying to execute `local-php-security-checker` command. Are you sure the binary is installed globally in your system?');
         }
 
         // print out the advisories if available
