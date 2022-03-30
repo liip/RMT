@@ -75,7 +75,6 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => '_{branch-name}_'), array('vcs' => 'git'));
         exec('./RMT release -n --confirm-first');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('_main_1'), $tags);
     }
 }

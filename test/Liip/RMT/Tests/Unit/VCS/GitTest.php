@@ -82,11 +82,11 @@ class GitTest extends TestCase
     public function testGetCurrentBranch(): void
     {
         $vcs = new Git();
-        self::assertEquals('master', $vcs->getCurrentBranch());
+        self::assertEquals('main', $vcs->getCurrentBranch());
         system('git checkout -b foo --quiet');
         self::assertEquals('foo', $vcs->getCurrentBranch());
-        exec('git checkout master --quiet');
-        self::assertEquals('master', $vcs->getCurrentBranch());
+        exec('git checkout main --quiet');
+        self::assertEquals('main', $vcs->getCurrentBranch());
     }
 
     public function testGetCurrentBranchWhenNotInBranch(): void
@@ -104,7 +104,7 @@ class GitTest extends TestCase
         $vcs = new Git();
         exec('git checkout -b merge-branch --quiet');
         exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
-        exec('git checkout master --quiet');
+        exec('git checkout main --quiet');
         exec('git merge --no-ff merge-branch');
 
         $modifs = $vcs->getAllModificationsSince('1.1.0', false, true);
@@ -119,7 +119,7 @@ class GitTest extends TestCase
         $vcs = new Git();
         exec('git checkout -b merge-branch --quiet');
         exec('echo "text" > new-file && git add -A && git commit -m "First commit"');
-        exec('git checkout master --quiet');
+        exec('git checkout main --quiet');
         exec('git merge --no-ff merge-branch');
 
         $modifs = $vcs->getAllModificationsSince('1.1.0');

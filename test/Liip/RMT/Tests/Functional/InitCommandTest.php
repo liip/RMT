@@ -28,14 +28,14 @@ class InitCommandTest extends RMTFunctionalTestBase
         $config = Yaml::parse(file_get_contents($configFile), true);
 
         $defaultConfig = $config['_default'];
-        $masterConfig = $config['master'];
+        $mainConfig = $config['main'];
 
         self::assertEquals('git', $defaultConfig['vcs']);
 
         self::assertEquals('simple', $defaultConfig['version-generator']);
-        self::assertEquals('semantic', $masterConfig['version-generator']);
+        self::assertEquals('semantic', $mainConfig['version-generator']);
 
         self::assertEquals(array('vcs-tag' => array('tag-prefix' => '{branch-name}_')), $defaultConfig['version-persister']);
-        self::assertEquals(array('vcs-tag' => array('tag-prefix' => '')), $masterConfig['version-persister']);
+        self::assertEquals(array('vcs-tag' => array('tag-prefix' => '')), $mainConfig['version-persister']);
     }
 }
