@@ -123,7 +123,7 @@ RMT also support JSON configs, but we recommend using YAML.
 ### Branch specific config
 
 Sometimes you want to use a different release strategy according to the VCS branch, e.g. you want to add CHANGELOG entries only in the `master` branch. To do so, you have to place your default config into a root element named `_default`, then you can override parts of this default config for the
-branch `master`. Example:
+branch `main`. Example:
 
     _default:
         version-generator: "simple"
