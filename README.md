@@ -6,7 +6,7 @@ RMT - Release Management Tool
 [![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
 [![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
 
-RMT is a handy tool to help releasing new versions of your software. You can define the type
+RMT is a handy tool to help releasing a new versions of your software. You can define the type
 of version generator you want to use (e.g. semantic versioning), where you want to store
 the version (e.g. in a changelog file or as a VCS tag) and a list of actions that should be
 executed before or after the release of a new version.
@@ -14,7 +14,7 @@ executed before or after the release of a new version.
 Installation
 ------------
 ### Option 1: As a development dependency of your project
-In order to use RMT in your project you should use [Composer](http://getcomposer.org/) to install it
+To use RMT in your project you should use [Composer](http://getcomposer.org/) to install it
 as a dev-dependency. Just go to your project's root directory and execute:
 
     composer require --dev liip/rmt
@@ -31,7 +31,7 @@ root folder. You can now start using RMT by executing:
 Once there, your best option is to pick one of the [configuration examples](#configuration-examples) below
 and adapt it to your needs.
 
-If you are using a versioning tool, we recommend to add both Composer files (`composer.json`
+If you are using a versioning tool, we recommend adding both Composer files (`composer.json`
 and `composer.lock`), the RMT configuration file(`.rmt.yml`) and the `RMT` executable script
 to it. The `vendor` directory should be ignored as it is populated when running
 `composer install`.
@@ -62,9 +62,9 @@ directly `./rmt.phar` or run it by invoking it through PHP via `php rmt.phar`.
 For the usage substitute RMT with whatever variant you have decided to use.
 
 ### Option 4: As Drifter role
-If your are using https://github.com/liip/drifter for your project, you just need three step
+If you are using https://github.com/liip/drifter for your project, you just need three step
 * Activate the `rmt` role
-* Re-run the provisionning `vagrant provision`
+* Re-run the provisioning `vagrant provision`
 * Init RMT for your project `php /home/vagrant/.config/composer/vendor/liip/rmt/RMT`
 
 Usage
@@ -128,7 +128,7 @@ branch `master`. Example:
     _default:
         version-generator: "simple"
         version-persister: "vcs-tag"
-    master:
+    main:
         pre-release-actions: [changelog-update]
 
 You can use the command `RMT config` to see the merge result between _default and your current branch.
@@ -138,7 +138,7 @@ You can use the command `RMT config` to see the merge result between _default an
 Build-in version number generation strategies.
 
 * simple: This generator is doing a simple increment (1,2,3...)
-* semantic: A generator which implements [Semantic versioning](http://semver.org)
+* semantic: A generator, which implements [Semantic versioning](http://semver.org)
     * Option `allow-label` (boolean): To allow adding a label on a version (such as -beta, -rcXX)  (default: *false*)
     * Option `type`: to force the version type
     * Option `label`: to force the label
@@ -151,8 +151,8 @@ Build-in version number generation strategies.
 Class in charge of saving/retrieving the version number.
 
 * vcs-tag: Save the version as a VCS tag
-    * Option `tag-pattern`: Allow to provide a regex that all tag must match. This allow for example to release a version 1.X.X in a specific branch and to release a 2.X.X in a separate branch
-    * Option `tag-prefix`: Allow to prefix all VCS tag with a string. You can have a numeric versionning but generation tags such as `v_2.3.4`. As a bonus you can use a specific placeholder: `{branch-name}` that will automatically inject the current branch name in the tag. So use, simple generation and `tag-prefix: "{branch-name}_"` and it will generate tag like `featureXY_1`, `featureXY_2`, etc...
+    * Option `tag-pattern`: Allow to provide a regex that all tag must match. This allows for example to release a version 1.X.X in a specific branch and to release a 2.X.X in a separate branch
+    * Option `tag-prefix`: Allow to prefix all VCS tag with a string. You can have a numeric versioning but generation tags such as `v_2.3.4`. As a bonus you can use a specific placeholder: `{branch-name}` that will automatically inject the current branch name in the tag. So use, simple generation and `tag-prefix: "{branch-name}_"` and it will generate tag like `featureXY_1`, `featureXY_2`, etc...
 
 * changelog: Save the version in the changelog file
     * Option `location`: Changelog file name an location (default: *CHANGELOG*)
@@ -166,9 +166,9 @@ Prerequisite actions are executed before the interactive part.
 * `display-last-changes`: display your last changes
 * `tests-check`: run the project test suite
   * Option `command`: command to run (default: *phpunit*)
-  * Option `timeout`: the number of seconds after which the command times out (default: *60.0*)
+  * Option `timeout`: the amount of seconds after which the command times out (default: *60.0*)
   * Option `expected_exit_code`: expected return code (default: *0*)
-* `composer-json-check`: run a validate on the composer.json
+* `composer-json-check`: run a validated on the composer.json
   * Option `composer`: how to run composer (default: *php composer.phar*)
 * `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
   * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
@@ -192,7 +192,7 @@ Actions can be used for pre or post release parts.
     * Option `file`: path from .rmt.yml to changelog file (default: *CHANGELOG*)
     * Option `dump-commits`: write all commit messages since the last release into the
       changelog file (default: *false*)
-    * Option `insert-at`: only for addTop formatter: Number of lines to skip from the
+    * Option `insert-at`: only for addTop formatter: Amount lines to skip from the
       top of the changelog file before adding the release number (default: *0*)
     * Option `exclude-merge-commits`: Exclude merge commits from the changelog (default: *false*)
 * `vcs-commit`: commit all files of the working copy (only use it with the
@@ -200,13 +200,13 @@ Actions can be used for pre or post release parts.
     * Option `commit-message`: specify a custom commit message. %version% will be replaced by the current / next version strings.
 * `vcs-tag`: Tag the last commit
 * `vcs-publish`: Publish the changes (commits and tags)
-* `composer-update`: Update the version number in a composer file (note that when using packagist.org, it is recommended to not have a tag in composer.json as the version is handle by version control tags)
+* `composer-update`: Update the version number in a composer file (note that when using packagist.org, it is recommended to not have a tag in composer.json as the version is handled by version control tags)
 * `files-update`: Update the version in one or multiple files. For each file to update, please provide an array with 
     * Option `file`: path to the file to update
     * Option `pattern`: optional, use to specify the string replacement pattern in your file. For example: 
     `const VERSION = '%version%';`
 * `build-phar-package`: Builds a Phar package of the current project whose filename depends on the 'package-name' option and the deployed version: [package-name]-[version].phar
-    * Option `package-name`: the name of the generate package
+    * Option `package-name`: the name of the generated package
     * Option `destination`: the destination directory to build the package into. If prefixed with a slash, is considered absolute, otherwise relative to the project root.
     * Option `excluded-paths`: a regex of excluded paths, directly passed to the [Phar::buildFromDirectory](http://php.net/manual/en/phar.buildfromdirectory.php) method. Ex: `/^(?!.*cookbooks|.*\.vagrant|.*\.idea).*$/im`
     * Option `metadata`: an array of metadata describing the package. Ex author, project. Note: the release version is added by default but can be overridden here. 
@@ -228,7 +228,7 @@ Actions can be used for pre or post release parts.
 Extend it
 ---------
 
-RMT is providing some existing actions, generators, and persisters. If needed you can add your own by creating a PHP script in your project, and referencing it in the configuration via it's relative path:
+RMT is providing some existing actions, generators and persisters. If needed you can add your own by creating a PHP script in your project, and referencing it in the configuration via it's relative path:
 
     version-generator: "bin/myOwnGenerator.php"
 
@@ -284,7 +284,7 @@ Most of the time, it will be easier for you to pick up an example below and adap
     prerequisites: [working-copy-check, display-last-changes]
 
 
-### Using Git tags with prefix, semantic versioning, updating two files and pushing automatically
+### Using Git tags with a prefix, semantic versioning, updating two files and pushing automatically
 
     vcs: git
     version-generator: semantic
@@ -308,8 +308,8 @@ Most of the time, it will be easier for you to pick up an example below and adap
             tag-prefix: "{branch-name}_"
         post-release-actions: [vcs-publish]
 
-    # This entry allow to override some parameters for the master branch
-    master:
+    # This entry allow to override some parameters for the main branch
+    main:
         prerequisites: [working-copy-check, display-last-changes]
         pre-release-actions:
             changelog-update:
@@ -325,7 +325,7 @@ Most of the time, it will be easier for you to pick up an example below and adap
 
 Contributing
 ------------
-If you would like to help, by submitting one of your action scripts, generators, or persisters. Or just by reporting a 
+If you would like to help, by submitting one of your action scripts, generators or persisters. Or just by reporting a 
 bug just go to the project page [https://github.com/liip/RMT](https://github.com/liip/RMT).
 
 If you provide a PR, try to associate it some unit or functional tests. See next section
