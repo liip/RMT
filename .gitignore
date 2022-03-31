@@ -5,4 +5,3 @@ cache.properties
 bin
 !bin/UpdateApplicationVersionCurrentVersion.php
 .phpunit.result.cache
-.idea/

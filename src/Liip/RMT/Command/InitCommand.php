@@ -71,10 +71,10 @@ class InitCommand extends BaseCommand
                 'default' => 'none',
             )),
             new InformationRequest('main-branch', array(
-                'description' => 'The default branch you want to use',
+                'description' => 'The default branch you want to use (select none if you are not using a VCS system)',
                 'type' => 'choice',
-                'choices' => array('main', 'master'),
-                'choices_shortcuts' => array('m' => 'main', 'mst' => 'master'),
+                'choices' => array('main', 'master', 'none'),
+                'choices_shortcuts' => array('m' => 'main', 'mst' => 'master', 'n' => 'none'),
                 'default' => 'main',
             )),
             new InformationRequest('generator', array(

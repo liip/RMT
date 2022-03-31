@@ -1,6 +1,4 @@
-vcs:
-  name: git
-  main-branch: main
+vcs: git
 
 prerequisites:
   - working-copy-check:
