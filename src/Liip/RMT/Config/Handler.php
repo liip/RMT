@@ -25,7 +25,7 @@ class Handler
     public function getDefaultConfig()
     {
         return array(
-            'vcs' => null,
+            'vcs' => array(),
             'prerequisites' => array(),
             'pre-release-actions' => array(),
             'version-generator' => null,
@@ -69,7 +69,7 @@ class Handler
         }
 
         // Return custom branch config
-        if (isset($branchName) && isset($branchesConfig[$branchName])) {
+        if (isset($branchName, $branchesConfig[$branchName])) {
             return array_replace_recursive($baseConfig, $branchesConfig[$branchName]);
         }
 
@@ -97,7 +97,6 @@ class Handler
         // Same process but for list value elements
         foreach (array('prerequisites', 'pre-release-actions', 'post-release-actions') as $configKey) {
             foreach ($config[$configKey] as $key => $item) {
-
                 // Accept the element to be define by key or by value
                 if (!is_numeric($key)) {
                     if ($item == null) {
@@ -142,7 +141,7 @@ class Handler
         } elseif (is_array($rawConfig)) {
 
             // Handling Yml corner case (see https://github.com/liip/RMT/issues/54)
-            if (count($rawConfig) == 1 && key($rawConfig) !== 'name') {
+            if (count($rawConfig) === 1 && key($rawConfig) !== 'name') {
                 $name = key($rawConfig);
                 $rawConfig = is_array(reset($rawConfig)) ? reset($rawConfig) : array();
                 $rawConfig['name'] = $name;
@@ -157,7 +156,7 @@ class Handler
 
             $options = $rawConfig;
         } else {
-            throw new Exception("Invalid configuration for [$sectionName] should be a object name or an array with name and options");
+            throw new Exception("Invalid configuration for [$sectionName] should be an object name or an array with name and options");
         }
 
         return array('class' => $class, 'options' => $options);
@@ -177,7 +176,7 @@ class Handler
 
                 return str_replace('.php', '', $lastPart);
             } else {
-                throw new \Liip\RMT\Exception("Impossible to open [$file] please review your config");
+                throw new \Liip\RMT\Exception("Unable to open [$file] please review your config");
             }
         }
 
