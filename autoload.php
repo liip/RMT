@@ -37,5 +37,5 @@ if (extension_loaded('phar') && method_exists('Phar', 'running') && file_exists(
     ));
     $loader->register();
 } else {
-    throw new \Exception("Unable to find the an autoloader");
+    throw new \Exception("Unable to find an autoloader");
 }

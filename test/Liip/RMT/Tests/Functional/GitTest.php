@@ -19,8 +19,27 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('simple', 'vcs-tag', array('vcs' => 'git'));
         exec('./RMT release -n --confirm-first');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('1'), $tags);
+    }
+
+    public function testInitialBranch(): void
+    {
+        $this->initGit();
+        $this->createConfig('simple', 'vcs-tag', ['vcs' => 'git']);
+        exec('git branch --show-current', $branch);
+        self::assertEquals('main', $branch[0]);
+    }
+
+    public function testDifferentBranchAreCorrectlySetup(): void
+    {
+        $this->initGit();
+        exec('git branch -m main master');
+        $this->createConfig('simple', 'vcs-tag', ['vcs' => ['name' => 'git', 'default-branch' => 'master']]);
+        exec('git branch --show-current', $branch);
+        self::assertEquals('master', $branch[0]);
+        exec('./RMT release -n --confirm-first');
+        exec('git tag', $tags);
+        self::assertEquals('1', $tags[0]);
     }
 
     public function testInitialVersionSemantic(): void
@@ -29,7 +48,6 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('semantic', 'vcs-tag', array('vcs' => 'git'));
         exec('./RMT release -n  --type=patch --confirm-first');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('0.0.1'), $tags);
     }
 
@@ -42,7 +60,6 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('simple', 'vcs-tag', array('vcs' => 'git'));
         exec('./RMT release -n');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('1', '3', '4', 'toto'), $tags);
     }
 
@@ -53,7 +70,6 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('semantic', 'vcs-tag', array('vcs' => 'git'));
         exec('./RMT release -n --type=minor');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('2.1.19', '2.2.0'), $tags);
     }
 
@@ -65,7 +81,6 @@ class GitTest extends RMTFunctionalTestBase
         $this->createConfig('simple', array('name' => 'vcs-tag', 'tag-prefix' => 'v_'), array('vcs' => 'git'));
         exec('./RMT release -n');
         exec('git tag', $tags);
-//        $this->manualDebug();
         self::assertEquals(array('2', 'v_1', 'v_2'), $tags);
     }
 
