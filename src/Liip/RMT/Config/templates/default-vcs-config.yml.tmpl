@@ -1,7 +1,9 @@
 _default:
 
     # VCS CONFIG
-    vcs: %%vcs%%
+    vcs:
+        name: %%vcs%%
+        main-branch: %%main-branch%%
 
     # PREREQUISITES
     #  Actions executed before any questions get asked to the user.
@@ -25,7 +27,7 @@ _default:
 
 # BRANCH SPECIFIC CONFIG
 #  On main, we override the general config
-main:
+%%main-branch%%:
     version-generator: %%generator%%
     version-persister:
         vcs-tag:
