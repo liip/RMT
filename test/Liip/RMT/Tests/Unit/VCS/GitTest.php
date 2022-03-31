@@ -82,11 +82,9 @@ class GitTest extends TestCase
     public function testGetCurrentBranch(): void
     {
         $vcs = new Git();
-        self::assertEquals('main', $vcs->getCurrentBranch());
+        self::assertEquals('master', $vcs->getCurrentBranch());
         system('git checkout -b foo --quiet');
         self::assertEquals('foo', $vcs->getCurrentBranch());
-        exec('git checkout main --quiet');
-        self::assertEquals('main', $vcs->getCurrentBranch());
     }
 
     public function testGetCurrentBranchWhenNotInBranch(): void
