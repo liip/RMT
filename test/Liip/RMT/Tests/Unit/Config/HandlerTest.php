@@ -139,7 +139,7 @@ class HandlerTest extends TestCase
         $method->setAccessible(true);
 
         self::assertEquals([
-            'vcs' => null,
+            'vcs' => [],
             'prerequisites' => [],
             'pre-release-actions' => [],
             'post-release-actions' => [],
@@ -148,7 +148,7 @@ class HandlerTest extends TestCase
         ], $method->invokeArgs($configHandler, []));
 
         self::assertEquals([
-            'vcs' => null,
+            'vcs' => [],
             'prerequisites' => [],
             'pre-release-actions' => [],
             'post-release-actions' => [],
@@ -173,7 +173,7 @@ class HandlerTest extends TestCase
         $method->setAccessible(true);
 
         self::assertEquals([
-            'vcs' => null,
+            'vcs' => [],
             'prerequisites' => [],
             'pre-release-actions' => [],
             'post-release-actions' => [],
@@ -182,7 +182,7 @@ class HandlerTest extends TestCase
         ], $method->invokeArgs($configHandler, []));
 
         self::assertEquals([
-            'vcs' => null,
+            'vcs' => [],
             'prerequisites' => [],
             'pre-release-actions' => [],
             'post-release-actions' => [],
@@ -227,6 +227,8 @@ class HandlerTest extends TestCase
             ['vcs', ['name' => 'git'], Git::class, []],
             // vcs: {name: git, opt1: val1}
             ['vcs', ['name' => 'git', 'opt1' => 'val1'], Git::class, ['opt1' => 'val1']],
+            // vcs: {name: git, default-branch: liip}
+            ['vcs', ['name' => 'git', 'default-branch' => 'liip'], Git::class, ['default-branch' => 'liip']],
             ['prerequisites_1', 'vcs-clean-check', 'Liip\RMT\Prerequisite\VcsCleanCheck', []],
         ];
     }
