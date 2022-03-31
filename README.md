@@ -6,7 +6,7 @@ RMT - Release Management Tool
 [![Total Downloads](https://poser.pugx.org/liip/RMT/d/total.png)](https://packagist.org/packages/liip/RMT)
 [![License](https://poser.pugx.org/liip/rmt/license.svg)](https://packagist.org/packages/liip/rmt)
 
-RMT is a handy tool to help releasing a new versions of your software. You can define the type
+RMT is a handy tool to help releasing new versions of your software. You can define the type
 of version generator you want to use (e.g. semantic versioning), where you want to store
 the version (e.g. in a changelog file or as a VCS tag) and a list of actions that should be
 executed before or after the release of a new version.
@@ -122,7 +122,7 @@ RMT also support JSON configs, but we recommend using YAML.
 
 ### Branch specific config
 
-Sometimes you want to use a different release strategy according to the VCS branch, e.g. you want to add CHANGELOG entries only in the `master` branch. To do so, you have to place your default config into a root element named `_default`, then you can override parts of this default config for the
+Sometimes you want to use a different release strategy according to the VCS branch, e.g. you want to add CHANGELOG entries only in the `main` branch. To do so, you have to place your default config into a root element named `_default`, then you can override parts of this default config for the
 branch `main`. Example:
 
     _default:
@@ -297,7 +297,7 @@ Most of the time, it will be easier for you to pick up an example below and adap
             - [app.ini, 'dynamic-version: %version%']
     post-release-actions: [vcs-publish]
 
-### Using semantic versioning on master and simple versioning on topic branches, markdown formatting for changelog
+### Using semantic versioning on main and simple versioning on topic branches, markdown formatting for changelog
 
     _default:
         vcs: git
@@ -322,6 +322,12 @@ Most of the time, it will be easier for you to pick up an example below and adap
             vcs-commit: ~
         version-generator: semantic
         version-persister: vcs-tag
+
+### Changing the default-branch:
+    _default:
+        vcs:
+            name: git
+            default-branch: my-default-branch
 
 Contributing
 ------------
