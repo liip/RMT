@@ -20,16 +20,16 @@ class InitCommandTest extends RMTFunctionalTestBase
         $configFile = '.rmt.yml';
         unlink($configFile);
         self::assertFileDoesNotExist($configFile);
-        exec('./RMT init --configonly=n --vcs=git --main-branch=main --generator=semantic-versioning --persister=vcs-tag -n');
+        exec(sprintf('./RMT init --configonly=n --vcs=git --main-branch=%s --generator=semantic-versioning --persister=vcs-tag -n', self::DEFAULT_FUNCTIONAL_BRANCH));
 
         self::assertFileExists($configFile);
         $config = Yaml::parse(file_get_contents($configFile), true);
 
         $defaultConfig = $config['_default'];
-        $mainConfig = $config['main'];
+        $mainConfig = $config[self::DEFAULT_FUNCTIONAL_BRANCH];
 
         self::assertEquals('git', $defaultConfig['vcs']['name']);
-        self::assertEquals('main', $defaultConfig['vcs']['main-branch']);
+        self::assertEquals(self::DEFAULT_FUNCTIONAL_BRANCH, $defaultConfig['vcs']['main-branch']);
 
         self::assertEquals('simple', $defaultConfig['version-generator']);
         self::assertEquals('semantic', $mainConfig['version-generator']);
