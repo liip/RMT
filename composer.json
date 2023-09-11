@@ -34,7 +34,10 @@
     },
     "bin": ["RMT"],
     "config" : {
-        "bin-dir" : "bin"
+        "bin-dir" : "bin",
+        "allow-plugins": {
+             "symfony/flex": true
+        }
     },
     "extra": {
         "branch-alias": {
