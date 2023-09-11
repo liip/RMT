@@ -16,6 +16,10 @@ namespace Liip\RMT\Config;
  */
 class Handler
 {
+    protected $rawConfig;
+
+    protected $projectRoot;
+
     public function __construct($rawConfig = null, $projectRoot = null)
     {
         $this->rawConfig = $rawConfig;

@@ -156,7 +156,7 @@ class Application extends BaseApplication
             if (in_array($name, array('list', 'help'))) {
                 continue;
             }
-            $messages[] = sprintf("  <info>%-${width}s</info> %s", $name, $command->getDescription());
+            $messages[] = sprintf("  <info>%-{$width}s</info> %s", $name, $command->getDescription());
         }
         $messages[] = '';
 
