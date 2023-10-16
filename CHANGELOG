@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.7 - Compatibility with Sf/Console v6 + cleanup the tests + switch to github actions
+      16/10/2023 04:53  1.7.2  Replace vierbergenlars/php-semver by composer/semver
+         bd9c3df Tentative to replace vierbergenlars/php-semver by composer/semver
+         bcc9848 Tentative to replace vierbergenlars/php-semver by composer/semver
       11/09/2023 03:31  1.7.1  Some fixes related to PHP 8.2 deprecation warnings
          7a56946 Add symfony/flex in the composer allow-plugins list
          5ad1e76 Ticket #173: prevent PHP 8.2 deprecation warnings.
