@@ -48,7 +48,7 @@ class Output extends ConsoleOutput
         $this->getFormatter()->setStyle('title', new OutputFormatterStyle('white', 'blue'));
     }
 
-    public function doWrite($message, $newline)
+    public function doWrite($message, $newline): void
     {
         // In case the $message is multi lines
         $message = str_replace(PHP_EOL, PHP_EOL.$this->getIndentPadding(), $message);
