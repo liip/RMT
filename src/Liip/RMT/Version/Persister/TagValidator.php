@@ -13,7 +13,9 @@ namespace Liip\RMT\Version\Persister;
 
 class TagValidator
 {
-    public function __construct($regex, $tagPrefix = '')
+    protected $regex;
+    protected $tagPrefix;
+    public function __construct(string $regex, string $tagPrefix = '')
     {
         $this->regex = $regex;
         $this->tagPrefix = $tagPrefix;
