@@ -40,7 +40,7 @@ class CommandAction extends BaseAction
 
         // Prepare a callback for live output
         $callback = null;
-        if ($this->options['live_output'] == true) {
+        if ($this->options['live_output']) {
             $callback = function ($type, $buffer) {
                 $decorator = array('','');
                 if ($type == Process::ERR) {

@@ -18,6 +18,7 @@ class ChangelogManager
 {
     protected $filePath;
     protected $formatter;
+    protected $format;
 
     public function __construct($filePath, $format)
     {

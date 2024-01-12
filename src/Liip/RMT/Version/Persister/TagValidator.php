@@ -15,6 +15,7 @@ class TagValidator
 {
     protected $regex;
     protected $tagPrefix;
+
     public function __construct(string $regex, string $tagPrefix = '')
     {
         $this->regex = $regex;
