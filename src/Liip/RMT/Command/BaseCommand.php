@@ -82,7 +82,7 @@ abstract class BaseCommand extends Command
             try {
                 $branch = $vcs->getCurrentBranch();
             } catch (\Exception $e) {
-                echo "\033[31mImpossible to read the branch name\033[37m";
+                echo "\033[31mUnable to read the branch name\033[37m";
             }
             if (isset($branch)) {
                 $config = $configHandler->getConfigForBranch($branch);

@@ -71,7 +71,7 @@ class InformationCollector
 
     public function registerStandardRequest($name)
     {
-        if (!in_array($name, array_keys(static::$standardRequests))) {
+        if (!array_key_exists($name, static::$standardRequests)) {
             throw new \Exception("There is no standard request named [$name]");
         }
         if (!isset($this->requests[$name])) {
@@ -162,7 +162,7 @@ class InformationCollector
         if ($this->hasRequest($requestName)) {
             return $this->getRequest($requestName)->getValue();
         } else {
-            if (func_num_args() == 2) {
+            if (func_num_args() === 2) {
                 return $default;
             }
             throw new \Exception("No request named $requestName");
