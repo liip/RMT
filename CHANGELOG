@@ -3,6 +3,9 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.7 - Compatibility with Sf/Console v6 + cleanup the tests + switch to github actions
+      12/01/2024 15:47  1.7.4  Fix missing decalartion of class properties
+         0d48eab Some more PHP code cleanup
+         5700d07 Fix deprecation of dynamic assignment of class properties
       13/12/2023 05:33  1.7.3  Compatibility with Symfony 7
          38ec28d test symfony 7
       16/10/2023 04:53  1.7.2  Replace vierbergenlars/php-semver by composer/semver
