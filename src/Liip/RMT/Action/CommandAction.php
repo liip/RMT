@@ -19,8 +19,12 @@ use Liip\RMT\Context;
  */
 class CommandAction extends BaseAction
 {
+    protected $currentVersion;
+
     public function __construct($options)
     {
+        parent::__construct($options);
+
         $this->options = array_merge(array(
             'cmd' => null,
             'live_output' => true,
@@ -31,11 +35,13 @@ class CommandAction extends BaseAction
         if ($this->options['cmd'] == null) {
             throw new \RuntimeException('Missing [cmd] option');
         }
+
+        $this->currentVersion = Context::get('version-persister')->getCurrentVersion();
     }
 
     public function execute()
     {
-        $command = $this->options['cmd'];
+        $command = $this->prepareCommand($this->options['cmd']);
         Context::get('output')->write("<comment>$command</comment>\n\n");
 
         // Prepare a callback for live output
@@ -63,5 +69,37 @@ class CommandAction extends BaseAction
         if ($this->options['stop_on_error'] && $process->getExitCode() !== 0) {
             throw new \RuntimeException("Command [$command] exit with code " . $process->getExitCode());
         }
+    }
+
+    /**
+     * Prepares the command
+     *
+     * @param string $command
+     * @return string
+     */
+    protected function prepareCommand($command)
+    {
+        if (substr_count($command, '%') < 2) {
+            return $command;
+        }
+
+        preg_match_all('@%([A-Za-z0-9_]*)%@', $command, $matches);
+
+        if (! array_key_exists(1, $matches)) {
+            return $command;
+        }
+
+        $placeHolderValue = [
+            'version' => $this->currentVersion,
+            'new_version' => Context::getParam('new-version'),
+        ];
+
+        foreach ($matches[1] as $placeHolder) {
+            if (array_key_exists($placeHolder, $placeHolderValue)) {
+                $command = str_replace("%$placeHolder%", $placeHolderValue[$placeHolder], $command);
+            }
+        }
+
+        return $command;
     }
 }
