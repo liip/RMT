@@ -37,17 +37,11 @@ class SemanticGenerator implements GeneratorInterface
      */
     public function generateNextVersion($currentVersion)
     {
-        $type = isset($this->options['type']) ?
-            $this->options['type'] :
-            Context::get('information-collector')->getValueFor('type')
-        ;
+        $type = $this->options['type'] ?? Context::get('information-collector')->getValueFor('type');
 
         $label = 'none';
-        if (isset($this->options['allow-label']) && $this->options['allow-label'] == true) {
-            $label = isset($this->options['label']) ?
-                $this->options['label'] :
-                Context::get('information-collector')->getValueFor('label')
-            ;
+        if (isset($this->options['allow-label']) && $this->options['allow-label']) {
+            $label = $this->options['label'] ?? Context::get('information-collector')->getValueFor('label');
         }
 
         // Type validation

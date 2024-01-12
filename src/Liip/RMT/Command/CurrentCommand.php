@@ -37,7 +37,7 @@ class CurrentCommand extends BaseCommand
         if ($input->getOption('vcs-tag')) {
             $vcsTag = Context::get('version-persister')->getCurrentVersionTag();
         }
-        if ($input->getOption('raw') == true) {
+        if ($input->getOption('raw')) {
             $output->writeln($input->getOption('vcs-tag') ? $vcsTag : $version);
         } else {
             $msg = "Current release is: <green>$version</green>";
