@@ -1,7 +1,9 @@
 _default:
 
     # VCS CONFIG
-    vcs: %%vcs%%
+    vcs:
+        name: %%vcs%%
+        main-branch: %%main-branch%%
 
     # PREREQUISITES
     #  Actions executed before any questions get asked to the user.
@@ -24,8 +26,8 @@ _default:
             ask-confirmation: true
 
 # BRANCH SPECIFIC CONFIG
-#  On master, we override the general config
-master:
+#  On %%main-branch%%, we override the general config
+%%main-branch%%:
     version-generator: %%generator%%
     version-persister:
         vcs-tag:
