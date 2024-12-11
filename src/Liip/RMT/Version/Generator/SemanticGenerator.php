@@ -11,8 +11,8 @@
 
 namespace Liip\RMT\Version\Generator;
 
+use Composer\Semver\Comparator;
 use Liip\RMT\Context;
-use vierbergenlars\SemVer\version;
 
 /**
  * Generator based on the Semantic Versioning defined by Tom Preston-Werner
@@ -37,17 +37,11 @@ class SemanticGenerator implements GeneratorInterface
      */
     public function generateNextVersion($currentVersion)
     {
-        $type = isset($this->options['type']) ?
-            $this->options['type'] :
-            Context::get('information-collector')->getValueFor('type')
-        ;
+        $type = $this->options['type'] ?? Context::get('information-collector')->getValueFor('type');
 
         $label = 'none';
-        if (isset($this->options['allow-label']) && $this->options['allow-label'] == true) {
-            $label = isset($this->options['label']) ?
-                $this->options['label'] :
-                Context::get('information-collector')->getValueFor('label')
-            ;
+        if (isset($this->options['allow-label']) && $this->options['allow-label']) {
+            $label = $this->options['label'] ?? Context::get('information-collector')->getValueFor('label');
         }
 
         // Type validation
@@ -143,6 +137,13 @@ class SemanticGenerator implements GeneratorInterface
 
     public function compareTwoVersions($a, $b)
     {
-        return version::compare($a, $b);
+        if (Comparator::equalTo($a, $b)) {
+            return 0;
+        }
+        if (Comparator::greaterThan($a, $b)) {
+            return 1;
+        }
+
+        return -1;
     }
 }

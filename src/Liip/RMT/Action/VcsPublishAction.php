@@ -86,7 +86,7 @@ class VcsPublishAction extends BaseAction
      *
      * @return string|null
      */
-    protected function getRemote()
+    protected function getRemote(): ?string
     {
         if ($this->options['ask-remote-name']) {
             return Context::get('information-collector')->getValueFor('remote');
@@ -95,6 +95,6 @@ class VcsPublishAction extends BaseAction
             return $this->options['remote-name'];
         }
 
-        return;
+        return null;
     }
 }

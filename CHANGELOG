@@ -3,6 +3,18 @@ VERSION 1  FIRST STABLE VERSION
 ===============================
 
    Version 1.7 - Compatibility with Sf/Console v6 + cleanup the tests + switch to github actions
+      12/01/2024 15:47  1.7.4  Fix missing decalartion of class properties
+         0d48eab Some more PHP code cleanup
+         5700d07 Fix deprecation of dynamic assignment of class properties
+      13/12/2023 05:33  1.7.3  Compatibility with Symfony 7
+         38ec28d test symfony 7
+      16/10/2023 04:53  1.7.2  Replace vierbergenlars/php-semver by composer/semver
+         bd9c3df Tentative to replace vierbergenlars/php-semver by composer/semver
+         bcc9848 Tentative to replace vierbergenlars/php-semver by composer/semver
+      11/09/2023 03:31  1.7.1  Some fixes related to PHP 8.2 deprecation warnings
+         7a56946 Add symfony/flex in the composer allow-plugins list
+         5ad1e76 Ticket #173: prevent PHP 8.2 deprecation warnings.
+         afbb70b Fix typo in `default-vcs-config.yml.tmpl` file
       15/03/2022 07:32  1.7.0  initial release
          9a1a4fb Fix the error message when the local-php-security-checker is missing
          69649a0 fix lowest version build, drop tests with symfony 2

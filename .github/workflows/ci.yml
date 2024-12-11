@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
@@ -37,14 +37,17 @@ jobs:
           - php-version: '8.0'
             phpunit-version: 9
             symfony-version: '^6'
+          - php-version: '8.3'
+            phpunit-version: 9
+            symfony-version: '^7'
           # Minimum supported dependencies with the oldest PHP version
           - php-version: '7.1'
             phpunit-version: 7
             composer-flag: '--prefer-stable --prefer-lowest'
           # Test latest unreleased versions
-          - php-version: '8.0'
+          - php-version: '8.3'
             phpunit-version: 9
-            symfony-version: '^6'
+            symfony-version: '^7'
             stability: 'dev'
     name: PHP ${{ matrix.php-version }} Test on Symfony ${{ matrix.symfony-version }} ${{ matrix.dependencies}} ${{ matrix.stability }} ${{ matrix.composer-flag }}
     steps:

@@ -16,6 +16,10 @@ namespace Liip\RMT\Config;
  */
 class Handler
 {
+    protected $rawConfig;
+
+    protected $projectRoot;
+
     public function __construct($rawConfig = null, $projectRoot = null)
     {
         $this->rawConfig = $rawConfig;
@@ -195,27 +199,26 @@ class Handler
         }
 
         // Guess the namespace
-        $namespacesByType = array(
+        $namespacesByType = [
             'vcs' => 'Liip\RMT\VCS',
             'prerequisites' => 'Liip\RMT\Prerequisite',
             'pre-release-actions' => 'Liip\RMT\Action',
             'post-release-actions' => 'Liip\RMT\Action',
             'version-generator' => 'Liip\RMT\Version\Generator',
             'version-persister' => 'Liip\RMT\Version\Persister',
-        );
+        ];
         $nameSpace = $namespacesByType[$classType];
 
         // Guess the class name
         // Convert from xxx-yyy-zzz to XxxYyyZzz and append suffix
-        $suffixByType = array(
+        $suffixByType = [
             'vcs' => '',
             'prerequisites' => '',
             'pre-release-actions' => 'Action',
             'post-release-actions' => 'Action',
             'version-generator' => 'Generator',
             'version-persister' => 'Persister',
-        );
-        $nameSpace = $namespacesByType[$classType];
+        ];
         $className = str_replace(' ', '', ucwords(str_replace('-', ' ', $name))).$suffixByType[$classType];
 
         return $nameSpace.'\\'.$className;

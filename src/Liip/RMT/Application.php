@@ -11,7 +11,7 @@
 
 namespace Liip\RMT;
 
-define('RMT_VERSION', '1.7.0');
+define('RMT_VERSION', '1.7.4');
 
 use Liip\RMT\Command\ChangesCommand;
 use Liip\RMT\Command\ReleaseCommand;
@@ -156,7 +156,7 @@ class Application extends BaseApplication
             if (in_array($name, array('list', 'help'))) {
                 continue;
             }
-            $messages[] = sprintf("  <info>%-${width}s</info> %s", $name, $command->getDescription());
+            $messages[] = sprintf("  <info>%-{$width}s</info> %s", $name, $command->getDescription());
         }
         $messages[] = '';
 
