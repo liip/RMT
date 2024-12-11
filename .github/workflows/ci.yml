@@ -80,7 +80,7 @@ jobs:
         run: |
           git config --global user.email "test@test.com"
           git config --global user.name "John Doe"
-          git config --global init.defaultBranch main # TODO: use main, need to adjust tests to match
+          git config --global init.defaultBranch main
 
       - name: Run tests
         run: phpunit
