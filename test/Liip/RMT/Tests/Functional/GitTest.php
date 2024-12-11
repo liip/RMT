@@ -76,6 +76,6 @@ class GitTest extends RMTFunctionalTestBase
         exec('./RMT release -n --confirm-first');
         exec('git tag', $tags);
 //        $this->manualDebug();
-        self::assertEquals(array('_master_1'), $tags);
+        self::assertEquals(array('_main_1'), $tags);
     }
 }
