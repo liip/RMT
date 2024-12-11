@@ -20,7 +20,7 @@ class ExternalTasksTest extends RMTFunctionalTestBase
         exec('./RMT release -n', $output);
         $output = implode("\n", $output);
 //        $this->manualDebug();
-        self::assertStringContainsString('Impossible to open', $output);
+        self::assertStringContainsString('Unable to open', $output);
         self::assertStringContainsString($scriptName, $output);
     }
 
