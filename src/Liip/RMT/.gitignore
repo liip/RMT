@@ -1,7 +1,0 @@
-/vendor
-cache.properties
-/build
-/builds
-bin
-!bin/UpdateApplicationVersionCurrentVersion.php
-.phpunit.result.cache
