@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Test the latest stable release
+          - php-version: '7.1'
+            phpunit-version: 7
+          - php-version: '7.2'
+            phpunit-version: 8
+          - php-version: '7.3'
+            phpunit-version: 8
+          - php-version: '7.4'
+            phpunit-version: 8
+          - php-version: '8.0'
+            phpunit-version: 9
+          # Test Symfony LTS versions. Read more at https://github.com/symfony/lts
+          - php-version: '7.4'
+            dependencies: 'symfony/lts:^3'
+            phpunit-version: 8
+          - php-version: '8.0'
+            phpunit-version: 9
+            symfony-version: '^4'
+          - php-version: '8.0'
+            phpunit-version: 9
+            symfony-version: '^5'
+          - php-version: '8.0'
+            phpunit-version: 9
+            symfony-version: '^6'
+          - php-version: '8.3'
+            phpunit-version: 9
+            symfony-version: '^7'
+          # Minimum supported dependencies with the oldest PHP version
+          - php-version: '7.1'
+            phpunit-version: 7
+            composer-flag: '--prefer-stable --prefer-lowest'
+          # Test latest unreleased versions
+          - php-version: '8.3'
+            phpunit-version: 9
+            symfony-version: '^7'
+            stability: 'dev'
+    name: PHP ${{ matrix.php-version }} Test on Symfony ${{ matrix.symfony-version }} ${{ matrix.dependencies}} ${{ matrix.stability }} ${{ matrix.composer-flag }}
+    steps:
+      - name: Pull the code
+        uses: actions/checkout@v2
+      - name: Install PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2, phpunit:${{ matrix.phpunit-version }}
+          # this flag must be off so that RMT can create a phar
+          ini-values: phar.readonly=off
+      - name: Check PHP Version
+        run: php -v
+      - name: Stability
+        run: composer config minimum-stability ${{ matrix.stability }}
+        if: ${{ matrix.stability }}
+      - name: Additional require
+        run: composer require --no-update ${{ matrix.dependencies }}
+        if: ${{ matrix.dependencies }}
+      - name: Symfony version
+        run: composer require --no-update symfony/flex && composer config extra.symfony.require ${{ matrix.symfony-version}}
+        if: ${{ matrix.symfony-version }}
+      - name: Composer update
+        run: composer update ${{ matrix.composer-flag }} --prefer-dist --no-interaction
+      - name: Composer validate
+        run: composer validate --strict --no-check-lock
+        if: ${{ matrix.stability != 'dev' }}
+      - name: Configure git
+        run: |
+          git config --global user.email "test@test.com"
+          git config --global user.name "John Doe"
+          git config --global init.defaultBranch master # TODO: use main, need to adjust tests to match
+
+      - name: Run tests
+        run: phpunit
+        if: ${{ matrix.stability != 'dev' }}
+      - name: Run tests allow to fail
+        run: phpunit
+        continue-on-error: true
+        if: ${{ matrix.stability == 'dev' }}

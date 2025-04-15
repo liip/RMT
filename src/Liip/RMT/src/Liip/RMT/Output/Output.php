@@ -36,7 +36,7 @@ class Output extends ConsoleOutput
     /** @var DialogHelper|QuestionHelper */
     protected $dialogHelper = null;
 
-    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
+    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, ?OutputFormatterInterface $formatter = null)
     {
         // Use our own formatter
         parent::__construct($verbosity, $decorated, $formatter);
@@ -115,7 +115,7 @@ class Output extends ConsoleOutput
 
     // when we drop symfony 2.3 support, we should switch to the new QuestionHelper (since 2.5) and see if we need these methods at all anymore
     // QuestionHelper does about the same as we do here.
-    public function askQuestion(InteractiveQuestion $question, $position = null, InputInterface $input = null)
+    public function askQuestion(InteractiveQuestion $question, $position = null, ?InputInterface $input = null)
     {
         $text = ($position !== null ? $position .') ' : null) . $question->getFormatedText();
 
@@ -145,7 +145,8 @@ class Output extends ConsoleOutput
     }
 
     // when we drop symfony 2.3 support, we should switch to the QuestionHelper (since 2.5) and drop this method as it adds no value
-    public function askConfirmation($text, InputInterface $input = null)
+    // !!!!Value geändert
+    public function askConfirmation($text, ?InputInterface $input = null)
     {
         if ($this->dialogHelper instanceof QuestionHelper) {
             if (!$input) {

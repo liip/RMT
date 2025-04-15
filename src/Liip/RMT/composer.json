@@ -1,0 +1,49 @@
+{
+    "name": "liip/rmt",
+    "description": "Release Management Tool: a handy tool to help releasing new version of your software",
+    "keywords": ["release", "version", "semantic versioning", "vcs tag", "pre-release", "post-release"],
+    "homepage": "http://github.com/liip/RMT",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan Macheret",
+            "email": "jonathan.macheret@liip.ch",
+            "role": "Developer"
+        },
+        {
+            "name": "David Jeanmonod",
+            "email": "david.jeanmonod@liip.ch",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/liip/RMT/issues"
+    },
+    "require": {
+        "ext-json": "*",
+        "php": "^7.1|^8.0",
+        "symfony/console": "^3.4|^4.0|^5.0|^6.0|^7.0",
+        "symfony/yaml": "^3.4|^4.0|^5.0|^6.0|^7.0",
+        "symfony/process": "^3.4|^4.0|^5.0|^6.0|^7.0",
+        "composer/semver": "^3.4",
+        "cweagans/composer-patches": "^1.7"
+    },
+    "autoload": {
+        "psr-0": {
+            "Liip": "src"
+        }
+    },
+    "bin": ["RMT"],
+    "config" : {
+        "bin-dir" : "bin",
+        "allow-plugins": {
+            "symfony/flex": true,
+            "cweagans/composer-patches": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3-dev"
+        }
+    }
+}

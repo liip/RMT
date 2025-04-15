@@ -1,0 +1,361 @@
+
+VERSION 1  FIRST STABLE VERSION
+===============================
+
+   Version 1.7 - Compatibility with Sf/Console v6 + cleanup the tests + switch to github actions
+      12/01/2024 15:47  1.7.4  Fix missing decalartion of class properties
+         0d48eab Some more PHP code cleanup
+         5700d07 Fix deprecation of dynamic assignment of class properties
+      13/12/2023 05:33  1.7.3  Compatibility with Symfony 7
+         38ec28d test symfony 7
+      16/10/2023 04:53  1.7.2  Replace vierbergenlars/php-semver by composer/semver
+         bd9c3df Tentative to replace vierbergenlars/php-semver by composer/semver
+         bcc9848 Tentative to replace vierbergenlars/php-semver by composer/semver
+      11/09/2023 03:31  1.7.1  Some fixes related to PHP 8.2 deprecation warnings
+         7a56946 Add symfony/flex in the composer allow-plugins list
+         5ad1e76 Ticket #173: prevent PHP 8.2 deprecation warnings.
+         afbb70b Fix typo in `default-vcs-config.yml.tmpl` file
+      15/03/2022 07:32  1.7.0  initial release
+         9a1a4fb Fix the error message when the local-php-security-checker is missing
+         69649a0 fix lowest version build, drop tests with symfony 2
+         55d74d6 allow building phars and avoid git default branch name warning
+         3833c2f cleanup php method signatures
+         9e542ad switch to github actions
+         9b9eeac Fix errors on Symfony/Console v6.0+
+         6dbe73d Cleanup the tests output + migrate the XML config
+         db6a2be Add some doc about how to run the tests locally + replace laurent by jo
+
+   Version 1.6 - Create prerequisite that checks for composer dependencies to development versions
+      23/11/2021 07:59  1.6.4  Add support for Symfony 6
+         8bba876 Update composer.lock
+         6a0b56d Allow Symfony 6
+      09/02/2021 09:31  1.6.3  Replace sensiolabs/security-checker by sensiolabs/security-checker
+         ad38f80 Update deprecated security checker
+      12/01/2021 08:27  1.6.2  Adjust the test suite to support PHP 8
+         37aaf5a add php 8 support and drop php < 7.1
+         4e878d4 test with php 8
+      17/03/2020 08:56  1.6.1  Add support to PHP 7.4
+         104856b Add PHP 7.4 to Travis CI
+         481b928 Fix tests
+         85d51bc Fix the order of implode() arguments
+      13/12/2019 15:10  1.6.0  initial release
+         dfc6641 Update documentation.
+         e59ddbb Clean up constructor.
+         8f53fc8 Create prerequisite that checks for composer dependencies to development versions.
+
+   Version 1.5 - Allow multiple files to be updated at once
+      13/12/2019 14:33  1.5.3  Add Symfony 5 support
+         31b0731 Fix security-checker compatibility and fix code usage for Symfony 5
+         7812528 Add TravisCI config for Symfony 5
+         d0fff3e Add Symfony 5 support
+      11/03/2019 21:48  1.5.2  Improve how the --ignore-check option is handled
+         e9fc618 Clean up
+         6f84449 Fix typo.
+         0434b6c Improve how the --ignore-check option is handled. Make better exceptions messages, referencing the allow-ignore configuration key.
+      11/03/2019 08:29  1.5.1  Use latest security-checker
+         23d397f Update composer lock
+         5b0f716 Use latest security-checker
+      20/02/2019 21:58  1.5.0  initial release
+         f2a4ef2 Refactor Readme to have valid config
+         da663f3 Clean up
+         45a97f1 Update naming
+         4918681 Remove debug value
+         d382fb5 Allow to update multiple file version
+         8b5a0b3 Fix tests
+         33b5243 Add some doc
+         c8ceeef Fix tests
+         c80a650 DDD
+         7ed4e70 Remove testing for hhvm and php 5.6
+
+   Version 1.4 - Markdown support for CHANGELOG formating, thanks to @ppetermann
+      02/01/2019 21:16  1.4.1  Extend the default command timeout to 10 minutes + make it configurable
+         75b322e Added timeout to actions
+      11/09/2018 04:11  1.4.0  initial release
+         8b011c7 Compatibility with PHPUnit 7.3.5
+         8dedf27 Fix the CHANGELOG
+         212a3c8 dropped name of company i haven't been working for in a while
+         1cea690 Added MarkdownChangelogFormatter (#138), based on the SemanticChangelogFormatter
+
+   Version 1.3 - Compatibility with Symfony 4.0 and PHP 7.2 + Document Drifter install
+      20/12/2017 14:37  1.3.0  initial release
+         cedd796 add branch-alias in composer.json
+         ef072a7 update the lock file
+         85d993a allow symfony 4.0 (#129)
+         96056bc build with recent symfony versions and php 7.2
+         8a7b8ee have hg tests work correctly with new versions of mercurial
+         cb13a4a Add a Drifter option in the install possibilities
+         110a47f Travis build tweaks
+         854cc5a Require supported version of phpunit and fix test with forward compatibility layer
+         cfdce17 Update php requirement to only allow supported php versions
+
+   Version 1.2 - Compatibility with Symfony 3.0 and PHP 7.0
+      09/05/2017 10:03  1.2.7  Last security checker version + Documentation updates
+         d1a89e9 Fixed typo
+         c36aaa9 Add the doc about the `{branch-name}` placeholder
+         a6f0e70 Document persister options
+         d7006d6 Small typo fix in the description of composer.json
+         375a61d Allow sensiolabs/security-checker in latest version (required by symfony 3.1.x)
+      07/11/2016 06:33  1.2.6  Allow to run an external command into the pre-requisite list
+         bf179f3 Add the command action to pre-requisite doc
+         6cb272d Allow to run an external command into the pre-requisite list too
+         5d427bd Document the `command` action
+      09/09/2016 15:48  1.2.5  Allow to configure a timeout option for the test task
+         593452c Support Symfony Process 2.3 "process timed-out" exception message
+         8e64bf9 Support Symfony Process 2.3 "process timed-out" exception message
+         5a8d21d Use PHP 5.3-compatible traditional array syntax
+         dc3c211 Make mocks added in test-check timeout tests PHPUnit 4.5-compatible
+         0431730 Replace usage of magic class constant with FQCN string
+         a11982f Allow specification of tests check command timeout
+         b19d2cd Minor fixes
+      08/06/2016 17:35  1.2.4  Better warning message when using --ignore-check
+         7ebbedf Warn the user local modifications may be included during commit action
+         54ded79 Small cleanup
+         5c46f70 Fix CHANGELOG
+      09/05/2016 09:25  1.2.3  Restore PHP 5.3 compatibility (was broken by 1.2.2)
+         ee00acd Fix tests of version 1.2.2 and keep php 5.3 compatibility
+      09/05/2016 08:15  1.2.2  --ignore-check option must be explicitly activated for the working-copy-check prerequisite
+         823f40d Now --ignore-check option must be explicitly activated for the working-copy-check prerequisit
+      18/04/2016 15:03  1.2.1  Add support for commit and tag gpg-signing
+         de7a350 Add a little for documentation following https://github.com/liip/RMT/pull/107
+         a5937c9 Fix a copy/paste error for GPG sign commits
+         020a200 removed typo
+         7430de8 changed as requested
+         881badb add support for commit and tag gpg-signing
+      08/12/2015 14:31  1.2.0  initial release
+         719adfa Partialy Revert "add BC layer to support both Symfony 3 and 2.3", to remove the early binding between an action and the input interface
+         c28add3 add BC layer to support both Symfony 3 and 2.3
+         9f7d377 make symfony deps explicit in the travis setup
+         0f4e3f7 bumped minimal requirement to PHP 5.3.9 and Symfony 2.3, allow Symfony 3.0
+         056f745 php codingstyle fixes
+         6c0a82b Add a small note about the specific name parameter
+
+   Version 1.1 - Add support to labels in sementic versionning, thanks to @ahilles107, @acrobat, @krtek4 and @lsmith77 for the contribution
+      06/05/2015 22:11  1.1.9  New action build-phar-package
+         da8d1f2 Another php 5.3 compatibility fix
+         c26fc37 Use php 5.3 array notation
+         9208535 Add tests
+         bd2b6e3 Add support for separate CLI and web usage default stubs
+         2597dc3 Missing docblock
+         521019c Add support for package-level metadata
+         e0f8b10 Give feedback about the generated package location
+         7e85dd1 Do not fail on first release
+         69d6220 Added option to exclude specific paths from the package build
+         ee27a39 Initial release of the BuildPharPackage action
+      06/05/2015 22:03  1.1.8  Various small fix and typo
+         9b182b5 Update of the changes command to add option --files
+         0baebc2 Fix the composer instruction for installing
+         048cae2 Minor phpcs fixes
+         fd21b0f Small typo fixes introduced in #91
+         040811a Added composer global isntallation instructions
+         4e7d910 the running method does not exists on Phar in HHVM
+         e6ff85b Add some badges to the README
+         fd25b81 run tests on HHVM too
+         7d70c8a Fix typo
+      28/10/2014 11:33  1.1.7  New prerequiste [composer security check] + some CS fixes
+         9a20d2c cleaning up a bit
+         166a799 added composer security check
+         cb6b6db phpcs fixes
+         4ef80de fix CS issues
+      23/10/2014 20:57  1.1.6  Fix info tag in title
+         8d6f95f PSR-2 compliant \o/
+         06c2680 Only warn about line with more than 200 chars
+         cf17ecf activate PSR-2 for PHPCS
+         55d2f82 Fixed info tag in title
+      23/10/2014 19:12  1.1.5  Only export needed file into package
+         25c128a fix hg branch test
+         91a8956 Only export needed files
+      11/09/2014 16:05  1.1.4  New action Command to allow to execute a cmd/script
+         cf58130 RMT config, display the changes first
+         e4bfed0 Finalization of the CommandAction fix #50
+         29c8af6 Fix typo in the README
+         78c1454 Prototype of a new generic command #50
+      28/08/2014 18:00  1.1.3  Two new prerequistes check related to Composer validation (Thanks Peter Petermann)
+         f7ac129 PSR-2 fixes
+         3f06571 adding check that allows to test for composers minimum-stability setting
+         ed329e3 confirmSuccess
+         2177921 typo, also option should work as in docs
+         bc6a12a adding an option to run a composer validate within the prerequisites
+      28/08/2014 17:54  1.1.2  new option "exclude-merge-commits" (thanks Jeroen Thora)
+         e2badf6 Configure RMT itself to use the new option "exclude-merge-commits"
+         02a4e97 Added exclude merge commits option
+         9207c5f Fixed minor config option typo
+      18/08/2014 08:50  1.1.1  Various small fixes
+         8c87b90 Merge pull request #79 from acrobat/phpcs-fixes
+         99efb63 phpcs fixes
+         3835237 Merge pull request #78 from liip/cleanup_travis_setup
+         2d65fb6 Updated .travis.yml setup to include latest symfony and php versions, no longer do an update since we need to do a require later
+         ef1859a code style
+         990de63 Remove phpdox from ant build script
+         61e3e61 Try to make InformationRequest simpler
+         5bb2e83 fix coding style
+         a5b087a Merge pull request #76 from acrobat/semver-version-fix
+         8e64bdb Updated semver to stable release, fixes #74
+         d9b2aec notify slack
+      28/07/2014 10:56  1.1.0  initial release
+         6aa7120 Following the PR #73, I just add the option to activate (or not) the label management. Most of the users were currently not using the label system, so forced them to always answer 'none' could be painful. To activate it on your project (or a dedicated branch) just add 'allow-label' in your config
+         0ce023d Add the composer.lock to git
+         202a8a0 Merge pull request #73 from ahilles107/beta_releases
+         c3d27ca simplify if/else, use rc php-semver release
+         fa3d07e provide a way to add label for release
+         7771fd5 Merge pull request #70 from ppetermann/patch-1
+         5589eea added information on phar-composer, see #69
+         a478fa9 Merge pull request #66 from skck/master
+         c790587 Add option to specify a custom commit message
+
+   Version 1.0 - First stable version
+      03/04/2014 22:45  1.0.4  Add a new command RMT config
+         5c2990b Add a new command RMT config
+         f158e6e Better error handling when parsing the config
+      17/02/2014 11:45  1.0.3  UpdateVersionClass accept file path now (thanks ppetermann)
+         d213ef7 Merge pull request #65 from ppetermann/master
+         2d755da moved changes to single file, edited readme
+         f8b7cf9 added UpdateVersionClassFileAction
+      20/01/2014 06:36  1.0.2  New init option to skip creation of the RMT script
+         1c39f8e Merge https://github.com/liip/RMT/pull/60
+         12039d1 Cleanup PR60
+         98070aa adding support for creating phar-RMT through http://box-project.org/
+         011b988 added phpstorms .idea metadata to gitignore
+         30f18cb Merge branch 'master' of https://github.com/liip/RMT
+         5df1b27 added configonly option to init command
+         844efba removed unused use
+         90b4640 adding RMT to vendor/bin/RMT
+         e93f85e removed unused use
+         9bad5ef use PHP function rather than doing exec
+      09/01/2014 07:41  1.0.1  Bug fix #56 (Unix chmod usage)
+         e959871 Replace a unix chmod by a php chmod, fix #61
+      20/12/2013 07:56  1.0.0  initial release
+         0532960 Add the contributors link in the README
+         df1cfff Update the documentation related to the move on stable
+         12de609 Update composer config to tag it as stable
+
+VERSION 0  FIRST BETA
+=====================
+
+   Version 0.9 - Beta release
+      13/12/2013 14:11  0.9.16  Simplification of the config
+         c8d99a3 Merge pull request #58 from jeanmonod/new-config
+         1ff971b Fix tests for the new config format used in the init command
+         4dc9190 Update the documentation and template to match the new config model ref #56
+         dbd028e Add a LICENCE file fix #52
+         6d4244a Allow a new config mode with a section "_default" fix #56
+         5ccb00e Merge pull request #57 from liip/fix-warning
+         c4f8b15 BaseAction has a protected options field
+         bb4e478 Revert "Use composer's binary support for command.php"
+         18387cc Use composer's binary support for command.php
+         fac130b Small fix
+      19/11/2013 16:05  0.9.15  Move the publish confirmation question right before publishing + fix #12
+         f2f4b2d Display the number of questions in the interactive session
+         e524ee6 Do not set a default value for input option when an interactive question is planned fix #12
+         89f56f4 Move the publish confirmation question right before publishing fix #47
+         1fe370d Move all the write* methods from the BaseCommand to the Output class
+      18/11/2013 06:24  0.9.14  Add a new TestCheck prerequisite
+         98ae014 Add a test check prerequisite and use it for RMT fix #51
+         9f86275 Update README.md
+      12/11/2013 07:49  0.9.13  Better init command + various refactoring
+         e14203d Rename the rmt config file
+         47b8c1e Method renaming in tests
+         003d0b3 Handle more gracefully errors related to VCS
+         ab28225 Init command enhancement:  * based on commented yml templates  * default config file is now .rmt.yml  * remove unused JSONHelper
+         7cecfb5 Strict comparison for remote, in case a remote is named "0"...
+      06/11/2013 08:23  0.9.12  Hidden response, new class updater, new 'changes' command + some bug fixes
+         90ef2c2 Fix a bug when publishing with no remote fix #53
+         05d91aa Better YML handling fix #54
+         337125e Merge pull request #45 from liip/add-handlers
+         e8264f2 adding documentation
+         c26b27a Commit an example of the current changelog formatter
+         e3828aa Add a new command that display the list of changes since the last release
+         d78b796 Merge pull request #48 from richardfullmer/hidden-response
+         10e325f adding optional pattern for version string
+         17d7757 Add support for "hidden" responses
+         a47d0c3 adding a version class updater and another changelog formatter
+      01/11/2013 00:49  0.9.11  Better publish action
+         a8b875b Add 3 configuration options on the publish action: ask-confirmation, remote-name, ask-remote-name
+         7a71338 Merge branch 'pr/49'
+         c4b6d10 Add support for the name of the remote to push changes to
+      31/10/2013 23:52  0.9.10  YAML syntax + various bug fixes
+         c141283 Fix #38 when using the dump-commit option on a first release
+         a223ec3 Small cleanup
+         a2ddebb Merge pull request #46 from liip/improve-error
+         65452f5 improve exception message when git command fails
+         156f007 try to reduce complexity
+         6179cf7 phpdoc and supress PHPMD warning for necessary exit
+         7cbaacd add a title formatting style, phpdoc
+         6875a0c move the custom styles to the Output class
+         cbbd341 phpdoc cleanup, call parent methods
+         aa78a9d fix build to generate phpmd log file
+         7c97bd0 Merge pull request #41 from jeanmonod/option-merge
+         73ad1e7 Merge pull request #42 from jeanmonod/yaml-config
+         f2b619e Auto create the CHANGELOG file if absent fix #40
+         0f4222f Change the init command to use yaml by default and adapt test
+         6793372 Convert the documentation from JSON to YML
+         872f336 Allow to override only options for branch specific
+         bd05cfb Accept YML as config syntax
+      26/09/2013 23:51  0.9.9  Fix compatibility accross all symfony:console version
+         387e342 Configure travis to build over all version of the symfony:console dependency
+         b3a014b Put back a test removed by @bonndan by fix it by redirecting errors on the standard output
+         0f64aa5 Update the Application::asText() signature to be compatible with symfony:console 2.1
+      26/09/2013 23:07  0.9.8  Various fix, including the PR from @bonndan
+         a05865d Execute the current test on no-ansi mode, to avoid errors on some environments
+         cd778fc Revert "changed current command test to expected a formatted string on the console"
+         c0adab0 Merge remote-tracking branch 'bonndan/master'
+         479daea RMT command clean-up
+         393d32b correct brace position and indentation
+         5dbc1d4 prepare RMT for jenkins
+         0e6e279 #30 maintains compatibility to symfony/console 2.0*
+         37e1ce4 exception thrown in working copy check has code greather than zero, causing exit code to be non-zero as well
+         b2d1c87 fixed typo
+         142d602 separated working copy checkout tests
+         952d360 testWorkingCopyCheck sends the console output as message to phpunit
+         5ee8164 fixes a failing test with localized git console output
+         9a9a88a changed current command test to expected a formatted string on the console
+         7a9058d Changed symfony console version
+      02/09/2013 11:01  0.9.7  cleanup and better VCA-Commit action
+         1385543 Ignore commit action if no locale modifications are found
+         e64812d use indentation size as JSON format parameter, default to a size 4
+         5967701 Update installation steps and correct typos
+         9dabc50 Merge pull request #33 from gildegoma/travis-patches
+         07969aa Travis CI: Add php 5.5 and use more defaults
+         be4cb0f Merge pull request #34 from gildegoma/support-git-1.8.x
+         66dbf4b Handle output of `git branch` with git v1.8+
+         a956b2d Merge pull request #32 from cordoval/patch-1
+         9ca003b standards
+         eb5a9c6 Update README.md
+      17/05/2013 23:32  0.9.6  Lot of small fixes
+         7159a29 Review the application output fix #23
+         3e56e54 Amelioration of the Changelog formatter fix #27
+         3654a60 Add a docbloc related to the github issue #29
+         c8d2a0b Add a new option tag-pattern for a tag persister
+         64c3f82 Merge pull request #28 from liip/minor_tweaks
+         802854a min requirement is php 5.3.3, some ws/typo fixes
+         d5c7f7c fix: set up default git username and email for travis tests
+         e466114 Add a getModifiedFilesSince to VCS
+      13/02/2013 21:58  0.9.5  Mercurial support (thanks to krtek4)
+         d46189c Small formatting fix in the README.md
+         652dc65 Merge pull request #26 from liip/mercurial-support
+         3352378 Update tests so we give some default username for systems without global hgrc
+         300f4dd Add HG to the init options
+         04a2287 Add mercurial support
+      07/02/2013 07:07  0.9.4  Various bug fixes: #11, #12 and #24 + Functionnal test enhancement
+         cdf11f9 Use the init command to setup functionnal tests
+         b82bed0 Generate a relative path in the init command fix #24
+         2c1c27d Update composer command
+         3f5474d Add possibility to configure the action CHANGELOG update
+         d939469 Fixing DisplayLastChanges when no release yet fix #11
+         d73ef3b Indent the rmt.json file when running the init function fix #13
+      14/12/2012 07:57  0.9.3  Rename all from RD to RMT + Various bugs fixes
+         34bde25 Master renaming from RD to RMT fix #21
+         1e7456f Fix the init command: fix #10
+         7f623c0 first cleaning round
+         3283c31 anchor to config
+         1c89b38 update readme
+         6abb145 New option --vcs-tag on the command RD current
+         d938629 Test output cleanup
+      01/12/2012 22:45  0.9.2  Refactoring of the Context and bug fixes
+         95fefbf New shortcut methods Context::get() and Context::getParam()
+         895ea0c Fix for the sorting issue fix #18
+         c7f180d Replace the context class by a singleton
+         ffe58a6 Allow to dump commit message in the changelog
+         ada96f3 Add new tests for command RMT init and RMT current ref #10
+         2eb6fae Documentation review
+      25/11/2012 16:31  0.9.1  Setup for composer publication
+      08/11/2012 23:59  0.9.0  First beta release

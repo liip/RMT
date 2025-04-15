@@ -72,10 +72,12 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    // !!!!! Wichtige Eigene äderung
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         return parent::run($input, new Output());
     }
+    
 
     public function getProjectRootDir()
     {
