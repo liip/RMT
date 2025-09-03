@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" bootstrap="autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory>./src</directory>
-    </include>
-  </coverage>
   <testsuites>
     <testsuite name="RMT Unit test suite">
       <directory suffix="Test.php">./test/Liip/RMT/Tests/Unit</directory>
