@@ -13,39 +13,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Test the latest stable release
-          - php-version: '7.1'
-            phpunit-version: 7
-          - php-version: '7.2'
-            phpunit-version: 8
-          - php-version: '7.3'
-            phpunit-version: 8
+          # Test deprecated version
           - php-version: '7.4'
             phpunit-version: 8
           - php-version: '8.0'
             phpunit-version: 9
-          # Test Symfony LTS versions. Read more at https://github.com/symfony/lts
-          - php-version: '7.4'
-            dependencies: 'symfony/lts:^3'
-            phpunit-version: 8
-          - php-version: '8.0'
+          # Test security fixes version
+          - php-version: '8.1'
             phpunit-version: 9
-            symfony-version: '^4'
-          - php-version: '8.0'
+          - php-version: '8.2'
             phpunit-version: 9
-            symfony-version: '^5'
-          - php-version: '8.0'
-            phpunit-version: 9
-            symfony-version: '^6'
+          # Test active version
           - php-version: '8.3'
             phpunit-version: 9
             symfony-version: '^7'
-          # Minimum supported dependencies with the oldest PHP version
-          - php-version: '7.1'
-            phpunit-version: 7
-            composer-flag: '--prefer-stable --prefer-lowest'
+          - php-version: '8.4'
+            phpunit-version: 9
+            symfony-version: '^7'
           # Test latest unreleased versions
-          - php-version: '8.3'
+          - php-version: '8.5'
             phpunit-version: 9
             symfony-version: '^7'
             stability: 'dev'
