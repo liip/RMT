@@ -19,6 +19,7 @@ use Liip\RMT\Command\CurrentCommand;
 use Liip\RMT\Command\ConfigCommand;
 use Liip\RMT\Command\InitCommand;
 use Liip\RMT\Output\Output;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -47,13 +48,13 @@ class Application extends BaseApplication
         // Add all command, in a controlled way and render exception if any
         try {
             // Add the default command
-            $this->add(new InitCommand());
+            $this->bcAddCommand(new InitCommand());
             // Add command that require the config file
             if (file_exists($this->getConfigFilePath())) {
-                $this->add(new ReleaseCommand());
-                $this->add(new CurrentCommand());
-                $this->add(new ChangesCommand());
-                $this->add(new ConfigCommand());
+                $this->bcAddCommand(new ReleaseCommand());
+                $this->bcAddCommand(new CurrentCommand());
+                $this->bcAddCommand(new ChangesCommand());
+                $this->bcAddCommand(new ConfigCommand());
             }
         } catch (\Exception $e) {
             $output = new Output();
@@ -182,5 +183,28 @@ class Application extends BaseApplication
         $messages[] = '';
 
         return implode(PHP_EOL, $messages);
+    }
+
+    /**
+     * Can be removed when we remove support for Symfony console < 7.4.
+     *
+     * When removing, change the calls to bcAddCommand to addCommand.
+     *
+     * @param callable|Command $command
+     */
+    private function bcAddCommand($command): void
+    {
+        /* @phpstan-ignore function.alreadyNarrowedType */
+        if (method_exists($this, 'addCommand')) {
+            $this->addCommand($command);
+
+            return;
+        }
+
+        if (!$command instanceof Command) {
+            throw new \InvalidArgumentException('Until we remove support for symfony console < 7.4, all commands must extend the base class');
+        }
+
+        $this->add($command);
     }
 }
