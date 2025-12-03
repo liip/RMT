@@ -29,7 +29,7 @@ class Handler
     public function getDefaultConfig()
     {
         return array(
-            'vcs' => array(),
+            'vcs' => [],
             'prerequisites' => array(),
             'pre-release-actions' => array(),
             'version-generator' => null,
