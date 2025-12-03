@@ -38,6 +38,6 @@ class CommandActionTest extends RMTFunctionalTestBase
 
         exec('./RMT release -n --no-ansi --comment="test"', $output);
         $output = implode("\n", $output);
-        $this->assertContains('Command Action : echo 1 2', $output);
+        $this->assertStringContainsString('Command Action : echo 1 2', $output);
     }
 }
