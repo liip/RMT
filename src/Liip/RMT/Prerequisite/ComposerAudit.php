@@ -17,49 +17,49 @@ use Liip\RMT\Information\InformationRequest;
 use Symfony\Component\Process\Process;
 
 /**
- * Uses https://github.com/fabpot/local-php-security-checker to see if composer.lock contains insecure versions
- *
- * @deprecated This tool has been deprecated in favor of `composer audit`, use the ComposerAudit prerequisite instead.
+ * Uses `composer audit` to see if composer.lock contains insecure versions - needs composer installed globally
  */
-class ComposerSecurityCheck extends BaseAction
+class ComposerAudit extends BaseAction
 {
-    const SKIP_OPTION = 'skip-composer-security-check';
+    const SKIP_OPTION = 'skip-composer-audit';
 
     public function execute()
     {
         // Handle the skip option
         if (Context::get('information-collector')->getValueFor(self::SKIP_OPTION)) {
-            Context::get('output')->writeln('<error>composer security check skipped</error>');
+            Context::get('output')->writeln('<error>composer audit skipped</error>');
 
             return;
         }
 
-        Context::get('output')->writeln('<comment>running composer security check</comment>');
+        Context::get('output')->writeln('<comment>running composer audit</comment>');
 
         // Run the actual security check
-        $process = new Process(['local-php-security-checker', '--format', 'json']);
+        $process = new Process(['composer', 'audit', '--format', 'json']);
         $process->run();
 
-        $alerts = json_decode($process->getOutput(), true);
+        $report = json_decode($process->getOutput(), true);
 
-        if ($process->isSuccessful() && count($alerts) === 0) {
+        if ($process->isSuccessful() && count($report['advisories']) === 0 && count($report['abandoned']) === 0) {
             $this->confirmSuccess();
             return;
         }
 
-        if ($alerts === null) {
-            throw new \RuntimeException('Error while trying to execute `local-php-security-checker` command. Are you sure the binary is installed globally in your system?');
+        if ($report === null) {
+            throw new \RuntimeException('Error while trying to execute `composer audit` command. Are you sure the binary is installed globally in your system and you have at least composer version 2.4?');
         }
 
-        // print out the advisories if available
-        foreach ($alerts as $package => $alert) {
-            Context::get('output')->writeln("<options=bold>{$package}</options=bold> {$alert['version']}");
-            foreach ($alert['advisories'] as $data) {
+        foreach ($report['advisories'] as $package => $alert) {
+            Context::get('output')->writeln("<options=bold>{$package}</options=bold> has security reports");
+            foreach ($alert as $data) {
                 Context::get('output')->writeln('');
+                Context::get('output')->writeln($data['advisoryId']);
                 Context::get('output')->writeln($data['title']);
-                Context::get('output')->writeln($data['link']);
                 Context::get('output')->writeln('');
             }
+        }
+        foreach ($report['abandoned'] as $package => $alert) {
+            Context::get('output')->writeln("<options=bold>{$package}</options=bold> is abandoned");
         }
 
         // throw exception to have check fail
@@ -68,7 +68,7 @@ class ComposerSecurityCheck extends BaseAction
         );
     }
 
-    public function getInformationRequests()
+    public function getInformationRequests(): array
     {
         return array(
             new InformationRequest(
