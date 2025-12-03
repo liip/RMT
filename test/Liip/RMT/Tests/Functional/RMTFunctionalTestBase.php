@@ -17,6 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class RMTFunctionalTestBase extends ForwardCompatibilityTestCase
 {
     protected $tempDir;
+    protected const DEFAULT_FUNCTIONAL_BRANCH = 'master';
 
     protected function setUp(): void
     {
@@ -30,7 +31,7 @@ class RMTFunctionalTestBase extends ForwardCompatibilityTestCase
 
         // Create the executable task inside
         $rmtDir = realpath(__DIR__ . '/../../../../../');
-        exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git");
+        exec("php $rmtDir/command.php init --configonly=n --generator=basic-increment --persister=vcs-tag --vcs=git --main-branch=" . self::DEFAULT_FUNCTIONAL_BRANCH);
     }
 
     protected function createConfig($generator, $persister, $otherConfig = array()): void
@@ -60,6 +61,7 @@ class RMTFunctionalTestBase extends ForwardCompatibilityTestCase
 
     protected function initGit(): void
     {
+        exec('git config --global init.defaultBranch ' . self::DEFAULT_FUNCTIONAL_BRANCH);
         exec('git init');
         exec('git add .');
         exec('git commit -m "First commit"');

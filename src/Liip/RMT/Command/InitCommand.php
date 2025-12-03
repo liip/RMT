@@ -70,6 +70,13 @@ class InitCommand extends BaseCommand
                 'choices_shortcuts' => array('g' => 'git', 'h' => 'hg', 'n' => 'none'),
                 'default' => 'none',
             )),
+            new InformationRequest('main-branch', array(
+                'description' => 'The default branch you want to use (select none if you are not using a VCS system)',
+                'type' => 'choice',
+                'choices' => array('main', 'master', 'none'),
+                'choices_shortcuts' => array('m' => 'main', 'mst' => 'master', 'n' => 'none'),
+                'default' => 'main',
+            )),
             new InformationRequest('generator', array(
                 'description' => 'The generator to use for version incrementing',
                 'type' => 'choice',
@@ -153,18 +160,19 @@ class InitCommand extends BaseCommand
 
         // Create the config file from a template
         $this->getOutput()->writeln("Creation of the config file <info>{$this->configPath}</info>");
-        $template = $this->informationCollector->getValueFor('vcs') == 'none' ?
+        $template = $this->informationCollector->getValueFor('vcs') === 'none' ?
             __DIR__.'/../Config/templates/no-vcs-config.yml.tmpl' :
             __DIR__.'/../Config/templates/default-vcs-config.yml.tmpl'
         ;
         $config = file_get_contents($template);
         $generator = $this->informationCollector->getValueFor('generator');
         foreach (array(
-            'generator' => $generator == 'semantic-versioning' ?
+            'generator' => $generator === 'semantic-versioning' ?
                 'semantic # More complex versionning (semantic)' : 'simple  # Same simple versionning',
             'vcs' => $this->informationCollector->getValueFor('vcs'),
+            'main-branch' => $this->informationCollector->getValueFor('main-branch'),
             'persister' => $this->informationCollector->getValueFor('persister'),
-            'changelog-format' => $generator == 'semantic-versioning' ? 'semantic' : 'simple',
+            'changelog-format' => $generator === 'semantic-versioning' ? 'semantic' : 'simple',
         ) as $key => $value) {
             $config = str_replace("%%$key%%", $value, $config);
         }
