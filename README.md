@@ -172,7 +172,7 @@ Prerequisite actions are executed before the interactive part.
   * Option `composer`: how to run composer (default: *php composer.phar*)
 * `composer-stability-check`: will check if the composer.json is set to the right minimum-stability
   * Option `stability`: the stability that should be set in the minimum-stability field (default: *stable*)
-* `composer-security-check`: run the composer.lock against https://github.com/fabpot/local-php-security-checker to check for known vulnerabilities in the dependencies. ⚠️ The local-php-security-checker binary must be installed globally.
+* `composer-audit`: run `composer audit` - requires at least composer 2.4.
 * `composer-dependency-stability-check`: test if only allowed dependencies are using development versions
     * Option `ignore-require` and `ignore-require-dev`: don't check dependencies in `require` or `require-dev` section
     * Option `whitelist`: allow specific dependencies to use development version

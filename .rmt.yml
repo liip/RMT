@@ -5,7 +5,7 @@ prerequisites:
         allow-ignore: true
   - display-last-changes
   - tests-check
-  - composer-security-check
+  - composer-audit
   - command:
         cmd: git remote -v
 
