@@ -26,14 +26,15 @@ jobs:
           # Test active version
           - php-version: '8.3'
             phpunit-version: 9
-            symfony-version: '^7'
           - php-version: '8.4'
             phpunit-version: 9
-            symfony-version: '^7'
+          - php-version: '8.5'
+            phpunit-version: 9
+            symfony-version: '^8'
           # Test latest unreleased versions
           - php-version: '8.5'
             phpunit-version: 9
-            symfony-version: '^7'
+            symfony-version: '^8'
             stability: 'dev'
     name: PHP ${{ matrix.php-version }} Test on Symfony ${{ matrix.symfony-version }} ${{ matrix.dependencies}} ${{ matrix.stability }} ${{ matrix.composer-flag }}
     steps:
