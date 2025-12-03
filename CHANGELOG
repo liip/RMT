@@ -2,6 +2,13 @@
 VERSION 1  FIRST STABLE VERSION
 ===============================
 
+   Version 1.9 - Release of version 1.9.0
+      03/12/2025 14:58  1.9.0  initial release
+         9dca5da add composer-audit and deprecate composer-security-check
+         3c44c84 Update documentation to specify main branch
+         0eaff5b allow installation with symfony 8
+         2f667eb Allow to use version and new_version variables on command action
+
    Version 1.8 - New minor version for compatibility with PHP 8.4
       03/09/2025 09:39  1.8.0  initial release
          ec6ea36 Update the composer settings too
