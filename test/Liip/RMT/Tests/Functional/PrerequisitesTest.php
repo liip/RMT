@@ -50,6 +50,23 @@ class PrerequisitesTest extends RMTFunctionalTestBase
         self::assertStringContainsString('local modification', implode("\n", $consoleOutput));
     }
 
+    public function testWorkingCopyContinuesWithAllowedModifications(): void
+    {
+        $this->createConfig('simple', 'vcs-tag', array(
+            'prerequisites' => array('working-copy-check'=>array('allowed-modifications'=>array('CHANGELOG'))),
+            'vcs' => 'git',
+        ));
+        $this->initGit();
+        exec('git tag 1');
+
+        // Release should continue even though file CHANGELOG has been modified.
+        exec('echo toto >> CHANGELOG');
+        exec('./RMT release -n 2>&1', $consoleOutput, $exitCode);
+        self::assertEquals(0, $exitCode, implode(PHP_EOL, $consoleOutput));
+        exec('git tag', $tags2);
+        self::assertEquals(array('1', '2'), $tags2);
+    }
+
     public function testWorkingCopyWithIgnoreCheck(): void
     {
         $this->createConfig('simple', 'vcs-tag', array(

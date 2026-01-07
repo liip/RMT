@@ -31,7 +31,13 @@ class WorkingCopyCheck extends BaseAction
 
     public function __construct($options = array())
     {
-        parent::__construct(array_merge(array('allow-ignore' => false), $options));
+        parent::__construct(array_merge(
+            array(
+                'allow-ignore' => false,
+                'allowed-modifications' => array(),
+            ),
+            $options
+        ));
     }
 
     public function getTitle()
@@ -54,18 +60,33 @@ class WorkingCopyCheck extends BaseAction
             );
         }
 
-        $modCount = count(Context::get('vcs')->getLocalModifications());
+        $modCount = $this->getModCount();
         if ($modCount > 0) {
             throw new \Exception(
                 'Your working directory contains ' . $modCount . ' local modification' . ($modCount > 1 ? 's' : '') .
-                '. Use the --' . $this->ignoreCheckOptionName . ' option (along with the "allow-ignore" ' .
-                'configuration key set to true) to bypass this check.' . "\n" . 'WARNING, if your release task ' .
-                'include a commit action, the pending changes are going to be included in the release.',
+                '. Configure the "allowed-modifications" key or use the --' . $this->ignoreCheckOptionName . ' option ' .
+                '(along with the "allow-ignore" configuration key set to true) to bypass this check.' . "\n" .
+                'WARNING, if your release task include a commit action, the pending changes are going ' .
+                'to be included in the release.',
                 self::EXCEPTION_CODE
             );
         }
 
         $this->confirmSuccess();
+    }
+
+    protected function getModCount(): int
+    {
+        $allowedModifications = $this->options['allowed-modifications'];
+        $localModifications = array_filter(
+            Context::get('vcs')->getLocalModifications(),
+            function($item) use ($allowedModifications) {
+                $filename = preg_replace('/^\s+M\s+/', '', $item);
+                return !in_array($filename, $allowedModifications);
+            }
+        );
+
+        return count($localModifications);
     }
 
     public function getInformationRequests()
